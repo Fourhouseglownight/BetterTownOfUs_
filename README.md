@@ -13,24 +13,24 @@
 Imaginé par la communauté **[Dirscord francophone de Town of Us](https://discord.gg/XSCnBzkneK)**, ce mod Among Us modifie **__[Town of Us](https://github.com/polusgg/Town-Of-Us)__** en lui ajoutant plein d'options afin de le perfectionner.  
 Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBzkneK)** community, this Among Us mod modifies **__[Town of Us](https://github.com/polusgg/Town-Of-Us)__** by adding lots of options to improve it.  
 <details>
-  <summary>Ce que ce mod ajoute/What this mod adds.</summary>
-  <ul> <li>Add "Better Polus" options. </li> </ul>
-  <ul> <li>Add "Impostors Don't Know Their Team" and "Impostors Can Win Solo" options. </li> </ul>
-  <ul> <li>Add "Lycan" Role (Impostor). </li> </ul>
-  <ul> <li>Add "Can't report voted Lover" option. </li> </ul>
-  <ul> <li>"Sheriff can kills Executioner" option. </li> </ul>
-  <ul> <li>"Jester Can Take Vent" option. </li> </ul>
-  <ul> <li>Increase limit of assassin's kills to 15 from 5. </li> </ul>
-  <ul> <li>Modify interval for Investigator's foot print size option to 0.25 from 2.5. </li> </ul>
-  <ul> <li>Modify interval for Medic's report duration option to 0.5 from 2.5. </li> </ul>
-  <ul> <li>Add Black color for the pseudo of Darker color in Medic meeting. </li> </ul>
-  <ul> <li>A bunch of options for Engineer's fixes. 
+  <summary>Ce que ce mod ajoute (cliques sur la flèche pour dérouler)./What this mod adds (click on the arrow to expand).</summary>
+  <ul> <li>Options "Better Polus"/"Better Polus" options. </li> </ul>
+  <ul> <li>Options "Impostors Don't Know Their Team" et "Impostors Can Win Solo"/"Impostors Don't Know Their Team" and "Impostors Can Win Solo" options. </li> </ul>
+  <ul> <li>Rôle Imposteur "Lycan"/"Lycan" Imposotor Role. </li> </ul>
+  <ul> <li>Option "Can't report voted Lover"/"Can't report voted Lover" option. </li> </ul>
+  <ul> <li>Option "Sheriff can kills Executioner"/"Sheriff can kills Executioner" option. </li> </ul>
+  <ul> <li>Option "Jester Can Take Vent"/"Jester Can Take Vent" option. </li> </ul>
+  <ul> <li>Augmente la limite d'assassinat de l'assassin de 5 à 15/Increase limit of assassin's kills from 5 to 15. </li> </ul>
+  <ul> <li>Modifie l'interval pour les traces de pas de l'investigateur de 2.5 à 0.25/Modify interval for Investigator's foot print size option from 2.5 to 0.25. </li> </ul>
+  <ul> <li>Modifie l'interval pour le rapport du Medic de 2.5 à 0.5/Modify interval for Medic's report duration option from 2.5 to 0.5. </li> </ul>
+  <ul> <li>Le Medic verra le pseudo des couleurs sombres en noirs pendant les meetings/Medic sees the darker color player's name in black during meeting. </li> </ul>
+  <ul> <li>Un tas d'options pour l'Engineer/A bunch of options for Engineer's fixes. 
     <details>
-      <ul> <li>Add "Custom" to "Engineer Fix Per option. </li> </ul>
-      <ul> <li>Add "Engineer Have Cooldown" option. </li> </ul>
-      <ul> <li>Add "Engineer Cooldown" option. </li> </ul>
-      <ul> <li>Add "Number of Fixes Per Round" option. </li> </ul>
-      <ul> <li>Add "Number of Fixes Per Game" option. </li> </ul>
+      <ul> <li>Ajout de l'option "Custom" pour l'option "Engineer Fix Per"/"Custom" to "Engineer Fix Per" option. </li> </ul>
+      <ul> <li>Options "Engineer Have Cooldown" pour ajouter un cooldown à l'Engineer/"Engineer Have Cooldown" option for add a cooldown to Engineer. </li> </ul>
+      <ul> <li>Option "Engineer Cooldown" pour régler le cooldown si activé/"Engineer Cooldown" option to set the Engineer Cooldown if activated. </li> </ul>
+      <ul> <li>Option "Max Fixes Per Round"/"Number of Fixes Per Round" option. </li> </ul>
+      <ul> <li>Option "Max Fixes Per Game"/"Number of Fixes Per Game" option. </li> </ul>
     </details>
 </details>  
 
@@ -55,9 +55,9 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 <center>
 
-| <center> Among Us - Version </center> | <center> [Mod - Version](https://github.com/VincentVision/BetterTownOfUs/blob/main/CHANGELOG.md#changelog) </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
+| <center> Among Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|
-| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> [v1.0.0](https://github.com/VincentVision/BetterTownOfUs/blob/main/CHANGELOG.md#02-octobre-2021) </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/download/100/BTOU_100.zip) </center> |
+| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/download/100/BTOU_100.zip) </center> |
 
 </center>
 
