@@ -8,7 +8,7 @@
   <ul> <li>Add "Can't report voted Lover" option. </li> </ul>
   <ul> <li>Add "Sheriff can kills Executioner" option. </li> </ul>
   <ul> <li>Add "Jester Can Take Vent" option. </li> </ul>
-  <ul> <li>Increase limit of assassin's kills. </li> </ul>
+  <ul> <li>Increase limit of assassin's kills to 15 from 5. </li> </ul>
   <ul> <li>Modify interval for Investigator's foot print size option to 0.5 from 2.5. </li> </ul>
   <ul> <li>Modify interval for Medic's report duration option to 0.5 from 2.5. </li> </ul>
   <ul> <li>Add Black color for the pseudo of Darker color in Medic meeting. </li> </ul>

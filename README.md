@@ -15,13 +15,16 @@ Imaginé par la communauté **[Dirscord francophone de Town of Us](https://disco
 Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBzkneK)** community, this Among Us mod modifies **__[Town of Us](https://github.com/polusgg/Town-Of-Us)__** by adding lots of options to improve it.  
 <details>
   <summary>Ce que ce mod ajoute/What this mod adds.</summary>
+  <ul> <li>Add "Better Polus" options. </li> </ul>
+  <ul> <li>Add "Impostors Don't Know Their Team" and "Impostors Can Win Solo" options. </li> </ul>
+  <ul> <li>Add "Lycan" Role (Impostor). </li> </ul>
+  <ul> <li>Add "Can't report voted Lover" option. </li> </ul>
   <ul> <li>"Sheriff can kills Executioner" option. </li> </ul>
   <ul> <li>"Jester Can Take Vent" option. </li> </ul>
-  <ul> <li>"Impostors Don't Know Their Team" option. </li> </ul>
   <ul> <li>Increase limit of assassin's kills to 15 from 5. </li> </ul>
   <ul> <li>Modify interval for Investigator's foot print size option to 0.25 from 2.5. </li> </ul>
   <ul> <li>Modify interval for Medic's report duration option to 0.5 from 2.5. </li> </ul>
-  <ul> <li>List of lighter/darker color in Medic's report. </li> </ul>
+  <ul> <li>Add Black color for the pseudo of Darker color in Medic meeting. </li> </ul>
   <ul> <li>A bunch of options for Engineer's fixes. 
     <details>
       <ul> <li>Add "Custom" to "Engineer Fix Per option. </li> </ul>
@@ -37,11 +40,11 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 - [Somaire/Summary](#sommairesummary).  
 - [Releases](#releases).  
 - [Installation](#installation).  
-&nbsp;&nbsp;&nbsp;&nbsp;•  [Nécessite/Require](#nécessiterequire).  
-&nbsp;&nbsp;&nbsp;&nbsp;•  [Mise à jour/Update](#mise-à-jourupdate).  
-&nbsp;&nbsp;&nbsp;&nbsp;•  [Steam](#steam).  
-&nbsp;&nbsp;&nbsp;&nbsp;•  [Epic Games](#epic-games).  
-&nbsp;&nbsp;&nbsp;&nbsp;•  [Problèmes/Issues](#problèmesissues).  
+&nbsp;&nbsp;&nbsp;•  [Nécessite/Require](#nécessiterequire).  
+&nbsp;&nbsp;&nbsp;•  [Mise à jour/Update](#mise-à-jourupdate).  
+&nbsp;&nbsp;&nbsp;•  [Steam](#steam).  
+&nbsp;&nbsp;&nbsp;•  [Epic Games](#epic-games).  
+&nbsp;&nbsp;&nbsp;•  [Problèmes/Issues](#problèmesissues).  
 - [Bug | Suggestions](#bug--suggestions).  
 - [Credits | Resources](#credits--resources).  
 
