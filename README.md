@@ -55,7 +55,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 | <center> Among Us - Version </center> | <center> [Mod - Version](https://github.com/VincentVision/BetterTownOfUs/blob/main/CHANGELOG.md#changelog) </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|
-| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> [v1.0.0](https://github.com/VincentVision/BetterTownOfUs/blob/main/CHANGELOG.md#27-mars-2021) </center> | <center> [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v2.2.1/TOU_221.zip) </center> |
+| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> [v1.0.0](https://github.com/VincentVision/BetterTownOfUs/blob/main/CHANGELOG.md#02-octobre-2021) </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/download/100/BTOU_100.zip) </center> |
 
 </center>
 
@@ -159,19 +159,21 @@ If you have any bugs or any need to contact me, join the **[Discord server](http
 
 # Credits | Resources
 
-[TownOfUs](https://github.com/polusgg/Town-Of-Us) - Better Town of Us est une modification de ce mod/Better Town of Us is a modification of this mod.  
-[Reactor](https://github.com/NuclearPowered/Reactor) - Le framework Among Us/The Among Us framework.  
-[BepInEx](https://github.com/BepInEx) - Le framework Unity/The Unity framework.  
-[Among-Us-Sheriff-Mod](https://github.com/Woodi-dev/Among-Us-Sheriff-Mod) - Pour le rôle Sheriff/For the Sheriff role.  
-[Among-Us-Love-Couple-Mod](https://github.com/Woodi-dev/Among-Us-Love-Couple-Mod) - Pour l'inspiration du rôle Lovers/For the inspiration of Lovers role.  
-[ExtraRolesAmongUs](https://github.com/NotHunter101/ExtraRolesAmongUs) - Pour les rôles Engineer et Medic/For the Engineer and Medic roles.  
-[TooManyRolesMods](https://github.com/Hardel-DW/TooManyRolesMods) - Pour les rôles Investigator et Time Lord/For the Investigator and Time Lord roles.  
-[TorchMod](https://github.com/tomozbot/TorchMod) - Pour l'inspiration du modifier Torch/For the inspirtation of the Torch Modifer.  
-[XtraCube](https://github.com/XtraCube) - Pour la couleur arc-en-ciel/For the Rainbow color.  
-[PhasmoFireGod](https://twitch.tv/PhasmoFireGod) - Artiste des bouttons/Buttons Art.  
-[TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - Pour l'inspiration des rôles Child et Spy/For the inspiration of the Child and Spy roles.  
+[TownOfUs](https://github.com/polusgg/Town-Of-Us) - Better Town of Us est une modification de ce mod./Better Town of Us is a modification of this mod.  
+[Reactor](https://github.com/NuclearPowered/Reactor) - Le framework Among Us./The Among Us framework.  
+[BepInEx](https://github.com/BepInEx) - Le framework Unity./The Unity framework.  
+[Among Us Anonymous Impostors Mod](https://github.com/Wunax/Among-Us-Anonymous-Impostors-Mod) - Pour l'inspiration des options imposteurs anonymes./For inspiration of Anonymous Impostors Options.  
+[Better Polus](https://github.com/Brybry16/BetterPolus) - Pour l'inspiration des options "Better Polus"./For inspiration of "Better Polus" options.  
+[Among-Us-Sheriff-Mod](https://github.com/Woodi-dev/Among-Us-Sheriff-Mod) - Pour le rôle Sheriff./For the Sheriff role.   
+[Among-Us-Love-Couple-Mod](https://github.com/Woodi-dev/Among-Us-Love-Couple-Mod) - Pour l'inspiration du rôle Lovers./For the inspiration of Lovers role.  
+[ExtraRolesAmongUs](https://github.com/NotHunter101/ExtraRolesAmongUs) - Pour les rôles Engineer et Medic./For the Engineer and Medic roles.  
+[TooManyRolesMods](https://github.com/Hardel-DW/TooManyRolesMods) - Pour les rôles Investigator et Time Lord./For the Investigator and Time Lord roles.  
+[TorchMod](https://github.com/tomozbot/TorchMod) - Pour l'inspiration du modifier Torch./For the inspirtation of the Torch Modifer.  
+[XtraCube](https://github.com/XtraCube) - Pour la couleur arc-en-ciel./For the Rainbow color.  
+[PhasmoFireGod](https://twitch.tv/PhasmoFireGod) - Artiste des bouttons./Buttons Art.  
+[TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - Pour l'inspiration des rôles Child et Spy./For the inspiration of the Child and Spy roles.  
 
-[Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - Pour créer les options de jeu personnalisés/For created custom game options.
+[Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - Pour créer les options de jeu personnalisés./For created custom game options.  
 
 ---
 <p align="center">Ce mod n'est pas affilié à Among Us ou à Innersloth LLC, et le contenu qu'il contient n'est pas approuvé ou autrement parrainé par Innersloth LLC. Certaines parties des documents contenus dans le présent document sont la propriété d'Innersloth LLC.</p>
