@@ -59,28 +59,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 </center>
 
----
-
-# Installation
-
-## Nécessite/Require
-
-- Among Us
-- Steam/Epic Games
-
-## Mise à jour/Update
-
-**1. Ouvrir Steam, allez dans `Bibliothèque` localiser Among Us. Clique droit dessus, sélectionner `Propriétés ...`. Ensuite, dans `Fichiers Locaux`, cliquer sur `Parcourir...`.**  
-**1. Open Steam, go to `Library` and locate Among Us. Right click on it, select `Properties...`. Then, under `Local Files`, click on `Browse...`.**  
-  
-**2. Cliquer sur `common` dans le chemin d'accès de la barre de titre.**  
-**2. Click on `common` in the path of the title bar.**  
-  
-**3. [FACULTATIF] Supprimer le dossier Among Us pour refaire une installation propre.**  
-**3. [OPTIONAL] Delete the Among Us folder to redo a clean install.**  
-  
-**4. [ÉTAPE 3] Retourner sur Steam ↦ `Bibliothèque` ↦ `Among Us` ↦ `Propriètès...` ↦ `Fichiers Locaux`, cliquer sur `Verifier l'intégralité des fichiers du jeu...`.**  
-**4. [STEP 3] Return on Steam ↦ `Library` ↦ `Among Us` ↦ `Properties...` ↦ `Local Files`, click on `Verify integrity of game files...`.**  
+--- 
 
 ## Steam
 
