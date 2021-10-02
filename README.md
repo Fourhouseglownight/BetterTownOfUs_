@@ -57,7 +57,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 | <center> Among Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|
-| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/download/100/BTOU_100.zip) </center> |
+| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.0) </center> |
 
 </center>
 
