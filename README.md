@@ -87,7 +87,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 **7. Locate the downloaded `BTOUxxx.zip` file and move it to the `Better Town of Us` folder.**  
   
 **8. Clique droit sur le fichier `.zip` et cliquer sur `Extraire tout...`. Ensuite effacer `BTOUxxx` à la fin du chemin puis cliquer sur `Extraire`.**  
-**8. Right click on the `.zip` file and click on `Extract all...`. Then delete `BTOUxxx` at the end of the path then click on `Extract`.**  
+**8. Right click on the `.zip` file and click on `Extract all...`. Then delete `BTOU_XXX` at the end of the path then click on `Extract`.**  
   
 **9. Lancer l'application Among Us qui se trouve à l'intérieur du dossier `Better Town of Us` et commencer à jouer à Better Town of Us !**  
 *Un premier lancement peut prendre dans les 5 minutes, alors soyez patient s'il ne se lance pas immédiatement.*  
