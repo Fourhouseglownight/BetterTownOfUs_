@@ -60,6 +60,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 |----------------|---------------|---------------|
 | <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.1 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.1) </center> |
 | <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.0) </center> |
+| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.0) </center> |
 
 </center>
 
