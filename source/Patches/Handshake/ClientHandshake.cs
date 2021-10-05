@@ -15,7 +15,7 @@ namespace BetterTownOfUs.Handshake
         private const byte BTOU_ROOT_HANDSHAKE_TAG = 70;
         
         // TODO: super sus but whatever - "2.2.0"
-        private const int BTOU_VERSION = 91;
+        private const int BTOU_VERSION = 101;
 
         [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
         public static class AmongUsClient_OnGameJoined

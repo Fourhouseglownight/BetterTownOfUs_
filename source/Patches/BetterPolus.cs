@@ -158,8 +158,7 @@ namespace BetterTownOfUs
                 StorageVent = ventsList.Find(vent => vent.gameObject.name == "StorageVent");
             }
 
-            IsVentsFetched = ElectricBuildingVent != null && ElectricalVent != null && ScienceBuildingVent != null &&
-                              StorageVent != null;
+            IsVentsFetched = ElectricBuildingVent != null && ElectricalVent != null && ScienceBuildingVent != null && StorageVent != null;
         }
         
         public static void FindRooms()

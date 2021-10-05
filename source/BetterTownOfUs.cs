@@ -19,7 +19,7 @@ using UnityEngine.SceneManagement;
 
 namespace BetterTownOfUs
 {
-    [BepInPlugin(Id, "Better Town Of Us", "0.5.0")]
+    [BepInPlugin(Id, "Better Town Of Us", "1.0.1")]
     [BepInDependency(ReactorPlugin.Id)]
     public class BetterTownOfUs : BasePlugin
     {
@@ -72,7 +72,7 @@ namespace BetterTownOfUs
         {
             log = Log;
             System.Console.WriteLine("000.000.000.000/000000000000000000");
-            Log.LogMessage("Better Town of Us 0.5.0 by Votez Vert");
+            Log.LogMessage("Better Town of Us 1.0.1 by Votez Vert");
 
             _harmony = new Harmony("com.visionstudio.bettertownofus");
 

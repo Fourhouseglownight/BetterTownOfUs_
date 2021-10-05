@@ -98,14 +98,9 @@ namespace BetterTownOfUs.Roles
 
         internal virtual bool Criteria()
         {
-            Player.nameText.transform.localPosition = new Vector3(
-                0f,
-                Player.Data.HatId == 0U ? 1.5f : 2.0f,
-                -0.5f
-            );
+            Player.nameText.transform.localPosition = new Vector3(0, Player.Data.HatId == 0U ? 1.5f : 2, -0.5f);
             if (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles) return Utils.ShowDeadBodies;
-            if (Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor &&
-                CustomGameOptions.ImpostorSeeRoles) return true;
+            if (Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor && CustomGameOptions.ImpostorSeeRoles && !CustomGameOptions.AnonImp && !CustomGameOptions.ImpSoloWin) return true;
             return GetRole(PlayerControl.LocalPlayer) == this;
         }
 
@@ -612,7 +607,7 @@ namespace BetterTownOfUs.Roles
 
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
-                    if (player.Data != null && !(player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor) || (player.Data != null && CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles && !PlayerControl.LocalPlayer.Data.IsDead))
+                    if (player.Data != null && !(player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor) || (player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor && CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles && !PlayerControl.LocalPlayer.Data.IsDead))
                     {
                         player.nameText.text = player.name;
                         player.nameText.color = Color.white;

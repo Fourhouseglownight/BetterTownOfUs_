@@ -31,8 +31,7 @@ namespace BetterTownOfUs.Roles
 
             var maxDistance = ShipStatus.Instance.MaxLightRadius * PlayerControl.GameOptions.CrewLightMod;
 
-            if (PlayerControl.LocalPlayer == null)
-                return;
+            if (PlayerControl.LocalPlayer == null) return;
 
             var distance = (PlayerControl.LocalPlayer.GetTruePosition() - Player.GetTruePosition()).magnitude;
 

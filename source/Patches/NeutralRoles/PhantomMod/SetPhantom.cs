@@ -48,10 +48,16 @@ namespace BetterTownOfUs.NeutralRoles.PhantomMod
             }
 
             if (Role.GetRole<Phantom>(PlayerControl.LocalPlayer).Caught) return;
-            var startingVent =
-                ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
+            var startingVent = FindVent();
             PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(startingVent.transform.position);
             PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
+        }
+
+        private static Vent FindVent()
+        {
+            var vent = ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
+            if (PlayerControl.GameOptions.MapId == 2 && vent.Id == 5) FindVent();
+            return vent;
         }
 
         public static void Postfix(ExileController __instance) => ExileControllerPostfix(__instance);
