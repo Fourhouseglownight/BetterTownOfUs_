@@ -24,6 +24,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
   <ul> <li>Modifie l'interval pour les traces de pas de l'investigateur de 2.5 à 0.25/Modify interval for Investigator's foot print size option from 2.5 to 0.25. </li> </ul>
   <ul> <li>Modifie l'interval pour le rapport du Medic de 2.5 à 0.5/Modify interval for Medic's report duration option from 2.5 to 0.5. </li> </ul>
   <ul> <li>Le Medic verra le pseudo des couleurs sombres en noirs pendant les meetings/Medic sees the darker color player's name in black during meeting. </li> </ul>
+  <ul> <li>Le Phantom ne spawnera pas dans la vent d'admin de Polus pour régler le bug qui y est lié/Phantom can't spawn in Polus's admn's vent for fix the bug. </li> </ul>
   <ul> <li>Un tas d'options pour l'Engineer/A bunch of options for Engineer's fixes. 
     <details>
       <ul> <li>Ajout de l'option "Custom" pour l'option "Engineer Fix Per"/"Custom" to "Engineer Fix Per" option. </li> </ul>
@@ -57,6 +58,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 | <center> Among Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|
+| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.1 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.1) </center> |
 | <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.0) </center> |
 
 </center>
