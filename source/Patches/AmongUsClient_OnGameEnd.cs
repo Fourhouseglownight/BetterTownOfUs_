@@ -19,10 +19,7 @@ namespace BetterTownOfUs
                 Utils.potentialWinners.Add(new WinningPlayerData(player.Data));
                 var faction = Role.GetRole(player).Faction;
 
-                if (!CustomGameOptions.ImpostorSeeRoles && CustomGameOptions.AnonImp && CustomGameOptions.ImpSoloWin && (faction == Faction.Impostors) && !player.Data.IsDead && !player.Data.Disconnected)
-                {   
-                    ImpsAlive.Add(new WinningPlayerData(player.Data));
-                }
+                if (!CustomGameOptions.ImpostorSeeRoles && CustomGameOptions.AnonImp && CustomGameOptions.ImpSoloWin && (faction == Faction.Impostors) && !player.Data.IsDead && !player.Data.Disconnected) ImpsAlive.Add(new WinningPlayerData(player.Data));
             }
         }
     }
@@ -101,6 +98,7 @@ namespace BetterTownOfUs
                 var winners = Utils.potentialWinners.Where(x => x.Name == phantom.PlayerName).ToList();
                 TempData.winners = new List<WinningPlayerData>();
                 foreach (var win in winners) TempData.winners.Add(win);
+                return;
             }
 
             if (AmongUsClient_OnGameEnd.ImpsAlive.Count == 1)

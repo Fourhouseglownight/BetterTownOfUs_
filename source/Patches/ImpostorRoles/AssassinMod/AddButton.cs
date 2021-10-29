@@ -1,5 +1,6 @@
 ﻿using System;
 using HarmonyLib;
+using Reactor;
 using Reactor.Extensions;
 using TMPro;
 using BetterTownOfUs.Extensions;
@@ -22,7 +23,7 @@ namespace BetterTownOfUs.ImpostorRoles.AssassinMod
             var player = Utils.PlayerById(voteArea.TargetPlayerId);
             if (
                 player == null ||
-                (player.Data.IsImpostor && ((!CustomGameOptions.ImpostorSeeRoles || CustomGameOptions.ImpostorSeeRoles) && !CustomGameOptions.AnonImp)) ||
+                (player.Data.IsImpostor && ((!CustomGameOptions.ImpostorSeeRoles || CustomGameOptions.ImpostorSeeRoles) && !CustomGameOptions.AnonImp && !CustomGameOptions.ImpSoloWin)) ||
                 player.Data.IsDead ||
                 player.Data.Disconnected
             ) return true;
@@ -127,14 +128,22 @@ namespace BetterTownOfUs.ImpostorRoles.AssassinMod
 
                 var toDie = playerRole.Name == currentGuess ? playerRole.Player : role.Player;
 
-                AssassinKill.RpcMurderPlayer(toDie);
-                role.RemainingKills--;
-                ShowHideButtons.HideSingle(role, targetId, toDie == role.Player);
-                if (toDie.isLover() && CustomGameOptions.BothLoversDie)
+                if (toDie == role.Player && role.MissKill && PlayerControl.LocalPlayer.Is(RoleEnum.Assassin))
                 {
-                    var lover = ((Lover)playerRole).OtherLover.Player;
-                    ShowHideButtons.HideSingle(role, lover.PlayerId, false);
+                    Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                    role.MissKill = false;
                 }
+                else
+                {
+                    AssassinKill.RpcMurderPlayer(toDie);
+                    role.RemainingKills--;
+                    ShowHideButtons.HideSingle(role, targetId, toDie == role.Player);
+                    if (toDie.isLover() && CustomGameOptions.BothLoversDie)
+                    {
+                        var lover = ((Lover)playerRole).OtherLover.Player;
+                        ShowHideButtons.HideSingle(role, lover.PlayerId, false);
+                    }
+                }                
             }
 
             return Listener;

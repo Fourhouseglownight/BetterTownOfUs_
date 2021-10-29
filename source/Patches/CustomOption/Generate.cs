@@ -181,6 +181,7 @@ namespace BetterTownOfUs.CustomOption
         public static CustomToggleOption AssassinGuessNeutrals;
         public static CustomToggleOption AssassinCrewmateGuess;
         public static CustomToggleOption AssassinMultiKill;
+        public static CustomToggleOption MissKill;
         public static CustomHeaderOption Lycan;
         public static CustomNumberOption WolfCooldown;
         public static CustomNumberOption WolfDuration;
@@ -493,6 +494,7 @@ namespace BetterTownOfUs.CustomOption
             AssassinCrewmateGuess = new CustomToggleOption(num++, "Assassin can Guess \"Crewmate\"", true);
             AssassinGuessNeutrals = new CustomToggleOption(num++, "Assassin can Guess Neutral roles", true);
             AssassinMultiKill = new CustomToggleOption(num++, "Assassin can kill more than once per meeting", true);
+            MissKill = new CustomToggleOption(num++, "Possible Missing Guess", false);
 
             Lycan = new CustomHeaderOption(num++, "<color=#FF0000FF>Lycan</color>");
             WolfCooldown = new CustomNumberOption(num++, "Lycanthropy Cooldown", 25, 10, 40, 2.5f, CooldownFormat);

@@ -56,7 +56,7 @@ namespace BetterTownOfUs.NeutralRoles.PhantomMod
         private static Vent FindVent()
         {
             var vent = ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
-            if (PlayerControl.GameOptions.MapId == 2 && vent.Id == 5) FindVent();
+            if (PlayerControl.GameOptions.MapId == 2 && vent.Id == 5) return FindVent();
             return vent;
         }
 

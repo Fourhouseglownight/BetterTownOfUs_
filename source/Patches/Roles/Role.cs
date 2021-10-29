@@ -541,21 +541,22 @@ namespace BetterTownOfUs.Roles
                         .FirstOrDefault(x => x.PlayerId == playerState.TargetPlayerId);
                     var role = GetRole(playerState);
                     if (role == null || localPlayer == null) return;
+                    var f = localPlayer.Data.IsImpostor && player.Data.IsImpostor && CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles;
                     if (!localPlayer.Data.IsDead && localPlayer != player)
                     {
-                        if (localPlayer.Data.IsImpostor && player.Data.IsImpostor && CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles)
+                        if (f)
                         {
                             playerState.NameText.color = Color.white;
                             playerState.NameText.text = playerState.name;
                         }
 
-                        if (localPlayer.Is(RoleEnum.Medic) && !localPlayer.Data.IsDead && GetColorType(player) == "darker")
+                        if (localPlayer.Is(RoleEnum.Medic) && GetColorType(player) == "darker")
                         {
                             playerState.NameText.color = Color.black;
                         }
                     }
 
-                    if (role.Criteria())
+                    if (role.Criteria() && !f)
                     {
                         playerState.NameText.color = role.Color;
                         playerState.NameText.text = role.NameText(playerState);
@@ -607,7 +608,9 @@ namespace BetterTownOfUs.Roles
 
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
-                    if (player.Data != null && !(player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor) || (player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor && CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles && !PlayerControl.LocalPlayer.Data.IsDead))
+                    var f = PlayerControl.LocalPlayer != player && player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor && CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles && !PlayerControl.LocalPlayer.Data.IsDead && !player.Data.Disconnected && !PlayerControl.LocalPlayer.Data.Disconnected;
+
+                    if (player.Data != null && !(player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor) || f)
                     {
                         player.nameText.text = player.name;
                         player.nameText.color = Color.white;
@@ -618,14 +621,14 @@ namespace BetterTownOfUs.Roles
 
                     var role = GetRole(player);
                     if (role != null)
-                        if (role.Criteria())
+                        if (role.Criteria() && !f)
                         {
                             player.nameText.color = role.Color;
                             player.nameText.text = role.NameText();
                             continue;
                         }
 
-                    if (player.Data != null && PlayerControl.LocalPlayer.Data.IsImpostor && player.Data.IsImpostor && !CustomGameOptions.AnonImp) continue;
+                    if (player.Data != null && PlayerControl.LocalPlayer.Data.IsImpostor && player.Data.IsImpostor) continue;
                 }
             }
         }

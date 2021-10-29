@@ -10,7 +10,7 @@
 
 ---
 
-Imaginé par la communauté **[Dirscord francophone de Town of Us](https://discord.gg/XSCnBzkneK)**, ce mod Among Us modifie **__[Town of Us](https://github.com/polusgg/Town-Of-Us)__** en lui ajoutant plein d'options afin de le perfectionner.  
+Imaginé par la communauté **[Discord francophone de Town of Us](https://discord.gg/XSCnBzkneK)**, ce mod Among Us modifie **__[Town of Us](https://github.com/polusgg/Town-Of-Us)__** en lui ajoutant plein d'options afin de le perfectionner.  
 Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBzkneK)** community, this Among Us mod modifies **__[Town of Us](https://github.com/polusgg/Town-Of-Us)__** by adding lots of options to improve it.  
 <details>
   <summary>Ce que ce mod ajoute (cliques sur la flèche pour dérouler)./What this mod adds (click on the arrow to expand).</summary>
@@ -39,9 +39,9 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 - [Somaire/Summary](#sommairesummary).  
 - [Releases](#releases).  
-- [Installation](#installation).  
+- [Installation](#installation).   
 &nbsp;&nbsp;&nbsp;•  [Nécessite/Require](#nécessiterequire).  
-&nbsp;&nbsp;&nbsp;•  [Mise à jour/Update](#mise-à-jourupdate).  
+&nbsp;&nbsp;&nbsp;•  [Mod Manager](#mod-manager).   
 &nbsp;&nbsp;&nbsp;•  [Steam](#steam).  
 &nbsp;&nbsp;&nbsp;•  [Epic Games](#epic-games).  
 &nbsp;&nbsp;&nbsp;•  [Problèmes/Issues](#problèmesissues).  
@@ -58,12 +58,31 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 | <center> Among Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|
+| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.3 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.3) </center> |
+| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.2 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.2) </center> |
 | <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.1 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.1) </center> |
 | <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.0) </center> |
 
 </center>
 
 --- 
+# Installation
+
+## Mod Manager
+**1. [Télécharge](https://matux.fr/dotnet64) et installe .Net 5. *Pour les systèmes 32 bits : https://matux.fr/dotnet32***  
+**1. [Download](https://matux.fr/dotnet64) and instal .Net 5. *for 32 bits system: https://matux.fr/dotnet32***  
+  
+**2. [Télécharge](https://mm.matux.fr/latest) et installe la dernière version de Mod Manager.**  
+**2. [Download](https://mm.matux.fr/latest) and instal the last version of Mod Manager.**  
+  
+**3. Lance Mod Manager, sélectionne Better Town of Us dans la liste.**  
+**3. Launch Mod Manager, select Better Town of Us in list.**  
+  
+**4. Clique sur Update Mods pour installer et/ou mettre à jour le mod.**  
+**4. Click on Update Mods for instal and/or update the mod.**  
+  
+**5. Clique sur START GAME.**  
+**5. Click on START GAME.**   
 
 ## Steam
 

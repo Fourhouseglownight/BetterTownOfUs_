@@ -31,9 +31,9 @@ namespace BetterTownOfUs
 
             __instance.text.fontSize = 2.5f;
             __instance.text.text =
-                "<color=#018001FF>BetterTownOfUs v1.0.1</color>\n" +
+                "<color=#018001FF>BetterTownOfUs v1.0.4</color>\n" +
                 "Disponible sur/Available on :\n" +
-                "<color=#3769feFF>discord.gg/XSCnBzkneK</color>\n" +
+                "<color=#3769feFF>dsc.gg/visionfamily</color>\n" +
                 $"Ping: {AmongUsClient.Instance.Ping}ms\n" +
                 (!MeetingHud.Instance
                     ? "<color=#018001FF>Votez Vert ft. JMC</color>"

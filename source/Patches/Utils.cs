@@ -374,12 +374,12 @@ namespace BetterTownOfUs
                     target.myTasks.Insert(0, importantTextTask);
                 }
 
-                if (!(killer.Is(RoleEnum.Lycan) && Role.GetRole<Lycan>(killer).Wolfed))
-                {
-                    killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(killer, target));
-                } else 
+                if ((killer.Is(RoleEnum.Lycan) && Role.GetRole<Lycan>(killer).Wolfed) || (((killer.Is(RoleEnum.Lover) || killer.Is(RoleEnum.LoverImpostor)) && Role.GetRole<Lover>(killer).Voted) && CustomGameOptions.LoverVoted))
                 {
                     target.Data.IsDead = true;
+                } else 
+                {
+                    killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(killer, target));
                 }
                 
                 var deadBody = new DeadPlayer

@@ -30,7 +30,7 @@ namespace BetterTownOfUs.Roles
         public bool LoveCoupleWins { get; set; }
         public int Num { get; set; }
         public bool LoverImpostor { get; set; }
-        public static bool Voted = false;
+        public bool Voted = false;
 
         protected override void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)
         {

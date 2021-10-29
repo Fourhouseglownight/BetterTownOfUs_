@@ -39,6 +39,7 @@ namespace BetterTownOfUs.Roles
             Faction = Faction.Impostors;
 
             RemainingKills = CustomGameOptions.AssassinKills;
+            MissKill = CustomGameOptions.MissKill;
 
             if (CustomGameOptions.AssassinCrewmateGuess) ColorMapping.Add("Crewmate", Color.white);
 
@@ -53,7 +54,6 @@ namespace BetterTownOfUs.Roles
 
             if (!CustomGameOptions.ImpostorSeeRoles && CustomGameOptions.AnonImp && CustomGameOptions.ImpSoloWin)
             {
-                //ColorMapping.Add("Assassin", Color.red);
                 ColorMapping.Add("Camouflager", Palette.ImpostorRed);
                 ColorMapping.Add("Janitor", Palette.ImpostorRed);
                 ColorMapping.Add("Miner", Palette.ImpostorRed);
@@ -68,6 +68,7 @@ namespace BetterTownOfUs.Roles
         public bool GuessedThisMeeting { get; set; } = false;
 
         public int RemainingKills { get; set; }
+        public bool MissKill { get; set; }
 
         public List<string> PossibleGuesses => ColorMapping.Keys.ToList();
     }
