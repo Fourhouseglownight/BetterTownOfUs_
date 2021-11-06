@@ -19,12 +19,14 @@ using UnityEngine.SceneManagement;
 
 namespace BetterTownOfUs
 {
-    [BepInPlugin(Id, "Better Town Of Us", "1.0.4")]
+    [BepInPlugin(Id, "Better Town Of Us", MajorVersion)]
     [BepInDependency(ReactorPlugin.Id)]
     public class BetterTownOfUs : BasePlugin
     {
-        public const string Id = "com.visionstudio.bettertownofus";
-        
+        public const string MajorVersion = "1.1.0";
+        public static string GetVersion() => typeof(BetterTownOfUs).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+        private const string Id = "fr.vincentvision.bettertownofus";
+
         public static Sprite JanitorClean;
         public static Sprite LycanWolf;
         public static Sprite EngineerFix;
@@ -72,9 +74,8 @@ namespace BetterTownOfUs
         {
             log = Log;
             System.Console.WriteLine("000.000.000.000/000000000000000000");
-            Log.LogMessage("Better Town of Us 1.0.4 by Votez Vert");
 
-            _harmony = new Harmony("com.visionstudio.bettertownofus");
+            _harmony = new Harmony(Id);
 
             Generate.GenerateAll();
 
@@ -134,6 +135,7 @@ namespace BetterTownOfUs
 
             _harmony.PatchAll();
             DirtyPatches.Initialize(_harmony);
+            log.LogMessage("Better Town of Us 1.1.0 by Votez Vert.");
         }
 
         public static Sprite CreateSprite(string name)

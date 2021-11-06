@@ -20,12 +20,16 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
             if (SwapVotes.Swap1 == null || SwapVotes.Swap2 == null) return self;
             //
 
+            PluginSingleton<BetterTownOfUs>.Instance.Log.LogInfo($"Swap1 playerid = {SwapVotes.Swap1.TargetPlayerId}");
             var swap1 = 0;
             if (self.TryGetValue(SwapVotes.Swap1.TargetPlayerId, out var value)) swap1 = value;
-            
+            PluginSingleton<BetterTownOfUs>.Instance.Log.LogInfo($"Swap1 player has votes = {swap1}");
+
             var swap2 = 0;
+            PluginSingleton<BetterTownOfUs>.Instance.Log.LogInfo($"Swap2 playerid = {SwapVotes.Swap2.TargetPlayerId}");
             if (self.TryGetValue(SwapVotes.Swap2.TargetPlayerId, out var value2)) swap2 = value2;
-            
+            PluginSingleton<BetterTownOfUs>.Instance.Log.LogInfo($"Swap2 player has votes  = {swap2}");
+
             self[SwapVotes.Swap2.TargetPlayerId] = swap1;
             self[SwapVotes.Swap1.TargetPlayerId] = swap2;
 
@@ -35,9 +39,11 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
         [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Confirm))]
         public static class Confirm
         {
-            public static bool HideButtons(MeetingHud __instance, Swapper role)
+            public static bool Prefix(MeetingHud __instance)
             {
-                foreach (var button in role.Buttons.Where(button => button != null))
+                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Swapper) || CustomGameOptions.SGAfterVote) return true;
+                var swapper = Role.GetRole<Swapper>(PlayerControl.LocalPlayer);
+                foreach (var button in swapper.Buttons.Where(button => button != null))
                 {
                     if (button.GetComponent<SpriteRenderer>().sprite == AddButton.DisabledSprite)
                         button.SetActive(false);
@@ -45,12 +51,12 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
                     button.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
                 }
 
-                if (role.ListOfActives.Count(x => x) == 2)
+                if (swapper.ListOfActives.Count(x => x) == 2)
                 {
                     var toSet1 = true;
-                    for (var i = 0; i < role.ListOfActives.Count; i++)
+                    for (var i = 0; i < swapper.ListOfActives.Count; i++)
                     {
-                        if (!role.ListOfActives[i]) continue;
+                        if (!swapper.ListOfActives[i]) continue;
 
                         if (toSet1)
                         {
@@ -73,27 +79,6 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
                 writer.Write(SwapVotes.Swap2.TargetPlayerId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 return true;
-            }
-
-            public static bool Prefix(MeetingHud __instance)
-            {
-                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Swapper) || CustomGameOptions.SGAfterVote) return true;
-                var swapper = Role.GetRole<Swapper>(PlayerControl.LocalPlayer);
-                return HideButtons(__instance, swapper);
-            }
-                
-        }
-
-        [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.VotingComplete))] // BBFDNCCEJHI
-        public static class VotingComplete
-        {
-            public static void Postfix(MeetingHud __instance)
-            {
-                if (PlayerControl.LocalPlayer.Is(RoleEnum.Swapper))
-                {
-                    var swapper = Role.GetRole<Swapper>(PlayerControl.LocalPlayer);
-                    Confirm.HideButtons(__instance, swapper);
-                }
             }
         }
 
@@ -132,6 +117,7 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
 
                     var maxIdx = self.MaxPair(out var tie);
 
+                    PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"Meeting was a tie = {tie}");
                     var exiled = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(v => !tie && v.PlayerId == maxIdx.Key);
                     for (var i = 0; i < __instance.playerStates.Length; i++)
                     {

@@ -23,7 +23,9 @@ namespace BetterTownOfUs.ImpostorRoles.AssassinMod
             var player = Utils.PlayerById(voteArea.TargetPlayerId);
             if (
                 player == null ||
-                (player.Data.IsImpostor && ((!CustomGameOptions.ImpostorSeeRoles || CustomGameOptions.ImpostorSeeRoles) && !CustomGameOptions.AnonImp && !CustomGameOptions.ImpSoloWin)) ||
+                (player.Data.IsImpostor &&
+                !(CustomGameOptions.AnonImp &&
+                !CustomGameOptions.ImpostorSeeRoles)) ||
                 player.Data.IsDead ||
                 player.Data.Disconnected
             ) return true;
@@ -48,7 +50,6 @@ namespace BetterTownOfUs.ImpostorRoles.AssassinMod
             voteArea.NameText.transform.localPosition = new Vector3(0.55f, 0.12f, -0.1f);
             nameText.transform.localPosition = new Vector3(0.55f, -0.12f, -0.1f);
             nameText.text = "Guess";
-            nameText.color = Color.white;
             
             var cycle = Object.Instantiate(confirmButton, voteArea.transform);
             var cycleRenderer = cycle.GetComponent<SpriteRenderer>();
@@ -97,12 +98,10 @@ namespace BetterTownOfUs.ImpostorRoles.AssassinMod
                 var guessIndex = currentGuess == "None"
                     ? -1
                     : role.PossibleGuesses.IndexOf(currentGuess);
-                System.Console.WriteLine(guessIndex);
                 if (++guessIndex == role.PossibleGuesses.Count)
                     guessIndex = 0;
 
                 var newGuess = role.Guesses[voteArea.TargetPlayerId] = role.PossibleGuesses[guessIndex];
-                System.Console.WriteLine(newGuess);
 
                 nameText.text = newGuess == "None"
                     ? "Guess"
@@ -128,10 +127,15 @@ namespace BetterTownOfUs.ImpostorRoles.AssassinMod
 
                 var toDie = playerRole.Name == currentGuess ? playerRole.Player : role.Player;
 
-                if (toDie == role.Player && role.MissKill && PlayerControl.LocalPlayer.Is(RoleEnum.Assassin))
+                if (toDie == role.Player && role.MissKill)
                 {
-                    Coroutines.Start(Utils.FlashCoroutine(Color.red));
                     role.MissKill = false;
+                    if (PlayerControl.LocalPlayer.Is(RoleEnum.Assassin))
+                        Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                    if (CustomGameOptions.MissKillNotif == 1 && PlayerControl.LocalPlayer == playerRole.Player)
+                        Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                    if (CustomGameOptions.MissKillNotif == 0 && !PlayerControl.LocalPlayer.Is(RoleEnum.Assassin))
+                        Coroutines.Start(Utils.FlashCoroutine(Color.red));
                 }
                 else
                 {
@@ -143,7 +147,13 @@ namespace BetterTownOfUs.ImpostorRoles.AssassinMod
                         var lover = ((Lover)playerRole).OtherLover.Player;
                         ShowHideButtons.HideSingle(role, lover.PlayerId, false);
                     }
-                }                
+                }
+                
+                if (toDie.isLover() && CustomGameOptions.BothLoversDie)
+                {
+                    var lover = ((Lover)playerRole).OtherLover.Player;
+                    ShowHideButtons.HideSingle(role, lover.PlayerId, false);
+                }
             }
 
             return Listener;

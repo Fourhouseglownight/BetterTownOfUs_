@@ -4,6 +4,7 @@ using BetterTownOfUs.CrewmateRoles.SeerMod;
 using BetterTownOfUs.CustomOption;
 using BetterTownOfUs.NeutralRoles.ExecutionerMod;
 using BetterTownOfUs.NeutralRoles.ShifterMod;
+using BetterTownOfUs.Roles;
 
 namespace BetterTownOfUs
 {
@@ -32,9 +33,12 @@ namespace BetterTownOfUs
         public static int SwooperOn => (int) Generate.SwooperOn.Get();
         public static int ArsonistOn => (int) Generate.ArsonistOn.Get();
         public static int AltruistOn => (int) Generate.AltruistOn.Get();
+        public static int ProphetOn => (int) Generate.ProphetOn.Get();
         public static int UndertakerOn => (int) Generate.UndertakerOn.Get();
         public static int AssassinOn => (int) Generate.AssassinOn.Get();
         public static int UnderdogOn => (int) Generate.UnderdogOn.Get();
+        public static int TeleporterOn => (int) Generate.TeleporterOn.Get();
+        public static int ConcealerOn => (int) Generate.ConcealerOn.Get();
         public static int PhantomOn => (int) Generate.PhantomOn.Get();
         public static int TorchOn => (int) Generate.TorchOn.Get();
         public static int DiseasedOn => (int) Generate.DiseasedOn.Get();
@@ -45,14 +49,15 @@ namespace BetterTownOfUs
         public static int ButtonBarryOn => (int) Generate.ButtonBarryOn.Get();
         public static int VanillaGame => (int) Generate.VanillaGame.Get();
         public static bool BothLoversDie => Generate.BothLoversDie.Get();
-        //public static bool LoverKill => Generate.LoverKill.Get();
         public static bool LoverVoted => Generate.LoverVoted.Get();
+        public static int LovingImpostorOn => (int) Generate.LovingImpostorOn.Get();
         public static bool ShowSheriff => Generate.ShowSheriff.Get();
         public static bool SheriffKillOther => Generate.SheriffKillOther.Get();
         public static bool SheriffKillsJester => Generate.SheriffKillsJester.Get();
+        public static bool SheriffKillsShifter => Generate.SheriffKillsShifter.Get();
         public static bool SheriffKillsGlitch => Generate.SheriffKillsGlitch.Get();
-        public static bool SheriffKillsArsonist => Generate.SheriffKillsArsonist.Get();
         public static bool SheriffKillsExecutioner => Generate.SheriffKillsExecutioner.Get();
+        public static bool SheriffKillsArsonist => Generate.SheriffKillsArsonist.Get();
         public static float SheriffKillCd => Generate.SheriffKillCd.Get();
         public static int MayorVoteBank => (int) Generate.MayorVoteBank.Get();
         public static bool MayorAnonymous => Generate.MayorAnonymous.Get();
@@ -80,6 +85,11 @@ namespace BetterTownOfUs
         public static float SeerCd => Generate.SeerCooldown.Get();
         public static SeerInfo SeerInfo => (SeerInfo) Generate.SeerInfo.Get();
         public static SeeReveal SeeReveal => (SeeReveal) Generate.SeeReveal.Get();
+        public static float SeerCrewmateChance => Generate.SeerCrewmateChance.Get();
+        public static float SeerNeutralChance => Generate.SeerNeutralChance.Get();
+        public static float SeerImpostorChance => Generate.SeerImpostorChance.Get();
+        public static float ProphetCooldown => Generate.ProphetCooldown.Get();
+        public static bool ProphetInitialReveal => Generate.ProphetInitialReveal.Get();
         public static bool NeutralRed => Generate.NeutralRed.Get();
         public static bool JesterVent => Generate.JesterVent.Get();
         public static bool SGAfterVote => Generate.SGAfterVote.Get();
@@ -97,11 +107,13 @@ namespace BetterTownOfUs
         public static float MorphlingDuration => Generate.MorphlingDuration.Get();
         public static float CamouflagerCd => Generate.CamouflagerCooldown.Get();
         public static float CamouflagerDuration => Generate.CamouflagerDuration.Get();
+        public static float InitialImpostorKillCooldown => Generate.InitialImpostorKillCooldown.Get();
         public static bool ColourblindComms => Generate.ColourblindComms.Get();
         public static bool MeetingColourblind => Generate.MeetingColourblind.Get();
         public static OnTargetDead OnTargetDead => (OnTargetDead) Generate.OnTargetDead.Get();
         public static bool SnitchOnLaunch => Generate.SnitchOnLaunch.Get();
         public static bool SnitchSeesNeutrals => Generate.SnitchSeesNeutrals.Get();
+        public static bool SnitchSeesInMeetings => Generate.SnitchSeesInMeetings.Get();
         public static float MineCd => Generate.MineCooldown.Get();
         public static float SwoopCd => Generate.SwoopCooldown.Get();
         public static float SwoopDuration => Generate.SwoopDuration.Get();
@@ -128,7 +140,14 @@ namespace BetterTownOfUs
         public static int AssassinKills => (int) Generate.AssassinKills.Get();
         public static bool AssassinMultiKill => Generate.AssassinMultiKill.Get();
         public static bool MissKill => Generate.MissKill.Get();
+        public static int MissKillNotif => (int) Generate.MissKillNotif.Get();
         public static float WolfCd => Generate.WolfCooldown.Get();
         public static float WolfDuration => Generate.WolfDuration.Get();
+        public static float TeleporterCooldown => Generate.TeleporterCooldown.Get();
+        public static bool TeleportSelf => Generate.TeleportSelf.Get();
+        public static bool TeleportOccupiedVents => Generate.TeleportOccupiedVents.Get();
+        public static float ConcealCooldown => Generate.ConcealCooldown.Get();
+        public static float TimeToConceal => Generate.TimeToConceal.Get();
+        public static float ConcealDuration => Generate.ConcealDuration.Get();
     }
 }

@@ -48,6 +48,11 @@ namespace BetterTownOfUs.Roles
             }
         }
 
+        /*
+         * Appears to be used in the screen where the player finds out their role. Used to scale
+         * up or down the font size of the player's role based on the length of the name of their
+         * role. "CREWMATE" and "IMPOSTOR" which both have 8 letters, so they are the baseline.
+         */
         protected float Scale { get; set; } = 1f;
         protected internal Color Color { get; set; }
         protected internal RoleEnum RoleType { get; set; }
@@ -94,17 +99,43 @@ namespace BetterTownOfUs.Roles
             return HashCode.Combine(Player, (int)RoleType);
         }
 
-        //public static T Gen<T>()
-
         internal virtual bool Criteria()
         {
-            Player.nameText.transform.localPosition = new Vector3(0, Player.Data.HatId == 0U ? 1.5f : 2, -0.5f);
+            Player.nameText.transform.localPosition = new Vector3(
+                0f,
+                Player.Data.HatId == 0U ? 1.5f : 2.0f,
+                -0.5f
+            );
             if (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles) return Utils.ShowDeadBodies;
             if (Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor && CustomGameOptions.ImpostorSeeRoles && !CustomGameOptions.AnonImp && !CustomGameOptions.ImpSoloWin) return true;
             return GetRole(PlayerControl.LocalPlayer) == this;
         }
 
+        /*
+         * Hook. Override this method to run before the cutscene showing the player who's on their team.
+         * I'm not really sure why anybody does this at the moment.
+         */
         protected virtual void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)
+        {
+        }
+
+        /*
+         * Hook. to simplify creating setting up initial cooldowns and things. Called some time at the start of the
+         * game to initialize the player's role.
+         * WARNING: This method could be called more than once right now.
+         * We don't do these things in the constructor because some constructors will be instantiated more than once.
+         * See https://github.com/Anusien/Town-Of-Us/pull/22 for more context.
+         */
+        protected virtual void DoOnGameStart()
+        {
+        }
+
+        /*
+         * Hook. to simplify resetting cooldowns and things. Called at the end of the meeting to initialize the
+         * player's role.
+         * See https://github.com/Anusien/Town-Of-Us/pull/22 for more context.
+         */
+        protected virtual void DoOnMeetingEnd()
         {
         }
 
@@ -260,8 +291,6 @@ namespace BetterTownOfUs.Roles
         {
             public static TextMeshPro ModifierText;
 
-            public static float Scale;
-
             [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
             public static class IntroCutscene_BeginCrewmate
             {
@@ -275,8 +304,6 @@ namespace BetterTownOfUs.Roles
                     //                        Scale = ModifierText.scale;
                     else
                         ModifierText = null;
-
-                    Lights.SetLights();
                 }
             }
 
@@ -293,15 +320,12 @@ namespace BetterTownOfUs.Roles
                     //                        Scale = ModifierText.scale;
                     else
                         ModifierText = null;
-                    Lights.SetLights();
                 }
             }
 
             [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__14), nameof(IntroCutscene._CoBegin_d__14.MoveNext))]
             public static class IntroCutscene_CoBegin__d_MoveNext
             {
-                public static float TestScale;
-
                 public static void Prefix(IntroCutscene._CoBegin_d__14 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
@@ -327,13 +351,7 @@ namespace BetterTownOfUs.Roles
                         __instance.__4__this.ImpostorText.text = role.ImpostorText();
                         __instance.__4__this.ImpostorText.gameObject.SetActive(true);
                         __instance.__4__this.BackgroundBar.material.color = role.Color;
-                        //                        TestScale = Mathf.Max(__instance.__this.Title.scale, TestScale);
-                        //                        __instance.__this.Title.scale = TestScale / role.Scale;
                     }
-                    /*else if (!__instance.isImpostor)
-                    {
-                        __instance.__this.ImpostorText.text = "Haha imagine being a boring old crewmate";
-                    }*/
 
                     if (ModifierText != null)
                     {
@@ -341,11 +359,27 @@ namespace BetterTownOfUs.Roles
                         ModifierText.text = "<size=4>Modifier: " + modifier.Name + "</size>";
                         ModifierText.color = modifier.Color;
 
-                        //
                         ModifierText.transform.position =
                             __instance.__4__this.transform.position - new Vector3(0f, 2.0f, 0f);
                         ModifierText.gameObject.SetActive(true);
                     }
+
+                    foreach (Role r in AllRoles)
+                    {
+                        r.DoOnGameStart();
+                    }
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
+        public static class PostMeeting
+        {
+            public static void Postfix()
+            {
+                foreach (Role r in AllRoles)
+                {
+                    r.DoOnMeetingEnd();
                 }
             }
         }
@@ -452,7 +486,6 @@ namespace BetterTownOfUs.Roles
 
                 RoleDictionary.Clear();
                 Modifier.ModifierDictionary.Clear();
-                Lights.SetLights(Color.white);
             }
         }
 
@@ -463,6 +496,7 @@ namespace BetterTownOfUs.Roles
             public static void Postfix(ref string __result, [HarmonyArgument(0)] StringNames name)
             {
                 if (ExileController.Instance == null || ExileController.Instance.exiled == null) return;
+                
                 var info = ExileController.Instance.exiled;
                 var role = GetRole(info.Object);
                 if (role == null) return;
@@ -475,6 +509,7 @@ namespace BetterTownOfUs.Roles
                     __result = $"{info.PlayerName} was {roleName}.";
                     return;
                 }
+
                 switch (name)
                 {
                     case StringNames.ExileTextPN:
@@ -482,6 +517,7 @@ namespace BetterTownOfUs.Roles
                     case StringNames.ExileTextPP:
                     case StringNames.ExileTextSP:
                         {
+                            if (role == null) return;
                             roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
                             __result = $"{info.PlayerName} was {roleName}.";
                             return;
@@ -495,6 +531,7 @@ namespace BetterTownOfUs.Roles
         {
             private static Vector3 oldScale = Vector3.zero;
             private static Vector3 oldPosition = Vector3.zero;
+
             public static String GetColorType(PlayerControl player)
             {
                 var colors = new Dictionary<int, string>
@@ -532,31 +569,35 @@ namespace BetterTownOfUs.Roles
                 var colorType = colors[player.Data.ColorId];
                 return colorType;
             }
+
             private static void UpdateMeeting(MeetingHud __instance)
             {
-                var localPlayer = PlayerControl.LocalPlayer;
                 foreach (var playerState in __instance.playerStates)
                 {
                     var player = PlayerControl.AllPlayerControls.ToArray()
                         .FirstOrDefault(x => x.PlayerId == playerState.TargetPlayerId);
+                    var localPlayer = PlayerControl.LocalPlayer;
                     var role = GetRole(playerState);
-                    if (role == null || localPlayer == null) return;
-                    var f = localPlayer.Data.IsImpostor && player.Data.IsImpostor && CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles;
+                    var f = localPlayer.Data.IsImpostor && player != null && player.Data.IsImpostor && CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles;
+
                     if (!localPlayer.Data.IsDead && localPlayer != player)
                     {
-                        if (f)
+                        if (role != null && f)
                         {
                             playerState.NameText.color = Color.white;
                             playerState.NameText.text = playerState.name;
                         }
 
-                        if (localPlayer.Is(RoleEnum.Medic) && GetColorType(player) == "darker")
+                        if (localPlayer.Is(RoleEnum.Medic) && player != null && GetColorType(player) == "darker")
                         {
-                            playerState.NameText.color = Color.black;
+                            if (GetColorType(player) == "darker")
+                            { 
+                                playerState.NameText.color = Color.black;
+                            }
                         }
                     }
 
-                    if (role.Criteria() && !f)
+                    if (role != null && role.Criteria())
                     {
                         playerState.NameText.color = role.Color;
                         playerState.NameText.text = role.NameText(playerState);
@@ -610,7 +651,7 @@ namespace BetterTownOfUs.Roles
                 {
                     var f = PlayerControl.LocalPlayer != player && player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor && CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles && !PlayerControl.LocalPlayer.Data.IsDead && !player.Data.Disconnected && !PlayerControl.LocalPlayer.Data.Disconnected;
 
-                    if (player.Data != null && !(player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor) || f)
+                    if (player.Data != null && (!(player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor) || f))
                     {
                         player.nameText.text = player.name;
                         player.nameText.color = Color.white;

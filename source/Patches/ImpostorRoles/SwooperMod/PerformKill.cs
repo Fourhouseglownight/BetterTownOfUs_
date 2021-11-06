@@ -29,7 +29,10 @@ namespace BetterTownOfUs.ImpostorRoles.SwooperMod
                 role.Swoop();
                 return false;
             }
-
+            
+            Utils.SetTarget(ref role.ClosestPlayer, __instance);
+            if (role.ClosestPlayer == null) return false;
+            Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, role.ClosestPlayer);
             return true;
         }
     }

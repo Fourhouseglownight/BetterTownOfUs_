@@ -4,6 +4,7 @@ namespace BetterTownOfUs.Roles
 {
     public class Undertaker : Role
     {
+        public PlayerControl ClosestPlayer;
         public KillButtonManager _dragDropButton;
 
         public Undertaker(PlayerControl player) : base(player)
@@ -19,6 +20,18 @@ namespace BetterTownOfUs.Roles
         public DateTime LastDragged { get; set; }
         public DeadBody CurrentTarget { get; set; }
         public DeadBody CurrentlyDragging { get; set; }
+
+        protected override void DoOnGameStart()
+        {
+            LastDragged = DateTime.UtcNow;
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            DragDropButton.renderer.sprite = BetterTownOfUs.DragSprite;
+            CurrentlyDragging = null;
+            LastDragged = DateTime.UtcNow;
+        }
 
         public KillButtonManager DragDropButton
         {

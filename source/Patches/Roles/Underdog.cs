@@ -4,6 +4,7 @@ namespace BetterTownOfUs.Roles
 {
     public class Underdog : Role
     {
+        public PlayerControl ClosestPlayer;
         public Underdog(PlayerControl player) : base(player)
         {
             Name = "Underdog";
@@ -12,6 +13,11 @@ namespace BetterTownOfUs.Roles
             Color = Palette.ImpostorRed;
             RoleType = RoleEnum.Underdog;
             Faction = Faction.Impostors;
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            SetKillTimer();
         }
 
         public float MaxTimer() => PlayerControl.GameOptions.KillCooldown * (

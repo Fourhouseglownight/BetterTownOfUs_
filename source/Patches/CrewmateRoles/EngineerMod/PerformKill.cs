@@ -6,24 +6,26 @@ using BetterTownOfUs.Roles;
 
 namespace BetterTownOfUs.CrewmateRoles.EngineerMod
 {
+    public enum EngineerFixPer
+    {
+        Custom,
+        Round,
+        Game
+    }
+
     [HarmonyPatch(typeof(KillButtonManager), nameof(KillButtonManager.PerformKill))]
     public class PerformKill
     {
         public static bool Prefix(KillButtonManager __instance)
         {
             if (__instance != DestroyableSingleton<HudManager>.Instance.KillButton) return true;
-            var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Engineer);
-            if (!flag) return true;
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Engineer)) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             if (!__instance.enabled) return false;
             var role = Role.GetRole<Engineer>(PlayerControl.LocalPlayer);
             if ((CustomGameOptions.EngineerFixPer != EngineerFixPer.Custom && role.UsedThisRound) || (CustomGameOptions.EngineerFixPer == EngineerFixPer.Custom && (role.FR == 0 || role.RF == 0 || (CustomGameOptions.IsCdEngineer && role.EngineerTimer() != 0)))) return false;
-            var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
-            var specials = system.specials.ToArray();
-            var dummyActive = system.dummy.IsActive;
-            var sabActive = specials.Any(s => s.IsActive);
-            if (!sabActive | dummyActive) return false;
+            if (!Utils.IsSabotageActive()) return false;
             if (CustomGameOptions.EngineerFixPer == EngineerFixPer.Custom)
             {
                 role.RF--;

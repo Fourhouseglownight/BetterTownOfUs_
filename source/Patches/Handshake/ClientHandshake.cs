@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
@@ -12,10 +11,7 @@ namespace BetterTownOfUs.Handshake
 {
     public static class ClientHandshake
     {
-        private const byte BTOU_ROOT_HANDSHAKE_TAG = 70;
-        
-        // TODO: super sus but whatever - "2.2.0"
-        private const int BTOU_VERSION = 104;
+        private const byte BTOU_ROOT_HANDSHAKE_TAG = 88;
 
         [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
         public static class AmongUsClient_OnGameJoined
@@ -33,7 +29,7 @@ namespace BetterTownOfUs.Handshake
                 messageWriter.WritePacked(__instance.HostId);
                 messageWriter.StartMessage(BTOU_ROOT_HANDSHAKE_TAG);
                 messageWriter.Write(AmongUsClient.Instance.ClientId);
-                messageWriter.Write(BTOU_VERSION);
+                messageWriter.Write(BetterTownOfUs.GetVersion());
                 messageWriter.EndMessage();
                 messageWriter.EndMessage();
                 __instance.SendOrDisconnect(messageWriter);
@@ -54,20 +50,20 @@ namespace BetterTownOfUs.Handshake
                     if (handshakeReader.Tag == BTOU_ROOT_HANDSHAKE_TAG)
                     {
                         PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Host recieved BTOU handshake");
-                        
+
                         var clientId = handshakeReader.ReadInt32();
-                        var btouVersion = handshakeReader.ReadInt32();
-                        
+                        var btouVersion = handshakeReader.ReadString();
+
                         // List<int> HandshakedClients - exists to disconnect legacy clients that don't send handshake
                         PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Adding {clientId} with BTOU version {btouVersion} to List<int>HandshakedClients");
                         HandshakedClients.Add(clientId);
 
-                        if (btouVersion != BTOU_VERSION)
+                        if (!BetterTownOfUs.GetVersion().Equals(btouVersion))
                         {
-                            PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - ClientId {clientId} has mismatched BTOU version {btouVersion}. (Ours is {BTOU_VERSION})");
+                            PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - ClientId {clientId} has mismatched BTOU version {btouVersion}. (Ours is {BetterTownOfUs.GetVersion()})");
                             __instance.SendCustomDisconnect(clientId);
                         }
-                        
+
                         return false;
                     }
                 }
@@ -75,7 +71,7 @@ namespace BetterTownOfUs.Handshake
                 return true;
             }
         }
-        
+
         // Handle legacy clients that don't send handshakes
         private static HashSet<int> HandshakedClients = new HashSet<int>();
         private static IEnumerator WaitForHandshake(InnerNetClient innerNetClient, int clientId)
@@ -95,7 +91,7 @@ namespace BetterTownOfUs.Handshake
                 PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"WaitForHandshake() - HandshakedClients contained clientId {clientId}");
             }
         }
-        
+
         [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
         public static class AmongUsClient_OnPlayerJoined
         {
@@ -108,7 +104,7 @@ namespace BetterTownOfUs.Handshake
                 }
             }
         }
-        
+
         private static void SendCustomDisconnect(this InnerNetClient innerNetClient, int clientId)
         {
             var messageWriter = MessageWriter.Get(SendOption.Reliable);
@@ -117,7 +113,7 @@ namespace BetterTownOfUs.Handshake
             messageWriter.WritePacked(clientId);
             messageWriter.Write(false);
             messageWriter.Write(8);
-            messageWriter.Write($"The host has a different version of Better Town Of Us ({BTOU_VERSION})");
+            messageWriter.Write($"The host has a different version of Better Town Of Us ({BetterTownOfUs.GetVersion()})");
             messageWriter.EndMessage();
             innerNetClient.SendOrDisconnect(messageWriter);
             messageWriter.Recycle();

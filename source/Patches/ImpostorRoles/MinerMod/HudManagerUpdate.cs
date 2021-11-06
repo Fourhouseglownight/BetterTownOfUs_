@@ -8,7 +8,7 @@ namespace BetterTownOfUs.ImpostorRoles.MinerMod
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class HudManagerUpdate
     {
-        public static Sprite MineSprite => BetterTownOfUs.MineSprite;
+        private static Sprite MineSprite => BetterTownOfUs.MineSprite;
 
         public static void Postfix(HudManager __instance)
         {

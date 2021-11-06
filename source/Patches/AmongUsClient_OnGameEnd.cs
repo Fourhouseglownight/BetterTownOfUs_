@@ -9,16 +9,16 @@ namespace BetterTownOfUs
     public class AmongUsClient_OnGameEnd
     {
         public static List<WinningPlayerData> ImpsAlive = new List<WinningPlayerData>();
+        
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] GameOverReason reason,
             [HarmonyArgument(0)] bool showAd)
         {
             Utils.potentialWinners.Clear();
-            ImpsAlive.Clear();
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 Utils.potentialWinners.Add(new WinningPlayerData(player.Data));
+                
                 var faction = Role.GetRole(player).Faction;
-
                 if (!CustomGameOptions.ImpostorSeeRoles && CustomGameOptions.AnonImp && CustomGameOptions.ImpSoloWin && (faction == Faction.Impostors) && !player.Data.IsDead && !player.Data.Disconnected) ImpsAlive.Add(new WinningPlayerData(player.Data));
             }
         }
@@ -37,7 +37,7 @@ namespace BetterTownOfUs
                 TempData.winners = new List<WinningPlayerData>();
                 return;
             }
-            
+
             if (jester != null)
             {
                 var winners = Utils.potentialWinners.Where(x => x.Name == jester.PlayerName).ToList();
@@ -47,6 +47,7 @@ namespace BetterTownOfUs
                     win.IsDead = false;
                     TempData.winners.Add(win);
                 }
+
                 return;
             }
 
@@ -105,7 +106,6 @@ namespace BetterTownOfUs
             {
                 TempData.winners = new List<WinningPlayerData>();
                 foreach (var win in AmongUsClient_OnGameEnd.ImpsAlive) TempData.winners.Add(win);
-                return;   
             }
         }
     }

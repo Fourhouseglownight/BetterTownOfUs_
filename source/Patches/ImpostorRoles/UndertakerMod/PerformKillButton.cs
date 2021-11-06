@@ -48,7 +48,7 @@ namespace BetterTownOfUs.ImpostorRoles.UndertakerMod
                     var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
                         (byte) CustomRPC.Drop, SendOption.Reliable, -1);
                     writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                    var position = PlayerControl.LocalPlayer.GetTruePosition();
+                    Vector2 position = PlayerControl.LocalPlayer.GetTruePosition();
                     writer.Write(position);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
 
@@ -57,14 +57,14 @@ namespace BetterTownOfUs.ImpostorRoles.UndertakerMod
                     role.CurrentlyDragging = null;
                     __instance.renderer.sprite = BetterTownOfUs.DragSprite;
                     role.LastDragged = DateTime.UtcNow;
-
                     //body.transform.position = position;
-
-
                     return false;
                 }
             }
-
+            
+            Utils.SetTarget(ref role.ClosestPlayer, __instance);
+            if (role.ClosestPlayer == null) return false;
+            Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, role.ClosestPlayer);
             return true;
         }
     }

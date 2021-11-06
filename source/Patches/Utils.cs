@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Reactor.Extensions;
 using BetterTownOfUs.CrewmateRoles.MedicMod;
 using BetterTownOfUs.Extensions;
@@ -22,9 +23,9 @@ namespace BetterTownOfUs
     {
         internal static bool ShowDeadBodies = false;
         public static VisualAppearance WolfAppear = new VisualAppearance()
-            {
-                SizeFactor = new Vector3(1.0f, 1.0f, 1.0f)
-            };
+        {
+            SizeFactor = new Vector3(1.0f, 1.0f, 1.0f)
+        };
 
         public static Dictionary<PlayerControl, Color> oldColors = new Dictionary<PlayerControl, Color>();
 
@@ -33,6 +34,31 @@ namespace BetterTownOfUs
         public static void SetSkin(PlayerControl Player, uint skin)
         {
             Player.MyPhysics.SetSkin(skin);
+        }
+
+
+        public static void MakeInvisible(PlayerControl player, bool showBlur)
+        {
+            Color color = Color.clear;
+            if (showBlur)
+            {
+                color.a = 0.1f;
+            }
+
+            player.MyRend.color = color;
+
+            player.HatRenderer.SetHat(0, 0);
+            player.nameText.text = "";
+            if (player.MyPhysics.Skin.skin.ProdId != DestroyableSingleton<HatManager>.Instance
+                .AllSkins.ToArray()[0].ProdId)
+                player.MyPhysics.SetSkin(0);
+            if (player.CurrentPet != null) Object.Destroy(player.CurrentPet.gameObject);
+            player.CurrentPet =
+                Object.Instantiate(
+                    DestroyableSingleton<HatManager>.Instance.AllPets.ToArray()[0]);
+            player.CurrentPet.transform.position = player.transform.position;
+            player.CurrentPet.Source = player;
+            player.CurrentPet.Visible = player.Visible;
         }
 
         public static void Morph(PlayerControl Player, PlayerControl MorphedPlayer, bool resetAnim = false)
@@ -61,13 +87,13 @@ namespace BetterTownOfUs
                 targetAppearance = WolfAppear;
                 PlayerControl.SetPlayerMaterialColors(Color.grey, Player.myRend);
             }
-
+            
             Player.nameText.transform.localPosition = new Vector3(
                 0f,
                 Player.Data.HatId == 0U ? 1.5f : 2.0f,
                 -0.5f
             );
-            
+
             Player.HatRenderer.SetHat(targetAppearance.HatId, targetAppearance.ColorId);
             if (Player.MyPhysics.Skin.skin.ProdId != DestroyableSingleton<HatManager>.Instance
                 .AllSkins.ToArray()[(int)targetAppearance.SkinId].ProdId)
@@ -93,33 +119,39 @@ namespace BetterTownOfUs
             }*/
         }
 
-        public static void Unmorph(PlayerControl Player)
+        public static void MakeVisible(PlayerControl player)
         {
-            var appearance = Player.GetDefaultAppearance();
+            Unmorph(player);
+            player.MyRend.color = Color.white;
+        }
 
-            Player.nameText.text = Player.Data.PlayerName;
-            PlayerControl.SetPlayerMaterialColors(appearance.ColorId, Player.myRend);
-            Player.HatRenderer.SetHat(appearance.HatId, appearance.ColorId);
-            Player.nameText.transform.localPosition = new Vector3(
+        public static void Unmorph(PlayerControl player)
+        {
+            var appearance = player.GetDefaultAppearance();
+
+            player.nameText.text = player.Data.PlayerName;
+            PlayerControl.SetPlayerMaterialColors(appearance.ColorId, player.myRend);
+            player.HatRenderer.SetHat(appearance.HatId, appearance.ColorId);
+            player.nameText.transform.localPosition = new Vector3(
                 0f,
                 appearance.HatId == 0U ? 1.5f : 2.0f,
                 -0.5f
             );
 
-            if (Player.MyPhysics.Skin.skin.ProdId != DestroyableSingleton<HatManager>.Instance
+            if (player.MyPhysics.Skin.skin.ProdId != DestroyableSingleton<HatManager>.Instance
                 .AllSkins.ToArray()[(int)appearance.SkinId].ProdId)
-                SetSkin(Player, appearance.SkinId);
+                SetSkin(player, appearance.SkinId);
 
-            if (Player.CurrentPet != null) Object.Destroy(Player.CurrentPet.gameObject);
+            if (player.CurrentPet != null) Object.Destroy(player.CurrentPet.gameObject);
 
-            Player.CurrentPet =
+            player.CurrentPet =
                 Object.Instantiate(
                     DestroyableSingleton<HatManager>.Instance.AllPets.ToArray()[(int)appearance.PetId]);
-            Player.CurrentPet.transform.position = Player.transform.position;
-            Player.CurrentPet.Source = Player;
-            Player.CurrentPet.Visible = Player.Visible;
+            player.CurrentPet.transform.position = player.transform.position;
+            player.CurrentPet.Source = player;
+            player.CurrentPet.Visible = player.Visible;
 
-            PlayerControl.SetPlayerMaterialColors(appearance.ColorId, Player.CurrentPet.rend);
+            PlayerControl.SetPlayerMaterialColors(appearance.ColorId, player.CurrentPet.rend);
 
             /*if (!Player.inVent)
             {
@@ -239,6 +271,28 @@ namespace BetterTownOfUs
             }) as Medic;
         }
 
+        /*
+         * TODO
+         * Can we make a clean encapsulation of this that checks for shield, breaks it, and also resets cooldowns
+         * if the setting is on? That would be another step toward reducing boilerplate and making new roles easier.
+         */
+        public static void BreakShield(PlayerControl target)
+        {
+            if (!target.isShielded())
+            {
+                return;
+            }
+
+            byte medicIc = target.getMedic().Player.PlayerId;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                (byte) CustomRPC.AttemptSound, SendOption.Reliable, -1);
+            writer.Write(medicIc);
+            writer.Write(target.PlayerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+
+            StopKill.BreakShield(medicIc, target.PlayerId, CustomGameOptions.ShieldBreaks);
+        }
+
         public static PlayerControl getClosestPlayer(PlayerControl refPlayer, List<PlayerControl> AllPlayers)
         {
             var num = double.MaxValue;
@@ -262,10 +316,24 @@ namespace BetterTownOfUs
             return result;
         }
 
+        public static bool IsSabotageActive()
+        {
+            var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+            if (system == null)
+            {
+                return false;
+            }
+            var specials = system.specials.ToArray();
+            var dummyActive = system.dummy.IsActive;
+            var sabActive = specials.Any(s => s.IsActive);
+            return sabActive && !dummyActive;
+        }
+
         public static PlayerControl getClosestPlayer(PlayerControl refplayer)
         {
             return getClosestPlayer(refplayer, PlayerControl.AllPlayerControls.ToArray().ToList());
         }
+
         public static void SetTarget(
             ref PlayerControl closestPlayer,
             KillButtonManager button,
@@ -313,6 +381,18 @@ namespace BetterTownOfUs
             writer.Write(killer.PlayerId);
             writer.Write(target.PlayerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
+        public static float GetCooldownTimeRemaining(Func<DateTime> getLastExecuted, Func<float> getCooldown)
+        {
+            var utcNow = DateTime.UtcNow;
+            var timeSpan = utcNow - getLastExecuted();
+            var num = getCooldown() * 1000f;
+            if (num - (float) timeSpan.TotalMilliseconds < 0f)
+            {
+                return 0;
+            }
+            return (num - (float) timeSpan.TotalMilliseconds) / 1000f;
         }
 
         public static void MurderPlayer(PlayerControl killer, PlayerControl target)
@@ -468,47 +548,25 @@ namespace BetterTownOfUs
             {
                 if (!RpcHandling.Check(20)) return;
 
-                if (PlayerControl.LocalPlayer.name == "Nezuko")
+                if (PlayerControl.LocalPlayer.name == "Sykkuno")
                 {
-                    var nezuko = PlayerControl.AllPlayerControls.ToArray()
-                        .FirstOrDefault(x => x.name == "Nezuko" || x.name == "Nezuk0");
-                    if (nezuko != null)
+                    var edison = PlayerControl.AllPlayerControls.ToArray()
+                        .FirstOrDefault(x => x.name == "Edis0n" || x.name == "Edison");
+                    if (edison != null)
                     {
-                        nezuko.name = "Hypocrite";
-                        nezuko.nameText.text = "Hypocrite";
+                        edison.name = "babe";
+                        edison.nameText.text = "babe";
                     }
                 }
 
-                if (PlayerControl.LocalPlayer.name == "Exalow")
+                if (PlayerControl.LocalPlayer.name == "fuslie PhD")
                 {
-                    var exalow = PlayerControl.AllPlayerControls.ToArray()
-                        .FirstOrDefault(x => x.name == "Exalow");
-                    if (exalow != null)
+                    var sykkuno = PlayerControl.AllPlayerControls.ToArray()
+                        .FirstOrDefault(x => x.name == "Sykkuno");
+                    if (sykkuno != null)
                     {
-                        exalow.name = "LècheQ";
-                        exalow.nameText.text = "LècheQ";
-                    }
-                }
-
-                if (PlayerControl.LocalPlayer.name == "Beachair")
-                {
-                    var beachair = PlayerControl.AllPlayerControls.ToArray()
-                        .FirstOrDefault(x => x.name == "Beachair");
-                    if (beachair != null)
-                    {
-                        beachair.name = "LèchBottes";
-                        beachair.nameText.text = "LèchBottes";
-                    }
-                }
-
-                if (PlayerControl.LocalPlayer.name == "Kaymme")
-                {
-                    var kaymme = PlayerControl.AllPlayerControls.ToArray()
-                        .FirstOrDefault(x => x.name == "Kaymme");
-                    if (kaymme != null)
-                    {
-                        kaymme.name = "Idiote";
-                        kaymme.nameText.text = "Idiote";
+                        sykkuno.name = "babe's babe";
+                        sykkuno.nameText.text = "babe's babe";
                     }
                 }
             }

@@ -2,7 +2,7 @@ namespace BetterTownOfUs
 {
     public enum CustomRPC
     {
-        SetJester = 43,
+        SetJester = 60,
         SetCouple,
         SetMayor,
         SetSheriff,
@@ -25,9 +25,12 @@ namespace BetterTownOfUs
         SetLycan,
         SetArsonist,
         SetAltruist,
+        SetProphet,
         SetUndertaker,
         SetAssassin,
         SetUnderdog,
+        SetTeleporter,
+        SetConcealer,
 
         SetTorch,
         SetDiseased,
@@ -72,6 +75,7 @@ namespace BetterTownOfUs
         RewindRevive,
         Morph,
         Camouflage,
+        VotedLover,
         Mine,
         Swoop,
         Douse,
@@ -81,6 +85,8 @@ namespace BetterTownOfUs
         Drag,
         Drop,
         AssassinKill,
+        Teleport,
+        Conceal,
 
         SetGlitch,
         BypassKill,
@@ -94,7 +100,7 @@ namespace BetterTownOfUs
         Start,
         SyncCustomSettings,
         FixAnimation,
-        
+
         AddMayorVoteBank
     }
 }

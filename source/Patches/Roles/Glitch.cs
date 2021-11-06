@@ -98,6 +98,21 @@ namespace BetterTownOfUs.Roles
             Player.Data.IsImpostor = true;
         }
 
+        protected override void DoOnGameStart()
+        {
+            LastMimic = DateTime.UtcNow;
+            LastHack = DateTime.UtcNow;
+            LastKill = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialGlitchKillCooldown +
+                                                                    CustomGameOptions.GlitchKillCooldown * -1);
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            LastMimic = DateTime.UtcNow;
+            LastHack = DateTime.UtcNow;
+            LastKill = DateTime.UtcNow;
+        }
+
         protected override void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)
         {
             var glitchTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
@@ -470,16 +485,11 @@ namespace BetterTownOfUs.Roles
                 {
                     if (__gInstance.KillTarget.isShielded())
                     {
-                        var medic = __gInstance.HackTarget.getMedic().Player.PlayerId;
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                        writer.Write(medic);
-                        writer.Write(__gInstance.KillTarget.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        if (CustomGameOptions.ShieldBreaks) __gInstance.LastKill = DateTime.UtcNow;
-
-                        StopKill.BreakShield(medic, __gInstance.KillTarget.PlayerId,
-                            CustomGameOptions.ShieldBreaks);
+                        Utils.BreakShield(__gInstance.KillTarget);
+                        if (CustomGameOptions.ShieldBreaks)
+                        {
+                            __gInstance.LastKill = DateTime.UtcNow;
+                        }
 
                         return;
                     }
@@ -536,16 +546,11 @@ namespace BetterTownOfUs.Roles
                 {
                     if (__gInstance.HackTarget.isShielded())
                     {
-                        var medic = __gInstance.HackTarget.getMedic().Player.PlayerId;
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                        writer.Write(medic);
-                        writer.Write(__gInstance.HackTarget.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        if (CustomGameOptions.ShieldBreaks) __gInstance.LastHack = DateTime.UtcNow;
-
-                        StopKill.BreakShield(medic, __gInstance.HackTarget.PlayerId,
-                            CustomGameOptions.ShieldBreaks);
+                        Utils.BreakShield(__gInstance.HackTarget);
+                        if (CustomGameOptions.ShieldBreaks)
+                        {
+                            __gInstance.LastHack = DateTime.UtcNow;
+                        }
 
                         return;
                     }

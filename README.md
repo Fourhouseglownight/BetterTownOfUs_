@@ -1,4 +1,4 @@
-[![Title](./Title.png)](https://discord.gg/XSCnBzkneK) [![Author](https://img.shields.io/badge/powered%20by-Votez%20Vert-018001?labelColor=3769fe)](https://discord.gg/XSCnBzkneK)
+[![Title](./Title.png)](https://visionuniverse.fr) [![Author](https://img.shields.io/badge/powered%20by-Votez%20Vert-018001?labelColor=3769fe)](https://visionuniverse.fr)
 
 [![Release Version](https://img.shields.io/github/v/release/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Release Date](https://img.shields.io/github/release-date/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
@@ -10,17 +10,23 @@
 
 ---
 
-Imaginé par la communauté **[Discord francophone de Town of Us](https://discord.gg/XSCnBzkneK)**, ce mod Among Us modifie **__[Town of Us](https://github.com/polusgg/Town-Of-Us)__** en lui ajoutant plein d'options afin de le perfectionner.  
-Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBzkneK)** community, this Among Us mod modifies **__[Town of Us](https://github.com/polusgg/Town-Of-Us)__** by adding lots of options to improve it.  
+Imaginé par la communauté **[Discord francophone de Town of Us](https://discord.gg/XSCnBzkneK)**, ce mod Among Us modifie **__[Town of Us](https://github.com/Anusien/Town-Of-Us)__** en lui ajoutant plein d'options afin de le perfectionner.  
+Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBzkneK)** community, this Among Us mod modifies **__[Town of Us](https://github.com/Anusien/Town-Of-Us)__** by adding lots of options to improve it.  
 <details>
   <summary>Ce que ce mod ajoute (cliques sur la flèche pour dérouler)./What this mod adds (click on the arrow to expand).</summary>
   <ul> <li>Options "Better Polus"/"Better Polus" options. </li> </ul>
+    <details>
+      <ul> <li>Option "Vitals in Laboratory"/"Vitals in Laboratory" option. </li> </ul>
+      <ul> <li>Option "Reactor vents are connected to buildings"/"Reactor vents are connected to buildings" option. </li> </ul>
+      <ul> <li>Option "New Tasks Positions"/"New Tasks Positions" option. </li> </ul>
+    </details>
   <ul> <li>Options "Impostors Don't Know Their Team" et "Impostors Can Win Solo"/"Impostors Don't Know Their Team" and "Impostors Can Win Solo" options. </li> </ul>
   <ul> <li>Rôle Imposteur "Lycan"/"Lycan" Imposotor Role. </li> </ul>
   <ul> <li>Option "Can't report voted Lover"/"Can't report voted Lover" option. </li> </ul>
-  <ul> <li>Option "Sheriff can kills Executioner"/"Sheriff can kills Executioner" option. </li> </ul>
   <ul> <li>Option "Jester Can Take Vent"/"Jester Can Take Vent" option. </li> </ul>
   <ul> <li>Augmente la limite d'assassinat de l'assassin de 5 à 15/Increase limit of assassin's kills from 5 to 15. </li> </ul>
+  <ul> <li>Option "Can Missing Guess 1 Time" pour l'Assassin/"Can Missing Guess 1 Time" option for the Assassin. </li> </ul>
+  <ul> <li>Option "Who gets Assassin miss kill indicator" pour le Miss Kill de l'Assassin/"Who gets Assassin miss kill indicator" option for Miss Kill of the Assassin. </li> </ul>
   <ul> <li>Modifie l'interval pour les traces de pas de l'investigateur de 2.5 à 0.25/Modify interval for Investigator's foot print size option from 2.5 to 0.25. </li> </ul>
   <ul> <li>Modifie l'interval pour le rapport du Medic de 2.5 à 0.5/Modify interval for Medic's report duration option from 2.5 to 0.5. </li> </ul>
   <ul> <li>Le Medic verra le pseudo des couleurs sombres en noirs pendant les meetings/Medic sees the darker color player's name in black during meeting. </li> </ul>
@@ -28,7 +34,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
   <ul> <li>Un tas d'options pour l'Engineer/A bunch of options for Engineer's fixes. 
     <details>
       <ul> <li>Ajout de l'option "Custom" pour l'option "Engineer Fix Per"/"Custom" to "Engineer Fix Per" option. </li> </ul>
-      <ul> <li>Options "Engineer Have Cooldown" pour ajouter un cooldown à l'Engineer/"Engineer Have Cooldown" option for add a cooldown to Engineer. </li> </ul>
+      <ul> <li>Option "Engineer Have Cooldown" pour ajouter un cooldown à l'Engineer/"Engineer Have Cooldown" option for add a cooldown to Engineer. </li> </ul>
       <ul> <li>Option "Engineer Cooldown" pour régler le cooldown si activé/"Engineer Cooldown" option to set the Engineer Cooldown if activated. </li> </ul>
       <ul> <li>Option "Max Fixes Per Round"/"Number of Fixes Per Round" option. </li> </ul>
       <ul> <li>Option "Max Fixes Per Game"/"Number of Fixes Per Game" option. </li> </ul>
@@ -48,7 +54,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 - [Bug | Suggestions](#bug--suggestions).  
 - [Credits | Resources](#credits--resources).  
 
-[![Logo](./Logo.png)](https://discord.gg/XSCnBzkneK)
+[![Logo](./Logo.png)](https://visionuniverse.fr)
 
 ---
 
@@ -56,12 +62,13 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 <center>
 
-| <center> Among Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
+| <center> Among Us - Version </center> | <center> Town of Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|
-| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.3 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.3) </center> |
-| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.2 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.2) </center> |
-| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.1 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.1) </center> |
-| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> v1.0.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.0) </center> |
+| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.5.0 </center> | <center> v1.1.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.0) </center> |
+| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.2.1 </center> | <center> v1.0.3 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.3) </center> |
+| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.2.1 </center> | <center> v1.0.2 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.2) </center> |
+| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.2.1 </center> | <center> v1.0.1 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.1) </center> |
+| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.2.1 </center> | <center> v1.0.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.0) </center> |
 
 </center>
 
@@ -161,7 +168,7 @@ If you have any bugs or any need to contact me, join the **[Discord server](http
 
 # Credits | Resources
 
-[TownOfUs](https://github.com/polusgg/Town-Of-Us) - Better Town of Us est une modification de ce mod./Better Town of Us is a modification of this mod.  
+[TownOfUs](https://github.com/Anusien/Town-Of-Us) - Better Town of Us est une modification de ce mod./Better Town of Us is a modification of this mod.  
 [Reactor](https://github.com/NuclearPowered/Reactor) - Le framework Among Us./The Among Us framework.  
 [BepInEx](https://github.com/BepInEx) - Le framework Unity./The Unity framework.  
 [Among Us Anonymous Impostors Mod](https://github.com/Wunax/Among-Us-Anonymous-Impostors-Mod) - Pour l'inspiration des options imposteurs anonymes./For inspiration of Anonymous Impostors Options.  

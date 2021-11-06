@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using BetterTownOfUs.CrewmateRoles.EngineerMod;
 
 namespace BetterTownOfUs.Roles
 {
@@ -21,6 +22,14 @@ namespace BetterTownOfUs.Roles
         public int FR { get; set; }
         public int RF { get; set; }
 
+        protected override void DoOnMeetingEnd()
+        {
+            if (CustomGameOptions.EngineerFixPer == EngineerFixPer.Round || (CustomGameOptions.EngineerFixPer == EngineerFixPer.Custom && RF > 0))
+            {
+                FR = CustomGameOptions.FixesPerRound;
+                UsedThisRound = false;
+            }
+        }
         public bool UsedThisRound { get; set; } = false;
 
         public float EngineerTimer()

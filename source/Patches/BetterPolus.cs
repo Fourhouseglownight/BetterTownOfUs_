@@ -364,10 +364,10 @@ namespace BetterTownOfUs
                 downloadTransform.parent = Admin.transform.GetChild(0);
                 downloadTransform.position = DownloadNewPos;
                
-                BetterTownOfUs.log.LogMessage(DownloadConsole.enabled);
-                BetterTownOfUs.log.LogMessage(DownloadConsole.isActiveAndEnabled);
-                BetterTownOfUs.log.LogMessage(DownloadConsole.Room);
-                BetterTownOfUs.log.LogMessage(DownloadConsole.TaskTypes.ToString());
+                BetterBetterTownOfUs.log.LogMessage(DownloadConsole.enabled);
+                BetterBetterTownOfUs.log.LogMessage(DownloadConsole.isActiveAndEnabled);
+                BetterBetterTownOfUs.log.LogMessage(DownloadConsole.Room);
+                BetterBetterTownOfUs.log.LogMessage(DownloadConsole.TaskTypes.ToString());
                 // Prevents crewmate being able to do the task from outside
                 DownloadConsole.checkWalls = true;
             }*/

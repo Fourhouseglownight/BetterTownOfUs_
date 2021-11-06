@@ -5,7 +5,7 @@ namespace BetterTownOfUs.CustomOption
 {
     public class CustomOption
     {
-        public static List<CustomOption> AllOptions = new List<CustomOption>();
+        public static readonly List<CustomOption> AllOptions = new List<CustomOption>();
         public readonly int ID;
 
         public Func<object, string> Format;
@@ -67,14 +67,14 @@ namespace BetterTownOfUs.CustomOption
                     var newValue = (float) Value;
 
                     number.Value = number.oldValue = newValue;
-                    number.ValueText.text = Format(number.Value);
+                    number.ValueText.text = ToString();
                 }
                 else if (Setting is StringOption str)
                 {
                     var newValue = (int) Value;
 
                     str.Value = str.oldValue = newValue;
-                    str.ValueText.text = Format(str.Value);
+                    str.ValueText.text = ToString();
                 }
             }
             catch

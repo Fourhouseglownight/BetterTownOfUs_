@@ -29,6 +29,9 @@ namespace BetterTownOfUs.ImpostorRoles.LycanMod
                 return false;
             }
             
+            Utils.SetTarget(ref role.ClosestPlayer, __instance);
+            if (role.ClosestPlayer == null) return false;
+            Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, role.ClosestPlayer);    
             return true;
         }
     }

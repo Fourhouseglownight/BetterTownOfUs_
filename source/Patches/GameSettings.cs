@@ -5,7 +5,6 @@ using System.Text;
 using HarmonyLib;
 using Reactor.Extensions;
 using BetterTownOfUs.CustomOption;
-using BetterTownOfUs.Extensions;
 using UnityEngine;
 
 namespace BetterTownOfUs
@@ -77,7 +76,7 @@ namespace BetterTownOfUs
 
                 foreach (var option in CustomOption.CustomOption.AllOptions)
                 {
-                    if (option.Name == "Custom Game Settings" && !AllOptions) break;
+                    if (option.Name == "Better Polus" && !AllOptions) break;
                     if (option.Type == CustomOptionType.Button) continue;
                     if (option.Type == CustomOptionType.Header) builder.AppendLine($"\n{option.Name}");
                     else if (option.Indent) builder.AppendLine($"     {option.Name}: {option}");
@@ -103,8 +102,6 @@ namespace BetterTownOfUs
             private static void Postfix()
             {
                 if (Input.GetKeyInt(KeyCode.Tab)) AllOptions = !AllOptions;
-
-                //                HudManager.Instance.GameSettings.scale = 0.5f;
             }
         }
 
@@ -113,7 +110,7 @@ namespace BetterTownOfUs
         {
             public static void Postfix(ref GameOptionsMenu __instance)
             {
-                __instance.GetComponentInParent<Scroller>().YBounds.max = 78.7f;
+                __instance.GetComponentInParent<Scroller>().YBounds.max = 90.2f;
             }
         }
     }

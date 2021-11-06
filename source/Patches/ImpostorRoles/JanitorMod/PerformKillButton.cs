@@ -1,6 +1,7 @@
 using HarmonyLib;
 using Hazel;
 using Reactor;
+using BetterTownOfUs;
 using BetterTownOfUs.Roles;
 using UnityEngine;
 
@@ -37,7 +38,10 @@ namespace BetterTownOfUs.ImpostorRoles.JanitorMod
                 Coroutines.Start(Coroutine.CleanCoroutine(role.CurrentTarget, role));
                 return false;
             }
-
+            
+            Utils.SetTarget(ref role.ClosestPlayer, __instance);
+            if (role.ClosestPlayer == null) return false;
+            Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, role.ClosestPlayer);
             return true;
         }
     }

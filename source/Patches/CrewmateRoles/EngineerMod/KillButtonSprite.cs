@@ -1,4 +1,3 @@
-using System.Linq;
 using HarmonyLib;
 using BetterTownOfUs.Roles;
 using UnityEngine;
@@ -21,7 +20,7 @@ namespace BetterTownOfUs.CrewmateRoles.EngineerMod
             if (__instance.KillButton == null) return;
 
             var role = Role.GetRole<Engineer>(PlayerControl.LocalPlayer);
-            
+
             __instance.KillButton.renderer.sprite = Sprite;
             if ((CustomGameOptions.EngineerFixPer == EngineerFixPer.Custom) && CustomGameOptions.IsCdEngineer) __instance.KillButton.SetCoolDown(role.EngineerTimer(), CustomGameOptions.EngineerCd);
             else __instance.KillButton.SetCoolDown(0f, 10f);
@@ -30,13 +29,8 @@ namespace BetterTownOfUs.CrewmateRoles.EngineerMod
 
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!ShipStatus.Instance) return;
-            var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
-            if (system == null) return;
-            var specials = system.specials.ToArray();
-            var dummyActive = system.dummy.IsActive;
-            var sabActive = specials.Any(s => s.IsActive);
             var renderer = __instance.KillButton.renderer;
-            if (sabActive & !dummyActive & !role.UsedThisRound & __instance.KillButton.enabled)
+            if (Utils.IsSabotageActive() && !role.UsedThisRound & __instance.KillButton.enabled)
             {
                 renderer.color = Palette.EnabledColor;
                 renderer.material.SetFloat("_Desat", 0f);

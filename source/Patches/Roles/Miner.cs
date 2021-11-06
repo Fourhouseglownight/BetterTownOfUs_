@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace BetterTownOfUs.Roles
 {
@@ -8,6 +9,7 @@ namespace BetterTownOfUs.Roles
     {
         public readonly List<Vent> Vents = new List<Vent>();
 
+        public PlayerControl ClosestPlayer;
         public KillButtonManager _mineButton;
         public DateTime LastMined;
 
@@ -20,10 +22,24 @@ namespace BetterTownOfUs.Roles
             Color = Palette.ImpostorRed;
             RoleType = RoleEnum.Miner;
             Faction = Faction.Impostors;
+            LastMined = DateTime.UtcNow;
         }
 
         public bool CanPlace { get; set; }
-        public Vector2 VentSize { get; set; }
+        public Vector2 VentSize { get; private set; }
+
+        protected override void DoOnGameStart()
+        {
+            LastMined = DateTime.UtcNow;
+            var vents = Object.FindObjectsOfType<Vent>();
+            VentSize =
+                Vector2.Scale(vents[0].GetComponent<BoxCollider2D>().size, vents[0].transform.localScale) * 0.75f;
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            LastMined = DateTime.UtcNow;
+        }
 
         public KillButtonManager MineButton
         {

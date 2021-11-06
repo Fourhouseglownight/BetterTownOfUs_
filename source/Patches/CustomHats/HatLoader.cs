@@ -69,7 +69,9 @@ namespace BetterTownOfUs.Patches.CustomHats
                 }
                 catch (Exception e)
                 {
-                    BetterTownOfUs.log.LogError(e);
+                    Log.LogError(
+                         $"Error loading hat {hatCredit.Id} in metadata file ({HAT_METADATA_JSON})");
+                     Log.LogError($"{e.Message}\nStack:{e.StackTrace}");
                 }
             }
 

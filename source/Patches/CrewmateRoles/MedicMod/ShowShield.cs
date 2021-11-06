@@ -16,7 +16,6 @@ namespace BetterTownOfUs.CrewmateRoles.MedicMod
     {
         Medic = 0,
         Shielded = 1,
-        
         Everyone = 2,
         Nobody = 3
     }

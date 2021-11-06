@@ -23,7 +23,8 @@ namespace BetterTownOfUs.Roles
             { "Seer", new Color(1f, 0.8f, 0.5f, 1f) },
             { "Spy", new Color(0.8f, 0.64f, 0.8f, 1f) },
             { "Snitch", new Color(0.83f, 0.69f, 0.22f, 1f) },
-            { "Altruist", new Color(0.4f, 0f, 0f, 1f) }
+            { "Altruist", new Color(0.4f, 0f, 0f, 1f) },
+            { "Prophet", new Color(0.69f, 0.15f, 1f, 1f)}
         };
 
         public Dictionary<byte, string> Guesses = new Dictionary<byte, string>();
@@ -39,9 +40,6 @@ namespace BetterTownOfUs.Roles
             Faction = Faction.Impostors;
 
             RemainingKills = CustomGameOptions.AssassinKills;
-            MissKill = CustomGameOptions.MissKill;
-
-            if (CustomGameOptions.AssassinCrewmateGuess) ColorMapping.Add("Crewmate", Color.white);
 
             if (CustomGameOptions.AssassinGuessNeutrals)
             {
@@ -51,6 +49,8 @@ namespace BetterTownOfUs.Roles
                 ColorMapping.Add("The Glitch", Color.green);
                 ColorMapping.Add("Arsonist", new Color(1f, 0.3f, 0f));
             }
+
+            if (CustomGameOptions.AssassinCrewmateGuess) ColorMapping.Add("Crewmate", Color.white);
 
             if (!CustomGameOptions.ImpostorSeeRoles && CustomGameOptions.AnonImp && CustomGameOptions.ImpSoloWin)
             {
@@ -65,8 +65,8 @@ namespace BetterTownOfUs.Roles
             }
         }
 
+        public PlayerControl ClosestPlayer;
         public bool GuessedThisMeeting { get; set; } = false;
-
         public int RemainingKills { get; set; }
         public bool MissKill { get; set; }
 

@@ -6,6 +6,7 @@ namespace BetterTownOfUs.Roles
     public class Camouflager : Role
 
     {
+        public PlayerControl ClosestPlayer;
         public KillButtonManager _camouflageButton;
         public bool Enabled;
         public DateTime LastCamouflaged;
@@ -19,6 +20,16 @@ namespace BetterTownOfUs.Roles
             Color = Palette.ImpostorRed;
             RoleType = RoleEnum.Camouflager;
             Faction = Faction.Impostors;
+        }
+
+        protected override void DoOnGameStart()
+        {
+            LastCamouflaged = DateTime.UtcNow;
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            LastCamouflaged = DateTime.UtcNow;
         }
 
         public bool Camouflaged => TimeRemaining > 0f;

@@ -20,6 +20,7 @@ namespace BetterTownOfUs
         Arsonist,
         Altruist,
         Phantom,
+        Prophet,
 
         Miner,
         Swooper,
@@ -28,9 +29,10 @@ namespace BetterTownOfUs
         Janitor,
         Undertaker,
         Assassin,
-        Underdog,
         Lycan,
-
+        Underdog,
+        Teleporter,
+        Concealer,
 
         Glitch,
 

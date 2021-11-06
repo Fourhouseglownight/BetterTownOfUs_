@@ -32,7 +32,7 @@ namespace BetterTownOfUs
 
             if (player.Is(RoleEnum.Morphling)
                 || player.Is(RoleEnum.Swooper)
-                || (player.Is(RoleEnum.Undertaker) && Role.GetRole<Undertaker>(player).CurrentlyDragging != null) || (player.Is(RoleEnum.Lycan) && Role.GetRole<Lycan>(player).Wolfed))
+                || ((player.Is(RoleEnum.Undertaker) && Role.GetRole<Undertaker>(player).CurrentlyDragging != null)) || ((player.Is(RoleEnum.Lycan) && Role.GetRole<Lycan>(player).Wolfed)))
                 return false;
 
 

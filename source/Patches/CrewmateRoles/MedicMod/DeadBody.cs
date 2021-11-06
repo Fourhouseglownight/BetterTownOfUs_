@@ -35,7 +35,6 @@ namespace BetterTownOfUs.CrewmateRoles.MedicMod
                     $"Body Report: The killer appears to be {br.Killer.Data.PlayerName}! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
 
             var typeOfColor = Role.HudManager_Update.GetColorType(br.Killer);
-
             return
                 $"Body Report: The killer appears to be a {typeOfColor} color. (Killed {Math.Round(br.KillAge / 1000)}s ago)";
         }

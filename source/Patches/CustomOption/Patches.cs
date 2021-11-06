@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using Reactor;
 using Reactor.Extensions;
 using BetterTownOfUs.Extensions;
 using UnhollowerBaseLib;
@@ -13,8 +12,7 @@ namespace BetterTownOfUs.CustomOption
     {
         public static Export ExportButton;
         public static Import ImportButton;
-        public static List<OptionBehaviour> DefaultOptions;
-        public static float LobbyTextRowHeight { get; set; } = 0.081F;
+        private static float LobbyTextRowHeight { get; set; } = 0.081F;
 
 
         private static List<OptionBehaviour> CreateOptions(GameOptionsMenu __instance)
@@ -58,8 +56,17 @@ namespace BetterTownOfUs.CustomOption
                 options.Add(toggle);
             }
 
-            DefaultOptions = __instance.Children.ToList();
-            foreach (var defaultOption in __instance.Children) options.Add(defaultOption);
+            // TODO: Is there a better place to do this?
+            Object
+                .FindObjectsOfType<NumberOption>().First(o => "CrewmateVision".Equals(o.name))
+                .Increment = 0.125f;
+
+            Object
+                .FindObjectsOfType<NumberOption>().First(o => "ImpostorVision".Equals(o.name))
+                .Increment = 0.125f;
+
+            List<OptionBehaviour> defaultOptions = __instance.Children.ToList();
+            options.AddRange(defaultOptions);
 
             foreach (var option in CustomOption.AllOptions)
             {
