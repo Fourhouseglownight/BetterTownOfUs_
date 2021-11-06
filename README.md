@@ -21,6 +21,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
       <ul> <li>Option "Reactor vents are connected to buildings"/"Reactor vents are connected to buildings" option. </li> </ul>
       <ul> <li>Option "New Tasks Positions"/"New Tasks Positions" option. </li> </ul>
     </details>
+  </li> </ul>
   <ul> <li>Options "Impostors Don't Know Their Team" et "Impostors Can Win Solo"/"Impostors Don't Know Their Team" and "Impostors Can Win Solo" options. </li> </ul>
   <ul> <li>Rôle Imposteur "Lycan"/"Lycan" Imposotor Role. </li> </ul>
   <ul> <li>Option "Can't report voted Lover"/"Can't report voted Lover" option. </li> </ul>
@@ -65,11 +66,11 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 | <center> Among Us - Version </center> | <center> Town of Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|---------------|
-| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.5.0 </center> | <center> v1.1.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.0) </center> |
-| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.2.1 </center> | <center> v1.0.3 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.3) </center> |
-| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.2.1 </center> | <center> v1.0.2 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.2) </center> |
-| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.2.1 </center> | <center> v1.0.1 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.1) </center> |
-| <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.2.1 </center> | <center> v1.0.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.0) </center> |
+| 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.5.0 | v1.1.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.0) |
+| 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.2.1 | v1.0.3 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.3) |
+| 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.2.1 | v1.0.2 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.2) |
+| 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.2.1 | v1.0.1 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.1) |
+| 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.2.1 | v1.0.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.0) |
 
 </center>
 
