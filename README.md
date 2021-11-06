@@ -3,7 +3,7 @@
 [![Release Version](https://img.shields.io/github/v/release/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Release Date](https://img.shields.io/github/release-date/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Total Downloads](https://img.shields.io/github/downloads/VincentVision/BetterTownOfUs/total?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)   
-[![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/1.0.3/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.3)
+[![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/1.1.0/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.0)
 [![Open Issues](https://img.shields.io/github/issues-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)
 [![Closed Issues](https://img.shields.io/github/issues-closed-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)  
 [![Discord](https://img.shields.io/discord/867814078332534815?color=7289DA&label=%20&logo=discord&logoColor=ffffff&style=plastic)](https://discord.gg/XSCnBzkneK)
