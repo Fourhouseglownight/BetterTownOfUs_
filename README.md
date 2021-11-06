@@ -3,6 +3,7 @@
 [![Release Version](https://img.shields.io/github/v/release/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Release Date](https://img.shields.io/github/release-date/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Total Downloads](https://img.shields.io/github/downloads/VincentVision/BetterTownOfUs/total?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)   
+[![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/1.0.3/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.3)
 [![Open Issues](https://img.shields.io/github/issues-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)
 [![Closed Issues](https://img.shields.io/github/issues-closed-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)  
 [![Discord](https://img.shields.io/discord/867814078332534815?color=7289DA&label=%20&logo=discord&logoColor=ffffff&style=plastic)](https://discord.gg/XSCnBzkneK)
@@ -14,7 +15,7 @@ Imaginé par la communauté **[Discord francophone de Town of Us](https://discor
 Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBzkneK)** community, this Among Us mod modifies **__[Town of Us](https://github.com/Anusien/Town-Of-Us)__** by adding lots of options to improve it.  
 <details>
   <summary>Ce que ce mod ajoute (cliques sur la flèche pour dérouler)./What this mod adds (click on the arrow to expand).</summary>
-  <ul> <li>Options "Better Polus"/"Better Polus" options. </li> </ul>
+  <ul> <li>Options "Better Polus"/"Better Polus" options.
     <details>
       <ul> <li>Option "Vitals in Laboratory"/"Vitals in Laboratory" option. </li> </ul>
       <ul> <li>Option "Reactor vents are connected to buildings"/"Reactor vents are connected to buildings" option. </li> </ul>
@@ -63,7 +64,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 <center>
 
 | <center> Among Us - Version </center> | <center> Town of Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
-|----------------|---------------|---------------|
+|----------------|---------------|---------------|---------------|
 | <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.5.0 </center> | <center> v1.1.0 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.0) </center> |
 | <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.2.1 </center> | <center> v1.0.3 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.3) </center> |
 | <center> 2021.6.30s & 2021.6.30e & 2021.7.20e </center> | <center> 2.2.1 </center> | <center> v1.0.2 </center> | <center> [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.2) </center> |
