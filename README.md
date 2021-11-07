@@ -3,7 +3,7 @@
 [![Release Version](https://img.shields.io/github/v/release/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Release Date](https://img.shields.io/github/release-date/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Total Downloads](https://img.shields.io/github/downloads/VincentVision/BetterTownOfUs/total?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)   
-[![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/1.1.0/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.0)
+[![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/1.1.1/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.1)
 [![Open Issues](https://img.shields.io/github/issues-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)
 [![Closed Issues](https://img.shields.io/github/issues-closed-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)  
 [![Discord](https://img.shields.io/discord/867814078332534815?color=7289DA&label=%20&logo=discord&logoColor=ffffff&style=plastic)](https://discord.gg/XSCnBzkneK)
@@ -42,6 +42,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
       <ul> <li>Option "Max Fixes Per Round"/"Number of Fixes Per Round" option. </li> </ul>
       <ul> <li>Option "Max Fixes Per Game"/"Number of Fixes Per Game" option. </li> </ul>
     </details>
+  </li> </ul>
 </details>  
 
 ## Sommaire/Summary  
@@ -67,6 +68,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 | <center> Among Us - Version </center> | <center> Town of Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|---------------|
+| 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.5.0 | v1.1.1 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.1) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.5.0 | v1.1.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.0) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.2.1 | v1.0.3 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.3) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.2.1 | v1.0.2 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.0.2) |

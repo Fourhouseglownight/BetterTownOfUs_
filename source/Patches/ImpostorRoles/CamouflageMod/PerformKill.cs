@@ -13,12 +13,12 @@ namespace BetterTownOfUs.ImpostorRoles.CamouflageMod
             if (!flag) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
+            if (!__instance.isActiveAndEnabled) return false;
+            if (__instance.isCoolingDown) return false;
             var role = Role.GetRole<Camouflager>(PlayerControl.LocalPlayer);
             var target = DestroyableSingleton<HudManager>.Instance.KillButton.CurrentTarget;
             if (__instance == role.CamouflageButton)
             {
-                if (__instance.isCoolingDown) return false;
-                if (!__instance.isActiveAndEnabled) return false;
                 if (role.CamouflageTimer() != 0) return false;
 
                 var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,

@@ -16,6 +16,8 @@ namespace BetterTownOfUs.ImpostorRoles.TeleporterMod
             if (
                 !PlayerControl.LocalPlayer.CanMove
                 || PlayerControl.LocalPlayer.Data.IsDead
+                || !__instance.isActiveAndEnabled
+                || __instance.isCoolingDown
             )
             {
                 return false;
@@ -31,9 +33,7 @@ namespace BetterTownOfUs.ImpostorRoles.TeleporterMod
             }
 
             if (
-                __instance.isCoolingDown
-                || !__instance.isActiveAndEnabled
-                || role.TeleportTimer() > 0
+                role.TeleportTimer() > 0
                 || Utils.IsSabotageActive()
             )
             {

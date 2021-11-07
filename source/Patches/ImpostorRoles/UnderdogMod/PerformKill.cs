@@ -11,6 +11,8 @@ namespace BetterTownOfUs.ImpostorRoles.UnderdogMod
         {
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Underdog);
             if (!flag) return true;
+            if (!__instance.isActiveAndEnabled) return false;
+            if (__instance.isCoolingDown) return false;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Underdog>(PlayerControl.LocalPlayer); 

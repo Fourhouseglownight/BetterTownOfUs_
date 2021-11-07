@@ -15,6 +15,7 @@ namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
                 !PlayerControl.LocalPlayer.Is(RoleEnum.Concealer)
                 || !PlayerControl.LocalPlayer.CanMove
                 || PlayerControl.LocalPlayer.Data.IsDead
+                || __instance.isCoolingDown
                 )
             {
                 return false;
@@ -30,8 +31,7 @@ namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
             }
 
             if (
-                __instance.isCoolingDown
-                || !__instance.isActiveAndEnabled
+                !__instance.isActiveAndEnabled
                 || role.ConcealTimer() != 0
                 || role.Target == null
             )

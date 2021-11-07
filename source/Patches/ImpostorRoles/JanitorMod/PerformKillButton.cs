@@ -17,12 +17,12 @@ namespace BetterTownOfUs.ImpostorRoles.JanitorMod
             if (!flag) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
+            if (!__instance.isActiveAndEnabled) return false;
+            if (__instance.isCoolingDown) return false;
             var role = Role.GetRole<Janitor>(PlayerControl.LocalPlayer);
 
             if (__instance == role.CleanButton)
             {
-                var flag2 = __instance.isCoolingDown;
-                if (flag2) return false;
                 if (!__instance.enabled) return false;
                 var maxDistance = GameOptionsData.KillDistances[PlayerControl.GameOptions.KillDistance];
                 if (Vector2.Distance(role.CurrentTarget.TruePosition,

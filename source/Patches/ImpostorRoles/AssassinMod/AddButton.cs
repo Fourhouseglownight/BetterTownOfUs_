@@ -2,6 +2,7 @@
 using HarmonyLib;
 using Reactor;
 using Reactor.Extensions;
+using Hazel;
 using TMPro;
 using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
@@ -130,12 +131,14 @@ namespace BetterTownOfUs.ImpostorRoles.AssassinMod
                 if (toDie == role.Player && role.MissKill)
                 {
                     role.MissKill = false;
-                    if (PlayerControl.LocalPlayer.Is(RoleEnum.Assassin))
-                        Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                    AssassinKill.RpcMissKill(playerRole.Player);
+                    /*var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte) CustomRPC.MissKill, SendOption.Reliable, -1);
+                    writer.Write(playerRole.Player.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
                     if (CustomGameOptions.MissKillNotif == 1 && PlayerControl.LocalPlayer == playerRole.Player)
                         Coroutines.Start(Utils.FlashCoroutine(Color.red));
                     if (CustomGameOptions.MissKillNotif == 0 && !PlayerControl.LocalPlayer.Is(RoleEnum.Assassin))
-                        Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                        Coroutines.Start(Utils.FlashCoroutine(Color.red));*/
                 }
                 else
                 {
@@ -147,12 +150,6 @@ namespace BetterTownOfUs.ImpostorRoles.AssassinMod
                         var lover = ((Lover)playerRole).OtherLover.Player;
                         ShowHideButtons.HideSingle(role, lover.PlayerId, false);
                     }
-                }
-                
-                if (toDie.isLover() && CustomGameOptions.BothLoversDie)
-                {
-                    var lover = ((Lover)playerRole).OtherLover.Player;
-                    ShowHideButtons.HideSingle(role, lover.PlayerId, false);
                 }
             }
 

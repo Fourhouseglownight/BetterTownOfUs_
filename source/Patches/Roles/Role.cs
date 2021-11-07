@@ -578,24 +578,6 @@ namespace BetterTownOfUs.Roles
                         .FirstOrDefault(x => x.PlayerId == playerState.TargetPlayerId);
                     var localPlayer = PlayerControl.LocalPlayer;
                     var role = GetRole(playerState);
-                    var f = localPlayer.Data.IsImpostor && player != null && player.Data.IsImpostor && CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles;
-
-                    if (!localPlayer.Data.IsDead && localPlayer != player)
-                    {
-                        if (role != null && f)
-                        {
-                            playerState.NameText.color = Color.white;
-                            playerState.NameText.text = playerState.name;
-                        }
-
-                        if (localPlayer.Is(RoleEnum.Medic) && player != null && GetColorType(player) == "darker")
-                        {
-                            if (GetColorType(player) == "darker")
-                            { 
-                                playerState.NameText.color = Color.black;
-                            }
-                        }
-                    }
 
                     if (role != null && role.Criteria())
                     {
@@ -630,6 +612,16 @@ namespace BetterTownOfUs.Roles
                         try
                         {
                             playerState.NameText.text = role.Player.name;
+                            if (!localPlayer.Data.IsDead && localPlayer != player && player != null && player.Data != null)
+                            {
+                                if (CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles && localPlayer.Data.IsImpostor && player.Data.IsImpostor)
+                                {
+                                    playerState.NameText.color = Color.white;
+                                    playerState.NameText.text = playerState.name;
+                                }
+
+                                if (localPlayer.Is(RoleEnum.Medic) && GetColorType(player) == "darker" && __instance.state != MeetingHud.VoteStates.Proceeding && __instance.state != MeetingHud.VoteStates.Results) playerState.NameText.color = Color.black;
+                            }
                         }
                         catch
                         {
@@ -649,20 +641,19 @@ namespace BetterTownOfUs.Roles
 
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
-                    var f = PlayerControl.LocalPlayer != player && player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor && CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles && !PlayerControl.LocalPlayer.Data.IsDead && !player.Data.Disconnected && !PlayerControl.LocalPlayer.Data.Disconnected;
+                    var flag = CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles && !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Data.IsImpostor && PlayerControl.LocalPlayer != player && player.Data.IsImpostor;
 
-                    if (player.Data != null && (!(player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor) || f))
+                    if (player.Data != null && (!(player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor) || flag))
                     {
                         player.nameText.text = player.name;
                         player.nameText.color = Color.white;
                         foreach (var bubble in HudManager.Instance.Chat.chatBubPool.activeChildren)
-                            if (player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor)
-                                bubble.Cast<ChatBubble>().NameText.color = Color.white;
+                            if (flag) bubble.Cast<ChatBubble>().NameText.color = Color.white;
                     }
 
                     var role = GetRole(player);
                     if (role != null)
-                        if (role.Criteria() && !f)
+                        if (role.Criteria() && !flag)
                         {
                             player.nameText.color = role.Color;
                             player.nameText.text = role.NameText();

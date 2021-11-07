@@ -16,7 +16,7 @@ namespace BetterTownOfUs
                 spriteObject = new GameObject("VotezVertSprite");
                 spriteObject.AddComponent<SpriteRenderer>().sprite = BetterTownOfUs.VotezVertSprite;
                 spriteObject.transform.parent = __instance.transform;
-                spriteObject.transform.localPosition = new Vector3(-1.1f, -0.7f, 1);
+                spriteObject.transform.localPosition = new Vector3(-1.1f, -0.7f, -1);
                 spriteObject.transform.localScale *= 0.72f;
             }
         }
@@ -31,7 +31,7 @@ namespace BetterTownOfUs
 
             __instance.text.fontSize = 2.5f;
             __instance.text.text =
-                $"<color=#018001FF>BetterTownOfUs {BetterTownOfUs.GetVersion()}</color>\n" +
+                $"<color=#018001FF>BetterTownOfUs {BetterTownOfUs.Version}</color>\n" +
                 "Disponible sur/Available on :\n" +
                 "<color=#3769feFF>VisionUniverse.fr</color>\n" +
                 $"Ping: {AmongUsClient.Instance.Ping}ms\n" +

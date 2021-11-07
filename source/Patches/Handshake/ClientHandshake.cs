@@ -29,7 +29,7 @@ namespace BetterTownOfUs.Handshake
                 messageWriter.WritePacked(__instance.HostId);
                 messageWriter.StartMessage(BTOU_ROOT_HANDSHAKE_TAG);
                 messageWriter.Write(AmongUsClient.Instance.ClientId);
-                messageWriter.Write(BetterTownOfUs.GetVersion());
+                messageWriter.Write(BetterTownOfUs.Version);
                 messageWriter.EndMessage();
                 messageWriter.EndMessage();
                 __instance.SendOrDisconnect(messageWriter);
@@ -58,9 +58,9 @@ namespace BetterTownOfUs.Handshake
                         PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Adding {clientId} with BTOU version {btouVersion} to List<int>HandshakedClients");
                         HandshakedClients.Add(clientId);
 
-                        if (!BetterTownOfUs.GetVersion().Equals(btouVersion))
+                        if (!BetterTownOfUs.Version.Equals(btouVersion))
                         {
-                            PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - ClientId {clientId} has mismatched BTOU version {btouVersion}. (Ours is {BetterTownOfUs.GetVersion()})");
+                            PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - ClientId {clientId} has mismatched BTOU version {btouVersion}. (Ours is {BetterTownOfUs.Version})");
                             __instance.SendCustomDisconnect(clientId);
                         }
 
@@ -113,7 +113,7 @@ namespace BetterTownOfUs.Handshake
             messageWriter.WritePacked(clientId);
             messageWriter.Write(false);
             messageWriter.Write(8);
-            messageWriter.Write($"The host has a different version of Better Town Of Us ({BetterTownOfUs.GetVersion()})");
+            messageWriter.Write($"The host has a different version of Better Town Of Us ({BetterTownOfUs.Version})");
             messageWriter.EndMessage();
             innerNetClient.SendOrDisconnect(messageWriter);
             messageWriter.Recycle();

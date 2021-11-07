@@ -13,17 +13,17 @@ namespace BetterTownOfUs.ImpostorRoles.UndertakerMod
     {
         public static bool Prefix(KillButtonManager __instance)
         {
-            var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Undertaker);
-            if (!flag) return true;
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Undertaker)) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
+            if (!__instance.isActiveAndEnabled) return false;
+            if (__instance.isCoolingDown) return false;
             var role = Role.GetRole<Undertaker>(PlayerControl.LocalPlayer);
 
             if (__instance == role.DragDropButton)
             {
                 if (role.DragDropButton.renderer.sprite == BetterTownOfUs.DragSprite)
                 {
-                    if (__instance.isCoolingDown) return false;
                     if (!__instance.enabled) return false;
                     var maxDistance = GameOptionsData.KillDistances[PlayerControl.GameOptions.KillDistance];
                     if (Vector2.Distance(role.CurrentTarget.TruePosition,

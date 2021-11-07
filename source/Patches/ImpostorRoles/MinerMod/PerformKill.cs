@@ -19,11 +19,11 @@ namespace BetterTownOfUs.ImpostorRoles.MinerMod
             if (!flag) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
+            if (!__instance.isActiveAndEnabled) return false;
+            if (__instance.isCoolingDown) return false;
             var role = Role.GetRole<Miner>(PlayerControl.LocalPlayer);
             if (__instance == role.MineButton)
             {
-                if (__instance.isCoolingDown) return false;
-                if (!__instance.isActiveAndEnabled) return false;
                 if (!role.CanPlace) return false;
                 if (role.MineTimer() != 0) return false;
 

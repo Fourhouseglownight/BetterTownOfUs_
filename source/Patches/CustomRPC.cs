@@ -85,6 +85,7 @@ namespace BetterTownOfUs
         Drag,
         Drop,
         AssassinKill,
+        MissKill,
         Teleport,
         Conceal,
 

@@ -13,12 +13,12 @@ namespace BetterTownOfUs.ImpostorRoles.LycanMod
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Lycan)) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
+            if (!__instance.isActiveAndEnabled) return false;
+            if (__instance.isCoolingDown) return false;
             role = Role.GetRole<Lycan>(PlayerControl.LocalPlayer);
 
             if (__instance == role.LycanButton)
             {
-                if (!__instance.isActiveAndEnabled) return false;
-                if (__instance.isCoolingDown) return false;
                 if (role.WolfTimer() != 0) return false;
                 var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte) CustomRPC.Wolf, SendOption.Reliable, -1);
                 writer.Write(PlayerControl.LocalPlayer.PlayerId);

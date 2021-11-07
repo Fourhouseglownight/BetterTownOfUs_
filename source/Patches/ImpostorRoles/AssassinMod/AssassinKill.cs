@@ -26,6 +26,32 @@ namespace BetterTownOfUs.ImpostorRoles.AssassinMod
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
+        public static void RpcMissKill(PlayerControl player)
+        {
+            PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
+                x => x.TargetPlayerId == player.PlayerId
+            );
+            RpcMissKill(voteArea, player);
+        }
+        public static void RpcMissKill(PlayerVoteArea voteArea, PlayerControl player)
+        {
+            Coroutines.Start(Utils.FlashCoroutine(Color.red));
+            if (CustomGameOptions.MissKillNotif == 2) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                (byte)CustomRPC.MissKill, SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
+        public static void MissKillNotif(PlayerControl player)
+        {
+            if (CustomGameOptions.MissKillNotif == 1)
+            {
+                if (player.AmOwner) Coroutines.Start(Utils.FlashCoroutine(Color.red));
+            }
+            else Coroutines.Start(Utils.FlashCoroutine(Color.red));
+        }
+
         public static void MurderPlayer(PlayerControl player, bool checkLover = true)
         {
             PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(

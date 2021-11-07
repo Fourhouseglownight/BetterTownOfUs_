@@ -452,6 +452,10 @@ namespace BetterTownOfUs
                         var toDie = Utils.PlayerById(reader.ReadByte());
                         AssassinKill.MurderPlayer(toDie);
                         break;
+                    case CustomRPC.MissKill:
+                        var missTarget = Utils.PlayerById(reader.ReadByte());
+                        AssassinKill.MissKillNotif(missTarget);
+                        break;
                     case CustomRPC.Teleport:
                         byte teleports = reader.ReadByte();
                         Dictionary<byte, Vector2> coordinates = new Dictionary<byte, Vector2>();

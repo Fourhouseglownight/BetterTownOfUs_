@@ -40,6 +40,7 @@ namespace BetterTownOfUs.Roles
             Faction = Faction.Impostors;
 
             RemainingKills = CustomGameOptions.AssassinKills;
+            MissKill = CustomGameOptions.MissKill;
 
             if (CustomGameOptions.AssassinGuessNeutrals)
             {
