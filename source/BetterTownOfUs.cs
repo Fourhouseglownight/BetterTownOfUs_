@@ -23,7 +23,7 @@ namespace BetterTownOfUs
     [BepInDependency(ReactorPlugin.Id)]
     public class BetterTownOfUs : BasePlugin
     {
-        public const string Version = "1.1.1";
+        public const string Version = "1.1.2";
         private const string Id = "fr.vincentvision.bettertownofus";
         public static Sprite JanitorClean;
         public static Sprite LycanWolf;

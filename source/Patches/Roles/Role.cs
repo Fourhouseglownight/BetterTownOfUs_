@@ -583,45 +583,23 @@ namespace BetterTownOfUs.Roles
                     {
                         playerState.NameText.color = role.Color;
                         playerState.NameText.text = role.NameText(playerState);
-                        // if (player.NameText.text.Contains("\n"))
-                        // {
-                        //     var newScale = Vector3.one * 1.8f;
-                        //
-                        //     // TODO: scale
-                        //     var trueScale = player.NameText.transform.localScale / 2;
-                        //
-                        //
-                        //     if (trueScale != newScale) oldScale = trueScale;
-                        //     var newPosition = new Vector3(1.43f, 0.055f, 0f);
-                        //
-                        //     var truePosition = player.NameText.transform.localPosition;
-                        //
-                        //     if (newPosition != truePosition) oldPosition = truePosition;
-                        //
-                        //     player.NameText.transform.localPosition = newPosition;
-                        //     player.NameText.transform.localScale = newScale;
-                        // }
-                        // else
-                        // {
-                        // if (oldPosition != Vector3.zero) player.NameText.transform.localPosition = oldPosition;
-                        // if (oldScale != Vector3.zero) player.NameText.transform.localScale = oldScale;
-                        // }
                     }
                     else
                     {
+                        if (!localPlayer.Data.IsDead && localPlayer != player && player != null && player.Data != null)
+                        {
+                            if (CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles && localPlayer.Data.IsImpostor && player.Data.IsImpostor)
+                            {
+                                playerState.NameText.color = Color.white;
+                                playerState.NameText.text = playerState.name;
+                            }
+
+                            if (localPlayer.Is(RoleEnum.Medic) && GetColorType(player) == "darker" && __instance.state != MeetingHud.VoteStates.Proceeding && __instance.state != MeetingHud.VoteStates.Results) playerState.NameText.color = Color.black;
+                        }
+                                
                         try
                         {
                             playerState.NameText.text = role.Player.name;
-                            if (!localPlayer.Data.IsDead && localPlayer != player && player != null && player.Data != null)
-                            {
-                                if (CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles && localPlayer.Data.IsImpostor && player.Data.IsImpostor)
-                                {
-                                    playerState.NameText.color = Color.white;
-                                    playerState.NameText.text = playerState.name;
-                                }
-
-                                if (localPlayer.Is(RoleEnum.Medic) && GetColorType(player) == "darker" && __instance.state != MeetingHud.VoteStates.Proceeding && __instance.state != MeetingHud.VoteStates.Results) playerState.NameText.color = Color.black;
-                            }
                         }
                         catch
                         {
