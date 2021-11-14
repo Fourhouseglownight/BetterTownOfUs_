@@ -73,7 +73,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 | <center> Among Us - Version </center> | <center> Town of Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|---------------|
-| 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.5.0 | v1.2.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.0) |
+| 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.6.2 | v1.2.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.0) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.5.0 | v1.1.2 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.2) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.5.0 | v1.1.1 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.1) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.5.0 | v1.1.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.0) |
