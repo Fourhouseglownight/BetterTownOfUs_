@@ -12,6 +12,8 @@ namespace BetterTownOfUs
         Investigator,
         TimeLord,
         Shifter,
+        Parasite,
+        Cannibal,
         Medic,
         Seer,
         Executioner,
@@ -21,6 +23,7 @@ namespace BetterTownOfUs
         Altruist,
         Phantom,
         Prophet,
+        Covert,
 
         Miner,
         Swooper,

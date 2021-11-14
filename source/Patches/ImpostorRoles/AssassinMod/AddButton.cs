@@ -25,8 +25,7 @@ namespace BetterTownOfUs.ImpostorRoles.AssassinMod
             if (
                 player == null ||
                 (player.Data.IsImpostor &&
-                !(CustomGameOptions.AnonImp &&
-                !CustomGameOptions.ImpostorSeeRoles)) ||
+                CustomGameOptions.ImpostorsKnowTeam <= 1) ||
                 player.Data.IsDead ||
                 player.Data.Disconnected
             ) return true;

@@ -19,7 +19,8 @@ namespace BetterTownOfUs.Roles
 
         protected override void DoOnGameStart()
         {
-            LastKilled = DateTime.UtcNow;
+            LastKilled = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialSheriffKillCd +
+                                                                    CustomGameOptions.SheriffKillCd * -1);;
         }
 
         protected override void DoOnMeetingEnd()

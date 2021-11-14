@@ -6,7 +6,6 @@ namespace BetterTownOfUs.Roles
 {
     public class Swooper : Role
     {
-        public PlayerControl ClosestPlayer;
         public KillButtonManager _swoopButton;
         public bool Enabled;
         public DateTime LastSwooped;

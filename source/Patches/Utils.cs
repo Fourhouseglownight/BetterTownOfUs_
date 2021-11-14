@@ -11,6 +11,7 @@ using BetterTownOfUs.Extensions;
 using BetterTownOfUs.ImpostorRoles.CamouflageMod;
 using BetterTownOfUs.Roles;
 using BetterTownOfUs.Roles.Modifiers;
+using BetterTownOfUs.NeutralRoles.ParasiteMod;
 using UnhollowerBaseLib;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -301,6 +302,8 @@ namespace BetterTownOfUs
             foreach (var player in AllPlayers)
             {
                 if (player.Data.IsDead || player.PlayerId == refPlayer.PlayerId || !player.Collider.enabled) continue;
+                if (CustomGameOptions.LoverKill && refPlayer.isLover() && player.isLover()) continue;
+                if (CustomGameOptions.KillVent && player.inVent) continue;
                 var playerPosition = player.GetTruePosition();
                 var distBetweenPlayers = Vector2.Distance(refPosition, playerPosition);
                 var isClosest = distBetweenPlayers < num;
@@ -397,6 +400,12 @@ namespace BetterTownOfUs
 
         public static void MurderPlayer(PlayerControl killer, PlayerControl target)
         {
+            if (target != killer && ParasiteShift.Parasitized == null && target.Is(RoleEnum.Parasite) && !killer.Is(RoleEnum.Sheriff))
+            {
+                ParasiteShift.Parasitize(target, killer);
+                return;
+            }
+
             var data = target.Data;
             if (data != null && !data.IsDead)
             {

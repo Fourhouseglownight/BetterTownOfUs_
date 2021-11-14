@@ -20,7 +20,6 @@ namespace BetterTownOfUs.Roles
         }
 
         public DateTime LastWolfed;
-        public PlayerControl ClosestPlayer;
         public float TimeRemaining;
         public bool Wolfed { get; set; }
         public KillButtonManager _lycanButton;

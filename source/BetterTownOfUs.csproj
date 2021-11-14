@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Time>$([System.DateTime]::Now.ToString("yyyyMMddHmm"))</Time>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
-    <Version>1.1.0</Version>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <Version>1.2.0</Version>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
   

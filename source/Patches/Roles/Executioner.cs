@@ -1,4 +1,3 @@
-using Il2CppSystem.Collections.Generic;
 using UnityEngine;
 
 namespace BetterTownOfUs.Roles
@@ -25,7 +24,7 @@ namespace BetterTownOfUs.Roles
 
         protected override void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)
         {
-            var executionerteam = new List<PlayerControl>();
+            var executionerteam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
             executionerteam.Add(PlayerControl.LocalPlayer);
             __instance.yourTeam = executionerteam;
         }

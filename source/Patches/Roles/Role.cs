@@ -107,7 +107,7 @@ namespace BetterTownOfUs.Roles
                 -0.5f
             );
             if (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles) return Utils.ShowDeadBodies;
-            if (Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor && CustomGameOptions.ImpostorSeeRoles && !CustomGameOptions.AnonImp && !CustomGameOptions.ImpSoloWin) return true;
+            if (CustomGameOptions.ImpostorsKnowTeam == 0 && Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor) return true;
             return GetRole(PlayerControl.LocalPlayer) == this;
         }
 
@@ -330,7 +330,7 @@ namespace BetterTownOfUs.Roles
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
 
-                    if (PlayerControl.LocalPlayer.Data.IsImpostor && CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles)
+                    if (PlayerControl.LocalPlayer.Data.IsImpostor && CustomGameOptions.ImpostorsKnowTeam >= 2)
                     {
                         var team = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                         team.Add(PlayerControl.LocalPlayer);
@@ -588,7 +588,7 @@ namespace BetterTownOfUs.Roles
                     {
                         if (!localPlayer.Data.IsDead && localPlayer != player && player != null && player.Data != null)
                         {
-                            if (CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles && localPlayer.Data.IsImpostor && player.Data.IsImpostor)
+                            if (CustomGameOptions.ImpostorsKnowTeam >= 2 && localPlayer.Data.IsImpostor && player.Data.IsImpostor)
                             {
                                 playerState.NameText.color = Color.white;
                                 playerState.NameText.text = playerState.name;
@@ -619,7 +619,7 @@ namespace BetterTownOfUs.Roles
 
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
-                    var flag = CustomGameOptions.AnonImp && !CustomGameOptions.ImpostorSeeRoles && !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Data.IsImpostor && PlayerControl.LocalPlayer != player && player.Data.IsImpostor;
+                    var flag = CustomGameOptions.ImpostorsKnowTeam >= 2 && !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Data.IsImpostor && PlayerControl.LocalPlayer != player && player.Data.IsImpostor;
 
                     if (player.Data != null && (!(player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor) || flag))
                     {

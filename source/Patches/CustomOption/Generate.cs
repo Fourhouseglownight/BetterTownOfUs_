@@ -13,6 +13,7 @@ namespace BetterTownOfUs.CustomOption
         public static CustomToggleOption SwitchTask;
         public static CustomToggleOption PolusVents;
         public static CustomToggleOption SGAfterVote;
+        public static CustomToggleOption KillVent;
         private static CustomHeaderOption CrewmateRoles; 
         public static CustomNumberOption MayorOn;
         public static CustomNumberOption LoversOn;
@@ -27,16 +28,17 @@ namespace BetterTownOfUs.CustomOption
         public static CustomNumberOption SnitchOn;
         public static CustomNumberOption AltruistOn;
         public static CustomNumberOption ProphetOn;
-
+        public static CustomNumberOption CovertOn;
 
         private static CustomHeaderOption NeutralRoles;
         public static CustomNumberOption JesterOn;
         public static CustomNumberOption ShifterOn;
+        public static CustomNumberOption ParasiteOn;
         public static CustomNumberOption GlitchOn;
         public static CustomNumberOption ExecutionerOn;
         public static CustomNumberOption ArsonistOn;
+        public static CustomNumberOption CannibalOn;
         public static CustomNumberOption PhantomOn;
-
 
         private static CustomHeaderOption ImpostorRoles;
         public static CustomNumberOption JanitorOn;
@@ -60,14 +62,11 @@ namespace BetterTownOfUs.CustomOption
         public static CustomNumberOption BigBoiOn;
         public static CustomNumberOption ButtonBarryOn;
 
-
         private static CustomHeaderOption CustomGameSettings;
         public static CustomNumberOption InitialImpostorKillCooldown;
         public static CustomToggleOption ColourblindComms;
         public static CustomToggleOption MeetingColourblind;
-        public static CustomToggleOption ImpostorSeeRoles;
-        public static CustomToggleOption AnonImp;
-        public static CustomToggleOption ImpSoloWin;
+        public static CustomStringOption ImpostorsKnowTeam;
         public static CustomToggleOption DeadSeeRoles;
         public static CustomNumberOption MaxImpostorRoles;
         public static CustomNumberOption MaxNeutralRoles;
@@ -79,8 +78,9 @@ namespace BetterTownOfUs.CustomOption
         public static CustomToggleOption MayorAnonymous;
 
         private static CustomHeaderOption Lovers;
-        public static CustomToggleOption BothLoversDie;
         public static CustomNumberOption LovingImpostorOn;
+        public static CustomToggleOption BothLoversDie;
+        public static CustomToggleOption LoverKill;
         public static CustomToggleOption LoverVoted;
 
         private static CustomHeaderOption Sheriff;
@@ -88,9 +88,12 @@ namespace BetterTownOfUs.CustomOption
         public static CustomToggleOption SheriffKillOther;
         public static CustomToggleOption SheriffKillsJester;
         public static CustomToggleOption SheriffKillsShifter;
+        public static CustomToggleOption SheriffKillsParasite;
         public static CustomToggleOption SheriffKillsGlitch;
         public static CustomToggleOption SheriffKillsExecutioner;
         public static CustomToggleOption SheriffKillsArsonist;
+        public static CustomToggleOption SheriffKillsCannibal;
+        public static CustomNumberOption InitialSheriffKillCd;
         public static CustomNumberOption SheriffKillCd;
         public static CustomToggleOption SheriffBodyReport;
 
@@ -147,6 +150,10 @@ namespace BetterTownOfUs.CustomOption
         private static CustomHeaderOption Prophet;
         public static CustomNumberOption ProphetCooldown;
         public static CustomToggleOption ProphetInitialReveal;
+
+        private static CustomHeaderOption Covert;
+        public static CustomNumberOption CovertCooldown;
+        public static CustomNumberOption CovertDuration;
         
         public static CustomHeaderOption Jester;
         public static CustomToggleOption JesterVent;
@@ -166,7 +173,6 @@ namespace BetterTownOfUs.CustomOption
 
         private static CustomHeaderOption Executioner;
         public static CustomStringOption OnTargetDead;
-
 
         private static CustomHeaderOption Camouflager;
         public static CustomNumberOption CamouflagerCooldown;
@@ -232,9 +238,9 @@ namespace BetterTownOfUs.CustomOption
                 PercentFormat);
             SwapperOn = new CustomNumberOption(true, num++, "<color=#66E666FF>Swapper</color>", 50f, 0f, 100f, 10f,
                 PercentFormat);
-            InvestigatorOn = new CustomNumberOption(true, num++, "<color=#00B3B3FF>Investigator</color>", 10f, 0f, 100f,
+            InvestigatorOn = new CustomNumberOption(true, num++, "<color=#00B3B3FF>Investigator</color>", 0f, 0f, 100f,
                 10f, PercentFormat);
-            TimeLordOn = new CustomNumberOption(true, num++, "<color=#0000FFFF>Time Lord</color>", 40f, 0f, 100f, 10f,
+            TimeLordOn = new CustomNumberOption(true, num++, "<color=#0000FFFF>Time Lord</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             MedicOn = new CustomNumberOption(true, num++, "<color=#006600FF>Medic</color>", 100f, 0f, 100f, 10f,
                 PercentFormat);
@@ -248,6 +254,8 @@ namespace BetterTownOfUs.CustomOption
                 PercentFormat);
             ProphetOn = new CustomNumberOption(true, num++, "<color=#B026FF>Prophet</color>", 20f, 0f, 100f, 10f,
                 PercentFormat);
+            CovertOn = new CustomNumberOption(true, num++, "<color=#7B7F1A>Covert</color>", 20f, 0f, 100f, 10f,
+                PercentFormat);
 
 
             NeutralRoles = new CustomHeaderOption(num++, "Neutral Roles");
@@ -255,11 +263,15 @@ namespace BetterTownOfUs.CustomOption
                 PercentFormat);
             ShifterOn = new CustomNumberOption(true, num++, "<color=#999999FF>Shifter</color>", 40f, 0f, 100f, 10f,
                 PercentFormat);
+            ParasiteOn = new CustomNumberOption(true, num++, "<color=#473204FF>Parasite</color>", 40f, 0f, 100f, 10f,
+                PercentFormat);
             GlitchOn = new CustomNumberOption(true, num++, "<color=#00FF00FF>The Glitch</color>", 70f, 0f, 100f, 10f,
                 PercentFormat);
             ExecutionerOn = new CustomNumberOption(true, num++, "<color=#8C4005FF>Executioner</color>", 10f, 0f, 100f,
                 10f, PercentFormat);
             ArsonistOn = new CustomNumberOption(true, num++, "<color=#FF4D00FF>Arsonist</color>", 40f, 0f, 100f, 10f,
+                PercentFormat);
+            CannibalOn = new CustomNumberOption(true, num++, "<color=#1e300bFF>Cannibal</color>", 40f, 0f, 100f, 10f,
                 PercentFormat);
             PhantomOn = new CustomNumberOption(true, num++, "<color=#662962>Phantom</color>", 100f, 0f, 100f, 10f,
                 PercentFormat);
@@ -321,10 +333,10 @@ namespace BetterTownOfUs.CustomOption
                 2.5f, CooldownFormat);
             ColourblindComms = new CustomToggleOption(num++, "Camouflaged Comms", true);
             MeetingColourblind = new CustomToggleOption(num++, "Camouflaged Meetings", false);
-            SGAfterVote = new CustomToggleOption(num++, "Swapper & Assassin can swap/guess after vote", true);
-            ImpostorSeeRoles = new CustomToggleOption(num++, "Impostors can see the roles of their team", true);
-            AnonImp = new CustomToggleOption(num++, "Impostors don't know their team", false);
-            ImpSoloWin = new CustomToggleOption(num++, "Impostors can win alone", false);
+            SGAfterVote = new CustomToggleOption(num++, "Swapper & Assassin can swap/guess after voting", true);
+            KillVent = new CustomToggleOption(num++, "Can't kill players in vent", true);
+            ImpostorsKnowTeam =
+                new CustomStringOption(num++, "Anon Imp", new[] {"Impostors know roles of their team", "Impostors don't know roles of their team", "Impostors don't know their team", "Impostors can win alone"});
             DeadSeeRoles =
                 new CustomToggleOption(num++, "Dead can see everyone's roles", true);
             MaxImpostorRoles =
@@ -347,9 +359,10 @@ namespace BetterTownOfUs.CustomOption
 
             Lovers =
                 new CustomHeaderOption(num++, "<color=#FF66CCFF>Lovers</color>");
-            BothLoversDie = new CustomToggleOption(num++, "Both Lovers Die");
-            LovingImpostorOn = new CustomNumberOption(num++, "Allow Loving Impostor",25f, 0f, 100f, 10f,
+            LovingImpostorOn = new CustomNumberOption(num++, "Allow Loving Impostor",50f, 0f, 100f, 10f,
                 PercentFormat);
+            BothLoversDie = new CustomToggleOption(num++, "Both Lovers Die", true);
+            LoverKill = new CustomToggleOption(num++, "Loving Impostor can't kill his Lover", true);
             LoverVoted =
                 new CustomToggleOption(num++, "Can't Report Voted Lover.", true);
 
@@ -362,12 +375,18 @@ namespace BetterTownOfUs.CustomOption
                 new CustomToggleOption(num++, "Sheriff Kills Jester", true);
             SheriffKillsShifter =
                 new CustomToggleOption(num++, "Sheriff Kills Shifter", true);
+            SheriffKillsParasite =
+                new CustomToggleOption(num++, "Sheriff Kills Parasite", true);
             SheriffKillsGlitch =
                 new CustomToggleOption(num++, "Sheriff Kills The Glitch", true);
             SheriffKillsExecutioner =
                 new CustomToggleOption(num++, "Sheriff Kills Executioner", true);
             SheriffKillsArsonist =
                 new CustomToggleOption(num++, "Sheriff Kills Arsonist", true);
+            SheriffKillsCannibal =
+                new CustomToggleOption(num++, "Sheriff Kills Cannibal", true);
+            InitialSheriffKillCd =
+                new CustomNumberOption(num++, "Initial Sheriff Kill Cooldown", 10f, 10f, 40f, 2.5f, CooldownFormat);
             SheriffKillCd =
                 new CustomNumberOption(num++, "Sheriff Kill Cooldown", 25f, 10f, 40f, 2.5f, CooldownFormat);
             SheriffBodyReport = new CustomToggleOption(num++, "Sheriff can report who they've killed", true);
@@ -379,9 +398,9 @@ namespace BetterTownOfUs.CustomOption
             IsEngineerCd = 
                 new CustomToggleOption(num++, "Engineer Have Cooldown", false);
             EngineerCd =
-                new CustomNumberOption(num++, "Engineer Cooldown", 32.5f, 32.5f, 90f, 2.5f, CooldownFormat); 
+                new CustomNumberOption(num++, "Engineer Cooldown", 40, 32.5f, 90f, 2.5f, CooldownFormat); 
             FixesPerRound =
-                new CustomNumberOption(num++, "Max fixes per round",  1, 1, 5, 1);
+                new CustomNumberOption(num++, "Max fixes per round",  2, 1, 5, 1);
             FixesNumber =
                 new CustomNumberOption(num++, "Max fixes per game",  3, 0, 30, 1);
 
@@ -453,6 +472,10 @@ namespace BetterTownOfUs.CustomOption
             ProphetCooldown = new CustomNumberOption(num++, "Prophet Cooldown", 40f, 10f, 120f, 2.5f, CooldownFormat);
             ProphetInitialReveal =
                 new CustomToggleOption(num++, "Prophet starts the game with a player revealed.", false);
+
+            Covert = new CustomHeaderOption(num++, "<color=#7B7F1A>Covert</color>");
+            CovertCooldown = new CustomNumberOption(num++, "Covert Cooldown", 30f, 10f, 120f, 2.5f, CooldownFormat);
+            CovertDuration = new CustomNumberOption(num++, "Covert Duration", 15f, 5f, 30f, 2.5f, CooldownFormat);
             #endregion
 
 
@@ -474,7 +497,7 @@ namespace BetterTownOfUs.CustomOption
             HackCooldownOption = new CustomNumberOption(num++, "Hack Cooldown", 30, 10, 120, 2.5f, CooldownFormat);
             HackDurationOption = new CustomNumberOption(num++, "Hack Duration", 10, 1, 30, 1f, CooldownFormat);
             GlitchKillCooldownOption =
-                new CustomNumberOption(num++, "Glitch Kill Cooldown", 30, 10, 120, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Glitch Kill Cooldown", 27.5f, 10, 120, 2.5f, CooldownFormat);
             InitialGlitchKillCooldownOption =
                 new CustomNumberOption(num++, "Initial Glitch Kill Cooldown", 10, 10, 120, 2.5f, CooldownFormat);
             GlitchHackDistanceOption =

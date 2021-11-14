@@ -79,6 +79,7 @@ namespace BetterTownOfUs
                     if (option.Name == "Better Polus" && !AllOptions) break;
                     if (option.Type == CustomOptionType.Button) continue;
                     if (option.Type == CustomOptionType.Header) builder.AppendLine($"\n{option.Name}");
+                    else if (option.Name == "Anon Imp") builder.AppendLine($"{option}\n");
                     else if (option.Indent) builder.AppendLine($"     {option.Name}: {option}");
                     else builder.AppendLine($"{option.Name}: {option}");
                 }
@@ -110,7 +111,7 @@ namespace BetterTownOfUs
         {
             public static void Postfix(ref GameOptionsMenu __instance)
             {
-                __instance.GetComponentInParent<Scroller>().YBounds.max = 90.2f;
+                __instance.GetComponentInParent<Scroller>().YBounds.max = 94.7f;
             }
         }
     }

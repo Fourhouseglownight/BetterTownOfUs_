@@ -9,7 +9,6 @@ namespace BetterTownOfUs.Roles
     {
         public readonly List<Vent> Vents = new List<Vent>();
 
-        public PlayerControl ClosestPlayer;
         public KillButtonManager _mineButton;
         public DateTime LastMined;
 

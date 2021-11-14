@@ -18,9 +18,10 @@ namespace BetterTownOfUs
                     if (!playerInfo.Disconnected && playerInfo.Tasks != null && playerInfo.Object &&
                         (PlayerControl.GameOptions.GhostsDoTasks || !playerInfo.IsDead) && !playerInfo.IsImpostor &&
                         !(
-                            playerInfo._object.Is(RoleEnum.Jester) || playerInfo._object.Is(RoleEnum.Shifter) ||
+                            playerInfo._object.Is(RoleEnum.Jester) || playerInfo._object.Is(RoleEnum.Shifter) || playerInfo._object.Is(RoleEnum.Parasite) ||
                             playerInfo._object.Is(RoleEnum.Glitch) || playerInfo._object.Is(RoleEnum.Executioner) ||
-                            playerInfo._object.Is(RoleEnum.Arsonist) || playerInfo._object.Is(RoleEnum.Phantom)
+                            playerInfo._object.Is(RoleEnum.Arsonist) ||
+                            playerInfo._object.Is(RoleEnum.Cannibal) || playerInfo._object.Is(RoleEnum.Phantom)
                         ))
                         for (var j = 0; j < playerInfo.Tasks.Count; j++)
                         {
@@ -43,8 +44,10 @@ namespace BetterTownOfUs
                 var flag = playerControl.Is(RoleEnum.Glitch)
                            || playerControl.Is(RoleEnum.Jester)
                            || playerControl.Is(RoleEnum.Shifter)
+                           || playerControl.Is(RoleEnum.Parasite)
                            || playerControl.Is(RoleEnum.Executioner)
-                           || playerControl.Is(RoleEnum.Arsonist);
+                           || playerControl.Is(RoleEnum.Arsonist)
+                           || playerControl.Is(RoleEnum.Cannibal);
 
                 // If the console is not a sabotage repair console
                 if (flag && !__instance.AllowImpostor)

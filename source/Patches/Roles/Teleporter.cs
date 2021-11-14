@@ -12,7 +12,6 @@ namespace BetterTownOfUs.Roles
 {
     public class Teleporter : Role
     {
-        public PlayerControl ClosestPlayer;
         private KillButtonManager _teleportButton;
         private DateTime _lastTeleported;
 

@@ -11,11 +11,14 @@ namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
     {
         public static bool Prefix(KillButtonManager __instance)
         {
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Concealer))
+            {
+                return true;
+            }
+
             if (
-                !PlayerControl.LocalPlayer.Is(RoleEnum.Concealer)
-                || !PlayerControl.LocalPlayer.CanMove
+                !PlayerControl.LocalPlayer.CanMove
                 || PlayerControl.LocalPlayer.Data.IsDead
-                || __instance.isCoolingDown
                 )
             {
                 return false;
@@ -24,9 +27,6 @@ namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
             Concealer role = Role.GetRole<Concealer>(PlayerControl.LocalPlayer);
             if (__instance != role.ConcealButton)
             {
-                Utils.SetTarget(ref role.Target, __instance);
-                if (role.Target == null) return false;
-                Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, role.Target);
                 return true;
             }
 

@@ -4,9 +4,7 @@ using UnityEngine;
 namespace BetterTownOfUs.Roles
 {
     public class Camouflager : Role
-
     {
-        public PlayerControl ClosestPlayer;
         public KillButtonManager _camouflageButton;
         public bool Enabled;
         public DateTime LastCamouflaged;

@@ -3,7 +3,7 @@ using BetterTownOfUs.ImpostorRoles.CamouflageMod;
 using BetterTownOfUs.Roles;
 using UnityEngine;
 
-namespace BetterTownOfUs.Patches.CrewmateRoles.ProphetMod
+namespace BetterTownOfUs.CrewmateRoles.ProphetMod
 {
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class HighlightPlayers

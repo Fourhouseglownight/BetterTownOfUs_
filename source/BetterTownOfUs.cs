@@ -23,10 +23,9 @@ namespace BetterTownOfUs
     [BepInDependency(ReactorPlugin.Id)]
     public class BetterTownOfUs : BasePlugin
     {
-        public const string Version = "1.1.2";
+        public const string Version = "1.2.0";
         private const string Id = "fr.vincentvision.bettertownofus";
         public static Sprite JanitorClean;
-        public static Sprite LycanWolf;
         public static Sprite EngineerFix;
         public static Sprite SwapperSwitch;
         public static Sprite SwapperSwitchDisabled;
@@ -70,7 +69,6 @@ namespace BetterTownOfUs
             Generate.GenerateAll();
 
             JanitorClean = CreateSprite("BetterTownOfUs.Resources.Janitor.png");
-            LycanWolf = CreateSprite("BetterTownOfUs.Resources.Wolf.png");
             EngineerFix = CreateSprite("BetterTownOfUs.Resources.Engineer.png");
             SwapperSwitch = CreateSprite("BetterTownOfUs.Resources.SwapperSwitch.png");
             SwapperSwitchDisabled = CreateSprite("BetterTownOfUs.Resources.SwapperSwitchDisabled.png");

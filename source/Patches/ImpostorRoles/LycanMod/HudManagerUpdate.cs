@@ -7,7 +7,7 @@ namespace BetterTownOfUs.ImpostorRoles.LycanMod
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class HudManagerUpdate
     {
-        public static Sprite LycanSprite => BetterTownOfUs.LycanWolf;
+        public static Sprite LycanSprite => BetterTownOfUs.MorphSprite;
 
         public static void Postfix(HudManager __instance)
         {
@@ -16,7 +16,6 @@ namespace BetterTownOfUs.ImpostorRoles.LycanMod
             if (PlayerControl.LocalPlayer.Data == null) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Lycan)) return;
             var role = Role.GetRole<Lycan>(PlayerControl.LocalPlayer);
-            Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton);
             if (role.LycanButton == null)
             {
                 role.LycanButton = UnityEngine.Object.Instantiate(__instance.KillButton, HudManager.Instance.transform);

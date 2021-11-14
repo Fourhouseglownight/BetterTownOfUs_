@@ -20,6 +20,7 @@ using BetterTownOfUs.Roles.Modifiers;
 using UnhollowerBaseLib;
 using UnityEngine;
 using Coroutine = BetterTownOfUs.ImpostorRoles.JanitorMod.Coroutine;
+using Eat = BetterTownOfUs.NeutralRoles.CannibalMod.Coroutine;
 using Object = UnityEngine.Object;
 using PerformKillButton = BetterTownOfUs.NeutralRoles.ShifterMod.PerformKillButton;
 using Random = UnityEngine.Random; //using Il2CppSystem;
@@ -263,6 +264,11 @@ namespace BetterTownOfUs
                         new Shifter(Utils.PlayerById(readByte));
                         break;
 
+                    case CustomRPC.SetParasite:
+                        readByte = reader.ReadByte();
+                        new Parasite(Utils.PlayerById(readByte));
+                        break;
+
                     case CustomRPC.SetInvestigator:
                         readByte = reader.ReadByte();
                         new Investigator(Utils.PlayerById(readByte));
@@ -326,6 +332,20 @@ namespace BetterTownOfUs
                         foreach (var role in Role.AllRoles)
                             if (role.RoleType == RoleEnum.Shifter)
                                 ((Shifter) role).Loses();
+
+                        break;
+
+                    case CustomRPC.ParasiteLose:
+                        foreach (var role in Role.AllRoles)
+                            if (role.RoleType == RoleEnum.Parasite)
+                                ((Parasite) role).Loses();
+
+                        break;
+
+                    case CustomRPC.CannibalLose:
+                        foreach (var role in Role.AllRoles)
+                            if (role.RoleType == RoleEnum.Cannibal)
+                                ((Cannibal) role).Loses();
 
                         break;
 
@@ -413,6 +433,16 @@ namespace BetterTownOfUs
                         var other = Utils.PlayerById(readByte2);
                         PerformKillButton.Shift(Role.GetRole<Shifter>(shifter), other);
                         break;
+                    case CustomRPC.CannibalEat:
+                        readByte1 = reader.ReadByte();
+                        var cannibalPlayer = Utils.PlayerById(readByte1);
+                        var cannibalRole = Role.GetRole<Cannibal>(cannibalPlayer);
+                        readByte = reader.ReadByte();
+                        var deads = Object.FindObjectsOfType<DeadBody>();
+                        foreach (var body in deads)
+                            if (body.ParentId == readByte)
+                                Coroutines.Start(Eat.EatCoroutine(body, cannibalRole));
+                        break;
                     case CustomRPC.Rewind:
                         readByte = reader.ReadByte();
                         var TimeLordPlayer = Utils.PlayerById(readByte);
@@ -473,6 +503,13 @@ namespace BetterTownOfUs
                         PlayerControl concealed = Utils.PlayerById(reader.ReadByte());
                         Concealer role = Role.GetRole<Concealer>(concealer);
                         role.StartConceal(concealed);
+                        break;
+                    }
+                    case CustomRPC.GoCovert:
+                    {
+                        PlayerControl covert = Utils.PlayerById(reader.ReadByte());
+                        Covert role = Role.GetRole<Covert>(covert);
+                        role.GoCovert();
                         break;
                     }
                     case CustomRPC.SetMimic:
@@ -588,6 +625,9 @@ namespace BetterTownOfUs
                     case CustomRPC.SetArsonist:
                         new Arsonist(Utils.PlayerById(reader.ReadByte()));
                         break;
+                    case CustomRPC.SetCannibal:
+                        new Cannibal(Utils.PlayerById(reader.ReadByte()));
+                        break;
                     case CustomRPC.Douse:
                         var arsonist = Utils.PlayerById(reader.ReadByte());
                         var douseTarget = Utils.PlayerById(reader.ReadByte());
@@ -606,6 +646,12 @@ namespace BetterTownOfUs
                         var theArsonistTheRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Arsonist);
                         ((Arsonist) theArsonistTheRole)?.Wins();
                         break;
+
+                    case CustomRPC.CannibalWin:
+                        var theCannibalRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Cannibal);
+                        ((Cannibal) theCannibalRole)?.Wins();
+                        break;
+
                     case CustomRPC.ArsonistLose:
                         foreach (var role in Role.AllRoles)
                             if (role.RoleType == RoleEnum.Arsonist)
@@ -626,6 +672,9 @@ namespace BetterTownOfUs
                         break;
                     case CustomRPC.SetProphet:
                         new Prophet(Utils.PlayerById(reader.ReadByte()));
+                        break;
+                    case CustomRPC.SetCovert:
+                        new Covert(Utils.PlayerById(reader.ReadByte()));
                         break;
                     case CustomRPC.SetBigBoi:
                         new BigBoiModifier(Utils.PlayerById(reader.ReadByte()));
@@ -808,10 +857,16 @@ namespace BetterTownOfUs
 
                 if (Check(CustomGameOptions.ProphetOn))
                     CrewmateRoles.Add((typeof(Prophet), CustomRPC.SetProphet, CustomGameOptions.ProphetOn));
+
+                if (Check(CustomGameOptions.CovertOn))
+                    CrewmateRoles.Add((typeof(Covert), CustomRPC.SetCovert, CustomGameOptions.CovertOn));
                 #endregion
                 #region Neutral Roles
                 if (Check(CustomGameOptions.ArsonistOn))
                     NeutralRoles.Add((typeof(Arsonist), CustomRPC.SetArsonist, CustomGameOptions.ArsonistOn));
+
+                if (Check(CustomGameOptions.CannibalOn))
+                    NeutralRoles.Add((typeof(Cannibal), CustomRPC.SetCannibal, CustomGameOptions.CannibalOn));
 
                 if (Check(CustomGameOptions.ExecutionerOn))
                     NeutralRoles.Add((typeof(Executioner), CustomRPC.SetExecutioner, CustomGameOptions.ExecutionerOn));
@@ -821,6 +876,9 @@ namespace BetterTownOfUs
 
                 if (Check(CustomGameOptions.ShifterOn))
                     NeutralRoles.Add((typeof(Shifter), CustomRPC.SetShifter, CustomGameOptions.ShifterOn));
+
+                if (Check(CustomGameOptions.ParasiteOn))
+                    NeutralRoles.Add((typeof(Parasite), CustomRPC.SetParasite, CustomGameOptions.ParasiteOn));
 
                 if (Check(CustomGameOptions.GlitchOn))
                     NeutralRoles.Add((typeof(Glitch), CustomRPC.SetGlitch, CustomGameOptions.GlitchOn));

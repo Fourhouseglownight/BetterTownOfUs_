@@ -17,9 +17,8 @@ namespace BetterTownOfUs
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 Utils.potentialWinners.Add(new WinningPlayerData(player.Data));
-                
-                var faction = Role.GetRole(player).Faction;
-                if (!CustomGameOptions.ImpostorSeeRoles && CustomGameOptions.AnonImp && CustomGameOptions.ImpSoloWin && (faction == Faction.Impostors) && !player.Data.IsDead && !player.Data.Disconnected) ImpsAlive.Add(new WinningPlayerData(player.Data));
+
+                if (CustomGameOptions.ImpostorsKnowTeam == 3 && reason != GameOverReason.HumansByVote && reason != GameOverReason.HumansByTask && Role.GetRole(player).Faction == Faction.Impostors && !player.Data.IsDead && !player.Data.Disconnected) ImpsAlive.Add(new WinningPlayerData(player.Data));
             }
         }
     }
@@ -29,6 +28,13 @@ namespace BetterTownOfUs
     {
         public static void Prefix()
         {
+            if (AmongUsClient_OnGameEnd.ImpsAlive.Count == 1)
+            {
+                TempData.winners = new List<WinningPlayerData>();
+                foreach (var win in AmongUsClient_OnGameEnd.ImpsAlive) TempData.winners.Add(win);
+                return;
+            }
+
             var jester = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Jester && ((Jester) x).VotedOut);
             var executioner = Role.AllRoles.FirstOrDefault(x =>
                 x.RoleType == RoleEnum.Executioner && ((Executioner) x).TargetVotedOut);
@@ -92,6 +98,16 @@ namespace BetterTownOfUs
                 return;
             }
 
+            var cannibal =
+                Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Cannibal && ((Cannibal) x).CannibalWin);
+            if (cannibal != null)
+            {
+                var winners = Utils.potentialWinners.Where(x => x.Name == cannibal.PlayerName).ToList();
+                TempData.winners = new List<WinningPlayerData>();
+                foreach (var win in winners) TempData.winners.Add(win);
+                return;
+            }
+
             var phantom =
                 Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Phantom && ((Phantom) x).CompletedTasks);
             if (phantom != null)
@@ -99,13 +115,6 @@ namespace BetterTownOfUs
                 var winners = Utils.potentialWinners.Where(x => x.Name == phantom.PlayerName).ToList();
                 TempData.winners = new List<WinningPlayerData>();
                 foreach (var win in winners) TempData.winners.Add(win);
-                return;
-            }
-
-            if (AmongUsClient_OnGameEnd.ImpsAlive.Count == 1)
-            {
-                TempData.winners = new List<WinningPlayerData>();
-                foreach (var win in AmongUsClient_OnGameEnd.ImpsAlive) TempData.winners.Add(win);
             }
         }
     }

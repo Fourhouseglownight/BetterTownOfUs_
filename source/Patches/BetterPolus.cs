@@ -11,14 +11,13 @@ namespace BetterTownOfUs
         public static readonly Vector3 DvdScreenNewPos = new Vector3(26.635f, -15.92f, 1);
         public static readonly Vector3 DvdScreenNewPos2 = new Vector3(25.8f, -15.95f, 1);
         public static readonly Vector3 DvdScreenNewPos3 = new Vector3(26.26f, -15.92f, 1);
-        public static readonly Vector3 VitalsNewPos = new Vector3(31.275f, -6.45f, 1f);
+        public static Vector3 VitalsNewPos;
         public static readonly Vector3 WifiNewPos = new Vector3(17.38f, 0.15f, 1f);
         public static readonly Vector3 KeysNewPos = new Vector3(20.13f, -10.35f, 0f);
         public static readonly Vector3 QrNewPos = new Vector3(11.07f, -15.2f, -0.015f);
         public static readonly Vector3 DownloadNewPos = new Vector3(21.47f, -24.5f, -0.015f); //22.47f, -24.5f, -0.015f    
         public static readonly Vector3 TempColdNewPos = new Vector3(7.772f, -17.103f, -0.017f);
-        //Scale
-        public const float DvdScreenNewScale = 0.75f;
+        
         
         // Checks
         public static bool IsAdjustmentsDone;
@@ -94,7 +93,7 @@ namespace BetterTownOfUs
 
         private static void ApplyChanges(ShipStatus instance)
         {
-            if ((CustomGameOptions.BetterPolus || CustomGameOptions.PolusVents || CustomGameOptions.SwitchTask) && instance.Type == ShipStatus.MapType.Pb)
+            if ((CustomGameOptions.BetterPolus || CustomGameOptions.PolusVents || CustomGameOptions.SwitchTask) && PlayerControl.GameOptions.MapId == 2)
             {
                 FindPolusObjects();
                 AdjustPolus();
@@ -165,21 +164,21 @@ namespace BetterTownOfUs
         {
             if (CustomGameOptions.BetterPolus)
             {
-                if (Outside == null)
-                {
-                    Outside = Object.FindObjectsOfType<GameObject>().ToList().Find(o => o.name == "Outside");
-                }
-            
                 if (Science == null)
                 {
                     Science = Object.FindObjectsOfType<GameObject>().ToList().Find(o => o.name == "Science");
                 }
 
-                IsRoomsFetched = Outside != null && Science != null;
+                IsRoomsFetched = Science != null;
             }
 
             if (CustomGameOptions.SwitchTask)
             {
+                if (Outside == null)
+                {
+                    Outside = Object.FindObjectsOfType<GameObject>().ToList().Find(o => o.name == "Outside");
+                }
+            
                 if (Weapons == null)
                 {
                     Weapons = Object.FindObjectsOfType<GameObject>().ToList().Find(o => o.name == "Weapons");
@@ -205,7 +204,7 @@ namespace BetterTownOfUs
                     Storage = Object.FindObjectsOfType<GameObject>().ToList().Find(o => o.name == "Storage");
                 }
 
-                IsRoomsFetched2 = Weapons != null && Comms != null && Admin != null && Storage != null && DropShip != null;
+                IsRoomsFetched2 = Outside != null && Weapons != null && Comms != null && Admin != null && Storage != null && DropShip != null;
 
             }
         }
@@ -233,18 +232,18 @@ namespace BetterTownOfUs
                     Vitals = Object.FindObjectsOfType<SystemConsole>().ToList()
                         .Find(console => console.name == "panel_vitals");
                 }
-                
+
+                IsObjectsFetched = Vitals != null && DvdScreenOffice != null;
+            }
+
+            if (CustomGameOptions.SwitchTask)
+            {
                 if (TempCold == null)
                 {
                     TempCold = Object.FindObjectsOfType<Console>().ToList()
                         .Find(console => console.name == "panel_tempcold");
                 }
 
-                IsObjectsFetched = Vitals != null && TempCold != null && DvdScreenOffice != null;
-            }
-
-            if (CustomGameOptions.SwitchTask)
-            {
                 if (WifiConsole == null)
                 {
                     WifiConsole = Object.FindObjectsOfType<Console>().ToList()
@@ -261,10 +260,6 @@ namespace BetterTownOfUs
                 {
                     KeysConsole = Object.FindObjectsOfType<Console>().ToList()
                         .Find(console => console.name == "panel_keys");
-                    for (int i = 0; i < KeysConsole.transform.childCount; i++)
-                    {
-                        var KeysChild = KeysConsole.transform.GetChild(i);
-                    }
                 }
             
                 if (DownloadConsole == null)
@@ -273,7 +268,7 @@ namespace BetterTownOfUs
                         .FindAll(console => console.name == "panel_data").Find(console => console.transform.parent.parent.name == "Weapons");
                 }
 
-                IsObjectsFetched2 = WifiConsole != null && KeysConsole != null && DownloadConsole != null && QrConsole != null && DvdScreenOffice != null;
+                IsObjectsFetched2 = TempCold != null && WifiConsole != null && KeysConsole != null && DownloadConsole != null && QrConsole != null && DvdScreenOffice != null;
             }
         }
 
@@ -303,7 +298,7 @@ namespace BetterTownOfUs
                     dvdScreenTransform.position = DvdScreenNewPos;
                 
                     var localScale = dvdScreenTransform.localScale;
-                    localScale = new Vector3(DvdScreenNewScale, localScale.y, localScale.z);
+                    localScale = new Vector3(0.75f, localScale.y, localScale.z);
                     dvdScreenTransform.localScale = localScale;
                 }
             }
@@ -315,7 +310,7 @@ namespace BetterTownOfUs
                     dvdScreenTransform.position = DvdScreenNewPos2;
                 
                     var localScale = dvdScreenTransform.localScale;
-                    localScale = new Vector3(DvdScreenNewScale, localScale.y, localScale.z);
+                    localScale = new Vector3(0.75f, localScale.y, localScale.z);
                     dvdScreenTransform.localScale = localScale;
                 }
             }
@@ -330,6 +325,16 @@ namespace BetterTownOfUs
         
         public static void SwitchTasks()
         {
+            if (TempCold.transform.position != TempColdNewPos)
+            {
+                Transform tempColdTransform = TempCold.transform;
+                tempColdTransform.parent = Outside.transform;
+                tempColdTransform.position = TempColdNewPos;
+                BoxCollider2D collider = TempCold.GetComponent<BoxCollider2D>();
+                collider.isTrigger = false;
+                collider.size += new Vector2(0, -0.3f);
+            }
+            
             if (WifiConsole.transform.position != WifiNewPos)
             {
                 Transform wifiTransform = WifiConsole.transform;
@@ -375,25 +380,19 @@ namespace BetterTownOfUs
         
         public static void MoveVitals()
         {
-            //TempCold
-            if (TempCold.transform.position != TempColdNewPos)
-            {
-                Transform tempColdTransform = TempCold.transform;
-                tempColdTransform.parent = Outside.transform;
-                tempColdTransform.position = TempColdNewPos;
-
-                // Fixes collider being too high
-                BoxCollider2D collider = TempCold.GetComponent<BoxCollider2D>();
-                collider.isTrigger = false;
-                collider.size += new Vector2(0f, -0.3f);
-            }
-
-            // Vitals
             if (Vitals.transform.position != VitalsNewPos)
             {
                 Transform vitalsTransform = Vitals.gameObject.transform;
                 vitalsTransform.parent = Science.transform;
+                VitalsNewPos = CustomGameOptions.SwitchTask ? new Vector3(31.275f, -6.45f, 1) : new Vector3(30.25f, -6.65f, 1);
                 vitalsTransform.position = VitalsNewPos;
+                if (!CustomGameOptions.SwitchTask)
+                {  
+                    var WeatherMap = Object.FindObjectsOfType<GameObject>().ToList()
+                        .Find(console => console.name == "Weathermap0001");
+                    WeatherMap.SetActive(false);
+                    vitalsTransform.localScale = new Vector3(1.15f, 1.15f, 1);
+                }
             }
         }
     }

@@ -4,7 +4,6 @@ namespace BetterTownOfUs.Roles
 {
     public class Underdog : Role
     {
-        public PlayerControl ClosestPlayer;
         public Underdog(PlayerControl player) : base(player)
         {
             Name = "Underdog";

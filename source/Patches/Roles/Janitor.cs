@@ -14,7 +14,6 @@ namespace BetterTownOfUs.Roles
             Faction = Faction.Impostors;
         }
 
-        public PlayerControl ClosestPlayer;
         public DeadBody CurrentTarget { get; set; }
 
         public KillButtonManager CleanButton

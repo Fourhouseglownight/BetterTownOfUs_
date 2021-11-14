@@ -26,9 +26,6 @@ namespace BetterTownOfUs.ImpostorRoles.TeleporterMod
             Teleporter role = Role.GetRole<Teleporter>(PlayerControl.LocalPlayer);
             if (__instance != role.TeleportButton)
             {
-                Utils.SetTarget(ref role.ClosestPlayer, __instance);
-                if (role.ClosestPlayer == null) return false;
-                Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, role.ClosestPlayer);
                 return true;
             }
 

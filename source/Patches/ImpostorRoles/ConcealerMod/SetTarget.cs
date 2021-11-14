@@ -19,6 +19,11 @@ namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
             {
                 return;
             }
+            Concealer role = Role.GetRole<Concealer>(PlayerControl.LocalPlayer);
+            if (__instance != role.ConcealButton)
+            {
+                return;
+            }
 
             if (target.Data.IsImpostor)
             {

@@ -98,6 +98,17 @@ namespace BetterTownOfUs.CustomOption
                         break;
                     case CustomOptionType.String:
                         var str = Object.Instantiate(stringPrefab, stringPrefab.transform.parent).DontDestroy();
+                        if (option.Name == "Anon Imp")
+                        {
+                            var setTrans = str.transform;
+                            var value = setTrans.GetChild(3);
+                            var inc = setTrans.GetChild(0);
+                            setTrans.GetChild(2).gameObject.SetActive(false);
+                            inc.localPosition = new Vector3(inc.localPosition.x - 0.6f, 0, 0);
+                            setTrans.GetChild(1).localPosition = new Vector3(setTrans.position.x - 0.25f, 0, 0);
+                            value.localPosition = new Vector3(setTrans.localPosition.x / 2, 0, 0);
+                            value.localScale = new Vector3(1, 1, 1);
+                        }
                         option.Setting = str;
                         options.Add(str);
                         break;

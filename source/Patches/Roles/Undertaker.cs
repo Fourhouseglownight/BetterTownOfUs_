@@ -4,7 +4,6 @@ namespace BetterTownOfUs.Roles
 {
     public class Undertaker : Role
     {
-        public PlayerControl ClosestPlayer;
         public KillButtonManager _dragDropButton;
 
         public Undertaker(PlayerControl player) : base(player)
