@@ -70,6 +70,8 @@ namespace BetterTownOfUs
         public static bool MayorAnonymous => Generate.MayorAnonymous.Get();
         public static float ShifterCd => Generate.ShifterCd.Get();
         public static ShiftEnum WhoShifts => (ShiftEnum) Generate.WhoShifts.Get();
+        public static bool ShifterSuicide => Generate.ShifterSuicide.Get();
+        public static bool ParasiteKill => Generate.ParasiteKill.Get();
         public static float FootprintSize => Generate.FootprintSize.Get();
         public static float FootprintInterval => Generate.FootprintInterval.Get();
         public static float FootprintDuration => Generate.FootprintDuration.Get();
@@ -131,6 +133,7 @@ namespace BetterTownOfUs
         public static bool DeadSeeRoles => Generate.DeadSeeRoles.Get();
         public static float DouseCd => Generate.DouseCooldown.Get();
         public static bool ArsonistGameEnd => Generate.ArsonistGameEnd.Get();
+        public static float CannibalCd => Generate.CannibalCd.Get();
         public static int MaxImpostorRoles => (int) Generate.MaxImpostorRoles.Get();
         public static int MaxNeutralRoles => (int) Generate.MaxNeutralRoles.Get();
         public static bool RoleUnderName => Generate.RoleUnderName.Get();

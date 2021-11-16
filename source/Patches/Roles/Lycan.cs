@@ -34,6 +34,16 @@ namespace BetterTownOfUs.Roles
             }
         }
 
+        protected override void DoOnGameStart()
+        {
+            LastWolfed = DateTime.UtcNow;
+        }
+
+        protected override void DoOnMeetingEnd()
+        {
+            LastWolfed = DateTime.UtcNow;
+        }
+
         public bool WolfedTiming => TimeRemaining > 0f;
 
         public void Morph()

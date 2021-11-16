@@ -100,6 +100,10 @@ namespace BetterTownOfUs.CustomOption
         private static CustomHeaderOption Shifter;
         public static CustomNumberOption ShifterCd;
         public static CustomStringOption WhoShifts;
+        public static CustomToggleOption ShifterSuicide;
+
+        private static CustomHeaderOption Parasite;
+        public static CustomToggleOption ParasiteKill;
 
         private static CustomHeaderOption Engineer;
         public static CustomStringOption EngineerPer;
@@ -170,6 +174,9 @@ namespace BetterTownOfUs.CustomOption
         private static CustomHeaderOption Arsonist;
         public static CustomNumberOption DouseCooldown;
         public static CustomToggleOption ArsonistGameEnd;
+
+        private static CustomHeaderOption Cannibal;
+        public static CustomNumberOption CannibalCd;
 
         private static CustomHeaderOption Executioner;
         public static CustomStringOption OnTargetDead;
@@ -374,7 +381,7 @@ namespace BetterTownOfUs.CustomOption
             SheriffKillsJester =
                 new CustomToggleOption(num++, "Sheriff Kills Jester", true);
             SheriffKillsShifter =
-                new CustomToggleOption(num++, "Sheriff Kills Shifter", true);
+                new CustomToggleOption(num++, "Sheriff Kills Shifter", false);
             SheriffKillsParasite =
                 new CustomToggleOption(num++, "Sheriff Kills Parasite", true);
             SheriffKillsGlitch =
@@ -483,12 +490,20 @@ namespace BetterTownOfUs.CustomOption
             Jester = new CustomHeaderOption(num++, "<color=#FFBFCCFF>Jester</color>");
             JesterVent =
                 new CustomToggleOption(num++, "Jester Can Take Vent", true);
+
             Shifter =
                 new CustomHeaderOption(num++, "<color=#999999FF>Shifter</color>");
             ShifterCd =
                 new CustomNumberOption(num++, "Shifter Cooldown", 30f, 10f, 60f, 2.5f, CooldownFormat);
             WhoShifts = new CustomStringOption(num++,
                 "Who gets the Shifter role on Shift", new[] {"Nobody", "RegCrew", "NoImps"});
+            ShifterSuicide =
+                new CustomToggleOption(num++, "Shifter Suicide on Sheriff Kills", true);
+
+            Parasite =
+                new CustomHeaderOption(num++, "<color=#473204FF>Parasite</color>");
+            ParasiteKill =
+                new CustomToggleOption(num++, "Parasitized Can't Kill Parasite", true);
 
             TheGlitch =
                 new CustomHeaderOption(num++, "<color=#00FF00FF>The Glitch</color>");
@@ -512,6 +527,11 @@ namespace BetterTownOfUs.CustomOption
             DouseCooldown =
                 new CustomNumberOption(num++, "Douse Cooldown", 32.5f, 10, 40, 2.5f, CooldownFormat);
             ArsonistGameEnd = new CustomToggleOption(num++, "Game keeps going so long as Arsonist is alive", false);
+
+            Cannibal =
+                new CustomHeaderOption(num++, "<color=#1e300bFF>Cannibal</color>");
+            CannibalCd =
+                new CustomNumberOption(num++, "Cannibal Cooldown", 20f, 10f, 60f, 2.5f, CooldownFormat);
             #endregion
 
             #region ImpostorConfiguration

@@ -53,13 +53,22 @@ namespace BetterTownOfUs.NeutralRoles.ParasiteMod
             
             var modifier = Modifier.GetModifier(parasitized);
             var modifier2 = Modifier.GetModifier(parasite);
-            if (modifier2 != null)
+            if (modifier != null && modifier2 != null)
+            {
+                modifier.Player = parasite;
+                modifier2.Player = parasitized;
+                Modifier.ModifierDictionary.Remove(parasitized.PlayerId);
+                Modifier.ModifierDictionary.Remove(parasite.PlayerId);
+                Modifier.ModifierDictionary.Add(parasite.PlayerId, modifier);
+                Modifier.ModifierDictionary.Add(parasitized.PlayerId, modifier2);
+            }
+            else if (modifier2 != null)
             {
                 modifier2.Player = parasitized;
                 Modifier.ModifierDictionary.Remove(parasite.PlayerId);
                 Modifier.ModifierDictionary.Add(parasitized.PlayerId, modifier2);
             }
-            if (modifier != null)
+            else if (modifier != null)
             {
                 modifier.Player = parasite;
                 Modifier.ModifierDictionary.Remove(parasitized.PlayerId);

@@ -131,13 +131,6 @@ namespace BetterTownOfUs.ImpostorRoles.AssassinMod
                 {
                     role.MissKill = false;
                     AssassinKill.RpcMissKill(playerRole.Player);
-                    /*var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte) CustomRPC.MissKill, SendOption.Reliable, -1);
-                    writer.Write(playerRole.Player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    if (CustomGameOptions.MissKillNotif == 1 && PlayerControl.LocalPlayer == playerRole.Player)
-                        Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                    if (CustomGameOptions.MissKillNotif == 0 && !PlayerControl.LocalPlayer.Is(RoleEnum.Assassin))
-                        Coroutines.Start(Utils.FlashCoroutine(Color.red));*/
                 }
                 else
                 {

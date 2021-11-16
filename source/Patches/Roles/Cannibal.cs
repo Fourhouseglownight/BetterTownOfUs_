@@ -1,3 +1,4 @@
+using System;
 using Hazel;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace BetterTownOfUs.Roles
     public class Cannibal : Role
     {
         public DeadBody CurrentTarget { get; set; }
+        public DateTime LE { get; set; }
         public int EatNeed;
         public bool CannibalWin;
         
@@ -51,6 +53,14 @@ namespace BetterTownOfUs.Roles
             var cannibalteam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
             cannibalteam.Add(PlayerControl.LocalPlayer);
             __instance.yourTeam = cannibalteam;
+        }
+
+        public float CannibalTimer()
+        {
+            var t = DateTime.UtcNow - LE;
+            var i = CustomGameOptions.CannibalCd * 1000;
+            if (i - (float) t.TotalMilliseconds < 0) return 0;
+            return (i - (float) t.TotalMilliseconds) / 1000;
         }
     }
 }

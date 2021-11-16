@@ -55,7 +55,7 @@ namespace BetterTownOfUs.NeutralRoles.CannibalMod
             }
 
             KillButtonTarget.SetTarget(eatButton, closestBody, role);
-            eatButton.SetCoolDown(0, 1);
+            eatButton.SetCoolDown(role.CannibalTimer(), CustomGameOptions.CannibalCd);
 
             if (Target != null && Arrow == null)
             {

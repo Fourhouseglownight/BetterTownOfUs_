@@ -3,7 +3,7 @@
 [![Release Version](https://img.shields.io/github/v/release/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Release Date](https://img.shields.io/github/release-date/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Total Downloads](https://img.shields.io/github/downloads/VincentVision/BetterTownOfUs/total?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)   
-[![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/1.2.0/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.0)
+[![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/1.2.1/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.1)
 [![Open Issues](https://img.shields.io/github/issues-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)
 [![Closed Issues](https://img.shields.io/github/issues-closed-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)  
 [![Discord](https://img.shields.io/discord/867814078332534815?color=7289DA&label=%20&logo=discord&logoColor=ffffff&style=plastic)](https://discord.gg/XSCnBzkneK)
@@ -32,6 +32,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
   <ul> <li>Option "Loving Impostor can't kill his Lover"/"Loving Impostor can't kill his Lover" option. </li> </ul>
   <ul> <li>Option "Can't report voted Lover"/"Can't report voted Lover" option. </li> </ul>
   <ul> <li>Option "Jester Can Take Vent"/"Jester Can Take Vent" option. </li> </ul>
+  <ul> <li>Option "Shifter Suicide on Sheriff Kills"/"Shifter Suicide on Sheriff Kills" option. </li> </ul>
   <ul> <li>Augmente la limite d'assassinat de l'assassin de 5 à 15/Increase limit of assassin's kills from 5 to 15. </li> </ul>
   <ul> <li>Option "Can Missing Guess 1 Time" pour l'Assassin/"Can Missing Guess 1 Time" option for the Assassin. </li> </ul>
   <ul> <li>Option "Who gets Assassin miss kill indicator" pour le Miss Kill de l'Assassin/"Who gets Assassin miss kill indicator" option for Miss Kill of the Assassin. </li> </ul>
@@ -73,6 +74,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 | <center> Among Us - Version </center> | <center> Town of Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|---------------|
+| 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.6.2 | v1.2.1 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.1) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.6.2 | v1.2.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.0) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.5.0 | v1.1.2 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.2) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.5.0 | v1.1.1 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.1) |

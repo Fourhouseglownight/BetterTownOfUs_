@@ -406,6 +406,8 @@ namespace BetterTownOfUs
                 return;
             }
 
+            if (CustomGameOptions.ParasiteKill && killer == ParasiteShift.Parasitized && target.Is(RoleEnum.Parasite)) target = killer;
+
             var data = target.Data;
             if (data != null && !data.IsDead)
             {

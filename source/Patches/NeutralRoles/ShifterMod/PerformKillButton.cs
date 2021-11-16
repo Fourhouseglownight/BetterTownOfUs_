@@ -101,9 +101,19 @@ namespace BetterTownOfUs.NeutralRoles.ShifterMod
             var resetShifter = false;
             var snitch = false;
 
+            var flag2 = other.Is(RoleEnum.Jester) && CustomGameOptions.SheriffKillsJester ||
+                        other.Is(RoleEnum.Shifter) && CustomGameOptions.SheriffKillsShifter ||
+                        other.Is(RoleEnum.Parasite) && CustomGameOptions.SheriffKillsParasite ||
+                        other.Is(RoleEnum.Glitch) && CustomGameOptions.SheriffKillsGlitch ||
+                        other.Is(RoleEnum.Executioner) && CustomGameOptions.SheriffKillsExecutioner ||
+                        other.Is(RoleEnum.Arsonist) && CustomGameOptions.SheriffKillsArsonist ||
+                        other.Is(RoleEnum.Cannibal) && CustomGameOptions.SheriffKillsCannibal;
+
             if (
                 other.Is(Faction.Crewmates) ||
-                (other.Is(Faction.Neutral) && !other.Is(RoleEnum.Glitch))
+                (other.Is(Faction.Neutral) &&
+                !(other.Is(RoleEnum.Glitch) ||
+                (flag2 && CustomGameOptions.ShifterSuicide)))
                 )
             {
                 if (role == RoleEnum.Investigator) Footprint.DestroyAll(Role.GetRole<Investigator>(other));
