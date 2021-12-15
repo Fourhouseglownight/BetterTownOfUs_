@@ -203,6 +203,8 @@ If you have any bugs or any need to contact me, join the **[Discord server](http
 
 [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - Pour créer les options de jeu personnalisés./For created custom game options.  
 
+Iezzi - Pour l'idée du Mentalist (Analyst)/For Mentalist Idea (Analyst).
+
 ---
 <p align="center">Ce mod n'est pas affilié à Among Us ou à Innersloth LLC, et le contenu qu'il contient n'est pas approuvé ou autrement parrainé par Innersloth LLC. Certaines parties des documents contenus dans le présent document sont la propriété d'Innersloth LLC.</p>
 <p align="center">This mod is not affiliated with Among Us or Innersloth LLC, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC.</p>
