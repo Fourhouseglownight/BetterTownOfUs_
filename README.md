@@ -6,16 +6,18 @@
 [![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/1.2.1/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.1)
 [![Open Issues](https://img.shields.io/github/issues-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)
 [![Closed Issues](https://img.shields.io/github/issues-closed-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)  
-[![Discord](https://img.shields.io/discord/867814078332534815?color=7289DA&label=%20&logo=discord&logoColor=ffffff&style=plastic)](https://discord.gg/XSCnBzkneK)
+[![Discord](https://img.shields.io/discord/867814078332534815?color=7289DA&label=%20&logo=discord&logoColor=ffffff&style=plastic)](https://dsc.gg/visionfamily)
 [![Followers](https://img.shields.io/github/followers/VincentVision?style=social)](https://github.com/VincentVision/)
 [![Site](https://img.shields.io/website?down_color=D9644D&down_message=offline&label=VisionUniverse.fr&logo=v&logoColor=3769fe&style=plastic&up_color=018001&up_message=online&url=https%3A%2F%2Fvisionuniverse.fr)](https://github.com/VincentVision/)
 
 ---
 
-Imaginé par la communauté **[Discord francophone de Town of Us](https://discord.gg/XSCnBzkneK)**, ce mod Among Us modifie **__[Town of Us](https://github.com/Anusien/Town-Of-Us)__** en lui ajoutant plein d'options afin de le perfectionner.  
-Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBzkneK)** community, this Among Us mod modifies **__[Town of Us](https://github.com/Anusien/Town-Of-Us)__** by adding lots of options to improve it.  
+Imaginé par la communauté **[Discord francophone de Town of Us](https://dsc.gg/visionfamily)**, ce mod Among Us modifie **__[Town of Us](https://github.com/Anusien/Town-Of-Us)__** en lui ajoutant plein d'options afin de le perfectionner.  
+Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfamily)** community, this Among Us mod modifies **__[Town of Us](https://github.com/Anusien/Town-Of-Us)__** by adding lots of options to improve it.  
 <details>
-  <summary>Ce que ce mod ajoute (cliques sur la flèche pour dérouler)./What this mod adds (click on the arrow to expand).</summary>
+  <summary>Ce que ce mod ajoute (cliques sur la flèche pour dérouler, certains ajouts ne sont disponnibles qu'en bêta 2.1.0)./What this mod adds (click on the arrow to expand, some adds is only available on beta 2.1.0).</summary>
+  <ul> <li>Paramètre "Mode Streamer"/"Streamer Mode" Setting. </li> </ul>
+  <ul> <li>Timmer de Lobby/Lobby Timer. </li> </ul>
   <ul> <li>Options "Better Polus"/"Better Polus" options.
     <details>
       <ul> <li>Option "Vitals in Laboratory"/"Vitals in Laboratory" option. </li> </ul>
@@ -27,19 +29,19 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
   <ul> <li>Rôle Imposteur "Lycan"/"Lycan" Imposotor Role. </li> </ul>
   <ul> <li>Rôle Neutre "Parasite"/"Parasite" Neutral Role. </li> </ul>
   <ul> <li>Rôle Neutre "Cannibal"/"Cannibal" Neutral Role. </li> </ul>
+  <ul> <li>Rôle Neutre "Mentalist"/"Mentalist" Neutral Role. </li> </ul>
+  <ul> <li>L'Assassin devient un modifieur Imposteur/Assassin become a Impostor Modifier. </li> </ul>
   <ul> <li>Option "Can't kill players in vent"/"Can't kill players in vent" option. </li> </ul>
-  <ul> <li>Option "Initial Sheriff Kill Cooldown"/"Initial Sheriff Kill Cooldown" option. </li> </ul>
   <ul> <li>Option "Loving Impostor can't kill his Lover"/"Loving Impostor can't kill his Lover" option. </li> </ul>
   <ul> <li>Option "Can't report voted Lover"/"Can't report voted Lover" option. </li> </ul>
   <ul> <li>Option "Jester Can Take Vent"/"Jester Can Take Vent" option. </li> </ul>
   <ul> <li>Option "Shifter Suicide on Sheriff Kills"/"Shifter Suicide on Sheriff Kills" option. </li> </ul>
   <ul> <li>Augmente la limite d'assassinat de l'assassin de 5 à 15/Increase limit of assassin's kills from 5 to 15. </li> </ul>
-  <ul> <li>Option "Can Missing Guess 1 Time" pour l'Assassin/"Can Missing Guess 1 Time" option for the Assassin. </li> </ul>
-  <ul> <li>Option "Who gets Assassin miss kill indicator" pour le Miss Kill de l'Assassin/"Who gets Assassin miss kill indicator" option for Miss Kill of the Assassin. </li> </ul>
+  <ul> <li>Option "Can Missing Guess 1 Time" pour les Guessers/"Can Missing Guess 1 Time" option for the Guessers. </li> </ul>
+  <ul> <li>Option "Who gets Guesser miss kill indicator" pour le Miss Kill de l'Assassin/"Who gets Guesser miss kill indicator" option for Miss Kill of the Assassin. </li> </ul>
   <ul> <li>Modifie l'interval pour les traces de pas de l'investigateur de 2.5 à 0.25/Modify interval for Investigator's foot print size option from 2.5 to 0.25. </li> </ul>
   <ul> <li>Modifie l'interval pour le rapport du Medic de 2.5 à 0.5/Modify interval for Medic's report duration option from 2.5 to 0.5. </li> </ul>
   <ul> <li>Le Medic verra le pseudo des couleurs sombres en noirs pendant les meetings/Medic sees the darker color player's name in black during meeting. </li> </ul>
-  <ul> <li>Le Phantom ne spawnera pas dans la vent d'admin de Polus pour régler le bug qui y est lié/Phantom can't spawn in Polus's admn's vent for fix the bug. </li> </ul>
   <ul> <li>Un tas d'options pour l'Engineer/A bunch of options for Engineer's fixes. 
     <details>
       <ul> <li>Ajout de l'option "Custom" pour l'option "Engineer Fix Per"/"Custom" to "Engineer Fix Per" option. </li> </ul>
@@ -49,6 +51,8 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
       <ul> <li>Option "Max Fixes Per Game"/"Number of Fixes Per Game" option. </li> </ul>
     </details>
   </li> </ul>
+  <ul> <li>Nouvelle couleur Panda/New Panda color. </li> </ul>
+  <ul> <li>Nouveau chapeau Panda/New Panda hat. </li> </ul>
 </details>  
 
 ## Sommaire/Summary  
@@ -74,6 +78,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://discord.gg/XSCnBz
 
 | <center> Among Us - Version </center> | <center> Town of Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|---------------|
+| 2021.6.30s & 2021.11.9 (no recommanded) | 2.6.2 | v2.0.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.1) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.6.2 | v1.2.1 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.1) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.6.2 | v1.2.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.0) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.5.0 | v1.1.2 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.1.2) |
@@ -168,21 +173,21 @@ A first launch may take up to 5 minutes, so be patient if it doesn't launch imme
 
 ## Problèmes/Issues
 
-Si vous avez des problèmes pour installer Better Town of Us, vous pouvez nous joindre sur **[notre Discord](https://discord.gg/XSCnBzkneK)** pour recevoir de l'aide.  
-If you have issues installing Better Town of Us, you can join **[our Discord](https://discord.gg/XSCnBzkneK)** to receive help.
+Si vous avez des problèmes pour installer Better Town of Us, vous pouvez nous joindre sur **[notre Discord](https://dsc.gg/visionfamily)** pour recevoir de l'aide.  
+If you have issues installing Better Town of Us, you can join **[our Discord](https://dsc.gg/visionfamily)** to receive help.
 
 ---
 
 # Bug | Suggestions
 
-Si vous avez des bugs ou si vous avez besoin de nous contacter, rejoignez le **[serveur Discord](https://discord.gg/XSCnBzkneK)** ou créez un ticket sur GitHub.  
-If you have any bugs or any need to contact me, join the **[Discord server](https://discord.gg/XSCnBzkneK)** or create a ticket on GitHub.
+Si vous avez des bugs ou si vous avez besoin de nous contacter, rejoignez le **[serveur Discord](https://dsc.gg/visionfamily)** ou créez un ticket sur GitHub.  
+If you have any bugs or any need to contact me, join the **[Discord server](https://dsc.gg/visionfamily)** or create a ticket on GitHub.
 
 ---
 
 # Credits | Resources
 
-[TownOfUs](https://github.com/Anusien/Town-Of-Us) - Better Town of Us est une modification de ce mod./Better Town of Us is a modification of this mod.  
+[TownOfUs](https://github.com/Anusien/Town-Of-Us) & [TownOfUs-R](https://github.com/eDonnes124/Town-Of-Us-R) - Better Town of Us est une modification de ces mods./Better Town of Us is a modification of this mods. 
 [Reactor](https://github.com/NuclearPowered/Reactor) - Le framework Among Us./The Among Us framework.  
 [BepInEx](https://github.com/BepInEx) - Le framework Unity./The Unity framework.  
 [Among Us Anonymous Impostors Mod](https://github.com/Wunax/Among-Us-Anonymous-Impostors-Mod) - Pour l'inspiration des options imposteurs anonymes./For inspiration of Anonymous Impostors Options.  
@@ -194,7 +199,7 @@ If you have any bugs or any need to contact me, join the **[Discord server](http
 [TorchMod](https://github.com/tomozbot/TorchMod) - Pour l'inspiration du modifier Torch./For the inspirtation of the Torch Modifer.  
 [XtraCube](https://github.com/XtraCube) - Pour la couleur arc-en-ciel./For the Rainbow color.  
 [PhasmoFireGod](https://twitch.tv/PhasmoFireGod) - Artiste des bouttons./Buttons Art.  
-[TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - Pour l'inspiration des rôles Child et Spy./For the inspiration of the Child and Spy roles.  
+[TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - Pour l'inspiration du rôle Spy, le mode streamer et le timmer de Lobby./For the inspiration of the Spy roles, the streamer mode and the Lobby timmer.  
 
 [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - Pour créer les options de jeu personnalisés./For created custom game options.  
 
