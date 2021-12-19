@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hazel;
 using Reactor.Extensions;
-using BetterTownOfUs.Extensions;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace BetterTownOfUs.Roles.Modifiers
 {
@@ -14,17 +11,20 @@ namespace BetterTownOfUs.Roles.Modifiers
         public static readonly Dictionary<byte, Modifier> ModifierDictionary = new Dictionary<byte, Modifier>();
         protected internal Func<string> TaskText;
 
-        protected Modifier(PlayerControl player)
+        protected Modifier(PlayerControl player, ModifierEnum modifierEnum)
         {
             Player = player;
-            ModifierDictionary.Add(player.PlayerId, this);
+            ModifierType = modifierEnum;
+            if (this.GetType() == typeof(Assassin))
+                Assassin.AssassinsDictionary.Add(player.PlayerId, this);
+            else
+                ModifierDictionary.Add(player.PlayerId, this);
         }
 
-        public static IEnumerable<Modifier> AllModifiers => ModifierDictionary.Values.ToList();
-        protected internal string Name { get; set; }
+        protected internal string Name { get; protected set; }
         public PlayerControl Player { get; set; }
-        protected internal Color Color { get; set; }
-        protected internal ModifierEnum ModifierType { get; set; }
+        protected internal Color Color { get; protected set; }
+        protected internal ModifierEnum ModifierType { get; }
         public string ColorString => "<color=#" + Color.ToHtmlStringRGBA() + ">";
 
         private bool Equals(Modifier other)
@@ -61,6 +61,14 @@ namespace BetterTownOfUs.Roles.Modifiers
 
         public static Modifier GetModifier(PlayerControl player)
         {
+            if (player == null) return null;
+            return (from entry in ModifierDictionary where entry.Key == player.PlayerId select entry.Value)
+                .FirstOrDefault();
+        }
+
+        public static Modifier GetModifier(GameData.PlayerInfo player)
+        {
+            if (player == null) return null;
             return (from entry in ModifierDictionary where entry.Key == player.PlayerId select entry.Value)
                 .FirstOrDefault();
         }

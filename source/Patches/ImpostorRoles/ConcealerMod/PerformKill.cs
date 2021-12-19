@@ -6,10 +6,10 @@ using BetterTownOfUs.Roles;
 
 namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
 {
-    [HarmonyPatch(typeof(KillButtonManager), nameof(KillButtonManager.PerformKill))]
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
     public class PerformKill
     {
-        public static bool Prefix(KillButtonManager __instance)
+        public static bool Prefix(KillButton __instance)
         {
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Concealer))
             {
@@ -31,9 +31,11 @@ namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
             }
 
             if (
-                !__instance.isActiveAndEnabled
+                __instance.isCoolingDown
+                || !__instance.isActiveAndEnabled
                 || role.ConcealTimer() != 0
                 || role.Target == null
+                || role.Target.Is(Faction.Impostors)
             )
             {
                 return false;

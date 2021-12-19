@@ -4,20 +4,20 @@ using BetterTownOfUs.Roles;
 
 namespace BetterTownOfUs.ImpostorRoles.SwooperMod
 {
-    [HarmonyPatch(typeof(KillButtonManager), nameof(KillButtonManager.PerformKill))]
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
     public class PerformKill
     {
-        public static bool Prefix(KillButtonManager __instance)
+        public static bool Prefix(KillButton __instance)
         {
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Swooper);
             if (!flag) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
-            if (!__instance.isActiveAndEnabled) return false;
-            if (__instance.isCoolingDown) return false;
             var role = Role.GetRole<Swooper>(PlayerControl.LocalPlayer);
             if (__instance == role.SwoopButton)
             {
+                if (__instance.isCoolingDown) return false;
+                if (!__instance.isActiveAndEnabled) return false;
                 if (role.SwoopTimer() != 0) return false;
 
                 var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
@@ -28,7 +28,7 @@ namespace BetterTownOfUs.ImpostorRoles.SwooperMod
                 role.Swoop();
                 return false;
             }
-            
+
             return true;
         }
     }

@@ -24,16 +24,15 @@ namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
             Concealer role = Role.GetRole<Concealer>(PlayerControl.LocalPlayer);
             if (role.ConcealButton == null)
             {
-                role.ConcealButton = Object.Instantiate(__instance.KillButton, HudManager.Instance.transform);
-                role.ConcealButton.renderer.enabled = true;
+                role.ConcealButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
+                role.ConcealButton.graphic.enabled = true;
+                role.ConcealButton.GetComponent<AspectPosition>().DistanceFromEdge = BetterTownOfUs.ButtonPosition;
+                role.ConcealButton.gameObject.SetActive(false);
             }
 
-            role.ConcealButton.renderer.sprite = BetterTownOfUs.SwoopSprite;
-
+            role.ConcealButton.GetComponent<AspectPosition>().Update();
             role.ConcealButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
-            var position = __instance.KillButton.transform.localPosition;
-            role.ConcealButton.transform.localPosition = new Vector3(position.x,
-                __instance.ReportButton.transform.localPosition.y, position.z);
+            role.ConcealButton.graphic.sprite = BetterTownOfUs.SwoopSprite;
 
             if (role.Concealed != null)
             {
@@ -45,7 +44,7 @@ namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
             Utils.SetTarget(ref role.Target, role.ConcealButton);
 
             role.ConcealButton.SetCoolDown(role.ConcealTimer(), CustomGameOptions.ConcealCooldown);
-            role.ConcealButton.renderer.color = Palette.EnabledColor;
+            role.ConcealButton.graphic.color = Palette.EnabledColor;
         }
     }
 }

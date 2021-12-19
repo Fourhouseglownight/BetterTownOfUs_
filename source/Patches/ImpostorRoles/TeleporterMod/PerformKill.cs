@@ -3,10 +3,10 @@ using BetterTownOfUs.Roles;
 
 namespace BetterTownOfUs.ImpostorRoles.TeleporterMod
 {
-    [HarmonyPatch(typeof(KillButtonManager), nameof(KillButtonManager.PerformKill))]
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
     public static class PerformKill
     {
-        public static bool Prefix(KillButtonManager __instance)
+        public static bool Prefix(KillButton __instance)
         {
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Teleporter))
             {
@@ -16,8 +16,6 @@ namespace BetterTownOfUs.ImpostorRoles.TeleporterMod
             if (
                 !PlayerControl.LocalPlayer.CanMove
                 || PlayerControl.LocalPlayer.Data.IsDead
-                || !__instance.isActiveAndEnabled
-                || __instance.isCoolingDown
             )
             {
                 return false;
@@ -30,7 +28,9 @@ namespace BetterTownOfUs.ImpostorRoles.TeleporterMod
             }
 
             if (
-                role.TeleportTimer() > 0
+                __instance.isCoolingDown
+                || !__instance.isActiveAndEnabled
+                || role.TeleportTimer() > 0
                 || Utils.IsSabotageActive()
             )
             {

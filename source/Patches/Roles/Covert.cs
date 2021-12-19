@@ -5,24 +5,20 @@ namespace BetterTownOfUs.Roles
 {
     public class Covert : Role
     {
-        private KillButtonManager __covertButton;
+        private KillButton __covertButton;
         public DateTime LastCovert;
         public float CovertTimeRemaining;
         public bool IsCovert { get; private set; }
 
-        public Covert(PlayerControl player) : base(player)
+        public Covert(PlayerControl player) : base(player, RoleEnum.Covert)
         {
-            Name = "Covert";
             ImpostorText = () => "Do your tasks. Covertly.";
             TaskText = () => "Do your tasks. Covertly.";
-            Color = new Color(0.48f, 0.50f, 0.10f, 1f);
-            RoleType = RoleEnum.Covert;
-            Faction = Faction.Crewmates;
         }
 
         protected override void DoOnGameStart()
         {
-            LastCovert = DateTime.UtcNow;
+            LastCovert = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.CovertCooldown);
             CovertTimeRemaining = 0f;
         }
 
@@ -32,7 +28,7 @@ namespace BetterTownOfUs.Roles
             CovertTimeRemaining = 0f;
         }
 
-        public KillButtonManager CovertButton
+        public KillButton CovertButton
         {
             get => __covertButton;
             set

@@ -6,26 +6,22 @@ namespace BetterTownOfUs.Roles
 {
     public class Concealer : Role
     {
-        private KillButtonManager _concealButton;
+        private KillButton _concealButton;
         public DateTime LastConcealed { get; set; }
         public float TimeBeforeConcealed { get; private set; }
         public float ConcealTimeRemaining { get; private set; }
         public PlayerControl Target;
         public PlayerControl Concealed { get; private set; }
 
-        public Concealer(PlayerControl player) : base(player)
+        public Concealer(PlayerControl player) : base(player, RoleEnum.Concealer)
         {
-            Name = "Concealer";
             ImpostorText = () => "Conceal crewmates from each other for a sneaky kill";
             TaskText = () => "Conceal crewmates from each other for a sneaky kill";
-            Color = Palette.ImpostorRed;
-            RoleType = RoleEnum.Concealer;
-            Faction = Faction.Impostors;
         }
 
         protected override void DoOnGameStart()
         {
-            LastConcealed = DateTime.UtcNow;
+            LastConcealed = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.ConcealCooldown);
             Target = null;
         }
 
@@ -35,7 +31,7 @@ namespace BetterTownOfUs.Roles
             Target = null;
         }
 
-        public KillButtonManager ConcealButton
+        public KillButton ConcealButton
         {
             get => _concealButton;
             set
@@ -92,7 +88,7 @@ namespace BetterTownOfUs.Roles
         {
             // If the local player is an impostor, we don't actually want to swoop them
             if (
-                PlayerControl.LocalPlayer.Data.IsImpostor
+                PlayerControl.LocalPlayer.Is(Faction.Impostors)
                 || PlayerControl.LocalPlayer.Data.IsDead
                 || CamouflageUnCamouflage.IsCamoed
                 || Concealed == null

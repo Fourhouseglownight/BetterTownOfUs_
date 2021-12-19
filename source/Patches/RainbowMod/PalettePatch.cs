@@ -36,7 +36,7 @@ namespace BetterTownOfUs.RainbowMod
                 (StringNames)999996,//"Lilac",
                 (StringNames)999997,//"Rainbow",
                 (StringNames)999998,//"Azure", 
-                (StringNames)999999,//"Pinguin",
+                (StringNames)999999,//"Panda"
             };
             Palette.PlayerColors = new[]
             {

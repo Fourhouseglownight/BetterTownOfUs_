@@ -4,11 +4,11 @@ using BetterTownOfUs.Roles;
 
 namespace BetterTownOfUs.ImpostorRoles.LycanMod
 {
-    [HarmonyPatch(typeof(KillButtonManager), nameof(KillButtonManager.PerformKill))]
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
     public class PerformKillButton
 
     {
-        private static Lycan role;public static bool Prefix(KillButtonManager __instance)
+        private static Lycan role;public static bool Prefix(KillButton __instance)
         {
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Lycan)) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;

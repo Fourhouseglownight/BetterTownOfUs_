@@ -14,6 +14,7 @@ using BetterTownOfUs.Roles.Modifiers;
 using BetterTownOfUs.NeutralRoles.ParasiteMod;
 using UnhollowerBaseLib;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using Object = UnityEngine.Object;
 using PerformKill = BetterTownOfUs.ImpostorRoles.UnderdogMod.PerformKill;
 
@@ -23,16 +24,12 @@ namespace BetterTownOfUs
     public static class Utils
     {
         internal static bool ShowDeadBodies = false;
-        public static VisualAppearance WolfAppear = new VisualAppearance()
-        {
-            SizeFactor = new Vector3(1.0f, 1.0f, 1.0f)
-        };
 
         public static Dictionary<PlayerControl, Color> oldColors = new Dictionary<PlayerControl, Color>();
 
         public static List<WinningPlayerData> potentialWinners = new List<WinningPlayerData>();
 
-        public static void SetSkin(PlayerControl Player, uint skin)
+        public static void SetSkin(PlayerControl Player, string skin)
         {
             Player.MyPhysics.SetSkin(skin);
         }
@@ -46,78 +43,38 @@ namespace BetterTownOfUs
                 color.a = 0.1f;
             }
 
+            player.SetOutfit(CustomPlayerOutfitType.Swooper, new GameData.PlayerOutfit()
+            {
+                ColorId = player.CurrentOutfit.ColorId,
+                HatId = "",
+                SkinId = "",
+                VisorId = "",
+                _playerName = " "
+            });
             player.MyRend.color = color;
-
-            player.HatRenderer.SetHat(0, 0);
-            player.nameText.text = "";
-            if (player.MyPhysics.Skin.skin.ProdId != DestroyableSingleton<HatManager>.Instance
-                .AllSkins.ToArray()[0].ProdId)
-                player.MyPhysics.SetSkin(0);
-            if (player.CurrentPet != null) Object.Destroy(player.CurrentPet.gameObject);
-            player.CurrentPet =
-                Object.Instantiate(
-                    DestroyableSingleton<HatManager>.Instance.AllPets.ToArray()[0]);
-            player.CurrentPet.transform.position = player.transform.position;
-            player.CurrentPet.Source = player;
-            player.CurrentPet.Visible = player.Visible;
         }
 
-        public static void Morph(PlayerControl Player, PlayerControl MorphedPlayer, bool resetAnim = false)
+        public static void Morph(PlayerControl player, PlayerControl MorphedPlayer, bool resetAnim = false)
         {
             if (CamouflageUnCamouflage.IsCamoed) return;
-
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Seer))
+            if (player.Is(RoleEnum.Lycan))
             {
-                if (MorphedPlayer != null) Player.nameText.text = MorphedPlayer.Data.PlayerName;
-                else 
+                if (player.GetCustomOutfitType() != CustomPlayerOutfitType.Wolf) player.SetOutfit(CustomPlayerOutfitType.Wolf, new GameData.PlayerOutfit()
                 {
-                    Player.nameText.color = Palette.ImpostorRed;
-                    Player.nameText.text = "Lycan";
-                }
+                    ColorId = 0,
+                    HatId = "",
+                    SkinId = "",
+                    VisorId = "",
+                    PetId = "",
+                    _playerName = "Lycan"
+                });
+                PlayerControl.SetPlayerMaterialColors(Color.grey, player.myRend);
+                player.myRend.size = new Vector2(0.9f, 1.1f);
+                player.nameText.color = Palette.ImpostorRed;
+                Role.GetRole<Lycan>(player).Wolfed = true;
             }
-
-            VisualAppearance targetAppearance;
-
-            if (MorphedPlayer != null)
-            {
-                targetAppearance = MorphedPlayer.GetDefaultAppearance();
-                PlayerControl.SetPlayerMaterialColors(targetAppearance.ColorId, Player.myRend);
-            }
-            else
-            {
-                targetAppearance = WolfAppear;
-                PlayerControl.SetPlayerMaterialColors(Color.grey, Player.myRend);
-            }
-            
-            Player.nameText.transform.localPosition = new Vector3(
-                0f,
-                Player.Data.HatId == 0U ? 1.5f : 2.0f,
-                -0.5f
-            );
-
-            Player.HatRenderer.SetHat(targetAppearance.HatId, targetAppearance.ColorId);
-            if (Player.MyPhysics.Skin.skin.ProdId != DestroyableSingleton<HatManager>.Instance
-                .AllSkins.ToArray()[(int)targetAppearance.SkinId].ProdId)
-                SetSkin(Player, targetAppearance.SkinId);
-
-            if (Player.CurrentPet == null || Player.CurrentPet.ProdId !=
-                DestroyableSingleton<HatManager>.Instance.AllPets.ToArray()[(int)targetAppearance.PetId].ProdId)
-            {
-                if (Player.CurrentPet != null) Object.Destroy(Player.CurrentPet.gameObject);
-
-                Player.CurrentPet =
-                    Object.Instantiate(
-                        DestroyableSingleton<HatManager>.Instance.AllPets.ToArray()[(int)targetAppearance.PetId]);
-                Player.CurrentPet.transform.position = Player.transform.position;
-                Player.CurrentPet.Source = Player;
-                Player.CurrentPet.Visible = Player.Visible;
-            }
-
-            PlayerControl.SetPlayerMaterialColors(targetAppearance.ColorId, Player.CurrentPet.rend);
-            /*if (resetAnim && !Player.inVent)
-            {
-                Player.MyPhysics.ResetAnim();
-            }*/
+            else if (player.GetCustomOutfitType() != CustomPlayerOutfitType.Morph)
+                player.SetOutfit(CustomPlayerOutfitType.Morph, MorphedPlayer.Data.DefaultOutfit);
         }
 
         public static void MakeVisible(PlayerControl player)
@@ -128,56 +85,27 @@ namespace BetterTownOfUs
 
         public static void Unmorph(PlayerControl player)
         {
-            var appearance = player.GetDefaultAppearance();
-
-            player.nameText.text = player.Data.PlayerName;
-            PlayerControl.SetPlayerMaterialColors(appearance.ColorId, player.myRend);
-            player.HatRenderer.SetHat(appearance.HatId, appearance.ColorId);
-            player.nameText.transform.localPosition = new Vector3(
-                0f,
-                appearance.HatId == 0U ? 1.5f : 2.0f,
-                -0.5f
-            );
-
-            if (player.MyPhysics.Skin.skin.ProdId != DestroyableSingleton<HatManager>.Instance
-                .AllSkins.ToArray()[(int)appearance.SkinId].ProdId)
-                SetSkin(player, appearance.SkinId);
-
-            if (player.CurrentPet != null) Object.Destroy(player.CurrentPet.gameObject);
-
-            player.CurrentPet =
-                Object.Instantiate(
-                    DestroyableSingleton<HatManager>.Instance.AllPets.ToArray()[(int)appearance.PetId]);
-            player.CurrentPet.transform.position = player.transform.position;
-            player.CurrentPet.Source = player;
-            player.CurrentPet.Visible = player.Visible;
-
-            PlayerControl.SetPlayerMaterialColors(appearance.ColorId, player.CurrentPet.rend);
-
-            /*if (!Player.inVent)
-            {
-                Player.MyPhysics.ResetAnim();
-            }*/
+            if (player.Is(RoleEnum.Lycan)) Role.GetRole<Lycan>(player).Wolfed = false;
+            player.SetOutfit(CustomPlayerOutfitType.Default);
         }
 
         public static void Camouflage()
         {
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                player.nameText.text = "";
-                PlayerControl.SetPlayerMaterialColors(Color.grey, player.myRend);
-                player.HatRenderer.SetHat(0, 0);
-                if (player.MyPhysics.Skin.skin.ProdId != DestroyableSingleton<HatManager>.Instance
-                    .AllSkins.ToArray()[0].ProdId)
-                    SetSkin(player, 0);
+                if (player.GetCustomOutfitType() != CustomPlayerOutfitType.Camouflage)
+                {
+                    player.SetOutfit(CustomPlayerOutfitType.Camouflage, new GameData.PlayerOutfit()
+                    {
+                        ColorId = player.GetDefaultOutfit().ColorId,
+                        HatId = "",
+                        SkinId = "",
+                        VisorId = "",
+                        _playerName = " "
+                    });
 
-                if (player.CurrentPet != null) Object.Destroy(player.CurrentPet.gameObject);
-                player.CurrentPet =
-                    Object.Instantiate(
-                        DestroyableSingleton<HatManager>.Instance.AllPets.ToArray()[0]);
-                player.CurrentPet.transform.position = player.transform.position;
-                player.CurrentPet.Source = player;
-                player.CurrentPet.Visible = player.Visible;
+                    PlayerControl.SetPlayerMaterialColors(Color.grey, player.myRend);
+                }
             }
         }
 
@@ -217,6 +145,11 @@ namespace BetterTownOfUs
             return Role.GetRole(player)?.Faction == faction;
         }
 
+        public static bool Is(this GameData.PlayerInfo player, Faction faction)
+        {
+            return Role.GetRole(player)?.Faction == faction;
+        }
+
         public static List<PlayerControl> GetCrewmates(List<PlayerControl> impostors)
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(
@@ -242,7 +175,7 @@ namespace BetterTownOfUs
             var role = Role.GetRole(player);
             if (role != null) return role.RoleType;
 
-            return player.Data.IsImpostor ? RoleEnum.Impostor : RoleEnum.Crewmate;
+            return player.Is(Faction.Impostors) ? RoleEnum.Impostor : RoleEnum.Crewmate;
         }
 
         public static PlayerControl PlayerById(byte id)
@@ -304,6 +237,7 @@ namespace BetterTownOfUs
                 if (player.Data.IsDead || player.PlayerId == refPlayer.PlayerId || !player.Collider.enabled) continue;
                 if (CustomGameOptions.LoverKill && refPlayer.isLover() && player.isLover()) continue;
                 if (CustomGameOptions.KillVent && player.inVent) continue;
+                if (CustomGameOptions.ImpostorsKnowTeam < 2 && refPlayer.Is(Faction.Impostors) && player.Is(Faction.Impostors)) continue;
                 var playerPosition = player.GetTruePosition();
                 var distBetweenPlayers = Vector2.Distance(refPosition, playerPosition);
                 var isClosest = distBetweenPlayers < num;
@@ -339,7 +273,7 @@ namespace BetterTownOfUs
 
         public static void SetTarget(
             ref PlayerControl closestPlayer,
-            KillButtonManager button,
+            KillButton button,
             float maxDistance = float.NaN,
             List<PlayerControl> targets = null
         )
@@ -396,6 +330,18 @@ namespace BetterTownOfUs
                 return 0;
             }
             return (num - (float) timeSpan.TotalMilliseconds) / 1000f;
+        }
+
+        /* There's a bug on Polus; the bottom of the vent in Admin (in the library) is right next to the bottom wall
+         * of the room. This means that attempting to send the player there often ends up with them stuck in the wall,
+         * unable to move. We need to instead use coordinates that put them in the middle of the vent instead.
+         */
+        public static Vector3 GetCoordinatesToSendPlayerToVent(Vent vent)
+        {
+            Vector2 size = vent.GetComponent<BoxCollider2D>().size;
+            Vector3 destination = vent.transform.position;
+            destination.y += size.y / 2;
+            return destination;
         }
 
         public static void MurderPlayer(PlayerControl killer, PlayerControl target)
@@ -465,14 +411,8 @@ namespace BetterTownOfUs
                     target.myTasks.Insert(0, importantTextTask);
                 }
 
-                if ((killer.Is(RoleEnum.Lycan) && Role.GetRole<Lycan>(killer).Wolfed) || (((killer.Is(RoleEnum.Lover) || killer.Is(RoleEnum.LoverImpostor)) && Role.GetRole<Lover>(killer).Voted) && CustomGameOptions.LoverVoted))
-                {
-                    target.Data.IsDead = true;
-                } else 
-                {
-                    killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(killer, target));
-                }
-                
+                if (killer.Is(RoleEnum.Lycan) && Role.GetRole<Lycan>(killer).Wolfed || (killer.Is(RoleEnum.Lover) || killer.Is(RoleEnum.LoverImpostor) && Role.GetRole<Lover>(killer).Voted) && CustomGameOptions.VotedLover) target.Data.IsDead = true;
+                else killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(killer, target));
                 var deadBody = new DeadPlayer
                 {
                     PlayerId = target.PlayerId,
@@ -492,7 +432,7 @@ namespace BetterTownOfUs
                     return;
                 }
 
-                if (target.Is(ModifierEnum.Diseased) && killer.Data.IsImpostor)
+                if (target.Is(ModifierEnum.Diseased) && killer.Is(Faction.Impostors))
                 {
                     killer.SetKillTimer(PlayerControl.GameOptions.KillCooldown * 3);
                     return;
@@ -500,11 +440,14 @@ namespace BetterTownOfUs
 
                 if (killer.Is(RoleEnum.Underdog))
                 {
-                    killer.SetKillTimer(PlayerControl.GameOptions.KillCooldown * (PerformKill.LastImp() ? 0.5f : 1.5f));
+                    var lowerKC = PlayerControl.GameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus;
+                    var normalKC = PlayerControl.GameOptions.KillCooldown;
+                    var upperKC = PlayerControl.GameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus;
+                    killer.SetKillTimer(PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC));
                     return;
                 }
 
-                if (killer.Data.IsImpostor)
+                if (killer.Is(Faction.Impostors))
                 {
                     killer.SetKillTimer(PlayerControl.GameOptions.KillCooldown);
                 }
@@ -552,8 +495,8 @@ namespace BetterTownOfUs
             ShipStatus.RpcEndGame(reason, showAds);
         }
 
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetInfected))]
-        public static class PlayerControl_SetInfected
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetRole))]
+        public static class PlayerControl_SetRole
         {
             public static void Postfix()
             {

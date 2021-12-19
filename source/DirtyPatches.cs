@@ -19,7 +19,7 @@ namespace BetterTownOfUs
             }
             catch (Exception e)
             {
-                BetterTownOfUs.log.LogError($"Exception unpatching Reactor's UdpConnection.HandleSend Prefix: {e.Message}, Stack: {e.StackTrace}");
+                Logger<BetterTownOfUs>.Instance.LogError($"Exception unpatching Reactor's UdpConnection.HandleSend Prefix: {e.Message}, Stack: {e.StackTrace}");
             }
         }
     }

@@ -9,17 +9,25 @@ namespace BetterTownOfUs
     public class AmongUsClient_OnGameEnd
     {
         public static List<WinningPlayerData> ImpsAlive = new List<WinningPlayerData>();
-        
-        public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] GameOverReason reason,
-            [HarmonyArgument(0)] bool showAd)
+        public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] EndGameResult endGameResult)
         {
+            EndGameSummary.UpdatePlayerInfo();
             Utils.potentialWinners.Clear();
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 Utils.potentialWinners.Add(new WinningPlayerData(player.Data));
 
-                if (CustomGameOptions.ImpostorsKnowTeam == 3 && reason != GameOverReason.HumansByVote && reason != GameOverReason.HumansByTask && Role.GetRole(player).Faction == Faction.Impostors && !player.Data.IsDead && !player.Data.Disconnected) ImpsAlive.Add(new WinningPlayerData(player.Data));
+                if (CustomGameOptions.ImpostorsKnowTeam == 3 && endGameResult.GameOverReason != GameOverReason.HumansByTask && endGameResult.GameOverReason != GameOverReason.HumansByVote && player.Is(Faction.Impostors) && !player.Data.IsDead && !player.Data.Disconnected) ImpsAlive.Add(new WinningPlayerData(player.Data));
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]
+    public class EndGameManagerSetUpPatch
+    {
+        public static void Postfix(EndGameManager __instance)
+        {
+            EndGameSummary.LoadGameSummary(__instance);
         }
     }
 
@@ -28,25 +36,19 @@ namespace BetterTownOfUs
     {
         public static void Prefix()
         {
-            if (AmongUsClient_OnGameEnd.ImpsAlive.Count == 1)
-            {
-                TempData.winners = new List<WinningPlayerData>();
-                foreach (var win in AmongUsClient_OnGameEnd.ImpsAlive) TempData.winners.Add(win);
-                return;
-            }
-
             var jester = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Jester && ((Jester) x).VotedOut);
             var executioner = Role.AllRoles.FirstOrDefault(x =>
                 x.RoleType == RoleEnum.Executioner && ((Executioner) x).TargetVotedOut);
-            if (Role.NobodyWins)
+            var toRemoveColorIds = Role.AllRoles.Where(o => o.LostByRPC).Select(o => o.Player.Data.DefaultOutfit.ColorId).ToArray();
+            var toRemoveWinners = TempData.winners.ToArray().Where(o => toRemoveColorIds.Contains(o.ColorId)).ToArray();
+            for (int i = 0; i < toRemoveWinners.Count(); i++)
             {
-                TempData.winners = new List<WinningPlayerData>();
-                return;
+                TempData.winners.Remove(toRemoveWinners[i]);
             }
 
             if (jester != null)
             {
-                var winners = Utils.potentialWinners.Where(x => x.Name == jester.PlayerName).ToList();
+                var winners = Utils.potentialWinners.Where(x => x.PlayerName == jester.PlayerName).ToList();
                 TempData.winners = new List<WinningPlayerData>();
                 foreach (var win in winners)
                 {
@@ -59,7 +61,17 @@ namespace BetterTownOfUs
 
             if (executioner != null)
             {
-                var winners = Utils.potentialWinners.Where(x => x.Name == executioner.PlayerName).ToList();
+                var winners = Utils.potentialWinners.Where(x => x.PlayerName == executioner.PlayerName).ToList();
+                TempData.winners = new List<WinningPlayerData>();
+                foreach (var win in winners) TempData.winners.Add(win);
+                return;
+            }
+
+            var mentalist =
+                Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Mentalist && ((Mentalist) x).MentalistWin);
+            if (mentalist != null)
+            {
+                var winners = Utils.potentialWinners.Where(x => x.PlayerName == mentalist.PlayerName).ToList();
                 TempData.winners = new List<WinningPlayerData>();
                 foreach (var win in winners) TempData.winners.Add(win);
                 return;
@@ -73,7 +85,7 @@ namespace BetterTownOfUs
                 var lover1 = (Lover) lover;
                 var lover2 = lover1.OtherLover;
                 var winners = Utils.potentialWinners
-                    .Where(x => x.Name == lover1.PlayerName || x.Name == lover2.PlayerName).ToList();
+                    .Where(x => x.PlayerName == lover1.PlayerName || x.PlayerName == lover2.PlayerName).ToList();
                 TempData.winners = new List<WinningPlayerData>();
                 foreach (var win in winners) TempData.winners.Add(win);
                 return;
@@ -82,7 +94,7 @@ namespace BetterTownOfUs
             var glitch = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Glitch && ((Glitch) x).GlitchWins);
             if (glitch != null)
             {
-                var winners = Utils.potentialWinners.Where(x => x.Name == glitch.PlayerName).ToList();
+                var winners = Utils.potentialWinners.Where(x => x.PlayerName == glitch.PlayerName).ToList();
                 TempData.winners = new List<WinningPlayerData>();
                 foreach (var win in winners) TempData.winners.Add(win);
                 return;
@@ -92,7 +104,7 @@ namespace BetterTownOfUs
                 Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Arsonist && ((Arsonist) x).ArsonistWins);
             if (arsonist != null)
             {
-                var winners = Utils.potentialWinners.Where(x => x.Name == arsonist.PlayerName).ToList();
+                var winners = Utils.potentialWinners.Where(x => x.PlayerName == arsonist.PlayerName).ToList();
                 TempData.winners = new List<WinningPlayerData>();
                 foreach (var win in winners) TempData.winners.Add(win);
                 return;
@@ -102,7 +114,7 @@ namespace BetterTownOfUs
                 Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Cannibal && ((Cannibal) x).CannibalWin);
             if (cannibal != null)
             {
-                var winners = Utils.potentialWinners.Where(x => x.Name == cannibal.PlayerName).ToList();
+                var winners = Utils.potentialWinners.Where(x => x.PlayerName == cannibal.PlayerName).ToList();
                 TempData.winners = new List<WinningPlayerData>();
                 foreach (var win in winners) TempData.winners.Add(win);
                 return;
@@ -112,9 +124,16 @@ namespace BetterTownOfUs
                 Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Phantom && ((Phantom) x).CompletedTasks);
             if (phantom != null)
             {
-                var winners = Utils.potentialWinners.Where(x => x.Name == phantom.PlayerName).ToList();
+                var winners = Utils.potentialWinners.Where(x => x.PlayerName == phantom.PlayerName).ToList();
                 TempData.winners = new List<WinningPlayerData>();
                 foreach (var win in winners) TempData.winners.Add(win);
+                return;
+            }
+            
+            if (CustomGameOptions.ImpostorsKnowTeam == 3 && AmongUsClient_OnGameEnd.ImpsAlive.Count == 1)
+            {
+                TempData.winners = new List<WinningPlayerData>();
+                foreach (var win in AmongUsClient_OnGameEnd.ImpsAlive) TempData.winners.Add(win);
             }
         }
     }

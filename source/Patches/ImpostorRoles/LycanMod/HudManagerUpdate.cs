@@ -18,14 +18,15 @@ namespace BetterTownOfUs.ImpostorRoles.LycanMod
             var role = Role.GetRole<Lycan>(PlayerControl.LocalPlayer);
             if (role.LycanButton == null)
             {
-                role.LycanButton = UnityEngine.Object.Instantiate(__instance.KillButton, HudManager.Instance.transform);
-                role.LycanButton.renderer.enabled = true;
+                role.LycanButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
+                role.LycanButton.graphic.enabled = true;
+                role.LycanButton.GetComponent<AspectPosition>().DistanceFromEdge = BetterTownOfUs.ButtonPosition;
+                role.LycanButton.gameObject.SetActive(false);
             }
 
-            role.LycanButton.renderer.sprite = LycanSprite;
+            role.LycanButton.GetComponent<AspectPosition>().Update();
             role.LycanButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
-            var position = __instance.KillButton.transform.localPosition;
-            role.LycanButton.transform.localPosition = new Vector3(position.x, __instance.ReportButton.transform.localPosition.y, position.z);
+            role.LycanButton.graphic.sprite = LycanSprite;
 
             if (role.Wolfed)
             {
@@ -33,8 +34,8 @@ namespace BetterTownOfUs.ImpostorRoles.LycanMod
                 return;
             }
             role.LycanButton.SetCoolDown(role.WolfTimer(), CustomGameOptions.WolfCd);
-            role.LycanButton.renderer.color = Palette.EnabledColor;
-            role.LycanButton.renderer.material.SetFloat("_Desat", 0f);
+            role.LycanButton.graphic.color = Palette.EnabledColor;
+            role.LycanButton.graphic.material.SetFloat("_Desat", 0f);
         }
     }
 }

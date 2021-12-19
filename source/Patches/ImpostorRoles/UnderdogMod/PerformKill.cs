@@ -17,7 +17,15 @@ namespace BetterTownOfUs.ImpostorRoles.UnderdogMod
         internal static bool LastImp()
         {
             return PlayerControl.AllPlayerControls.ToArray()
-                .Count(x => x.Data.IsImpostor && !x.Data.IsDead) == 1;
+                .Count(x => x.Is(Faction.Impostors) && !x.Data.IsDead) == 1;
+        }
+
+        internal static bool IncreasedKC()
+        {
+            if (CustomGameOptions.UnderdogIncreasedKC)
+                return false;
+            else
+                return true;
         }
     }
 }

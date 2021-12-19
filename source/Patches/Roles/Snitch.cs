@@ -14,26 +14,23 @@ namespace BetterTownOfUs.Roles
 
         public int TasksLeft = int.MaxValue;
 
-        public Snitch(PlayerControl player) : base(player)
+        public Snitch(PlayerControl player) : base(player, RoleEnum.Snitch)
         {
-            Name = "Snitch";
             ImpostorText = () => "Complete all your tasks to discover the Impostors";
             TaskText = () =>
                 TasksDone
                     ? "Find the arrows pointing to the Impostors!"
                     : "Complete all your tasks to discover the Impostors!";
-            Color = new Color(0.83f, 0.69f, 0.22f, 1f);
             Hidden = !CustomGameOptions.SnitchOnLaunch;
-            RoleType = RoleEnum.Snitch;
         }
 
-        public bool OneTaskLeft => TasksLeft <= 1;
+        public bool Revealed => TasksLeft <= CustomGameOptions.SnitchTasksRemaining;
         public bool TasksDone => TasksLeft <= 0;
 
 
         internal override bool Criteria()
         {
-            return OneTaskLeft && PlayerControl.LocalPlayer.Data.IsImpostor ||
+            return Revealed && PlayerControl.LocalPlayer.Is(Faction.Impostors) ||
                    base.Criteria();
         }
 
@@ -41,7 +38,7 @@ namespace BetterTownOfUs.Roles
         {
             if (CamouflageUnCamouflage.IsCamoed && player == null) return "";
             if (PlayerControl.LocalPlayer.Data.IsDead) return base.NameText(player);
-            if (OneTaskLeft || !Hidden) return base.NameText(player);
+            if (Revealed || !Hidden) return base.NameText(player);
             Player.nameText.color = Color.white;
             if (player != null) player.NameText.color = Color.white;
             if (player != null && (MeetingHud.Instance.state == MeetingHud.VoteStates.Proceeding ||
@@ -49,7 +46,7 @@ namespace BetterTownOfUs.Roles
             if (!CustomGameOptions.RoleUnderName && player == null) return Player.name;
             Player.nameText.transform.localPosition = new Vector3(
                 0f,
-                Player.Data.HatId == 0U ? 1.5f : 2.0f,
+                Player.CurrentOutfit.HatId == "hat_NoHat" ? 1.5f : 2.0f,
                 -0.5f
             );
             return Player.name + "\n" + "Crewmate";

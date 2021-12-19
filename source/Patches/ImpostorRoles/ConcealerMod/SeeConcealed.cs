@@ -16,7 +16,7 @@ namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
                 || PlayerControl.LocalPlayer == null
                 || PlayerControl.LocalPlayer.Data == null
                 // Impostors and dead people see them as concealed
-                || !(PlayerControl.LocalPlayer.Data.IsImpostor || PlayerControl.LocalPlayer.Data.IsDead)
+                || !(PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Data.IsDead)
                 || MeetingHud.Instance != null
             )
             {

@@ -8,22 +8,22 @@ using UnityEngine;
 
 namespace BetterTownOfUs.ImpostorRoles.UndertakerMod
 {
-    [HarmonyPatch(typeof(KillButtonManager), nameof(KillButtonManager.PerformKill))]
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
     public class PerformKillButton
     {
-        public static bool Prefix(KillButtonManager __instance)
+        public static bool Prefix(KillButton __instance)
         {
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Undertaker)) return true;
+            var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Undertaker);
+            if (!flag) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
-            if (!__instance.isActiveAndEnabled) return false;
-            if (__instance.isCoolingDown) return false;
             var role = Role.GetRole<Undertaker>(PlayerControl.LocalPlayer);
 
             if (__instance == role.DragDropButton)
             {
-                if (role.DragDropButton.renderer.sprite == BetterTownOfUs.DragSprite)
+                if (role.DragDropButton.graphic.sprite == BetterTownOfUs.DragSprite)
                 {
+                    if (__instance.isCoolingDown) return false;
                     if (!__instance.enabled) return false;
                     var maxDistance = GameOptionsData.KillDistances[PlayerControl.GameOptions.KillDistance];
                     if (Vector2.Distance(role.CurrentTarget.TruePosition,
@@ -39,7 +39,7 @@ namespace BetterTownOfUs.ImpostorRoles.UndertakerMod
                     role.CurrentlyDragging = role.CurrentTarget;
 
                     KillButtonTarget.SetTarget(__instance, null, role);
-                    __instance.renderer.sprite = BetterTownOfUs.DropSprite;
+                    __instance.graphic.sprite = BetterTownOfUs.DropSprite;
                     return false;
                 }
                 else
@@ -55,13 +55,16 @@ namespace BetterTownOfUs.ImpostorRoles.UndertakerMod
                     var body = role.CurrentlyDragging;
                     body.bodyRenderer.material.SetFloat("_Outline", 0f);
                     role.CurrentlyDragging = null;
-                    __instance.renderer.sprite = BetterTownOfUs.DragSprite;
+                    __instance.graphic.sprite = BetterTownOfUs.DragSprite;
                     role.LastDragged = DateTime.UtcNow;
+
                     //body.transform.position = position;
+
+
                     return false;
                 }
             }
-   
+
             return true;
         }
     }

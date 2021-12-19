@@ -49,25 +49,29 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
 
                 var pool1 = Swap1.PlayerIcon.transform;
                 var name1 = Swap1.NameText.transform;
-                var mask1 = Swap1.Background.transform;
+                var background1 = Swap1.Background.transform;
                 var whiteBackground1 = Swap1.PlayerButton.transform;
+                var mask1 = Swap1.Background.transform;
                 
                 var pooldest1 = (Vector2) pool1.position;
                 var namedest1 = (Vector2) name1.position;
-                var maskdest1 = (Vector2) mask1.position;
+                var backgroundDest1 = (Vector2) background1.position;
                 var whiteBackgroundDest1 = (Vector2) whiteBackground1.position;
-                mask1.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0f);
+                var maskdest1 = (Vector2) mask1.position;
+                //mask1.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0f);
 
                 var pool2 = Swap2.PlayerIcon.transform;
                 var name2 = Swap2.NameText.transform;
+                var background2 = Swap2.Background.transform;
                 var mask2 = Swap2.Background.transform;
                 var whiteBackground2 = Swap2.PlayerButton.transform;
 
                 var pooldest2 = (Vector2) pool2.position;
                 var namedest2 = (Vector2) name2.position;
+                var backgrounddest2 = (Vector2) background2.position;
                 var maskdest2 = (Vector2) mask2.position;
                 var whiteBackgroundDest2 = (Vector2) whiteBackground2.position;
-                mask2.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0f);
+                //mask2.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0f);
 
 
                 Coroutines.Start(Slide2D(pool1, pooldest1, pooldest2, 2f));

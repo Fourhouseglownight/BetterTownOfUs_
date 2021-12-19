@@ -6,6 +6,7 @@ using Reactor;
 using BetterTownOfUs.CrewmateRoles.MayorMod;
 using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
+using BetterTownOfUs.Roles.Modifiers;
 using UnhollowerBaseLib;
 using UnityEngine;
 using UnityEngine.UI;
@@ -96,7 +97,7 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
 
                 var playerControl = playerInfo.Object;
                 
-                if (playerControl.Is(RoleEnum.Assassin) && playerInfo.IsDead)
+                if (Assassin.IsAssassin(playerControl) && playerInfo.IsDead)
                 {
                     playerVoteArea.VotedFor = PlayerVoteArea.DeadVote;
                     playerVoteArea.SetDead(false, true);

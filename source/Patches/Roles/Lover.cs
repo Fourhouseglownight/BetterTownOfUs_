@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using BetterTownOfUs.ImpostorRoles.CamouflageMod;
@@ -8,17 +8,12 @@ namespace BetterTownOfUs.Roles
 {
     public class Lover : Role
     {
-        public Lover(PlayerControl player, bool impostor, bool eitherLoverImpostor) : base(player)
+        public Lover(PlayerControl player, bool impostor, bool eitherLoverImpostor) : base(player, impostor ? RoleEnum.LoverImpostor : RoleEnum.Lover)
         {
-            Name = impostor ? "Loving Impostor" : "Lover";
-            Color = new Color(1f, 0.4f, 0.8f, 1f);
             ImpostorText = () =>
                 "You are in " + ColorString + "Love</color> with " + ColorString + OtherLover.Player.name;
             TaskText = () => $"Stay alive with your love {OtherLover.Player.name} \n and win together";
-            RoleType = impostor ? RoleEnum.LoverImpostor : RoleEnum.Lover;
             LoverImpostor = eitherLoverImpostor;
-            Scale = impostor ? 2.3f : 1f;
-            Faction = impostor ? Faction.Impostors : Faction.Crewmates;
         }
 
         public Lover OtherLover { get; set; }
@@ -28,7 +23,7 @@ namespace BetterTownOfUs.Roles
         public bool LoverImpostor { get; set; }
         public bool Voted = false;
 
-        protected override void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)
+        protected override void IntroPrefix(IntroCutscene._CoBegin_d__18 __instance)
         {
             var loverTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
             loverTeam.Add(PlayerControl.LocalPlayer);
@@ -51,10 +46,10 @@ namespace BetterTownOfUs.Roles
             if (!CustomGameOptions.RoleUnderName && player == null) return Player.name;
             Player.nameText.transform.localPosition = new Vector3(
                 0f,
-                Player.Data.HatId == 0U ? 1.5f : 2f,
+                Player.CurrentOutfit.HatId == "hat_NoHat" ? 1.5f : 2f,
                 -0.5f
             );
-            if (PlayerControl.LocalPlayer.Data.IsImpostor && RoleType == RoleEnum.LoverImpostor)
+            if (PlayerControl.LocalPlayer.Is(Faction.Impostors) && RoleType == RoleEnum.LoverImpostor)
             {
                 Player.nameText.color = Palette.ImpostorRed;
                 if (player != null) player.NameText.color = Palette.ImpostorRed;
@@ -159,9 +154,9 @@ namespace BetterTownOfUs.Roles
             /*var lover1 = Player;
             var lover2 = OtherLover.Player;
             //System.Console.WriteLine("reached révoila");
-            lover1.Data.IsImpostor = true;
+            lover1.Is(Faction.Impostors) = true;
             lover1.Data.IsDead = false;
-            lover2.Data.IsImpostor = true;
+            lover2.Is(Faction.Impostors) = true;
             lover2.Data.IsDead = false;
             foreach (var player in PlayerControl.AllPlayerControls)
             {
@@ -170,7 +165,7 @@ namespace BetterTownOfUs.Roles
                 player.RemoveInfected();
                 player.Die(0);
                 player.Data.IsDead = true;
-                player.Data.IsImpostor = false;
+                player.Is(Faction.Impostors) = false;
             }*/
 
             LoveCoupleWins = true;

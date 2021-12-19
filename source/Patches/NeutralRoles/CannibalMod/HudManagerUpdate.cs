@@ -21,14 +21,20 @@ namespace BetterTownOfUs.NeutralRoles.CannibalMod
             if (PlayerControl.LocalPlayer.Data.IsDead)
             {
                     eatButton.gameObject.SetActive(false);
-                    eatButton.isActive = false;
+                    //eatButton.isActive = false;
             }
             else
             {
-                eatButton.gameObject.SetActive(!MeetingHud.Instance);
-                eatButton.isActive = !MeetingHud.Instance;
-                eatButton.renderer.sprite = BetterTownOfUs.JanitorClean;
+                eatButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
+                eatButton.graphic.enabled = true;
+                eatButton.GetComponent<AspectPosition>().DistanceFromEdge = BetterTownOfUs.ButtonPosition;
+                eatButton.gameObject.SetActive(false);
+                //eatButton.isActive = !MeetingHud.Instance;
             }
+
+            eatButton.GetComponent<AspectPosition>().Update();
+            eatButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
+            eatButton.graphic.sprite = BetterTownOfUs.JanitorClean;
 
             var truePosition = PlayerControl.LocalPlayer.GetTruePosition();
             var maxDistance = GameOptionsData.KillDistances[PlayerControl.GameOptions.KillDistance];

@@ -20,7 +20,7 @@ namespace BetterTownOfUs.RainbowMod
                 999996 => "Lilac",
                 999997 => "Rainbow",
                 999998 => "Azure",
-                999999 => "Pinguin",
+                999999 => "Panda",
                 _ => null
             };
             if (newResult != null)

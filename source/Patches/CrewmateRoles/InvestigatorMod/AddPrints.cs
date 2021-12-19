@@ -45,14 +45,12 @@ namespace BetterTownOfUs.CrewmateRoles.InvestigatorMod
 
                     if (canPlace) new Footprint(player, investigator);
                 }
-            }
 
-            // Update
-
-            for (var i = 0; i < investigator.AllPrints.Count; i++)
-            {
-                var footprint = investigator.AllPrints[i];
-                if (footprint.Update()) i--;
+                for (var i = 0; i < investigator.AllPrints.Count; i++)
+                {
+                    var footprint = investigator.AllPrints[i];
+                    if (footprint.Update()) i--;
+                }
             }
         }
     }

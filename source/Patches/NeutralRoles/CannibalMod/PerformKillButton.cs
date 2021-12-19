@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace BetterTownOfUs.NeutralRoles.CannibalMod
 {
-    [HarmonyPatch(typeof(KillButtonManager), nameof(KillButtonManager.PerformKill))]
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
     public class PerformKillButton
 
     {
-        public static bool Prefix(KillButtonManager __instance)
+        public static bool Prefix(KillButton __instance)
         {
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Cannibal)) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;

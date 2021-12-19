@@ -4,14 +4,10 @@ namespace BetterTownOfUs.Roles
 {
     public class Underdog : Role
     {
-        public Underdog(PlayerControl player) : base(player)
+        public Underdog(PlayerControl player) : base(player, RoleEnum.Underdog)
         {
-            Name = "Underdog";
             ImpostorText = () => "Use your comeback power to win";
             TaskText = () => "long kill cooldown when 2 imps, short when 1 imp";
-            Color = Palette.ImpostorRed;
-            RoleType = RoleEnum.Underdog;
-            Faction = Faction.Impostors;
         }
 
         protected override void DoOnMeetingEnd()
@@ -19,9 +15,7 @@ namespace BetterTownOfUs.Roles
             SetKillTimer();
         }
 
-        public float MaxTimer() => PlayerControl.GameOptions.KillCooldown * (
-            PerformKill.LastImp() ? 0.5f : 1.5f
-        );
+        public float MaxTimer() => PerformKill.LastImp() ? PlayerControl.GameOptions.KillCooldown - (CustomGameOptions.UnderdogKillBonus) : (PerformKill.IncreasedKC() ? PlayerControl.GameOptions.KillCooldown : PlayerControl.GameOptions.KillCooldown + (CustomGameOptions.UnderdogKillBonus));
 
         public void SetKillTimer()
         {

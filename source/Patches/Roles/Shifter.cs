@@ -1,18 +1,14 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace BetterTownOfUs.Roles
 {
     public class Shifter : Role
     {
-        public Shifter(PlayerControl player) : base(player)
+        public Shifter(PlayerControl player) : base(player, RoleEnum.Shifter)
         {
-            Name = "Shifter";
             ImpostorText = () => "Shift around different roles";
             TaskText = () => "Steal other people's roles.\nFake Tasks:";
-            Color = new Color(0.6f, 0.6f, 0.6f, 1f);
-            RoleType = RoleEnum.Shifter;
-            Faction = Faction.Neutral;
         }
 
         public PlayerControl ClosestPlayer;
@@ -20,7 +16,7 @@ namespace BetterTownOfUs.Roles
 
         protected override void DoOnGameStart()
         {
-            LastShifted = DateTime.UtcNow;
+            LastShifted = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.ShifterCd);
         }
 
         protected override void DoOnMeetingEnd()
@@ -30,7 +26,7 @@ namespace BetterTownOfUs.Roles
 
         public void Loses()
         {
-            Player.Data.IsImpostor = true;
+            LostByRPC = true;
         }
 
         public float ShifterShiftTimer()

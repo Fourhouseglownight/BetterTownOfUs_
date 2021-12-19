@@ -1,4 +1,4 @@
-using Il2CppSystem.Collections.Generic;
+﻿using Il2CppSystem.Collections.Generic;
 using UnityEngine;
 
 namespace BetterTownOfUs.Roles
@@ -8,17 +8,13 @@ namespace BetterTownOfUs.Roles
         public bool VotedOut;
 
 
-        public Jester(PlayerControl player) : base(player)
+        public Jester(PlayerControl player) : base(player, RoleEnum.Jester)
         {
-            Name = "Jester";
             ImpostorText = () => "Get voted out";
             TaskText = () => "Get voted out!\nFake Tasks:";
-            Color = new Color(1f, 0.75f, 0.8f, 1f);
-            RoleType = RoleEnum.Jester;
-            Faction = Faction.Neutral;
         }
 
-        protected override void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)
+        protected override void IntroPrefix(IntroCutscene._CoBegin_d__18 __instance)
         {
             var jesterTeam = new List<PlayerControl>();
             jesterTeam.Add(PlayerControl.LocalPlayer);
@@ -40,7 +36,7 @@ namespace BetterTownOfUs.Roles
 
         public void Loses()
         {
-            Player.Data.IsImpostor = true;
+            LostByRPC = true;
         }
     }
 }

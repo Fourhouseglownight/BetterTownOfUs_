@@ -1,11 +1,14 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using Hazel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Reactor.Extensions;
 using TMPro;
+using BetterTownOfUs.Extensions;
 using BetterTownOfUs.ImpostorRoles.CamouflageMod;
+using BetterTownOfUs.Patches;
+using BetterTownOfUs.CrewmateRoles.MedicMod;
 using BetterTownOfUs.Roles.Modifiers;
 using UnhollowerBaseLib;
 using UnityEngine;
@@ -20,19 +23,20 @@ namespace BetterTownOfUs.Roles
 
         public static bool NobodyWins;
 
-        public List<KillButtonManager> ExtraButtons = new List<KillButtonManager>();
+        public readonly List<KillButton> ExtraButtons = new List<KillButton>();
 
         protected Func<string> ImpostorText;
         protected Func<string> TaskText;
 
-        protected Role(PlayerControl player)
+        protected Role(PlayerControl player, RoleEnum roleEnum)
         {
             Player = player;
             RoleDictionary.Add(player.PlayerId, this);
+            RoleType = roleEnum;
+            RoleDetailsAttribute = RoleDetailsAttribute.GetRoleDetails(roleEnum);
         }
 
         public static IEnumerable<Role> AllRoles => RoleDictionary.Values.ToList();
-        protected internal string Name { get; set; }
 
         private PlayerControl _player { get; set; }
 
@@ -48,19 +52,15 @@ namespace BetterTownOfUs.Roles
             }
         }
 
-        /*
-         * Appears to be used in the screen where the player finds out their role. Used to scale
-         * up or down the font size of the player's role based on the length of the name of their
-         * role. "CREWMATE" and "IMPOSTOR" which both have 8 letters, so they are the baseline.
-         */
-        protected float Scale { get; set; } = 1f;
-        protected internal Color Color { get; set; }
-        protected internal RoleEnum RoleType { get; set; }
+        public string Name => RoleDetailsAttribute.Name;
+        public Color Color => RoleDetailsAttribute.ColorObject;
+        protected internal RoleEnum RoleType { get; }
+        public bool LostByRPC { get; protected set; }
+        private RoleDetailsAttribute RoleDetailsAttribute { get; }
 
         protected internal bool Hidden { get; set; } = false;
 
-        //public static Faction Faction;
-        protected internal Faction Faction { get; set; } = Faction.Crewmates;
+        protected internal Faction Faction => RoleDetailsAttribute.Faction;
 
         protected internal Color FactionColor
         {
@@ -76,8 +76,7 @@ namespace BetterTownOfUs.Roles
             }
         }
 
-        public static uint NetId => PlayerControl.LocalPlayer.NetId;
-        public string PlayerName { get; set; }
+        public string PlayerName { get; private set; }
 
         public string ColorString => "<color=#" + Color.ToHtmlStringRGBA() + ">";
 
@@ -103,11 +102,12 @@ namespace BetterTownOfUs.Roles
         {
             Player.nameText.transform.localPosition = new Vector3(
                 0f,
-                Player.Data.HatId == 0U ? 1.5f : 2.0f,
+                Player.Data.DefaultOutfit.HatId == "hat_NoHat" ? 1.5f : 2.0f,
                 -0.5f
             );
             if (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles) return Utils.ShowDeadBodies;
-            if (CustomGameOptions.ImpostorsKnowTeam == 0 && Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor) return true;
+            if (Faction == Faction.Impostors && PlayerControl.LocalPlayer.Is(Faction.Impostors) &&
+                CustomGameOptions.ImpostorsKnowTeam == 0) return true;
             return GetRole(PlayerControl.LocalPlayer) == this;
         }
 
@@ -115,7 +115,7 @@ namespace BetterTownOfUs.Roles
          * Hook. Override this method to run before the cutscene showing the player who's on their team.
          * I'm not really sure why anybody does this at the moment.
          */
-        protected virtual void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)
+        protected virtual void IntroPrefix(IntroCutscene._CoBegin_d__18 __instance)
         {
         }
 
@@ -146,6 +146,7 @@ namespace BetterTownOfUs.Roles
 
         internal static bool NobodyEndCriteria(ShipStatus __instance)
         {
+            // TODO
             bool CheckNoImpsNoCrews()
             {
                 var alives = PlayerControl.AllPlayerControls.ToArray()
@@ -197,10 +198,10 @@ namespace BetterTownOfUs.Roles
 
             Player.nameText.transform.localPosition = new Vector3(
                 0f,
-                Player.Data.HatId == 0U ? 1.5f : 2.0f,
+                Player.CurrentOutfit.HatId == "hat_NoHat" ? 1.5f : 2.0f,
                 -0.5f
             );
-            return Player.name + "\n" + Name;
+            return Player.GetDefaultOutfit()._playerName + "\n" + Name;
         }
 
         public static bool operator ==(Role a, Role b)
@@ -269,6 +270,15 @@ namespace BetterTownOfUs.Roles
 
             return null;
         }
+
+        public static Role GetRole(GameData.PlayerInfo player)
+        {
+            if (player == null) return null;
+            if (RoleDictionary.TryGetValue(player.PlayerId, out var role))
+                return role;
+
+            return null;
+        }
         
         public static T GetRole<T>(PlayerControl player) where T : Role
         {
@@ -290,6 +300,7 @@ namespace BetterTownOfUs.Roles
         public static class IntroCutScenePatch
         {
             public static TextMeshPro ModifierText;
+            public static TextMeshPro AssassinText;
 
             [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
             public static class IntroCutscene_BeginCrewmate
@@ -299,7 +310,7 @@ namespace BetterTownOfUs.Roles
                     //System.Console.WriteLine("REACHED HERE - CREW");
                     var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                     if (modifier != null)
-                        ModifierText = Object.Instantiate(__instance.Title, __instance.Title.transform.parent, false);
+                        ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
                     //System.Console.WriteLine("MODIFIER TEXT PLEASE WORK");
                     //                        Scale = ModifierText.scale;
                     else
@@ -312,10 +323,15 @@ namespace BetterTownOfUs.Roles
             {
                 public static void Postfix(IntroCutscene __instance)
                 {
+                    if (Assassin.IsAssassin(PlayerControl.LocalPlayer))
+                        AssassinText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
+                    else
+                        AssassinText = null;
+
                     //System.Console.WriteLine("REACHED HERE - IMP");
                     var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                     if (modifier != null)
-                        ModifierText = Object.Instantiate(__instance.Title, __instance.Title.transform.parent, false);
+                        ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
                     //System.Console.WriteLine("MODIFIER TEXT PLEASE WORK");
                     //                        Scale = ModifierText.scale;
                     else
@@ -323,45 +339,61 @@ namespace BetterTownOfUs.Roles
                 }
             }
 
-            [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__14), nameof(IntroCutscene._CoBegin_d__14.MoveNext))]
+            [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__18), nameof(IntroCutscene._CoBegin_d__18.MoveNext))]
             public static class IntroCutscene_CoBegin__d_MoveNext
             {
-                public static void Prefix(IntroCutscene._CoBegin_d__14 __instance)
+                public static void Prefix(IntroCutscene._CoBegin_d__18 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
-
-                    if (PlayerControl.LocalPlayer.Data.IsImpostor && CustomGameOptions.ImpostorsKnowTeam >= 2)
-                    {
-                        var team = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
-                        team.Add(PlayerControl.LocalPlayer);
-                        __instance.yourTeam = team;
-                    }
 
                     if (role != null) role.IntroPrefix(__instance);
                 }
 
-                public static void Postfix(IntroCutscene._CoBegin_d__14 __instance)
+                public static void Postfix(IntroCutscene._CoBegin_d__18 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
-                    var alpha = __instance.__4__this.Title.color.a;
+                    var alpha = __instance.__4__this.RoleText.color.a;
                     if (role != null && !role.Hidden)
                     {
-                        __instance.__4__this.Title.text = role.Name;
-                        __instance.__4__this.Title.color = role.Color;
-                        __instance.__4__this.ImpostorText.text = role.ImpostorText();
-                        __instance.__4__this.ImpostorText.gameObject.SetActive(true);
+                        __instance.__4__this.RoleText.text = role.Name;
+                        __instance.__4__this.RoleText.color = role.Color;
+                        __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
+                        __instance.__4__this.RoleBlurbText.color = role.Color;
+                        __instance.__4__this.YouAreText.color = role.Color;
                         __instance.__4__this.BackgroundBar.material.color = role.Color;
+                        if (role.Faction == Faction.Neutral)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Neutral";
+                            __instance.__4__this.TeamTitle.color = role.FactionColor;
+                            __instance.__4__this.ImpostorText.text = "You are Alone You Win Alone";
+                        }
+                    }
+
+                    if (AssassinText != null)
+                    {
+                        if (Assassin.IsAssassin(PlayerControl.LocalPlayer))
+                        {
+                            AssassinText.text = "<size=4>Modifier: Assassin</size>";
+                            AssassinText.color = Color.red;
+                            AssassinText.transform.position =
+                                __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
+                            AssassinText.gameObject.SetActive(true);
+                        }
                     }
 
                     if (ModifierText != null)
                     {
-                        var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
-                        ModifierText.text = "<size=4>Modifier: " + modifier.Name + "</size>";
-                        ModifierText.color = modifier.Color;
+                        Modifier modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
+                        if (modifier != null)
+                        {
+                            string txt = AssassinText == null ? "Modifier: " + modifier.Name : modifier.Name;
+                            ModifierText.text = $"<size=4>{txt}</size>";
+                            ModifierText.color = modifier.Color;
 
-                        ModifierText.transform.position =
+                            ModifierText.transform.position =
                             __instance.__4__this.transform.position - new Vector3(0f, 2.0f, 0f);
-                        ModifierText.gameObject.SetActive(true);
+                            ModifierText.gameObject.SetActive(true);
+                        }
                     }
 
                     foreach (Role r in AllRoles)
@@ -384,22 +416,33 @@ namespace BetterTownOfUs.Roles
             }
         }
 
-        [HarmonyPatch(typeof(PlayerControl._CoSetTasks_d__83), nameof(PlayerControl._CoSetTasks_d__83.MoveNext))]
+        [HarmonyPatch(typeof(PlayerControl._CoSetTasks_d__102), nameof(PlayerControl._CoSetTasks_d__102.MoveNext))]
         public static class PlayerControl_SetTasks
         {
-            public static void Postfix(PlayerControl._CoSetTasks_d__83 __instance)
+            public static void Postfix(PlayerControl._CoSetTasks_d__102 __instance)
             {
                 if (__instance == null) return;
                 var player = __instance.__4__this;
                 var role = GetRole(player);
                 var modifier = Modifier.GetModifier(player);
 
-                if (modifier != null)
+                if (Assassin.IsAssassin(player) || modifier != null)
                 {
-                    var modTask = new GameObject(modifier.Name + "Task").AddComponent<ImportantTextTask>();
+                    ImportantTextTask modTask = new GameObject(modifier.Name + "Task").AddComponent<ImportantTextTask>();
                     modTask.transform.SetParent(player.transform, false);
-                    modTask.Text =
-                        $"{modifier.ColorString}Modifier: {modifier.Name}\n{modifier.TaskText()}</color>";
+                    modTask.Text = "";
+                    if (Assassin.IsAssassin(player))
+                    {
+                        Assassin assassin = Assassin.GetAssassin<Assassin>(player);
+                        modTask.Text += $"{assassin.ColorString}Modifier: {assassin.Name}\n{assassin.TaskText()}</color>";
+
+                    }
+                    if (modifier != null)
+                    {
+                        modTask.Text += modTask.Text == ""
+                            ? $"{modifier.ColorString}Modifier: {modifier.Name}\n{modifier.TaskText()}</color>"
+                            : $"\n{modifier.ColorString}Modifier: {modifier.Name}\n{modifier.TaskText()}</color>" ;
+                    }
                     player.myTasks.Insert(0, modTask);
                 }
 
@@ -486,6 +529,7 @@ namespace BetterTownOfUs.Roles
 
                 RoleDictionary.Clear();
                 Modifier.ModifierDictionary.Clear();
+                Assassin.AssassinsDictionary.Clear();
             }
         }
 
@@ -496,19 +540,6 @@ namespace BetterTownOfUs.Roles
             public static void Postfix(ref string __result, [HarmonyArgument(0)] StringNames name)
             {
                 if (ExileController.Instance == null || ExileController.Instance.exiled == null) return;
-                
-                var info = ExileController.Instance.exiled;
-                var role = GetRole(info.Object);
-                if (role == null) return;
-                var roleName = "";
-                if ((role.RoleType == RoleEnum.Lover || role.RoleType == RoleEnum.LoverImpostor) && CustomGameOptions.LoverVoted)
-                {
-                    var lover = GetRole<Lover>(info.Object);
-                    var lover2 = lover.OtherLover.Player;
-                    roleName = $"The Lover with {lover2.Data.PlayerName}";
-                    __result = $"{info.PlayerName} was {roleName}.";
-                    return;
-                }
 
                 switch (name)
                 {
@@ -517,8 +548,10 @@ namespace BetterTownOfUs.Roles
                     case StringNames.ExileTextPP:
                     case StringNames.ExileTextSP:
                         {
+                            var info = ExileController.Instance.exiled;
+                            var role = GetRole(info.Object);
                             if (role == null) return;
-                            roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
+                            var roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
                             __result = $"{info.PlayerName} was {roleName}.";
                             return;
                         }
@@ -532,44 +565,6 @@ namespace BetterTownOfUs.Roles
             private static Vector3 oldScale = Vector3.zero;
             private static Vector3 oldPosition = Vector3.zero;
 
-            public static String GetColorType(PlayerControl player)
-            {
-                var colors = new Dictionary<int, string>
-                {
-                    {0, "darker"},// red
-                    {1, "darker"},// blue
-                    {2, "darker"},// green
-                    {3, "lighter"},// pink
-                    {4, "lighter"},// orange
-                    {5, "lighter"},// yellow
-                    {6, "darker"},// black
-                    {7, "lighter"},// white
-                    {8, "darker"},// purple
-                    {9, "darker"},// brown
-                    {10, "lighter"},// cyan
-                    {11, "lighter"},// lime
-                    {12, "darker"},// maroon
-                    {13, "lighter"},// rose
-                    {14, "lighter"},// banana
-                    {15, "lighter"},// gray
-                    {16, "darker"},// tan
-                    {17, "lighter"},// coral
-                    {18, "darker"},// watermelon
-                    {19, "darker"},// chocolate
-                    {20, "lighter"},// sky blue
-                    {21, "darker"},// beige
-                    {22, "lighter"},// hot pink
-                    {23, "lighter"},// turquoise
-                    {24, "lighter"},// lilac
-                    {25, "darker"},// rainbow
-                    {26, "lighter"},// azure
-                    {27, "darker"},// Pinguin
-                };
-
-                var colorType = colors[player.Data.ColorId];
-                return colorType;
-            }
-
             private static void UpdateMeeting(MeetingHud __instance)
             {
                 foreach (var playerState in __instance.playerStates)
@@ -578,28 +573,54 @@ namespace BetterTownOfUs.Roles
                         .FirstOrDefault(x => x.PlayerId == playerState.TargetPlayerId);
                     var localPlayer = PlayerControl.LocalPlayer;
                     var role = GetRole(playerState);
-
                     if (role != null && role.Criteria())
                     {
                         playerState.NameText.color = role.Color;
                         playerState.NameText.text = role.NameText(playerState);
+                        // if (player.NameText.text.Contains("\n"))
+                        // {
+                        //     var newScale = Vector3.one * 1.8f;
+                        //
+                        //     // TODO: scale
+                        //     var trueScale = player.NameText.transform.localScale / 2;
+                        //
+                        //
+                        //     if (trueScale != newScale) oldScale = trueScale;
+                        //     var newPosition = new Vector3(1.43f, 0.055f, 0f);
+                        //
+                        //     var truePosition = player.NameText.transform.localPosition;
+                        //
+                        //     if (newPosition != truePosition) oldPosition = truePosition;
+                        //
+                        //     player.NameText.transform.localPosition = newPosition;
+                        //     player.NameText.transform.localScale = newScale;
+                        // }
+                        // else
+                        // {
+                        // if (oldPosition != Vector3.zero) player.NameText.transform.localPosition = oldPosition;
+                        // if (oldScale != Vector3.zero) player.NameText.transform.localScale = oldScale;
+                        // }
                     }
                     else
                     {
                         if (!localPlayer.Data.IsDead && localPlayer != player && player != null && player.Data != null)
                         {
-                            if (CustomGameOptions.ImpostorsKnowTeam >= 2 && localPlayer.Data.IsImpostor && player.Data.IsImpostor)
+                            if (CustomGameOptions.ImpostorsKnowTeam > 1 && localPlayer.Is(Faction.Impostors) && player.Is(Faction.Impostors))
                             {
                                 playerState.NameText.color = Color.white;
                                 playerState.NameText.text = playerState.name;
                             }
 
-                            if (localPlayer.Is(RoleEnum.Medic) && GetColorType(player) == "darker" && __instance.state != MeetingHud.VoteStates.Proceeding && __instance.state != MeetingHud.VoteStates.Results) playerState.NameText.color = Color.black;
+                            if (localPlayer.Is(RoleEnum.Medic) && BodyReport.Colors[player.CurrentOutfit.ColorId] == BodyReport.ColorsEnum.Darker)
+                            {
+                                playerState.NameText.color = Color.black;
+                                playerState.NameText.text = playerState.name + "\nDarker Color";
+                            }
                         }
-                                
+                        
                         try
                         {
-                            playerState.NameText.text = role.Player.name;
+                            playerState.NameText.text = role.Player.GetDefaultOutfit()._playerName;
                         }
                         catch
                         {
@@ -619,9 +640,9 @@ namespace BetterTownOfUs.Roles
 
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
-                    var flag = CustomGameOptions.ImpostorsKnowTeam >= 2 && !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Data.IsImpostor && PlayerControl.LocalPlayer != player && player.Data.IsImpostor;
+                    var flag = CustomGameOptions.ImpostorsKnowTeam > 1 && !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Is(Faction.Impostors) && PlayerControl.LocalPlayer != player && player.Is(Faction.Impostors);
 
-                    if (player.Data != null && (!(player.Data.IsImpostor && PlayerControl.LocalPlayer.Data.IsImpostor) || flag))
+                    if (player.Data != null && (!(player.Is(Faction.Impostors) && PlayerControl.LocalPlayer.Is(Faction.Impostors)) || flag))
                     {
                         player.nameText.text = player.name;
                         player.nameText.color = Color.white;
@@ -638,7 +659,7 @@ namespace BetterTownOfUs.Roles
                             continue;
                         }
 
-                    if (player.Data != null && PlayerControl.LocalPlayer.Data.IsImpostor && player.Data.IsImpostor) continue;
+                    if (player.Data != null && PlayerControl.LocalPlayer.Is(Faction.Impostors) && player.Is(Faction.Impostors)) continue;
                 }
             }
         }

@@ -13,7 +13,7 @@ namespace BetterTownOfUs.CrewmateRoles.SnitchMod
 
             foreach (var state in __instance.playerStates)
             {
-                if (Utils.PlayerById(state.TargetPlayerId).Data.IsImpostor) state.NameText.color = Palette.ImpostorRed;
+                if (Utils.PlayerById(state.TargetPlayerId).Is(Faction.Impostors)) state.NameText.color = Palette.ImpostorRed;
 
                 var role = Role.GetRole(state);
                 if (role.Faction == Faction.Neutral && CustomGameOptions.SnitchSeesNeutrals)
@@ -30,7 +30,7 @@ namespace BetterTownOfUs.CrewmateRoles.SnitchMod
 
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (player.Data.IsImpostor) player.nameText.color = Palette.ImpostorRed;
+                if (player.Is(Faction.Impostors)) player.nameText.color = Palette.ImpostorRed;
                 var playerRole = Role.GetRole(player);
                 if (playerRole.Faction == Faction.Neutral && CustomGameOptions.SnitchSeesNeutrals)
                     player.nameText.color = role.Color;

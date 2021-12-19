@@ -17,10 +17,10 @@ namespace BetterTownOfUs.Patches.ImpostorRoles
         {
             if (
                 PlayerControl.GameOptions.KillCooldown > 10
-                && __instance.Data.IsImpostor && time == 10
+                && __instance.Is(Faction.Impostors) && time == 10
                 && (__instance.killTimer > time || __instance.killTimer == 0))
             {
-                time = CustomGameOptions.InitialImpostorKillCooldown;
+                time = CustomGameOptions.InitialCooldowns;
             }
         }
     }

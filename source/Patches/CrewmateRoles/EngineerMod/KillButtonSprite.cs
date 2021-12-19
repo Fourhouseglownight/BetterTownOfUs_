@@ -21,16 +21,16 @@ namespace BetterTownOfUs.CrewmateRoles.EngineerMod
 
             var role = Role.GetRole<Engineer>(PlayerControl.LocalPlayer);
 
-            __instance.KillButton.renderer.sprite = Sprite;
-            if ((CustomGameOptions.EngineerFixPer == EngineerFixPer.Custom) && CustomGameOptions.IsCdEngineer) __instance.KillButton.SetCoolDown(role.EngineerTimer(), CustomGameOptions.EngineerCd);
+            __instance.KillButton.graphic.sprite = Sprite;
+            if ((CustomGameOptions.EngineerFixPer == Engineer.EngineerFixPer.Custom) && CustomGameOptions.IsCdEngineer) __instance.KillButton.SetCoolDown(role.EngineerTimer(), CustomGameOptions.EngineerCd);
             else __instance.KillButton.SetCoolDown(0f, 10f);
             __instance.KillButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead &&
                                                        __instance.UseButton.isActiveAndEnabled && !MeetingHud.Instance);
 
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!ShipStatus.Instance) return;
-            var renderer = __instance.KillButton.renderer;
-            if (Utils.IsSabotageActive() && !role.UsedThisRound & __instance.KillButton.enabled)
+            var renderer = __instance.KillButton.graphic;
+            if (Utils.IsSabotageActive() && role.FixesPerRound == 0 & __instance.KillButton.enabled)
             {
                 renderer.color = Palette.EnabledColor;
                 renderer.material.SetFloat("_Desat", 0f);

@@ -1,17 +1,14 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace BetterTownOfUs.Roles
 {
     public class Sheriff : Role
     {
-        public Sheriff(PlayerControl player) : base(player)
+        public Sheriff(PlayerControl player) : base(player, RoleEnum.Sheriff)
         {
-            Name = "Sheriff";
             ImpostorText = () => "Shoot the <color=#FF0000FF>Impostor</color>";
             TaskText = () => "Kill off the impostor but don't kill crewmates.";
-            Color = Color.yellow;
-            RoleType = RoleEnum.Sheriff;
         }
 
         public PlayerControl ClosestPlayer;
@@ -19,8 +16,7 @@ namespace BetterTownOfUs.Roles
 
         protected override void DoOnGameStart()
         {
-            LastKilled = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialSheriffKillCd +
-                                                                    CustomGameOptions.SheriffKillCd * -1);;
+            LastKilled = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.SheriffKillCd);
         }
 
         protected override void DoOnMeetingEnd()

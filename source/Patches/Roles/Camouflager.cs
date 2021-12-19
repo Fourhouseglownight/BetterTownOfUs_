@@ -1,28 +1,25 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace BetterTownOfUs.Roles
 {
     public class Camouflager : Role
+
     {
-        public KillButtonManager _camouflageButton;
+        public KillButton _camouflageButton;
         public bool Enabled;
         public DateTime LastCamouflaged;
         public float TimeRemaining;
 
-        public Camouflager(PlayerControl player) : base(player)
+        public Camouflager(PlayerControl player) : base(player, RoleEnum.Camouflager)
         {
-            Name = "Camouflager";
             ImpostorText = () => "Camouflage and turn everyone grey";
             TaskText = () => "Camouflage and get secret kills";
-            Color = Palette.ImpostorRed;
-            RoleType = RoleEnum.Camouflager;
-            Faction = Faction.Impostors;
         }
 
         protected override void DoOnGameStart()
         {
-            LastCamouflaged = DateTime.UtcNow;
+            LastCamouflaged = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.CamouflagerCd);
         }
 
         protected override void DoOnMeetingEnd()
@@ -32,7 +29,7 @@ namespace BetterTownOfUs.Roles
 
         public bool Camouflaged => TimeRemaining > 0f;
 
-        public KillButtonManager CamouflageButton
+        public KillButton CamouflageButton
         {
             get => _camouflageButton;
             set

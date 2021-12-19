@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles.Modifiers;
 using UnityEngine;
@@ -8,7 +8,7 @@ namespace BetterTownOfUs.Roles
     public class Morphling : Role, IVisualAlteration
 
     {
-        public KillButtonManager _morphButton;
+        public KillButton _morphButton;
         public PlayerControl ClosestPlayer;
         public DateTime LastMorphed;
         public PlayerControl MorphedPlayer;
@@ -16,17 +16,13 @@ namespace BetterTownOfUs.Roles
         public PlayerControl SampledPlayer;
         public float TimeRemaining;
 
-        public Morphling(PlayerControl player) : base(player)
+        public Morphling(PlayerControl player) : base(player, RoleEnum.Morphling)
         {
-            Name = "Morphling";
             ImpostorText = () => "Transform into crewmates";
             TaskText = () => "Morph into crewmates to be disguised";
-            Color = Palette.ImpostorRed;
-            RoleType = RoleEnum.Morphling;
-            Faction = Faction.Impostors;
         }
 
-        public KillButtonManager MorphButton
+        public KillButton MorphButton
         {
             get => _morphButton;
             set
@@ -39,12 +35,11 @@ namespace BetterTownOfUs.Roles
 
         protected override void DoOnGameStart()
         {
-            LastMorphed = DateTime.UtcNow;
+            LastMorphed = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.MorphlingCd);
         }
 
         protected override void DoOnMeetingEnd()
         {
-            MorphButton.renderer.sprite = BetterTownOfUs.SampleSprite;
             SampledPlayer = null;
             LastMorphed = DateTime.UtcNow;
         }

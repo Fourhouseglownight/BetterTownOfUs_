@@ -25,12 +25,15 @@ namespace BetterTownOfUs.CrewmateRoles.CovertMod
 
             if (role.CovertButton == null)
             {
-                role.CovertButton = Object.Instantiate(__instance.KillButton, HudManager.Instance.transform);
-                role.CovertButton.renderer.enabled = true;
+                role.CovertButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
+                role.CovertButton.graphic.enabled = true;
+                role.CovertButton.GetComponent<AspectPosition>().DistanceFromEdge = BetterTownOfUs.ButtonPosition;
+                role.CovertButton.gameObject.SetActive(false);
             }
 
-            role.CovertButton.renderer.sprite = CovertSprite;
+            role.CovertButton.GetComponent<AspectPosition>().Update();
             role.CovertButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
+            role.CovertButton.graphic.sprite = CovertSprite;
 
             if (role.IsCovert)
             {
@@ -39,8 +42,8 @@ namespace BetterTownOfUs.CrewmateRoles.CovertMod
             }
 
             role.CovertButton.SetCoolDown(role.CovertTimer(), CustomGameOptions.CovertCooldown);
-            role.CovertButton.renderer.color = Palette.EnabledColor;
-            role.CovertButton.renderer.material.SetFloat("_Desat", 0f);
+            role.CovertButton.graphic.color = Palette.EnabledColor;
+            role.CovertButton.graphic.material.SetFloat("_Desat", 0f);
         }
     }
 }

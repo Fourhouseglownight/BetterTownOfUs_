@@ -111,7 +111,7 @@ namespace BetterTownOfUs
         {
             public static void Postfix(ref GameOptionsMenu __instance)
             {
-                __instance.GetComponentInParent<Scroller>().YBounds.max = 97.2f;
+                __instance.GetComponentInParent<Scroller>().ContentYBounds.max = (__instance.Children.Length - 8.5f) / 2.0f;
             }
         }
     }

@@ -26,11 +26,12 @@ namespace BetterTownOfUs.NeutralRoles.CannibalMod
 
             Object.Destroy(body.gameObject);    
             role.EatNeed--;
-            if (PlayerControl.LocalPlayer.Is(RoleEnum.Cannibal))
+            role.RegenTask();
+            /*if (PlayerControl.LocalPlayer.Is(RoleEnum.Cannibal))
             {
-                var bodyTxt = role.EatNeed == 1 ? "Body" : "Bodies";
-                PlayerControl.LocalPlayer.myTasks.ToArray()[0].Cast<ImportantTextTask>().Text = $"{role.ColorString}Role: Cannibal\nEat {role.EatNeed} Dead {bodyTxt} to Win\nFake Tasks:</color>";
-            }
+                string bodyTxt = role.EatNeed == 1 ? "Body" : "Bodies";
+                PlayerControl.LocalPlayer.myTasks.ToArray()[0].Cast<ImportantTextTask>().Text = $"{role.ColorString}Role: Cannibal\nYou're hungry, you need to eat {role.EatNeed} Dead {bodyTxt} to Win\nFake Tasks:</color>";
+            }*/
         }
     }
 }

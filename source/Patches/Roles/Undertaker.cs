@@ -1,19 +1,15 @@
-using System;
+﻿using System;
 
 namespace BetterTownOfUs.Roles
 {
     public class Undertaker : Role
     {
-        public KillButtonManager _dragDropButton;
+        public KillButton _dragDropButton;
 
-        public Undertaker(PlayerControl player) : base(player)
+        public Undertaker(PlayerControl player) : base(player, RoleEnum.Undertaker)
         {
-            Name = "Undertaker";
             ImpostorText = () => "Drag bodies and hide them";
             TaskText = () => "Drag bodies around to hide them from being reported";
-            Color = Palette.ImpostorRed;
-            RoleType = RoleEnum.Undertaker;
-            Faction = Faction.Impostors;
         }
 
         public DateTime LastDragged { get; set; }
@@ -22,17 +18,16 @@ namespace BetterTownOfUs.Roles
 
         protected override void DoOnGameStart()
         {
-            LastDragged = DateTime.UtcNow;
+            LastDragged = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.DragCd);
         }
 
         protected override void DoOnMeetingEnd()
         {
-            DragDropButton.renderer.sprite = BetterTownOfUs.DragSprite;
             CurrentlyDragging = null;
             LastDragged = DateTime.UtcNow;
         }
 
-        public KillButtonManager DragDropButton
+        public KillButton DragDropButton
         {
             get => _dragDropButton;
             set

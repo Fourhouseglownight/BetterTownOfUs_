@@ -5,10 +5,10 @@ using BetterTownOfUs.Roles;
 
 namespace BetterTownOfUs.NeutralRoles.ArsonistMod
 {
-    [HarmonyPatch(typeof(KillButtonManager), nameof(KillButtonManager.PerformKill))]
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
     public class PerformKill
     {
-        public static bool Prefix(KillButtonManager __instance)
+        public static bool Prefix(KillButton __instance)
         {
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Arsonist);
             if (!flag) return true;

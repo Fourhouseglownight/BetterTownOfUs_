@@ -6,24 +6,21 @@ namespace BetterTownOfUs.Roles
 {
     public class Lycan : Role, IVisualAlteration
     {
-        public Lycan(PlayerControl player) : base(player)
+        public Lycan(PlayerControl player) : base(player, RoleEnum.Lycan)
         {
-            Name = "Lycan";
             ImpostorText = () => "Eat Crewmates";
             TaskText = () => "Transform you into wolf to eat Crewmates but still discret.";
-            Color = Palette.ImpostorRed;
+
             LycanButton = null;
             Wolfed = false;
             LastWolfed = DateTime.UtcNow;
-            RoleType = RoleEnum.Lycan;
-            Faction = Faction.Impostors;
         }
 
         public DateTime LastWolfed;
         public float TimeRemaining;
         public bool Wolfed { get; set; }
-        public KillButtonManager _lycanButton;
-        public KillButtonManager LycanButton
+        public KillButton _lycanButton;
+        public KillButton LycanButton
         {
             get => _lycanButton;
             set
@@ -36,7 +33,7 @@ namespace BetterTownOfUs.Roles
 
         protected override void DoOnGameStart()
         {
-            LastWolfed = DateTime.UtcNow;
+            LastWolfed = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.WolfCd);
         }
 
         protected override void DoOnMeetingEnd()
@@ -45,6 +42,11 @@ namespace BetterTownOfUs.Roles
         }
 
         public bool WolfedTiming => TimeRemaining > 0f;
+
+        public static VisualAppearance WolfAppear = new VisualAppearance()
+        { 
+            SizeFactor = new Vector3(0.92f, 0.92f, 1.1f)
+        };
 
         public void Morph()
         {
@@ -73,7 +75,7 @@ namespace BetterTownOfUs.Roles
         {
             if (Wolfed)
             {
-                appearance = Utils.WolfAppear;
+                appearance = WolfAppear;
                 return true;
             }
 

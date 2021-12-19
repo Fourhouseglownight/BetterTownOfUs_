@@ -19,12 +19,14 @@ using UnityEngine.SceneManagement;
 
 namespace BetterTownOfUs
 {
-    [BepInPlugin(Id, "Better Town Of Us", Version)]
+    [BepInPlugin(Id, "Better Town Of Us", MajorVersion)]
     [BepInDependency(ReactorPlugin.Id)]
     public class BetterTownOfUs : BasePlugin
     {
-        public const string Version = "1.2.1";
-        private const string Id = "fr.vincentvision.bettertownofus";
+        public const string MajorVersion = "2.1.0";
+        public static string GetVersion() => typeof(BetterTownOfUs).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+        private const string Id = "fr.vincentvision.BetterTownOfUs";
+
         public static Sprite JanitorClean;
         public static Sprite EngineerFix;
         public static Sprite SwapperSwitch;
@@ -51,20 +53,32 @@ namespace BetterTownOfUs
 
         public static Sprite CycleSprite;
         public static Sprite GuessSprite;
+
+
         public static Sprite DragSprite;
         public static Sprite DropSprite;
+        public static Sprite FlashSprite;
+        public static Sprite SettingsButtonSprite;
+        public static Vector3 ButtonPosition { get; private set; } = new Vector3(2.6f, 0.7f, -9f);
+
         private static DLoadImage _iCallLoadImage;
+
+
         private Harmony _harmony;
+
+        public static ConfigEntry<bool> StreamMode;
         public ConfigEntry<string> Ip { get; set; }
+
         public ConfigEntry<ushort> Port { get; set; }
         public static ManualLogSource log;
+
 
         public override void Load()
         {
             log = Log;
             System.Console.WriteLine("000.000.000.000/000000000000000000");
 
-            _harmony = new Harmony(Id);
+            _harmony = new Harmony("fr.vincentvision.BetterTownOfUs");
 
             Generate.GenerateAll();
 
@@ -95,11 +109,11 @@ namespace BetterTownOfUs
             VotezVertSprite = CreateSprite("BetterTownOfUs.Resources.Votez Vert.png");
             CycleSprite = CreateSprite("BetterTownOfUs.Resources.Cycle.png");
             GuessSprite = CreateSprite("BetterTownOfUs.Resources.Guess.png");
+            FlashSprite = CreateSprite("BetterTownOfUs.Resources.Flash.png");
+            SettingsButtonSprite = CreateSprite("BetterTownOfUs.Resources.SettingsButton.png");
 
             PalettePatch.Load();
             ClassInjector.RegisterTypeInIl2Cpp<RainbowBehaviour>();
-
-            // RegisterInIl2CppAttribute.Register();
 
             Ip = Config.Bind("Custom", "Ipv4 or Hostname", "127.0.0.1");
             Port = Config.Bind("Custom", "Port", (ushort) 22023);
@@ -115,15 +129,11 @@ namespace BetterTownOfUs
                 }
 
             ServerManager.DefaultRegions = defaultRegions.ToArray();
-
-            SceneManager.add_sceneLoaded((Action<Scene, LoadSceneMode>) ((scene, loadSceneMode) =>
-            {
-                ModManager.Instance.ShowModStamp();
-            }));
-
+ 
+            StreamMode = Config.Bind("Custom", "Enable Streamer Mode", false);
             _harmony.PatchAll();
             DirtyPatches.Initialize(_harmony);
-            log.LogMessage($"Better Town of Us {Version} by Votez Vert.");
+            log.LogMessage($"Better Town of Us {GetVersion()} by Votez Vert.");
         }
 
         public static Sprite CreateSprite(string name)

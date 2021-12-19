@@ -1,28 +1,27 @@
 using HarmonyLib;
 using Hazel;
 using Reactor;
-using BetterTownOfUs;
 using BetterTownOfUs.Roles;
 using UnityEngine;
 
 namespace BetterTownOfUs.ImpostorRoles.JanitorMod
 {
-    [HarmonyPatch(typeof(KillButtonManager), nameof(KillButtonManager.PerformKill))]
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
     public class PerformKillButton
 
     {
-        public static bool Prefix(KillButtonManager __instance)
+        public static bool Prefix(KillButton __instance)
         {
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Janitor);
             if (!flag) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
-            if (!__instance.isActiveAndEnabled) return false;
-            if (__instance.isCoolingDown) return false;
             var role = Role.GetRole<Janitor>(PlayerControl.LocalPlayer);
 
             if (__instance == role.CleanButton)
             {
+                var flag2 = __instance.isCoolingDown;
+                if (flag2) return false;
                 if (!__instance.enabled) return false;
                 var maxDistance = GameOptionsData.KillDistances[PlayerControl.GameOptions.KillDistance];
                 if (Vector2.Distance(role.CurrentTarget.TruePosition,
@@ -38,7 +37,7 @@ namespace BetterTownOfUs.ImpostorRoles.JanitorMod
                 Coroutines.Start(Coroutine.CleanCoroutine(role.CurrentTarget, role));
                 return false;
             }
-            
+
             return true;
         }
     }

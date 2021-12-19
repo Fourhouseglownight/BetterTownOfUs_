@@ -1,5 +1,7 @@
+using Il2CppSystem.Collections.Generic;
 using Reactor;
 using UnityEngine;
+using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
 using BetterTownOfUs.Roles.Modifiers;
 using BetterTownOfUs.ImpostorRoles.UnderdogMod;
@@ -12,8 +14,8 @@ namespace BetterTownOfUs.NeutralRoles.ParasiteMod
         
         public static void Parasitize(PlayerControl parasite, PlayerControl parasitized)
         {
-            var parasiteRole = Role.GetRole<Parasite>(parasite);
-            var parasitizedRole = Role.GetRole(parasitized);
+            Parasite parasiteRole = Role.GetRole<Parasite>(parasite);
+            Role parasitizedRole = Role.GetRole(parasitized);
             Parasitized = parasitized;
             
             if (PlayerControl.LocalPlayer == parasite || PlayerControl.LocalPlayer == parasitized)
@@ -22,7 +24,7 @@ namespace BetterTownOfUs.NeutralRoles.ParasiteMod
 
                 if (PlayerControl.LocalPlayer == parasitized)
                 {
-                    var parasiteText = new GameObject("_Player").AddComponent<ImportantTextTask>();
+                    ImportantTextTask parasiteText = new GameObject("_Player").AddComponent<ImportantTextTask>();
                     parasiteText.transform.SetParent(PlayerControl.LocalPlayer.transform, false);
                     parasiteText.Text =$"{parasiteRole.ColorString}You are parasitized by {parasite.name} stay alive or he will steal your role and you will lose</color>";
                     parasiteText.Index = parasitized.PlayerId;
@@ -51,8 +53,8 @@ namespace BetterTownOfUs.NeutralRoles.ParasiteMod
             Role.RoleDictionary.Add(parasite.PlayerId, parasitizedRole);
             Role.RoleDictionary.Add(parasitized.PlayerId, parasiteRole);
             
-            var modifier = Modifier.GetModifier(parasitized);
-            var modifier2 = Modifier.GetModifier(parasite);
+            Modifier modifier = Modifier.GetModifier(parasitized);
+            Modifier modifier2 = Modifier.GetModifier(parasite);
             if (modifier != null && modifier2 != null)
             {
                 modifier.Player = parasite;
@@ -75,10 +77,31 @@ namespace BetterTownOfUs.NeutralRoles.ParasiteMod
                 Modifier.ModifierDictionary.Add(parasite.PlayerId, modifier);
             }
 
-            var tasks = parasitized.myTasks;
-            var taskinfos = parasitized.Data.Tasks;
-            var tasks2 = parasite.myTasks;
-            var taskinfos2 = parasite.Data.Tasks;
+            if (Assassin.IsAssassin(parasitized))
+            {
+                Modifier assassin = Modifier.GetModifier(parasitized);
+                assassin.Player = parasite;
+                Assassin.AssassinsDictionary.Remove(parasitized.PlayerId);
+                Assassin.AssassinsDictionary.Add(parasite.PlayerId, assassin);
+
+                /*if (MeetingHud.Instance)
+                {
+                    Assassin newGuesser = Assassin.GetAssassin<Assassin>(parasite);
+                    foreach (var voteArea in MeetingHud.Instance.playerStates)
+                    {
+                        IMeetingGuesser.GenButton(newGuesser, voteArea, playerControl => !AddButton.IsExempt(playerControl), (playerControl, modifier) =>
+                        {
+                            IMeetingGuesser.KillFromMeetingGuess(newGuesser, playerControl, modifier);
+                            newGuesser.RemainingKills--;
+                        });
+                    }                
+                }*/
+            }
+
+            List<PlayerTask> tasks = parasitized.myTasks;
+            List<GameData.TaskInfo> taskinfos = parasitized.Data.Tasks;
+            List<PlayerTask> tasks2 = parasite.myTasks;
+            List<GameData.TaskInfo> taskinfos2 = parasite.Data.Tasks;
 
             parasite.myTasks = tasks;
             parasite.Data.Tasks = taskinfos;
@@ -88,14 +111,14 @@ namespace BetterTownOfUs.NeutralRoles.ParasiteMod
 
             if (parasitizedRole.Faction == Faction.Impostors)
             {
-                parasite.Data.IsImpostor = true;
-                parasitized.Data.IsImpostor = false;
+                parasite.Data.SetImpostor(true);
+                parasitized.Data.SetImpostor(false);
                 RoleEnum role = Utils.GetRole(parasitized);
                 
                 if (role == RoleEnum.LoverImpostor)
                 {
-                    var lover = Role.GetRole<Lover>(parasite);
-                    var otherLover = lover.OtherLover;
+                    Lover lover = Role.GetRole<Lover>(parasite);
+                    Lover otherLover = lover.OtherLover;
                     otherLover.RegenTask();
                 }
 

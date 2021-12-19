@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using BetterTownOfUs.CrewmateRoles.SeerMod;
 using UnityEngine;
@@ -9,13 +9,10 @@ namespace BetterTownOfUs.Roles
     {
         public readonly Dictionary<byte, bool> Investigated = new Dictionary<byte, bool>();
 
-        public Seer(PlayerControl player) : base(player)
+        public Seer(PlayerControl player) : base(player, RoleEnum.Seer)
         {
-            Name = "Seer";
             ImpostorText = () => "Investigate roles";
             TaskText = () => "Investigate roles and find the Impostor";
-            Color = new Color(1f, 0.8f, 0.5f, 1f);
-            RoleType = RoleEnum.Seer;
             LastInvestigated = DateTime.UtcNow;
         }
 
@@ -24,7 +21,7 @@ namespace BetterTownOfUs.Roles
 
         protected override void DoOnGameStart()
         {
-            LastInvestigated = DateTime.UtcNow;
+            LastInvestigated = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.SeerCd);
         }
 
         protected override void DoOnMeetingEnd()
@@ -52,9 +49,9 @@ namespace BetterTownOfUs.Roles
                 case SeeReveal.Nobody:
                     return false;
                 case SeeReveal.ImpsAndNeut:
-                    return role != null && role.Faction != Faction.Crewmates || player.Data.IsImpostor;
+                    return role != null && role.Faction != Faction.Crewmates || player.Is(Faction.Impostors);
                 case SeeReveal.Crew:
-                    return role != null && role.Faction == Faction.Crewmates || !player.Data.IsImpostor;
+                    return role != null && role.Faction == Faction.Crewmates || !player.Is(Faction.Impostors);
             }
 
             return false;

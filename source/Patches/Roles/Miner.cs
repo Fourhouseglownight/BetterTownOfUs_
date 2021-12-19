@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -9,18 +9,14 @@ namespace BetterTownOfUs.Roles
     {
         public readonly List<Vent> Vents = new List<Vent>();
 
-        public KillButtonManager _mineButton;
+        public KillButton _mineButton;
         public DateTime LastMined;
 
 
-        public Miner(PlayerControl player) : base(player)
+        public Miner(PlayerControl player) : base(player, RoleEnum.Miner)
         {
-            Name = "Miner";
             ImpostorText = () => "From the top, make it drop, that's a vent";
             TaskText = () => "From the top, make it drop, that's a vent";
-            Color = Palette.ImpostorRed;
-            RoleType = RoleEnum.Miner;
-            Faction = Faction.Impostors;
             LastMined = DateTime.UtcNow;
         }
 
@@ -29,7 +25,7 @@ namespace BetterTownOfUs.Roles
 
         protected override void DoOnGameStart()
         {
-            LastMined = DateTime.UtcNow;
+            LastMined = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.MineCd);
             var vents = Object.FindObjectsOfType<Vent>();
             VentSize =
                 Vector2.Scale(vents[0].GetComponent<BoxCollider2D>().size, vents[0].transform.localScale) * 0.75f;
@@ -40,7 +36,7 @@ namespace BetterTownOfUs.Roles
             LastMined = DateTime.UtcNow;
         }
 
-        public KillButtonManager MineButton
+        public KillButton MineButton
         {
             get => _mineButton;
             set

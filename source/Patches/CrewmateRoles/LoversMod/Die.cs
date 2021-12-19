@@ -21,7 +21,7 @@ namespace BetterTownOfUs.CrewmateRoles.LoversMod
             if (reason == DeathReason.Exile) 
             {
                 KillButtonTarget.DontRevive = __instance.PlayerId;
-                if (CustomGameOptions.LoverVoted && AmongUsClient.Instance.AmHost)
+                if (CustomGameOptions.VotedLover && AmongUsClient.Instance.AmHost)
                 {  
                     otherLover.Voted = true;
                     var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte) CustomRPC.VotedLover, SendOption.Reliable, -1);

@@ -23,26 +23,31 @@ namespace BetterTownOfUs.CrewmateRoles.SnitchMod
             switch (tasksLeft)
             {
                 case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
 
-                    role.RegenTask();
-                    if (PlayerControl.LocalPlayer.Is(RoleEnum.Snitch))
+                    if (tasksLeft == CustomGameOptions.SnitchTasksRemaining)
                     {
-                        Coroutines.Start(Utils.FlashCoroutine(role.Color));
+                        role.RegenTask();
+                        if (PlayerControl.LocalPlayer.Is(RoleEnum.Snitch))
+                        {
+                            Coroutines.Start(Utils.FlashCoroutine(role.Color));
+                        }
+                        else if (PlayerControl.LocalPlayer.Is(Faction.Impostors) || (PlayerControl.LocalPlayer.Is(RoleEnum.Glitch) && CustomGameOptions.SnitchSeesNeutrals))
+                        {
+                            Coroutines.Start(Utils.FlashCoroutine(role.Color));
+                            var gameObj = new GameObject();
+                            var arrow = gameObj.AddComponent<ArrowBehaviour>();
+                            gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
+                            var renderer = gameObj.AddComponent<SpriteRenderer>();
+                            renderer.sprite = Sprite;
+                            arrow.image = renderer;
+                            gameObj.layer = 5;
+                            role.ImpArrows.Add(arrow);
+                        }
                     }
-                    else if (PlayerControl.LocalPlayer.Data.IsImpostor
-                             || (Role.GetRole<Snitch>(PlayerControl.LocalPlayer).Faction == Faction.Neutral && CustomGameOptions.SnitchSeesNeutrals))
-                    {
-                        Coroutines.Start(Utils.FlashCoroutine(role.Color));
-                        var gameObj = new GameObject();
-                        var arrow = gameObj.AddComponent<ArrowBehaviour>();
-                        gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
-                        var renderer = gameObj.AddComponent<SpriteRenderer>();
-                        renderer.sprite = Sprite;
-                        arrow.image = renderer;
-                        gameObj.layer = 5;
-                        role.ImpArrows.Add(arrow);
-                    }
-
                     break;
 
                 case 0:
@@ -50,7 +55,7 @@ namespace BetterTownOfUs.CrewmateRoles.SnitchMod
                     if (PlayerControl.LocalPlayer.Is(RoleEnum.Snitch))
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                        var impostors = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Data.IsImpostor);
+                        var impostors = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Impostors));
                         foreach (var imp in impostors)
                         {
                             var gameObj = new GameObject();
@@ -63,6 +68,10 @@ namespace BetterTownOfUs.CrewmateRoles.SnitchMod
                             role.SnitchArrows.Add(arrow);
                             role.SnitchTargets.Add(imp);
                         }
+                    }
+                    else if (PlayerControl.LocalPlayer.Is(Faction.Impostors) || (PlayerControl.LocalPlayer.Is(RoleEnum.Glitch) && CustomGameOptions.SnitchSeesNeutrals))
+                    {
+                        Coroutines.Start(Utils.FlashCoroutine(Color.green));
                     }
 
                     break;

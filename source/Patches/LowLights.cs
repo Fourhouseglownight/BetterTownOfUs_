@@ -17,7 +17,7 @@ namespace BetterTownOfUs
                 return false;
             }
 
-            if (player.IsImpostor || player._object.Is(RoleEnum.Glitch))
+            if (player.Is(Faction.Impostors) || player._object.Is(RoleEnum.Glitch))
             {
                 __result = __instance.MaxLightRadius * PlayerControl.GameOptions.ImpostorLightMod;
                 if (player.Object.Is(ModifierEnum.ButtonBarry))

@@ -3,10 +3,10 @@ using BetterTownOfUs.Roles;
 
 namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
 {
-    [HarmonyPatch(typeof(KillButtonManager), nameof(KillButtonManager.SetTarget))]
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.SetTarget))]
     public class SetTarget
     {
-        public static void Postfix(KillButtonManager __instance, [HarmonyArgument(0)] PlayerControl target)
+        public static void Postfix(KillButton __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (
                 PlayerControl.AllPlayerControls.Count <= 1
@@ -14,7 +14,6 @@ namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
                 || PlayerControl.LocalPlayer.Data == null
                 || !PlayerControl.LocalPlayer.Is(RoleEnum.Concealer)
                 || target == null
-                || __instance != DestroyableSingleton<HudManager>.Instance.KillButton
             )
             {
                 return;
@@ -25,10 +24,10 @@ namespace BetterTownOfUs.Patches.ImpostorRoles.ConcealerMod
                 return;
             }
 
-            if (target.Data.IsImpostor)
+            if (target.Is(Faction.Impostors))
             {
-                __instance.renderer.color = Palette.DisabledClear;
-                __instance.renderer.material.SetFloat("_Desat", 1f);
+                __instance.graphic.color = Palette.DisabledClear;
+                __instance.graphic.material.SetFloat("_Desat", 1f);
             }
         }
     }

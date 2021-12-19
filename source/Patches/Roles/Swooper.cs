@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -6,24 +6,20 @@ namespace BetterTownOfUs.Roles
 {
     public class Swooper : Role
     {
-        public KillButtonManager _swoopButton;
+        public KillButton _swoopButton;
         public bool Enabled;
         public DateTime LastSwooped;
         public float TimeRemaining;
 
-        public Swooper(PlayerControl player) : base(player)
+        public Swooper(PlayerControl player) : base(player, RoleEnum.Swooper)
         {
-            Name = "Swooper";
             ImpostorText = () => "Turn invisible temporarily";
             TaskText = () => "Turn invisible and sneakily kill";
-            Color = Palette.ImpostorRed;
-            RoleType = RoleEnum.Swooper;
-            Faction = Faction.Impostors;
         }
 
         protected override void DoOnGameStart()
         {
-            LastSwooped = DateTime.UtcNow;
+            LastSwooped = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.SwoopCd);
         }
 
         protected override void DoOnMeetingEnd()
@@ -32,7 +28,7 @@ namespace BetterTownOfUs.Roles
         }
         public bool IsSwooped => TimeRemaining > 0f;
 
-        public KillButtonManager SwoopButton
+        public KillButton SwoopButton
         {
             get => _swoopButton;
             set
@@ -52,7 +48,7 @@ namespace BetterTownOfUs.Roles
         {
             Enabled = true;
             TimeRemaining -= Time.deltaTime;
-            Utils.MakeInvisible(Player, PlayerControl.LocalPlayer.Data.IsImpostor || PlayerControl.LocalPlayer.Data.IsDead);
+            Utils.MakeInvisible(Player, PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Data.IsDead);
         }
 
         public void UnSwoop()

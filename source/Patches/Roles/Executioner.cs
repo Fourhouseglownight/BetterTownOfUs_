@@ -1,3 +1,4 @@
+﻿using Il2CppSystem.Collections.Generic;
 using UnityEngine;
 
 namespace BetterTownOfUs.Roles
@@ -7,24 +8,19 @@ namespace BetterTownOfUs.Roles
         public PlayerControl target;
         public bool TargetVotedOut;
 
-        public Executioner(PlayerControl player) : base(player)
+        public Executioner(PlayerControl player) : base(player, RoleEnum.Executioner)
         {
-            Name = "Executioner";
             ImpostorText = () =>
                 target == null ? "You don't have a target for some reason... weird..." : $"Vote {target.name} out";
             TaskText = () =>
                 target == null
                     ? "You don't have a target for some reason... weird..."
                     : $"Vote {target.name} out\nFake Tasks:";
-            Color = new Color(0.55f, 0.25f, 0.02f, 1f);
-            RoleType = RoleEnum.Executioner;
-            Faction = Faction.Neutral;
-            Scale = 1.4f;
         }
 
-        protected override void IntroPrefix(IntroCutscene._CoBegin_d__14 __instance)
+        protected override void IntroPrefix(IntroCutscene._CoBegin_d__18 __instance)
         {
-            var executionerteam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+            var executionerteam = new List<PlayerControl>();
             executionerteam.Add(PlayerControl.LocalPlayer);
             __instance.yourTeam = executionerteam;
         }
@@ -45,7 +41,7 @@ namespace BetterTownOfUs.Roles
 
         public void Loses()
         {
-            Player.Data.IsImpostor = true;
+            LostByRPC = true;
         }
     }
 }

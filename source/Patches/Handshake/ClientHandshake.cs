@@ -22,14 +22,14 @@ namespace BetterTownOfUs.Handshake
                     return;
 
                 // If I am client, send handshake
-                PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"AmongUsClient.OnGameJoined.Postfix - Am client, sending handshake");
+                BetterTownOfUs.log.LogMessage($"AmongUsClient.OnGameJoined.Postfix - Am client, sending handshake");
                 var messageWriter = MessageWriter.Get(SendOption.Reliable);
                 messageWriter.StartMessage(6);
                 messageWriter.Write(__instance.GameId);
                 messageWriter.WritePacked(__instance.HostId);
                 messageWriter.StartMessage(BTOU_ROOT_HANDSHAKE_TAG);
                 messageWriter.Write(AmongUsClient.Instance.ClientId);
-                messageWriter.Write(BetterTownOfUs.Version);
+                messageWriter.Write(BetterTownOfUs.GetVersion());
                 messageWriter.EndMessage();
                 messageWriter.EndMessage();
                 __instance.SendOrDisconnect(messageWriter);
@@ -49,18 +49,18 @@ namespace BetterTownOfUs.Handshake
                     var handshakeReader = MessageReader.Get(reader).ReadMessageAsNewBuffer();
                     if (handshakeReader.Tag == BTOU_ROOT_HANDSHAKE_TAG)
                     {
-                        PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Host recieved BTOU handshake");
+                        BetterTownOfUs.log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Host recieved BTOU handshake");
 
                         var clientId = handshakeReader.ReadInt32();
                         var btouVersion = handshakeReader.ReadString();
 
                         // List<int> HandshakedClients - exists to disconnect legacy clients that don't send handshake
-                        PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Adding {clientId} with BTOU version {btouVersion} to List<int>HandshakedClients");
+                        BetterTownOfUs.log.LogMessage($"InnerNetClient.HandleMessage.Prefix - Adding {clientId} with BTOU version {btouVersion} to List<int>HandshakedClients");
                         HandshakedClients.Add(clientId);
 
-                        if (!BetterTownOfUs.Version.Equals(btouVersion))
+                        if (!BetterTownOfUs.GetVersion().Equals(btouVersion))
                         {
-                            PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"InnerNetClient.HandleMessage.Prefix - ClientId {clientId} has mismatched BTOU version {btouVersion}. (Ours is {BetterTownOfUs.Version})");
+                            BetterTownOfUs.log.LogMessage($"InnerNetClient.HandleMessage.Prefix - ClientId {clientId} has mismatched BTOU version {btouVersion}. (Ours is {BetterTownOfUs.GetVersion()})");
                             __instance.SendCustomDisconnect(clientId);
                         }
 
@@ -76,19 +76,19 @@ namespace BetterTownOfUs.Handshake
         private static HashSet<int> HandshakedClients = new HashSet<int>();
         private static IEnumerator WaitForHandshake(InnerNetClient innerNetClient, int clientId)
         {
-            PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"WaitForHandshake(innerNetClient, clientId = {clientId})");
+            BetterTownOfUs.log.LogMessage($"WaitForHandshake(innerNetClient, clientId = {clientId})");
 
             yield return new WaitForSeconds(5f);
-            PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"WaitForHandshake() - Waited 5 seconds");
+            BetterTownOfUs.log.LogMessage($"WaitForHandshake() - Waited 5 seconds");
             if (!HandshakedClients.Contains(clientId))
             {
-                PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"WaitForHandshake() - HandshakedClients did not contain clientId {clientId}");
+                BetterTownOfUs.log.LogMessage($"WaitForHandshake() - HandshakedClients did not contain clientId {clientId}");
                 if (innerNetClient.allClients.ToArray().Any(x => x.Id == clientId))
                     innerNetClient.SendCustomDisconnect(clientId);
             }
             else
             {
-                PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"WaitForHandshake() - HandshakedClients contained clientId {clientId}");
+                BetterTownOfUs.log.LogMessage($"WaitForHandshake() - HandshakedClients contained clientId {clientId}");
             }
         }
 
@@ -99,7 +99,7 @@ namespace BetterTownOfUs.Handshake
             {
                 if (AmongUsClient.Instance.AmHost && __instance.GameState == InnerNetClient.GameStates.Started)
                 {
-                    PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"Am host and clientId {data.Id} sent JoinGameResponse");
+                    BetterTownOfUs.log.LogMessage($"Am host and clientId {data.Id} sent JoinGameResponse");
                     Coroutines.Start(WaitForHandshake(__instance, data.Id));
                 }
             }
@@ -113,7 +113,7 @@ namespace BetterTownOfUs.Handshake
             messageWriter.WritePacked(clientId);
             messageWriter.Write(false);
             messageWriter.Write(8);
-            messageWriter.Write($"The host has a different version of Better Town Of Us ({BetterTownOfUs.Version})");
+            messageWriter.Write($"The host has a different version of Better Town Of Us ({BetterTownOfUs.GetVersion()})");
             messageWriter.EndMessage();
             innerNetClient.SendOrDisconnect(messageWriter);
             messageWriter.Recycle();

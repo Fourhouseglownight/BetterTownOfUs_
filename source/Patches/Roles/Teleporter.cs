@@ -12,22 +12,18 @@ namespace BetterTownOfUs.Roles
 {
     public class Teleporter : Role
     {
-        private KillButtonManager _teleportButton;
+        private KillButton _teleportButton;
         private DateTime _lastTeleported;
 
-        public Teleporter(PlayerControl player) : base(player)
+        public Teleporter(PlayerControl player) : base(player, RoleEnum.Teleporter)
         {
-            Name = "Teleporter";
             ImpostorText = () => "Play fifty-two crew pickup";
             TaskText = () => "Play fifty-two crew pickup";
-            Color = Palette.ImpostorRed;
-            RoleType = RoleEnum.Teleporter;
-            Faction = Faction.Impostors;
         }
 
         protected override void DoOnGameStart()
         {
-            _lastTeleported = DateTime.UtcNow;
+            _lastTeleported = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.TeleporterCooldown);
         }
 
         protected override void DoOnMeetingEnd()
@@ -35,7 +31,7 @@ namespace BetterTownOfUs.Roles
             _lastTeleported = DateTime.UtcNow;
         }
 
-        public KillButtonManager TeleportButton
+        public KillButton TeleportButton
         {
             get => _teleportButton;
             set
@@ -123,13 +119,7 @@ namespace BetterTownOfUs.Roles
                     }
                 }
 
-                /* On Polus, the game sets the position of the vent as horizontally in the middle of the vent
-                 * but vertically at the very bottom. This actually puts the player out of bounds.
-                 * So we need to reposition them vertically to be in the middle of the vent.
-                 */
-                Vector2 size = vent.GetComponent<BoxCollider2D>().size;
-                Vector2 destination = vent.transform.position;
-                destination.y += size.y / 2;
+                Vector3 destination = Utils.GetCoordinatesToSendPlayerToVent(vent);
                 coordinates.Add(target.PlayerId, destination);
             }
             return coordinates;

@@ -23,12 +23,12 @@ namespace BetterTownOfUs.NeutralRoles.ShifterMod
         RegularCrewmates
     }
 
-    [HarmonyPatch(typeof(KillButtonManager), nameof(KillButtonManager.PerformKill))]
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
     [HarmonyPriority(Priority.Last)]
     public class PerformKillButton
 
     {
-        public static bool Prefix(KillButtonManager __instance)
+        public static bool Prefix(KillButton __instance)
         {
             if (__instance != DestroyableSingleton<HudManager>.Instance.KillButton) return true;
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Shifter);
@@ -100,21 +100,18 @@ namespace BetterTownOfUs.NeutralRoles.ShifterMod
             var lovers = false;
             var resetShifter = false;
             var snitch = false;
+            var flag2 = other.Is(Faction.Crewmates) ||
+                        (other.Is(Faction.Neutral) && !(other.Is(RoleEnum.Glitch) ||
+                        CustomGameOptions.ShifterSuicide && (other.Is(RoleEnum.Jester) && !CustomGameOptions.SheriffKillsJester ||
+                        other.Is(RoleEnum.Shifter) && !CustomGameOptions.SheriffKillsShifter ||
+                        other.Is(RoleEnum.Parasite) && !CustomGameOptions.SheriffKillsParasite ||
+                        other.Is(RoleEnum.Glitch) && !CustomGameOptions.SheriffKillsGlitch ||
+                        other.Is(RoleEnum.Executioner) && !CustomGameOptions.SheriffKillsExecutioner ||
+                        other.Is(RoleEnum.Mentalist) && !CustomGameOptions.SheriffKillsMentalist ||
+                        other.Is(RoleEnum.Arsonist) && !CustomGameOptions.SheriffKillsArsonist ||
+                        other.Is(RoleEnum.Cannibal)) && !CustomGameOptions.SheriffKillsCannibal));
 
-            var flag2 = other.Is(RoleEnum.Jester) && CustomGameOptions.SheriffKillsJester ||
-                        other.Is(RoleEnum.Shifter) && CustomGameOptions.SheriffKillsShifter ||
-                        other.Is(RoleEnum.Parasite) && CustomGameOptions.SheriffKillsParasite ||
-                        other.Is(RoleEnum.Glitch) && CustomGameOptions.SheriffKillsGlitch ||
-                        other.Is(RoleEnum.Executioner) && CustomGameOptions.SheriffKillsExecutioner ||
-                        other.Is(RoleEnum.Arsonist) && CustomGameOptions.SheriffKillsArsonist ||
-                        other.Is(RoleEnum.Cannibal) && CustomGameOptions.SheriffKillsCannibal;
-
-            if (
-                other.Is(Faction.Crewmates) ||
-                (other.Is(Faction.Neutral) &&
-                !(other.Is(RoleEnum.Glitch) ||
-                (flag2 && CustomGameOptions.ShifterSuicide)))
-                )
+            if (flag2)
             {
                 if (role == RoleEnum.Investigator) Footprint.DestroyAll(Role.GetRole<Investigator>(other));
 
@@ -182,9 +179,9 @@ namespace BetterTownOfUs.NeutralRoles.ShifterMod
             }
             else
             {
-                shifter.Data.IsImpostor = true;
+                shifter.Data.SetImpostor(true);
                 shifter.MurderPlayer(shifter);
-                shifter.Data.IsImpostor = false;
+                shifter.Data.SetImpostor(false);
                 swapTasks = false;
             }
 
@@ -232,7 +229,7 @@ namespace BetterTownOfUs.NeutralRoles.ShifterMod
                 if (shifter.Is(RoleEnum.Arsonist) && other.AmOwner)
                     Role.GetRole<Arsonist>(shifter).IgniteButton.Destroy();
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
-                DestroyableSingleton<HudManager>.Instance.KillButton.isActive = false;
+                //DestroyableSingleton<HudManager>.Instance.KillButton.isActive = false;
             }
         }
     }

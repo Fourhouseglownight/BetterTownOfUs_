@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -15,33 +16,41 @@ namespace BetterTownOfUs.Patches.CustomHats
         private const string HAT_RESOURCE_NAMESPACE = "BetterTownOfUs.Resources.Hats";
         private const string HAT_METADATA_JSON = "metadata.json";
         private const int HAT_ORDER_BASELINE = 99;
-
-        private static ManualLogSource Log => PluginSingleton<BetterTownOfUs>.Instance.Log;
         private static Assembly Assembly => typeof(BetterTownOfUs).Assembly;
+        private static bool LoadedHats = false;
 
-        internal static void LoadHats()
+        internal static void LoadHatsRoutine()
         {
-            Log.LogMessage($"Generating Hats from namespace {HAT_RESOURCE_NAMESPACE}");
+            if (LoadedHats || !DestroyableSingleton<HatManager>.InstanceExists || DestroyableSingleton<HatManager>.Instance.AllHats.Count == 0)
+                return;
+            LoadedHats = true;
+            Coroutines.Start(LoadHats());
+        }
+
+        internal static IEnumerator LoadHats()
+        {
+            BetterTownOfUs.log.LogMessage($"Generating Hats from namespace {HAT_RESOURCE_NAMESPACE}");
             try
             {
                 var hatJson = LoadJson();
-                
                 var hatBehaviours = DiscoverHatBehaviours(hatJson);
 
                 DestroyableSingleton<HatManager>.Instance.AllHats.ForEach(
                     (Action<HatBehaviour>)(x => x.StoreName = "Vanilla")
                 );
+                var originalCount = DestroyableSingleton<HatManager>.Instance.AllHats.Count;
                 for (var i = 0; i < hatBehaviours.Count; i++)
                 {
-                    hatBehaviours[i].Order = HAT_ORDER_BASELINE + i;
+                    hatBehaviours[i].Order = originalCount + i;
                     HatManager.Instance.AllHats.Add(hatBehaviours[i]);
                 }
-            
+
             }
             catch (Exception e)
             {
-                Log.LogError($"Error while loading hats: {e.Message}\nStack: {e.StackTrace}");
+                BetterTownOfUs.log.LogError($"Error while loading hats: {e.Message}\nStack: {e.StackTrace}");
             }
+            yield return null;
         }
 
         private static HatMetadataJson LoadJson()
@@ -63,15 +72,16 @@ namespace BetterTownOfUs.Patches.CustomHats
                     {
                         var hatBehaviour = GenerateHatBehaviour(stream.ReadFully());
                         hatBehaviour.StoreName = hatCredit.Artist;
-                        hatBehaviour.ProductId = hatCredit.Name;
+                        hatBehaviour.ProductId = hatCredit.Id;
+                        hatBehaviour.name = hatCredit.Name;
+                        hatBehaviour.Free = true;
                         hatBehaviours.Add(hatBehaviour);
                     }
                 }
                 catch (Exception e)
                 {
-                    Log.LogError(
-                         $"Error loading hat {hatCredit.Id} in metadata file ({HAT_METADATA_JSON})");
-                     Log.LogError($"{e.Message}\nStack:{e.StackTrace}");
+                    BetterTownOfUs.log.LogError($"Error loading hat in metadata file ({HAT_METADATA_JSON})");
+                    BetterTownOfUs.log.LogError($"{e.Message}\nStack:{e.StackTrace}");
                 }
             }
 
@@ -80,13 +90,12 @@ namespace BetterTownOfUs.Patches.CustomHats
 
         private static HatBehaviour GenerateHatBehaviour(byte[] mainImg)
         {
-            
+
             //TODO: Move to Graphics Utils class
             var tex2D = new Texture2D(1, 1, TextureFormat.ARGB32, false);
             BetterTownOfUs.LoadImage(tex2D, mainImg, false);
             var sprite = Sprite.Create(tex2D, new Rect(0.0f, 0.0f, tex2D.width, tex2D.height), new Vector2(0.5f, 0.5f), 100);
-            
-            
+
             var hat = ScriptableObject.CreateInstance<HatBehaviour>();
             hat.MainImage = sprite;
             hat.ChipOffset = new Vector2(-0.1f, 0.35f);

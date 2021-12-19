@@ -4,21 +4,21 @@ using BetterTownOfUs.Roles;
 
 namespace BetterTownOfUs.ImpostorRoles.CamouflageMod
 {
-    [HarmonyPatch(typeof(KillButtonManager), nameof(KillButtonManager.PerformKill))]
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
     public class PerformKill
     {
-        public static bool Prefix(KillButtonManager __instance)
+        public static bool Prefix(KillButton __instance)
         {
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Camouflager);
             if (!flag) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
-            if (!__instance.isActiveAndEnabled) return false;
-            if (__instance.isCoolingDown) return false;
             var role = Role.GetRole<Camouflager>(PlayerControl.LocalPlayer);
-            var target = DestroyableSingleton<HudManager>.Instance.KillButton.CurrentTarget;
+            var target = DestroyableSingleton<HudManager>.Instance.KillButton.currentTarget;
             if (__instance == role.CamouflageButton)
             {
+                if (__instance.isCoolingDown) return false;
+                if (!__instance.isActiveAndEnabled) return false;
                 if (role.CamouflageTimer() != 0) return false;
 
                 var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
@@ -31,7 +31,7 @@ namespace BetterTownOfUs.ImpostorRoles.CamouflageMod
 
                 return false;
             }
-            
+
             return true;
         }
     }
