@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using Reactor.Extensions;
 using BetterTownOfUs.Roles;
 using BetterTownOfUs.CrewmateRoles.MedicMod;
 
