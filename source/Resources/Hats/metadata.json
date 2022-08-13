@@ -1444,6 +1444,11 @@
       "id": "vu_visor0001",
       "name": "Gok'Us hat",
       "artist": "Gusgus"
+    },
+    {
+      "id": "vu_hat0200",
+      "name": "Pika hat",
+      "artist": "KaKashi"
     }
   ]
 }
