@@ -103,6 +103,33 @@ namespace BetterTownOfUs
             }
         }
 
+        internal static void CheckJesterXExec()
+        {
+            var jesterPercent = 0; var jesterIndex = 0;
+            var execPercent = 0; var execIndex = 0;
+            foreach (var role in NeutralNonKillingRoles)
+            {
+                if (role.Item2 == CustomRPC.SetExecutioner)
+                {
+                    jesterPercent = role.Item3;
+                }
+                if (role.Item2 == CustomRPC.SetJester)
+                {
+                    execPercent = role.Item3;
+                }
+                if (jesterPercent < 1) jesterIndex++;
+                if (execPercent < 1) execIndex++;
+            }
+            if (jesterPercent > execPercent) NeutralNonKillingRoles.RemoveAt(execIndex);
+            else if (jesterPercent < execPercent) NeutralNonKillingRoles.RemoveAt(jesterIndex);
+            else
+            {
+                var random = BetterTownOfUs.Random.Next(0, 2);
+                if (random < 1) NeutralNonKillingRoles.RemoveAt(execIndex);
+                else NeutralNonKillingRoles.RemoveAt(jesterIndex);
+            }
+        }
+
 
         private static void SortRoles(List<(Type, CustomRPC, int)> roles, int max, int min, bool addOne = false)
         {
@@ -163,6 +190,7 @@ namespace BetterTownOfUs
             var crewmates = Utils.GetCrewmates(impostors);
             crewmates.Shuffle();
             impostors.Shuffle();
+            if (!CustomGameOptions.JesterXExec) CheckJesterXExec();
 
             if (crewmates.Count > CustomGameOptions.MaxNeutralKillingRoles)
                 SortRoles(NeutralKillingRoles, CustomGameOptions.MaxNeutralKillingRoles, CustomGameOptions.MinNeutralKillingRoles);
@@ -170,6 +198,7 @@ namespace BetterTownOfUs
             if (crewmates.Count - NeutralKillingRoles.Count > CustomGameOptions.MaxNeutralNonKillingRoles)
                 SortRoles(NeutralNonKillingRoles, CustomGameOptions.MaxNeutralNonKillingRoles, CustomGameOptions.MinNeutralNonKillingRoles, true);
             else SortRoles(NeutralNonKillingRoles, crewmates.Count - NeutralKillingRoles.Count - 1, CustomGameOptions.MinNeutralKillingRoles, true);
+            CheckBodyCleaner(ImpostorRoles, NeutralNonKillingRoles);
 
             if (impostors.Count() > 1 && NeutralKillingRoles.Count > 0 && CheckJugg())
             {
@@ -181,8 +210,6 @@ namespace BetterTownOfUs
             SortRoles(CrewmateRoles, crewmates.Count - NeutralNonKillingRoles.Count - NeutralKillingRoles.Count,
                 crewmates.Count - NeutralNonKillingRoles.Count - NeutralKillingRoles.Count);
             SortRoles(ImpostorRoles, impostors.Count, impostors.Count, true);
-
-            CheckBodyCleaner(ImpostorRoles, NeutralNonKillingRoles);
 
             SortModifiers(CrewmateModifiers, crewmates.Count);
             SortModifiers(GlobalModifiers, crewmates.Count + impostors.Count);
@@ -1154,44 +1181,6 @@ namespace BetterTownOfUs
             }
         }
 
-        /*[HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
-        class GameOptionsDataGetAdjustedNumImpostorsPatch
-        {
-            public static void Postfix(int __result)
-            {
-                if (!AmongUsClient.Instance.AmHost || CheckImpostors) return;
-                CheckImpostors = true;
-                ImpostorsIds = new List<byte>();
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte) CustomRPC.ReassignImpostors, SendOption.Reliable, -1);
-                writer.Write(__result);
-                while (ImpostorsIds.Count() < __result)
-                {
-                    byte id = (byte) BetterTownOfUs.Random.Next(0, PlayerControl.AllPlayerControls._size);
-                    BetterTownOfUs.Logger.LogMessage("impostorId " + id);
-                    if (!ImpostorsIds.Contains(id))
-                    {
-                        ImpostorsIds.Add(id);
-                        writer.Write(id);
-                    }
-                }
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-            }
-        }
-
-        [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SetRole))]
-        class RoleManagerSetRolePatch
-        {
-            public static void Prefix([HarmonyArgument(0)] PlayerControl player,[HarmonyArgument(1)] ref RoleTypes roleType)
-            {
-                BetterTownOfUs.Logger.LogMessage(player.Data.PlayerName);
-                BetterTownOfUs.Logger.LogMessage("targetRole Before Patch " + roleType);
-                if (ImpostorsIds.Count() < 1) return;
-                if (ImpostorsIds.Contains(player.PlayerId)) roleType = RoleTypes.Impostor;
-                else roleType = RoleTypes.Crewmate;
-                BetterTownOfUs.Logger.LogMessage("targetRole After Patch " + roleType);
-            }
-        }*/
-
         [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
         public static class RpcSetRole
         {
@@ -1312,7 +1301,7 @@ namespace BetterTownOfUs
                 if (CustomGameOptions.PlaguebearerOn > 0)
                     NeutralKillingRoles.Add((typeof(Plaguebearer), CustomRPC.SetPlaguebearer, CustomGameOptions.PlaguebearerOn));
 
-                if (CustomGameOptions.WerewolfOn > 0)
+                if (num > 1 && CustomGameOptions.WerewolfOn > 0)
                     NeutralKillingRoles.Add((typeof(Werewolf), CustomRPC.SetWerewolf, CustomGameOptions.WerewolfOn));
                 #endregion
                 #region Impostor Roles

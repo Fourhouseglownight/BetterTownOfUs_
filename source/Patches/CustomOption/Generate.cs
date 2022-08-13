@@ -100,6 +100,7 @@ namespace BetterTownOfUs.CustomOption
         public static CustomNumberOption MinNeutralNonKillingRoles;
         public static CustomNumberOption MaxNeutralNonKillingRoles;
         public static CustomToggleOption BegninNeutralHasTasks;
+        public static CustomToggleOption JesterXExec;
         public static CustomNumberOption MinNeutralKillingRoles;
         public static CustomNumberOption MaxNeutralKillingRoles;
 
@@ -206,6 +207,12 @@ namespace BetterTownOfUs.CustomOption
         public static CustomToggleOption SnitchSeesNeutrals;
         public static CustomNumberOption SnitchTasksRemaining;
         public static CustomToggleOption SnitchSeesImpInMeeting;
+
+        public static CustomHeaderOption Spy;
+        public static CustomNumberOption SpyCd;
+        public static CustomNumberOption SpyDuration;
+        public static CustomToggleOption SpyAdmin;
+        public static CustomToggleOption SpyVitals;
 
         public static CustomHeaderOption Altruist;
         public static CustomNumberOption ReviveDuration;
@@ -338,6 +345,7 @@ namespace BetterTownOfUs.CustomOption
         public static CustomHeaderOption Plaguebearer;
         public static CustomNumberOption InfectCooldown;
         public static CustomNumberOption PestKillCooldown;
+        public static CustomToggleOption PlaguebearerEndGame;
         public static CustomToggleOption PestVent;
 
         public static CustomHeaderOption Werewolf;
@@ -400,6 +408,8 @@ namespace BetterTownOfUs.CustomOption
                 new CustomNumberOption(true,num++, "Max Neutral Non-Killing Roles", 2f, 0f, 6f, 1f);
             BegninNeutralHasTasks =
                 new CustomToggleOption(num++, "Begnin Neutrals Roles Can Use Tasks", false, true);
+            JesterXExec =
+                new CustomToggleOption(num++, "Jester & Executioner Can Spawn In Same Game", false, true);
             MinNeutralKillingRoles =
                 new CustomNumberOption(true,num++, "Min Neutral Killing Roles", 1f, 0f, 4f, 1f);
             MaxNeutralKillingRoles =
@@ -418,7 +428,7 @@ namespace BetterTownOfUs.CustomOption
                 PercentFormat);
             SnitchOn = new CustomNumberOption(true, num++, "<color=#D4AF37FF>Snitch</color>", 90f, 0f, 100f, 05f,
                 PercentFormat);
-            SpyOn = new CustomNumberOption(true, num++, "<color=#CCA3CCFF>Spy</color>", 0f, 0f, 100f, 05f,
+            SpyOn = new CustomNumberOption(true, num++, "<color=#CCA3CCFF>Spy</color>", 50f, 0f, 100f, 05f,
                 PercentFormat);
             TrackerOn = new CustomNumberOption(true, num++, "<color=#009900FF>Tracker</color>", 50f, 0f, 100f, 05f,
                 PercentFormat);
@@ -633,6 +643,16 @@ namespace BetterTownOfUs.CustomOption
                  new CustomNumberOption(num++, "Tasks Remaining When Revealed", 1, 0, 10, 1);
             SnitchSeesImpInMeeting = new CustomToggleOption(num++, "Snitch Sees Impostors In Meetings", true);
 
+            Spy = new CustomHeaderOption(num++, "<color=#CCA3CCFF>Spy</color>");
+            SpyCd =
+                new CustomNumberOption(num++, "Spy Cooldown", 27.5f, 2.5f, 90f, 2.5f, CooldownFormat);
+            SpyDuration =
+                new CustomNumberOption(num++, "Spy Duration", 10, 1, 90, 1, CooldownFormat);
+            SpyAdmin =
+                new CustomToggleOption(num++, "Spy See Color On Admin Table", true);
+            SpyVitals =
+                new CustomToggleOption(num++, "Spy See Kill Timing On Vitals", true);
+
             Tracker =
                 new CustomHeaderOption(num++, "<color=#009900FF>Tracker</color>");
             UpdateInterval =
@@ -663,6 +683,8 @@ namespace BetterTownOfUs.CustomOption
                 new CustomToggleOption(num++, "Sheriff Miskill Kills Crewmate", false);
             SheriffKillsJester =
                 new CustomToggleOption(num++, "Sheriff Kills Jester", true);
+            SheriffKillsCannibal =
+                new CustomToggleOption(num++, "Sheriff Kills Cannibal", true);
             SheriffKillsGlitch =
                 new CustomToggleOption(num++, "Sheriff Kills The Glitch", true);
             SheriffKillsExecutioner =
@@ -853,6 +875,8 @@ namespace BetterTownOfUs.CustomOption
                 new CustomNumberOption(num++, "Infect Cooldown", 25f, 2.5f, 90f, 2.5f, CooldownFormat);
             PestKillCooldown =
                 new CustomNumberOption(num++, "Pestilence Kill Cooldown", 25f, 2.5f, 90f, 2.5f, CooldownFormat);
+            PlaguebearerEndGame =
+                new CustomToggleOption(num++, "Game Keeps Going So Long As Plaguebearer Non Pestilence Is Alive", false);
             PestVent =
                 new CustomToggleOption(num++, "Pestilence Can Vent", false);
 

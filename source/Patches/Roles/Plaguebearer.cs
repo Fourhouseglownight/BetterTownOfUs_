@@ -52,7 +52,7 @@ namespace BetterTownOfUs.Roles
                 return false;
             }
 
-            return false;
+            return !ClosestPlayer.Is(RoleEnum.Pestilence) && !CustomGameOptions.PlaguebearerEndGame;
         }
 
         public void Wins()

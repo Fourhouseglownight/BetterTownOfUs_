@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
+using BetterTownOfUs.Roles;
 
 namespace BetterTownOfUs.CrewmateRoles.SpyMod
 {
@@ -19,6 +20,7 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
 
         public static void UpdateBlips(CounterArea area, List<int> colorMapping)
         {
+            var spy = Role.GetRole<Spy>(PlayerControl.LocalPlayer);
             area.UpdateCount(colorMapping.Count);
             var icons = area.myIcons.ToArray();
             colorMapping.Sort();
@@ -32,8 +34,9 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
                 }
                 if (sprite != null)
                 {
-                    //PlayerControl.SetPlayerMaterialColors(colorMapping[i], sprite);
-                    PlayerMaterial.SetColors(colorMapping[i], sprite);
+                    PlayerMaterial.SetColors(Color.yellow, sprite);
+                    if (spy.Enabled) PlayerMaterial.SetColors(colorMapping[i], sprite);
+                    
                 }
             }
         }
@@ -69,7 +72,7 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
         public static bool Prefix(MapCountOverlay __instance)
         {
             var localPlayer = PlayerControl.LocalPlayer;
-            if (!localPlayer.Is(RoleEnum.Spy)) return true;
+            if (!CustomGameOptions.SpyAdmin || !localPlayer.Is(RoleEnum.Spy)) return true;
             __instance.timer += Time.deltaTime;
             if (__instance.timer < 0.1f) return false;
 
@@ -77,11 +80,9 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
 
             var sabotaged = PlayerTask.PlayerHasTaskOfType<IHudOverrideTask>(localPlayer);
 
-            if (sabotaged != __instance.isSab)
-                SetSabotaged(__instance, sabotaged);
+            if (sabotaged != __instance.isSab) SetSabotaged(__instance, sabotaged);
 
-            if (!sabotaged)
-                UpdateBlips(__instance);
+            if (!sabotaged) UpdateBlips(__instance);
             return false;
         }
     }

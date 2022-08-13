@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using HarmonyLib;
+using UnityEngine;
+using BetterTownOfUs.Roles;
 using BetterTownOfUs.CrewmateRoles.MedicMod;
 
 namespace BetterTownOfUs.CrewmateRoles.SpyMod
@@ -10,7 +12,9 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
     {
         public static void Postfix(VitalsMinigame __instance)
         {
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Spy)) return;
+            if (!CustomGameOptions.SpyVitals || !PlayerControl.LocalPlayer.Is(RoleEnum.Spy)) return;
+            var spy = Role.GetRole<Spy>(PlayerControl.LocalPlayer);
+            if (!spy.Enabled) return;
             for (var i = 0; i < __instance.vitals.Count; i++)
             {
                 ;
@@ -19,7 +23,20 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
                 if (!panel.IsDead) continue;
                 var deadBody = Murder.KilledPlayers.First(x => x.PlayerId == info.PlayerId);
                 var num = (float) (DateTime.UtcNow - deadBody.KillTime).TotalMilliseconds;
-                // panel. = Math.Round(num/1000f) + "s";
+                var cardio = panel.Cardio.gameObject;
+                var tmp = cardio.GetComponent<TMPro.TextMeshPro>();
+                if (tmp == null) tmp = cardio.AddComponent<TMPro.TextMeshPro>();
+                if (!spy.Enabled)
+                {
+                    tmp.gameObject.Destroy();
+                    return;
+                }
+                var transform = tmp.transform;
+                transform.localPosition = new Vector3(-0.85f, -0.4f, 0);
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                transform.localScale = Vector3.one / 20;
+                tmp.color = Color.red;
+                tmp.text = Math.Ceiling(num / 1000) + "s";
             }
         }
     }

@@ -65,6 +65,7 @@ namespace BetterTownOfUs
         public static Sprite PoisonedSprite;
         public static Sprite TransportSprite;
         public static Sprite MediateSprite;
+        public static Sprite SpySprite;
         public static Sprite VestSprite;
         public static Sprite ProtectSprite;
         public static Sprite BlackmailSprite;
@@ -137,6 +138,7 @@ namespace BetterTownOfUs
             PoisonedSprite = CreateSprite("BetterTownOfUs.Resources.Poisoned.png");
             TransportSprite = CreateSprite("BetterTownOfUs.Resources.Transport.png");
             MediateSprite = CreateSprite("BetterTownOfUs.Resources.Mediate.png");
+            SpySprite = CreateSprite("BetterTownOfUs.Resources.Spy.png");
             VestSprite = CreateSprite("BetterTownOfUs.Resources.Vest.png");
             ProtectSprite = CreateSprite("BetterTownOfUs.Resources.Protect.png");
             BlackmailSprite = CreateSprite("BetterTownOfUs.Resources.Blackmail.png");
