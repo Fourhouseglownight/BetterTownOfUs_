@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 using BetterTownOfUs.CrewmateRoles.EngineerMod;
 namespace BetterTownOfUs.Roles
 {
@@ -7,6 +8,7 @@ namespace BetterTownOfUs.Roles
         public float EngiCooldown { get; set; }
         public float EngiFixPerRound { get; set; }
         public float EngiFixPerGame { get; set; }
+        public TextMeshPro UsesText;
         public Engineer(PlayerControl player) : base(player)
         {
             Name = "Engineer";
