@@ -458,7 +458,7 @@ namespace BetterTownOfUs.CustomOption
                 PercentFormat);
             SwapperOn = new CustomNumberOption(true, num++, "<color=#66E666FF>Swapper</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
-            TimeLordOn = new CustomNumberOption(true, num++, "<color=#0000FFFF>Time Lord</color>", 0f, 0f, 100f, 05f,
+            TimeLordOn = new CustomNumberOption(true, num++, "<color=#0000FFFF>Time Lord</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
             TransporterOn = new CustomNumberOption(true, num++, "<color=#00EEFFFF>Transporter</color>", 90f, 0f, 100f, 05f,
                 PercentFormat);
