@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using HarmonyLib;
 using Reactor.Extensions;
 using BetterTownOfUs.CustomOption;
-using UnityEngine;
 
 namespace BetterTownOfUs
 {
@@ -14,55 +12,7 @@ namespace BetterTownOfUs
     {
         public static bool AllOptions;
 
-        /*public static string StringBuild()
-        {
-            var builder = new StringBuilder("Roles:\n");
-            foreach (var option in BetterTownOfUs.Roles)
-            {
-                builder.AppendLine($"     {option.Name}: {option}");
-            }
-
-            builder.AppendLine("Modifiers:");
-            foreach (var option in BetterTownOfUs.Modifiers)
-            {
-                builder.AppendLine($"     {option.Name}: {option}");
-            }
-            
-            
-            foreach (var option in BetterTownOfUs.AllOptions)
-            {
-                builder.AppendLine($"{option.Name}: {option}");
-            }
-            
-
-            return builder.ToString();
-        }
-
-        [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.FixedUpdate))]
-        public static class LobbyFix
-        {
-
-            public static bool Prefix()
-            {
-                
-                DestroyableSingleton<HudManager>.Instance.GameSettings.text = StringBuild();
-                DestroyableSingleton<HudManager>.Instance.GameSettings.gameObject.SetActive(true);
-                return false;
-            }
-        }
-
-
-        [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-        [HarmonyAfter("com.comando.essentials")]
-        public static class FixScale
-        {
-            public static void Prefix(HudManager __instance)
-            {
-//                __instance.GameSettings.scale = 0.3f;
-            }
-        }*/
-
-        [HarmonyPatch] //ToHudString
+        [HarmonyPatch]
         private static class GameOptionsDataPatch
         {
             public static IEnumerable<MethodBase> TargetMethods()
@@ -76,33 +26,21 @@ namespace BetterTownOfUs
 
                 foreach (var option in CustomOption.CustomOption.AllOptions)
                 {
-                    if (option.Name == "Better Polus" && !AllOptions) break;
+                    if (option == Generate.MaxPlayers) continue;
+                    if (option.Name == "Better Polus")
+                    {
+                        builder.Append("(Scroll for all settings)");
+                        builder.AppendLine("");
+                        builder.Append(new StringBuilder(__result));
+                    }
                     if (option.Type == CustomOptionType.Button) continue;
                     if (option.Type == CustomOptionType.Header) builder.AppendLine($"\n{option.Name}");
-                    else if (option.Name == "Anon Imp") builder.AppendLine($"{option}\n");
                     else if (option.Indent) builder.AppendLine($"     {option.Name}: {option}");
                     else builder.AppendLine($"{option.Name}: {option}");
                 }
 
-
                 __result = builder.ToString();
-
-
-                if (CustomOption.CustomOption.LobbyTextScroller && __result.Count(c => c == '\n') > 38)
-                    __result = __result.Insert(__result.IndexOf('\n'), " (Scroll for more)");
-                else __result = __result.Insert(__result.IndexOf('\n'), "Press Tab to see All Options");
-
-
                 __result = $"<size=1.25>{__result}</size>";
-            }
-        }
-
-        [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.FixedUpdate))]
-        private static class LobbyBehaviourPatch
-        {
-            private static void Postfix()
-            {
-                if (Input.GetKeyInt(KeyCode.Tab)) AllOptions = !AllOptions;
             }
         }
 
@@ -111,7 +49,7 @@ namespace BetterTownOfUs
         {
             public static void Postfix(ref GameOptionsMenu __instance)
             {
-                __instance.GetComponentInParent<Scroller>().ContentYBounds.max = (__instance.Children.Length - 8.5f) / 2.0f;
+                __instance.GetComponentInParent<Scroller>().ContentYBounds.max = (__instance.Children.Length - 6.5f) / 2;
             }
         }
     }

@@ -60,7 +60,6 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
                 role.ListOfActives[index] = !role.ListOfActives[index];
 
                 _mostRecentId = index;
-                PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage(string.Join(" ", role.ListOfActives));
 
                 SwapVotes.Swap1 = null;
                 SwapVotes.Swap2 = null;

@@ -1,6 +1,7 @@
 using HarmonyLib;
 using Hazel;
 using Reactor;
+using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
 using UnityEngine;
 
@@ -34,33 +35,8 @@ namespace BetterTownOfUs.CrewmateRoles.MedicMod
                     System.Console.WriteLine(player.name + " Is Ex-Shielded");
                 }
 
-            player.myRend.material.SetColor("_VisorColor", Palette.VisorColor);
-            player.myRend.material.SetFloat("_Outline", 0f);
-            //System.Console.WriteLine("Broke " + player.name + "'s shield");
-        }
-
-        [HarmonyPriority(Priority.First)]
-        public static bool Prefix(KillButton __instance)
-        {
-            if (__instance != DestroyableSingleton<HudManager>.Instance.KillButton) return true;
-            if (!PlayerControl.LocalPlayer.Is(Faction.Impostors)) return true;
-            var target = __instance.currentTarget;
-            if (target == null) return true;
-            if (target.isShielded())
-            {
-                if (__instance.isActiveAndEnabled && !__instance.isCoolingDown)
-                {
-                    Utils.BreakShield(target);
-
-                    System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
-                    if (CustomGameOptions.ShieldBreaks)
-                        PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.GameOptions.KillCooldown);
-                }
-
-                return false;
-            }
-
-            return true;
+            player.myRend().material.SetColor("_VisorColor", Palette.VisorColor);
+            player.myRend().material.SetFloat("_Outline", 0f);
         }
     }
 }

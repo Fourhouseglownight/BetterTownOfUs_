@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Reactor.Extensions;
-using BetterTownOfUs.Extensions;
 using UnhollowerBaseLib;
 using UnityEngine;
 
@@ -12,7 +11,8 @@ namespace BetterTownOfUs.CustomOption
     {
         public static Export ExportButton;
         public static Import ImportButton;
-        private static float LobbyTextRowHeight { get; set; } = 0.081F;
+        public static List<OptionBehaviour> DefaultOptions;
+        public static float LobbyTextRowHeight { get; set; } = 0.081F;
 
 
         private static List<OptionBehaviour> CreateOptions(GameOptionsMenu __instance)
@@ -56,20 +56,12 @@ namespace BetterTownOfUs.CustomOption
                 options.Add(toggle);
             }
 
-            // TODO: Is there a better place to do this?
-            Object
-                .FindObjectsOfType<NumberOption>().First(o => "CrewmateVision".Equals(o.name))
-                .Increment = 0.125f;
-
-            Object
-                .FindObjectsOfType<NumberOption>().First(o => "ImpostorVision".Equals(o.name))
-                .Increment = 0.125f;
-
-            List<OptionBehaviour> defaultOptions = __instance.Children.ToList();
-            options.AddRange(defaultOptions);
+            DefaultOptions = __instance.Children.ToList();
+            foreach (var defaultOption in __instance.Children) options.Add(defaultOption);
 
             foreach (var option in CustomOption.AllOptions)
             {
+                if (AmongUsClient.Instance.GameId == 32 && option == Generate.MaxPlayers) continue;
                 if (option.Setting != null)
                 {
                     option.Setting.gameObject.SetActive(true);
@@ -98,17 +90,6 @@ namespace BetterTownOfUs.CustomOption
                         break;
                     case CustomOptionType.String:
                         var str = Object.Instantiate(stringPrefab, stringPrefab.transform.parent);
-                        if (option.Name == "Anon Imp")
-                        {
-                            var setTrans = str.transform;
-                            var value = setTrans.GetChild(3);
-                            var inc = setTrans.GetChild(0);
-                            setTrans.GetChild(2).gameObject.SetActive(false);
-                            inc.localPosition = new Vector3(inc.localPosition.x - 0.6f, 0, 0);
-                            setTrans.GetChild(1).localPosition = new Vector3(setTrans.position.x - 0.25f, 0, 0);
-                            value.localPosition = new Vector3(setTrans.localPosition.x / 2, 0, 0);
-                            value.localScale = new Vector3(1, 1, 1);
-                        }
                         option.Setting = str;
                         options.Add(str);
                         break;
@@ -161,50 +142,50 @@ namespace BetterTownOfUs.CustomOption
             public static void Postfix(GameSettingMenu __instance)
             {
                 var obj = __instance.RolesSettingsHightlight.gameObject.transform.parent.parent;
-                var btouSettings = Object.Instantiate(__instance.RegularGameSettings, __instance.RegularGameSettings.transform.parent);
-                btouSettings.SetActive(false);
-                btouSettings.name = "BTOUSettings";
+                var touSettings = Object.Instantiate(__instance.RegularGameSettings, __instance.RegularGameSettings.transform.parent);
+                touSettings.SetActive(false);
+                touSettings.name = "TOUSettings";
 
-                var gameGroup = btouSettings.transform.FindChild("GameGroup");
+                var gameGroup = touSettings.transform.FindChild("GameGroup");
                 var title = gameGroup?.FindChild("Text");
 
                 if (title != null)
                 {
                     title.GetComponent<TextTranslatorTMP>().Destroy();
-                    title.GetComponent<TMPro.TextMeshPro>().m_text = "Better Town Of Us Settings";
+                    title.GetComponent<TMPro.TextMeshPro>().m_text = "Town Of Us Settings";
                 }
                 var sliderInner = gameGroup?.FindChild("SliderInner");
                 if (sliderInner != null)
-                    sliderInner.GetComponent<GameOptionsMenu>().name = "BtouGameOptionsMenu";
+                    sliderInner.GetComponent<GameOptionsMenu>().name = "TouGameOptionsMenu";
 
                 var ourSettingsButton = Object.Instantiate(obj.gameObject, obj.transform.parent);
                 ourSettingsButton.transform.localPosition = new Vector3(obj.localPosition.x + 0.906f, obj.localPosition.y, obj.localPosition.z);
-                ourSettingsButton.name = "BTOUtab";
+                ourSettingsButton.name = "TOUtab";
                 var hatButton = ourSettingsButton.transform.GetChild(0); //TODO:  change to FindChild I guess to be sure
                 var hatIcon = hatButton.GetChild(0);
                 var tabBackground = hatButton.GetChild(1);
 
                 var renderer = hatIcon.GetComponent<SpriteRenderer>();
                 renderer.sprite = BetterTownOfUs.SettingsButtonSprite;
-                var btouSettingsHighlight = tabBackground.GetComponent<SpriteRenderer>();
+                var touSettingsHighlight = tabBackground.GetComponent<SpriteRenderer>();
                 PassiveButton passiveButton = __instance.GameSettingsHightlight.GetComponent<PassiveButton>();
                 passiveButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                passiveButton.OnClick.AddListener(ToggleButton(__instance, btouSettings, btouSettingsHighlight, 0));
+                passiveButton.OnClick.AddListener(ToggleButton(__instance, touSettings, touSettingsHighlight, 0));
                 passiveButton = __instance.RolesSettingsHightlight.GetComponent<PassiveButton>();
                 passiveButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                passiveButton.OnClick.AddListener(ToggleButton(__instance, btouSettings, btouSettingsHighlight, 1));
+                passiveButton.OnClick.AddListener(ToggleButton(__instance, touSettings, touSettingsHighlight, 1));
                 passiveButton = tabBackground.GetComponent<PassiveButton>();
                 passiveButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                passiveButton.OnClick.AddListener(ToggleButton(__instance, btouSettings, btouSettingsHighlight, 2));
+                passiveButton.OnClick.AddListener(ToggleButton(__instance, touSettings, touSettingsHighlight, 2));
 
                 //fix for scrollbar (bug in among us)
-                btouSettings.GetComponentInChildren<Scrollbar>().parent = btouSettings.GetComponentInChildren<Scroller>();
+                touSettings.GetComponentInChildren<Scrollbar>().parent = touSettings.GetComponentInChildren<Scroller>();
                 __instance.RegularGameSettings.GetComponentInChildren<Scrollbar>().parent = __instance.RegularGameSettings.GetComponentInChildren<Scroller>();
-                __instance.RolesSettings.GetComponentInChildren<Scrollbar>().parent = __instance.RolesSettings.GetComponentInChildren<Scroller>();
+                if (__instance.RolesSettings.GetComponentInChildren<Scrollbar>() != null) __instance.RolesSettings.GetComponentInChildren<Scrollbar>().parent = __instance.RolesSettings.GetComponentInChildren<Scroller>();
             }
         }
 
-        public static System.Action ToggleButton(GameSettingMenu settingMenu, GameObject BtouSettings, SpriteRenderer highlight, int id)
+        public static System.Action ToggleButton(GameSettingMenu settingMenu, GameObject TouSettings, SpriteRenderer highlight, int id)
         {
             return new System.Action(() =>
             {
@@ -213,16 +194,31 @@ namespace BetterTownOfUs.CustomOption
                 settingMenu.RolesSettings.gameObject.SetActive(id == 1);
                 settingMenu.RolesSettingsHightlight.enabled = id == 1;
                 highlight.enabled = id == 2;
-                BtouSettings.SetActive(id == 2);
+                TouSettings.SetActive(id == 2);
             });
+        }
+
+        [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Update))]
+        class GameSettingMenuUpdatePatch
+        {
+            public static void Postfix(GameSettingMenu __instance)
+            {
+                int value = (int) Generate.MaxPlayers.Get();
+                if (PlayerControl.GameOptions.MaxPlayers != value)
+                {
+                    PlayerControl.GameOptions.MaxPlayers = value;
+                    GameStartManager.Instance.LastPlayerCount = value;
+                    PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                }
+            }
         }
 
         [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Start))]
         private class GameOptionsMenu_Start
         {
-            public static bool Postfix(GameOptionsMenu __instance)
+            public static bool Prefix(GameOptionsMenu __instance)
             {
-                if (__instance.name != "BtouGameOptionsMenu")
+                if (__instance.name != "TouGameOptionsMenu")
                     return true;
                 __instance.Children = new Il2CppReferenceArray<OptionBehaviour>(new OptionBehaviour[0]);
                 var childeren = new Transform[__instance.gameObject.transform.childCount];
@@ -240,7 +236,8 @@ namespace BetterTownOfUs.CustomOption
                     childeren[k].gameObject.Destroy();
                 }
 
-                var i = 0;foreach (var option in customOptions)
+                var i = 0;
+                foreach (var option in customOptions)
                     option.transform.localPosition = new Vector3(x, y - i++ * 0.5f, z);
 
                 __instance.Children = new Il2CppReferenceArray<OptionBehaviour>(customOptions.ToArray());
@@ -272,6 +269,17 @@ namespace BetterTownOfUs.CustomOption
                 var i = 0;
                 foreach (var option in __instance.Children)
                     option.transform.localPosition = new Vector3(x, y - i++ * 0.5f, z);
+
+                if (__instance.name != "SliderInner") return;
+
+                var commonTasks = __instance.Children.FirstOrDefault(x => x.name == "NumCommonTasks").TryCast<NumberOption>();
+                if (commonTasks != null) commonTasks.ValidRange = new FloatRange(0f, 4f);
+
+                var shortTasks = __instance.Children.FirstOrDefault(x => x.name == "NumShortTasks").TryCast<NumberOption>();
+                if (shortTasks != null) shortTasks.ValidRange = new FloatRange(0f, 26f);
+
+                var longTasks = __instance.Children.FirstOrDefault(x => x.name == "NumLongTasks").TryCast<NumberOption>();
+                if (longTasks != null) longTasks.ValidRange = new FloatRange(0f, 15f);
             }
         }
 

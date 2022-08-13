@@ -11,7 +11,6 @@ namespace BetterTownOfUs.Extensions
         Morph,
         Camouflage,
         Swooper,
-        Wolf,
         PlayerNameOnly
 
     }

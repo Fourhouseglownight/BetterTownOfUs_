@@ -1,13 +1,18 @@
-﻿namespace BetterTownOfUs.Roles
+namespace BetterTownOfUs.Roles
 {
     public class Janitor : Role
     {
         public KillButton _cleanButton;
 
-        public Janitor(PlayerControl player) : base(player, RoleEnum.Janitor)
+        public Janitor(PlayerControl player) : base(player)
         {
+            Name = "Janitor";
             ImpostorText = () => "Clean up bodies";
             TaskText = () => "Clean bodies to prevent Crewmates from discovering them.";
+            Color = Patches.Colors.Impostor;
+            RoleType = RoleEnum.Janitor;
+            AddToRoleHistory(RoleType);
+            Faction = Faction.Impostors;
         }
 
         public DeadBody CurrentTarget { get; set; }

@@ -26,9 +26,14 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
             {
                 var icon = icons[i];
                 var sprite = icon.GetComponent<SpriteRenderer>();
+                if (Patches.SubmergedCompatibility.Loaded)
+                {
+                    sprite.color = new Color(1, 1, 1, 1);
+                }
                 if (sprite != null)
                 {
-                    PlayerControl.SetPlayerMaterialColors(colorMapping[i], sprite);
+                    //PlayerControl.SetPlayerMaterialColors(colorMapping[i], sprite);
+                    PlayerMaterial.SetColors(colorMapping[i], sprite);
                 }
             }
         }

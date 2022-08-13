@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
+using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
+using UnityEngine;
 
 namespace BetterTownOfUs.CrewmateRoles.SheriffMod
 {
@@ -19,6 +21,8 @@ namespace BetterTownOfUs.CrewmateRoles.SheriffMod
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
             if (PlayerControl.LocalPlayer == null) return;
             if (PlayerControl.LocalPlayer.Data == null) return;
+            var flag7 = PlayerControl.AllPlayerControls.Count > 1;
+            if (!flag7) return;
             var flag8 = PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff);
             if (flag8)
             {
@@ -27,31 +31,31 @@ namespace BetterTownOfUs.CrewmateRoles.SheriffMod
                 if (isDead)
                 {
                     KillButton.gameObject.SetActive(false);
-                    //KillButton.isActive = false;
+                //    KillButton.isActive = false;
                 }
                 else
                 {
                     KillButton.gameObject.SetActive(!MeetingHud.Instance);
-                    //KillButton.isActive = !MeetingHud.Instance;
-                    KillButton.SetCoolDown(role.SheriffKillTimer(), CustomGameOptions.SheriffKillCd);
+                 //   KillButton.isActive = !MeetingHud.Instance;
+                    KillButton.SetCoolDown(role.SheriffKillTimer(), PlayerControl.GameOptions.KillCooldown + 15f);
 
                     Utils.SetTarget(ref role.ClosestPlayer, KillButton);
                 }
             }
             else
             {
-                var isImpostor = PlayerControl.LocalPlayer.Is(Faction.Impostors);
+                var isImpostor = PlayerControl.LocalPlayer.Data.IsImpostor();
                 if (!isImpostor) return;
                 var isDead2 = PlayerControl.LocalPlayer.Data.IsDead;
                 if (isDead2)
                 {
                     KillButton.gameObject.SetActive(false);
-                    //KillButton.isActive = false;
+                //    KillButton.isActive = false;
                 }
                 else
                 {
                     __instance.KillButton.gameObject.SetActive(!MeetingHud.Instance);
-                    //__instance.KillButton.isActive = !MeetingHud.Instance;
+                 //   __instance.KillButton.isActive = !MeetingHud.Instance;
                 }
             }
         }

@@ -23,10 +23,12 @@ namespace BetterTownOfUs.Modifiers.ButtonBarryMod
             System.Console.WriteLine("Reached here!");
 
             role.ButtonUsed = true;
+
             var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.BarryButton, SendOption.Reliable, -1);
+                (byte)CustomRPC.BarryButton, SendOption.Reliable, -1);
             writer.Write(PlayerControl.LocalPlayer.PlayerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+
             if (AmongUsClient.Instance.AmHost)
             {
                 MeetingRoomManager.Instance.reporter = PlayerControl.LocalPlayer;
@@ -38,7 +40,7 @@ namespace BetterTownOfUs.Modifiers.ButtonBarryMod
                 PlayerControl.LocalPlayer.RpcStartMeeting(null);
             }
 
-            return false;
+                return false;
         }
     }
 }

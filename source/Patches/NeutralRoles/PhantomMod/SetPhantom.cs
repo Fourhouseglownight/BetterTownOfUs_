@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
+using System.Linq;
 
 namespace BetterTownOfUs.NeutralRoles.PhantomMod
 {
@@ -14,7 +15,7 @@ namespace BetterTownOfUs.NeutralRoles.PhantomMod
     {
         public static void Postfix(AirshipExileController __instance) => SetPhantom.ExileControllerPostfix(__instance);
     }
-
+    
     [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
     public class SetPhantom
     {
@@ -33,6 +34,7 @@ namespace BetterTownOfUs.NeutralRoles.PhantomMod
                 Role.RoleDictionary.Remove(PlayerControl.LocalPlayer.PlayerId);
                 var role = new Phantom(PlayerControl.LocalPlayer);
                 role.RegenTask();
+                Lights.SetLights();
 
                 RemoveTasks(PlayerControl.LocalPlayer);
                 PlayerControl.LocalPlayer.MyPhysics.ResetMoveState();
@@ -47,10 +49,17 @@ namespace BetterTownOfUs.NeutralRoles.PhantomMod
             }
 
             if (Role.GetRole<Phantom>(PlayerControl.LocalPlayer).Caught) return;
-            Vent startingVent =
-                ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
-            Vector3 destination = Utils.GetCoordinatesToSendPlayerToVent(startingVent);
-            PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(destination);
+            var startingVent =
+                ShipStatus.Instance.AllVents[BetterTownOfUs.Random.Next(0, ShipStatus.Instance.AllVents.Count)];
+
+            var writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                    (byte)CustomRPC.SetPos, SendOption.Reliable, -1);
+            writer2.Write(PlayerControl.LocalPlayer.PlayerId);
+            writer2.Write(startingVent.transform.position.x);
+            writer2.Write(startingVent.transform.position.y);
+            AmongUsClient.Instance.FinishRpcImmediately(writer2);
+
+            PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
             PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
         }
 
@@ -68,7 +77,7 @@ namespace BetterTownOfUs.NeutralRoles.PhantomMod
                     var normalPlayerTask = task.Cast<NormalPlayerTask>();
 
                     var updateArrow = normalPlayerTask.taskStep > 0;
-
+                    
                     normalPlayerTask.taskStep = 0;
                     normalPlayerTask.Initialize();
                     if (normalPlayerTask.TaskType == TaskTypes.PickUpTowels)
@@ -76,9 +85,11 @@ namespace BetterTownOfUs.NeutralRoles.PhantomMod
                             console.Image.color = Color.white;
                     normalPlayerTask.taskStep = 0;
 
+                    if (normalPlayerTask.TaskType == TaskTypes.UploadData)
+                        normalPlayerTask.taskStep = 1;
                     if (updateArrow)
                         normalPlayerTask.UpdateArrow();
-
+                    
                     var taskInfo = player.Data.FindTaskById(task.Id);
                     taskInfo.Complete = false;
                 }
@@ -120,11 +131,16 @@ namespace BetterTownOfUs.NeutralRoles.PhantomMod
             {
                 if (MeetingHud.Instance) return;
                 if (PlayerControl.LocalPlayer.Data.IsDead) return;
-                role.Caught = true;
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.CatchPhantom, SendOption.Reliable, -1);
-                writer.Write(role.Player.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                var taskinfos = player.Data.Tasks.ToArray();
+                var tasksLeft = taskinfos.Count(x => !x.Complete);
+                if (tasksLeft <= CustomGameOptions.PhantomTasksRemaining)
+                {
+                    role.Caught = true;
+                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                        (byte)CustomRPC.CatchPhantom, SendOption.Reliable, -1);
+                    writer.Write(role.Player.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                }
             }));
         }
     }

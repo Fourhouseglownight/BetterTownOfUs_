@@ -1,8 +1,8 @@
 using System;
 using HarmonyLib;
 using Hazel;
-using Reactor.Extensions;
 using BetterTownOfUs.Extensions;
+using Reactor.Extensions;
 using BetterTownOfUs.Roles;
 using UnityEngine;
 
@@ -48,8 +48,14 @@ namespace BetterTownOfUs.ImpostorRoles.UndertakerMod
                     var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
                         (byte) CustomRPC.Drop, SendOption.Reliable, -1);
                     writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                    Vector2 position = PlayerControl.LocalPlayer.GetTruePosition();
+                    Vector3 position = PlayerControl.LocalPlayer.GetTruePosition();
+
+
+                    float z = Utils.CalculateZ(position);
+                    position.z = z;
+
                     writer.Write(position);
+                    writer.Write(position.z);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                     var body = role.CurrentlyDragging;
@@ -58,7 +64,7 @@ namespace BetterTownOfUs.ImpostorRoles.UndertakerMod
                     __instance.graphic.sprite = BetterTownOfUs.DragSprite;
                     role.LastDragged = DateTime.UtcNow;
 
-                    //body.transform.position = position;
+                    body.transform.position = position;
 
 
                     return false;

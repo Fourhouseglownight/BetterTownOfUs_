@@ -45,7 +45,7 @@ namespace BetterTownOfUs.CrewmateRoles.MayorMod
             }
 
             foreach (var role in Role.GetRoles(RoleEnum.Mayor))
-            foreach (var number in ((Mayor) role).ExtraVotes)
+            foreach (var number in ((Mayor)role).ExtraVotes)
                 if (dictionary.TryGetValue(number, out var num))
                     dictionary[number] = num + 1;
                 else
@@ -80,7 +80,7 @@ namespace BetterTownOfUs.CrewmateRoles.MayorMod
         {
             foreach (var role in Role.GetRoles(RoleEnum.Mayor))
             {
-                var mayor = (Mayor) role;
+                var mayor = (Mayor)role;
                 mayor.ExtraVotes.Clear();
                 if (mayor.VoteBank < 0)
                     mayor.VoteBank = 0;
@@ -90,7 +90,7 @@ namespace BetterTownOfUs.CrewmateRoles.MayorMod
                 mayor.VotedOnce = false;
             }
         }
-        
+
         [HarmonyPrefix]
         [HarmonyPatch(
             nameof(MeetingHud.HandleDisconnect),
@@ -106,12 +106,12 @@ namespace BetterTownOfUs.CrewmateRoles.MayorMod
                     if (role is Mayor mayor)
                     {
                         var votesRegained = mayor.ExtraVotes.RemoveAll(x => x == player.PlayerId);
-                        
+
                         if (mayor.Player == PlayerControl.LocalPlayer)
                             mayor.VoteBank += votesRegained;
-                        
+
                         var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte) CustomRPC.AddMayorVoteBank, SendOption.Reliable, -1);
+                            (byte)CustomRPC.AddMayorVoteBank, SendOption.Reliable, -1);
                         writer.Write(mayor.Player.PlayerId);
                         writer.Write(mayor.VoteBank);
                         AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -150,17 +150,17 @@ namespace BetterTownOfUs.CrewmateRoles.MayorMod
             {
                 var player = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == srcPlayerId);
                 if (!player.Is(RoleEnum.Mayor)) return true;
-                
+
                 var playerVoteArea = __instance.playerStates.ToArray().First(pv => pv.TargetPlayerId == srcPlayerId);
-                
+
                 if (playerVoteArea.AmDead)
                     return false;
-                
+
                 if (PlayerControl.LocalPlayer.PlayerId == srcPlayerId || AmongUsClient.Instance.GameMode != GameModes.LocalGame)
                 {
                     SoundManager.Instance.PlaySound(__instance.VoteLockinSound, false, 1f);
                 }
-                
+
                 var role = Role.GetRole<Mayor>(player);
                 if (playerVoteArea.DidVote)
                 {
@@ -189,8 +189,6 @@ namespace BetterTownOfUs.CrewmateRoles.MayorMod
             {
                 // __instance.exiledPlayer = __instance.wasTie ? null : __instance.exiledPlayer;
                 var exiledString = exiled == null ? "null" : exiled.PlayerName;
-                PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"Exiled PlayerName = {exiledString}");
-                PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"Was a tie = {tie}");
             }
         }
 
@@ -242,23 +240,23 @@ namespace BetterTownOfUs.CrewmateRoles.MayorMod
 
                 foreach (var role in Role.GetRoles(RoleEnum.Mayor))
                 {
-                    var mayor = (Mayor) role;
+                    var mayor = (Mayor)role;
                     var playerInfo = GameData.Instance.GetPlayerById(role.Player.PlayerId);
-                    
+
                     var anonVotesOption = PlayerControl.GameOptions.AnonymousVotes;
                     PlayerControl.GameOptions.AnonymousVotes = true;
-                    
+
                     foreach (var extraVote in mayor.ExtraVotes)
                     {
                         if (extraVote == PlayerVoteArea.HasNotVoted ||
-                            extraVote == PlayerVoteArea.MissedVote || 
+                            extraVote == PlayerVoteArea.MissedVote ||
                             extraVote == PlayerVoteArea.DeadVote)
                         {
                             continue;
                         }
                         if (extraVote == PlayerVoteArea.SkippedVote)
                         {
-                            
+
                             __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
                             amountOfSkippedVoters++;
                         }
@@ -273,7 +271,7 @@ namespace BetterTownOfUs.CrewmateRoles.MayorMod
                             }
                         }
                     }
-                    
+
                     PlayerControl.GameOptions.AnonymousVotes = anonVotesOption;
                 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using BetterTownOfUs.Extensions;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -11,21 +12,18 @@ namespace BetterTownOfUs.Roles
         public DateTime LastSwooped;
         public float TimeRemaining;
 
-        public Swooper(PlayerControl player) : base(player, RoleEnum.Swooper)
+        public Swooper(PlayerControl player) : base(player)
         {
+            Name = "Swooper";
             ImpostorText = () => "Turn invisible temporarily";
             TaskText = () => "Turn invisible and sneakily kill";
-        }
-
-        protected override void DoOnGameStart()
-        {
-            LastSwooped = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.SwoopCd);
-        }
-
-        protected override void DoOnMeetingEnd()
-        {
+            Color = Patches.Colors.Impostor;
             LastSwooped = DateTime.UtcNow;
+            RoleType = RoleEnum.Swooper;
+            AddToRoleHistory(RoleType);
+            Faction = Faction.Impostors;
         }
+
         public bool IsSwooped => TimeRemaining > 0f;
 
         public KillButton SwoopButton
@@ -41,21 +39,49 @@ namespace BetterTownOfUs.Roles
 
         public float SwoopTimer()
         {
-            return Utils.GetCooldownTimeRemaining(() => LastSwooped, () => CustomGameOptions.SwoopCd);
+            var utcNow = DateTime.UtcNow;
+            var timeSpan = utcNow - LastSwooped;
+            ;
+            var num = CustomGameOptions.SwoopCd * 1000f;
+            var flag2 = num - (float) timeSpan.TotalMilliseconds < 0f;
+            if (flag2) return 0;
+            return (num - (float) timeSpan.TotalMilliseconds) / 1000f;
         }
 
         public void Swoop()
         {
             Enabled = true;
             TimeRemaining -= Time.deltaTime;
-            Utils.MakeInvisible(Player, PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Data.IsDead);
+            if (Player.Data.IsDead)
+            {
+                TimeRemaining = 0f;
+            }
+            var color = Color.clear;
+            if (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Data.IsDead) color.a = 0.1f;
+
+            if (Player.GetCustomOutfitType() != CustomPlayerOutfitType.Swooper)
+            {
+                Player.SetOutfit(CustomPlayerOutfitType.Swooper, new GameData.PlayerOutfit()
+                {
+                    ColorId = Player.CurrentOutfit.ColorId,
+                    HatId = "",
+                    SkinId = "",
+                    VisorId = "",
+                    PlayerName = " "
+                });
+                Player.myRend().color = color;
+                Player.nameText().color = Color.clear;
+            }
+
         }
+
 
         public void UnSwoop()
         {
             Enabled = false;
             LastSwooped = DateTime.UtcNow;
-            Utils.MakeVisible(Player);
+            Utils.Unmorph(Player);
+            Player.myRend().color = Color.white;
         }
     }
 }

@@ -8,11 +8,12 @@ namespace BetterTownOfUs.Roles.Modifiers
 
         public bool ButtonUsed;
 
-        public ButtonBarry(PlayerControl player) : base(player, ModifierEnum.ButtonBarry)
+        public ButtonBarry(PlayerControl player) : base(player)
         {
             Name = "Button Barry";
             TaskText = () => "Call a button from anywhere!";
-            Color = new Color(0.9f, 0f, 1f, 1f);
+            Color = Patches.Colors.ButtonBarry;
+            ModifierType = ModifierEnum.ButtonBarry;
         }
     }
 }

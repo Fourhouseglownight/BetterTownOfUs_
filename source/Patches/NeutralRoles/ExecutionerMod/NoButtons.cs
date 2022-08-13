@@ -8,7 +8,7 @@ namespace BetterTownOfUs.NeutralRoles.ExecutionerMod
         public static void Postfix()
         {
             if (!CustomGameOptions.ExecutionerButton)
-                if (PlayerControl.LocalPlayer.Is(RoleEnum.Arsonist)) PlayerControl.LocalPlayer.RemainingEmergencies = 0;
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Executioner)) PlayerControl.LocalPlayer.RemainingEmergencies = 0;
         }
     }
 

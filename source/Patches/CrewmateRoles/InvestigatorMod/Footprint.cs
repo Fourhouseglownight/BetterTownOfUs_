@@ -1,7 +1,7 @@
-using BetterTownOfUs.ImpostorRoles.CamouflageMod;
-using BetterTownOfUs.RainbowMod;
 using BetterTownOfUs.Roles;
 using UnityEngine;
+using BetterTownOfUs.Extensions;
+using BetterTownOfUs.Patches;
 
 namespace BetterTownOfUs.CrewmateRoles.InvestigatorMod
 {
@@ -45,6 +45,7 @@ namespace BetterTownOfUs.CrewmateRoles.InvestigatorMod
         private void Start()
         {
             _gameObject = new GameObject("Footprint");
+            _gameObject.AddSubmergedComponent(SubmergedCompatibility.Classes.ElevatorMover);
             _gameObject.transform.position = Position;
             _gameObject.transform.Rotate(Vector3.forward * Vector2.SignedAngle(Vector2.up, _velocity));
             _gameObject.transform.SetParent(Player.transform.parent);
@@ -53,7 +54,6 @@ namespace BetterTownOfUs.CrewmateRoles.InvestigatorMod
             _spriteRenderer.sprite = BetterTownOfUs.Footprint;
             _spriteRenderer.color = Color;
             _gameObject.transform.localScale *= new Vector2(1.2f, 1f) * (CustomGameOptions.FootprintSize / 10);
-
 
             _gameObject.SetActive(true);
         }
@@ -71,13 +71,11 @@ namespace BetterTownOfUs.CrewmateRoles.InvestigatorMod
 
             if (alpha < 0 || alpha > 1)
                 alpha = 0;
-
-            if (RainbowUtils.IsRainbow(Player.CurrentOutfit.ColorId) & !Grey)
-                Color = RainbowUtils.Rainbow;
-            else if (Grey)
+            
+            if (Grey)
                 Color = new Color(0.2f, 0.2f, 0.2f, 1f);
             else
-                Color = Palette.PlayerColors[Player.CurrentOutfit.ColorId];
+                Color = Palette.PlayerColors[Player.GetDefaultOutfit().ColorId];
 
             Color = new Color(Color.r, Color.g, Color.b, alpha);
             _spriteRenderer.color = Color;

@@ -135,11 +135,6 @@ namespace BetterTownOfUs.CustomOption
                 var name = splitText[0].Trim();
                 splitText.RemoveAt(0);
                 var option = AllOptions.FirstOrDefault(o => o.Name.Equals(name, StringComparison.Ordinal));
-                if (splitText.Count == 0)
-                {
-                    break;
-                }
-
                 if (option == null)
                 {
                     try

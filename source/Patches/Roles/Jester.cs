@@ -1,4 +1,5 @@
-﻿using Il2CppSystem.Collections.Generic;
+using Il2CppSystem.Collections.Generic;
+using BetterTownOfUs.Extensions;
 using UnityEngine;
 
 namespace BetterTownOfUs.Roles
@@ -8,17 +9,22 @@ namespace BetterTownOfUs.Roles
         public bool VotedOut;
 
 
-        public Jester(PlayerControl player) : base(player, RoleEnum.Jester)
+        public Jester(PlayerControl player) : base(player)
         {
+            Name = "Jester";
             ImpostorText = () => "Get voted out";
             TaskText = () => "Get voted out!\nFake Tasks:";
+            Color = Patches.Colors.Jester;
+            RoleType = RoleEnum.Jester;
+            AddToRoleHistory(RoleType);
+            Faction = Faction.Neutral;
         }
 
-        protected override void IntroPrefix(IntroCutscene._CoBegin_d__18 __instance)
+        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__21 __instance)
         {
-            var jesterTeam = new List<PlayerControl>();
-            jesterTeam.Add(PlayerControl.LocalPlayer);
-            __instance.yourTeam = jesterTeam;
+            var jestTeam = new List<PlayerControl>();
+            jestTeam.Add(PlayerControl.LocalPlayer);
+            __instance.teamToShow = jestTeam;
         }
 
         internal override bool EABBNOODFGL(ShipStatus __instance)

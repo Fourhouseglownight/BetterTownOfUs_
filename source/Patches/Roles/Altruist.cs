@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace BetterTownOfUs.Roles
 {
@@ -9,10 +9,14 @@ namespace BetterTownOfUs.Roles
 
         public bool ReviveUsed;
 
-        public Altruist(PlayerControl player) : base(player, RoleEnum.Altruist)
+        public Altruist(PlayerControl player) : base(player)
         {
+            Name = "Altruist";
             ImpostorText = () => "Sacrifice yourself to save another";
             TaskText = () => "Revive a dead body at the cost of your own life.";
+            Color = Patches.Colors.Altruist;
+            RoleType = RoleEnum.Altruist;
+            AddToRoleHistory(RoleType);
         }
     }
 }

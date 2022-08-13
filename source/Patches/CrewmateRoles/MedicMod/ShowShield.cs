@@ -1,4 +1,6 @@
+using System.Linq;
 using HarmonyLib;
+using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
 using UnityEngine;
 
@@ -6,10 +8,10 @@ namespace BetterTownOfUs.CrewmateRoles.MedicMod
 {
     public enum ShieldOptions
     {
-        Medic = 0,
-        Self = 1,
-        SelfAndMedic = 2,
-        Everyone = 3
+        Medic,
+        Self,
+        SelfAndMedic,
+        Everyone
     }
 
     public enum NotificationOptions
@@ -35,8 +37,8 @@ namespace BetterTownOfUs.CrewmateRoles.MedicMod
                 if (exPlayer != null)
                 {
                     System.Console.WriteLine(exPlayer.name + " is ex-Shielded and unvisored");
-                    exPlayer.myRend.material.SetColor("_VisorColor", Palette.VisorColor);
-                    exPlayer.myRend.material.SetFloat("_Outline", 0f);
+                    exPlayer.myRend().material.SetColor("_VisorColor", Palette.VisorColor);
+                    exPlayer.myRend().material.SetFloat("_Outline", 0f);
                     medic.exShielded = null;
                     continue;
                 }
@@ -52,26 +54,32 @@ namespace BetterTownOfUs.CrewmateRoles.MedicMod
 
 
                 var showShielded = CustomGameOptions.ShowShielded;
-                if (showShielded == ShieldOptions.Everyone)
+                if (showShielded == ShieldOptions.Everyone ||
+                    (
+                        PlayerControl.LocalPlayer.PlayerId == player.PlayerId &&
+                        (
+                            showShielded == ShieldOptions.Self ||
+                            showShielded == ShieldOptions.SelfAndMedic
+                        )
+                    ) ||
+                    (
+                        PlayerControl.LocalPlayer.Is(RoleEnum.Medic) &&
+                        (
+                            showShielded == ShieldOptions.Medic ||
+                            showShielded == ShieldOptions.SelfAndMedic
+                        )
+                    )
+                )
                 {
-                    player.myRend.material.SetColor("_VisorColor", ProtectedColor);
-                    player.myRend.material.SetFloat("_Outline", 1f);
-                    player.myRend.material.SetColor("_OutlineColor", ProtectedColor);
-                }
-                else if (PlayerControl.LocalPlayer.PlayerId == player.PlayerId && (showShielded == ShieldOptions.Self ||
-                    showShielded == ShieldOptions.SelfAndMedic))
-                {
-                    //System.Console.WriteLine("Setting " + PlayerControl.LocalPlayer.name + "'s shield");
-                    player.myRend.material.SetColor("_VisorColor", ProtectedColor);
-                    player.myRend.material.SetFloat("_Outline", 1f);
-                    player.myRend.material.SetColor("_OutlineColor", ProtectedColor);
-                }
-                else if (PlayerControl.LocalPlayer.Is(RoleEnum.Medic) &&
-                         (showShielded == ShieldOptions.Medic || showShielded == ShieldOptions.SelfAndMedic))
-                {
-                    player.myRend.material.SetColor("_VisorColor", ProtectedColor);
-                    player.myRend.material.SetFloat("_Outline", 1f);
-                    player.myRend.material.SetColor("_OutlineColor", ProtectedColor);
+                    player.myRend().material.SetColor("_VisorColor", ProtectedColor);
+                    player.myRend().material.SetFloat("_Outline", 1f);
+                    player.myRend().material.SetColor("_OutlineColor", ProtectedColor);
+                    if (!MeetingHud.Instance) continue;
+                    SpriteRenderer icon = MeetingHud.Instance.playerStates.FirstOrDefault(v => v.TargetPlayerId == player.PlayerId).GAIcon;
+                    icon.gameObject.SetActive(true);
+                    icon.enabled = true;
+                    icon.sprite = BetterTownOfUs.MedicSprite;
+                    icon.transform.localScale = Vector2.one / 4;
                 }
             }
         }

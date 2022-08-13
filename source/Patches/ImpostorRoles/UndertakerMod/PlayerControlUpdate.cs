@@ -33,6 +33,7 @@ namespace BetterTownOfUs.ImpostorRoles.UndertakerMod
 
             role.DragDropButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
 
+
             if (role.DragDropButton.graphic.sprite == BetterTownOfUs.DragSprite)
             {
                 var data = PlayerControl.LocalPlayer.Data;

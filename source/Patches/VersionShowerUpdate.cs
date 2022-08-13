@@ -9,7 +9,7 @@ namespace BetterTownOfUs
         public static void Postfix(VersionShower __instance)
         {
             var text = __instance.text;
-            text.text += " - <color=#018001FF>BetterTownOfUs " + BetterTownOfUs.GetVersion() + "</color>";
+            text.text += (" - <color=#018001FF>BetterTownOfUs " + BetterTownOfUs.DisplayVersion).ColoredString("#018001FF");
         }
     }
 }

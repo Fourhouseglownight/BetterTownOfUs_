@@ -8,7 +8,7 @@ namespace BetterTownOfUs.ImpostorRoles.MinerMod
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class HudManagerUpdate
     {
-        private static Sprite MineSprite => BetterTownOfUs.MineSprite;
+        public static Sprite MineSprite => BetterTownOfUs.MineSprite;
 
         public static void Postfix(HudManager __instance)
         {
@@ -28,14 +28,13 @@ namespace BetterTownOfUs.ImpostorRoles.MinerMod
             role.MineButton.GetComponent<AspectPosition>().Update();
             role.MineButton.graphic.sprite = MineSprite;
             role.MineButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
-            
-            role.MineButton.SetCoolDown(role.MineTimer(), CustomGameOptions.MineCd);
 
+            role.MineButton.SetCoolDown(role.MineTimer(), CustomGameOptions.MineCd);
             var hits = Physics2D.OverlapBoxAll(PlayerControl.LocalPlayer.transform.position, role.VentSize, 0);
             hits = hits.ToArray().Where(c =>
                     (c.name.Contains("Vent") || !c.isTrigger) && c.gameObject.layer != 8 && c.gameObject.layer != 5)
                 .ToArray();
-            if (hits.Count == 0)
+            if (hits.Count == 0 && PlayerControl.LocalPlayer.moveable == true)
             {
                 role.MineButton.graphic.color = Palette.EnabledColor;
                 role.MineButton.graphic.material.SetFloat("_Desat", 0f);

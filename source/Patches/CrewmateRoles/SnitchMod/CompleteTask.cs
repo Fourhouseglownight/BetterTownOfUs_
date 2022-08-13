@@ -1,6 +1,7 @@
 using System.Linq;
 using HarmonyLib;
 using Reactor;
+using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ namespace BetterTownOfUs.CrewmateRoles.SnitchMod
 
             var tasksLeft = taskinfos.Count(x => !x.Complete);
             var role = Role.GetRole<Snitch>(__instance);
-            role.TasksLeft = tasksLeft;
+            var localRole = Role.GetRole(PlayerControl.LocalPlayer);
             switch (tasksLeft)
             {
                 case 1:
@@ -27,7 +28,6 @@ namespace BetterTownOfUs.CrewmateRoles.SnitchMod
                 case 3:
                 case 4:
                 case 5:
-
                     if (tasksLeft == CustomGameOptions.SnitchTasksRemaining)
                     {
                         role.RegenTask();
@@ -35,7 +35,9 @@ namespace BetterTownOfUs.CrewmateRoles.SnitchMod
                         {
                             Coroutines.Start(Utils.FlashCoroutine(role.Color));
                         }
-                        else if (PlayerControl.LocalPlayer.Is(Faction.Impostors) || (PlayerControl.LocalPlayer.Is(RoleEnum.Glitch) && CustomGameOptions.SnitchSeesNeutrals))
+                        else if (PlayerControl.LocalPlayer.Data.IsImpostor() || ((PlayerControl.LocalPlayer.Is(RoleEnum.Glitch) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut)
+                            || PlayerControl.LocalPlayer.Is(RoleEnum.Arsonist) || PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf)
+                            || PlayerControl.LocalPlayer.Is(RoleEnum.Plaguebearer) || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence)) && CustomGameOptions.SnitchSeesNeutrals))
                         {
                             Coroutines.Start(Utils.FlashCoroutine(role.Color));
                             var gameObj = new GameObject();
@@ -55,7 +57,7 @@ namespace BetterTownOfUs.CrewmateRoles.SnitchMod
                     if (PlayerControl.LocalPlayer.Is(RoleEnum.Snitch))
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
-                        var impostors = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Impostors));
+                        var impostors = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Data.IsImpostor());
                         foreach (var imp in impostors)
                         {
                             var gameObj = new GameObject();
@@ -65,11 +67,12 @@ namespace BetterTownOfUs.CrewmateRoles.SnitchMod
                             renderer.sprite = Sprite;
                             arrow.image = renderer;
                             gameObj.layer = 5;
-                            role.SnitchArrows.Add(arrow);
-                            role.SnitchTargets.Add(imp);
+                            role.SnitchArrows.Add(imp.PlayerId, arrow);
                         }
                     }
-                    else if (PlayerControl.LocalPlayer.Is(Faction.Impostors) || (PlayerControl.LocalPlayer.Is(RoleEnum.Glitch) && CustomGameOptions.SnitchSeesNeutrals))
+                    else if (PlayerControl.LocalPlayer.Data.IsImpostor() || ((PlayerControl.LocalPlayer.Is(RoleEnum.Glitch) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut)
+                            || PlayerControl.LocalPlayer.Is(RoleEnum.Arsonist) || PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf)
+                            || PlayerControl.LocalPlayer.Is(RoleEnum.Plaguebearer) || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence)) && CustomGameOptions.SnitchSeesNeutrals))
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
                     }

@@ -1,4 +1,5 @@
 using HarmonyLib;
+using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ namespace BetterTownOfUs.NeutralRoles.PhantomMod
                 else if (phantom.Faded)
                 {
                     Utils.Unmorph(phantom.Player);
-                    phantom.Player.myRend.color = Color.white;
+                    phantom.Player.myRend().color = Color.white;
                     phantom.Player.gameObject.layer = LayerMask.NameToLayer("Ghost");
                     phantom.Faded = false;
                     phantom.Player.MyPhysics.ResetMoveState();

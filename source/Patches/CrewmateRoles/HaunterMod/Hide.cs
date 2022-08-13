@@ -1,4 +1,5 @@
 using HarmonyLib;
+using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ namespace BetterTownOfUs.CrewmateRoles.HaunterMod
                 else if (haunter.Faded)
                 {
                     Utils.Unmorph(haunter.Player);
-                    haunter.Player.myRend.color = Color.white;
+                    haunter.Player.myRend().color = Color.white;
                     haunter.Player.gameObject.layer = LayerMask.NameToLayer("Ghost");
                     haunter.Faded = false;
                     haunter.Player.MyPhysics.ResetMoveState();

@@ -37,7 +37,7 @@
     },
     {
       "id": "hats0007",
-      "name": "ash_2 hat",
+      "name": "ash_1 hat flipped",
       "artist": "TheLastShaymin"
     },
     {
@@ -342,7 +342,7 @@
     },
     {
       "id": "hats0068",
-      "name": "firegod",
+      "name": "firegod hat",
       "artist": "PhasmoFireGod"
     },
     {
@@ -391,8 +391,908 @@
       "artist": "Pigoletto"
     },
     {
+      "id": "hats0078",
+      "name": "owl hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0079",
+      "name": "witch hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0080",
+      "name": "goldfish hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0081",
+      "name": "ctulhu hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0082",
+      "name": "spider hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0083",
+      "name": "crocodile hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0084",
+      "name": "A Knoife! hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0085",
+      "name": "Blush-stache hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0086",
+      "name": "BTW hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0087",
+      "name": "Flower Fedora hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0088",
+      "name": "Gigawolf hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0089",
+      "name": "Good Aura hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0090",
+      "name": "Guardian Angel hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0091",
+      "name": "Horned Angel hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0092",
+      "name": "Kartodk Evil hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0093",
+      "name": "Kartodk Sus hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0094",
+      "name": "Lavish hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0095",
+      "name": "Lie-canthrope hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0096",
+      "name": "Overgrown hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0097",
+      "name": "Press X hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0098",
+      "name": "Rico's Navy hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0099",
+      "name": "Sav Beanie hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0100",
+      "name": "Sparkles! hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0101",
+      "name": "Specs n' Antlers hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0102",
+      "name": "Stylish Witch hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0103",
+      "name": "Tropic Beach hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0104",
+      "name": "ash_2 hat",
+      "artist": "TheLastShaymin"
+    },
+    {
+      "id": "hats0105",
+      "name": "blood_bourne_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0106",
+      "name": "goku_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0107",
+      "name": "queenie_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0108",
+      "name": "tissue_box_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0109",
+      "name": "your_mom_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0110",
+      "name": "mantis_shrimpling_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0111",
+      "name": "luffy_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0112",
+      "name": "carnage_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0113",
+      "name": "stebon_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0114",
+      "name": "harley_quinn_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0115",
+      "name": "weasel_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0116",
+      "name": "dino_egg_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0117",
+      "name": "skater_girl_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0118",
+      "name": "sims_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0119",
+      "name": "shrimp_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0120",
+      "name": "pepe_hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0121",
+      "name": "dwarf hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0122",
+      "name": "rooster hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0123",
+      "name": "monster hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0124",
+      "name": "Cyreni's Pony hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0125",
+      "name": "Oreos hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0126",
+      "name": "Soyciety hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0127",
+      "name": "Tsedtacle hat",
+      "artist": "Tsed"
+    },
+    {
+      "id": "hats0128",
+      "name": "Big Shot hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0129",
+      "name": "L hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0130",
+      "name": "Menacing hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0131",
+      "name": "No U hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0132",
+      "name": "Okey hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0133",
+      "name": "sans hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0134",
+      "name": "Squid hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0135",
+      "name": "Wimpy Kid hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0136",
+      "name": "Cros Style hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0137",
+      "name": "Novasauros hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0138",
+      "name": "Peppercorny hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0139",
+      "name": "Rainy Day hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0140",
+      "name": "Scarf Gang hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0141",
+      "name": "So Devilish hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0142",
+      "name": "Huntress hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0143",
+      "name": "You're so Salty! hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0144",
+      "name": "LayZFox hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0145",
+      "name": "Impostor Spark hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0146",
+      "name": "X-Ray hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0147",
+      "name": "Pap hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0148",
+      "name": "Cocoa hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0149",
+      "name": "Doused hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0150",
+      "name": "Fluffy Boi hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0151",
+      "name": "Hot Saucy hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0152",
+      "name": "ImPAWstor hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0153",
+      "name": "MMMM hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0154",
+      "name": "Bad Aura hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0155",
+      "name": "Dunce hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0156",
+      "name": "Gay-ny Day hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0157",
+      "name": "Marionette hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0158",
+      "name": "Random Ronnie hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0159",
+      "name": "Disconnected hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0160",
+      "name": "Lunch hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0161",
+      "name": "Peace Never! hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0162",
+      "name": "Amcam hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0163",
+      "name": "Book Of Sus hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0164",
+      "name": "Caramilk hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0165",
+      "name": "DJSmiles hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0166",
+      "name": "DrunkyPoo hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0167",
+      "name": "HoliGhost hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0168",
+      "name": "ImpTongue hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0169",
+      "name": "Jessie hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0170",
+      "name": "L hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0171",
+      "name": "Paws hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0172",
+      "name": "Potterhead hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0173",
+      "name": "Lil Swift hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0174",
+      "name": "Sabeleye hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0175",
+      "name": "Sheriff hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0176",
+      "name": "Steampunk hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0177",
+      "name": "Steampunk Look hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0178",
+      "name": "Sushub hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0179",
+      "name": "Susotion hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0180",
+      "name": "Bee hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0181",
+      "name": "T-Rex hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0182",
+      "name": "Maid hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0183",
+      "name": "Koji hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0184",
+      "name": "Ellum hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0185",
+      "name": "Koji Maid hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0186",
+      "name": "jeremy hat",
+      "artist": "TheLastShaymin"
+    },
+    {
+      "id": "hats0187",
+      "name": "kDoolz hat",
+      "artist": "TheLastShaymin"
+    },
+    {
+      "id": "hats0188",
+      "name": "tenma hat",
+      "artist": "TheLastShaymin"
+    },
+    {
+      "id": "hats0189",
+      "name": "jukebox hat",
+      "artist": "TheLastShaymin"
+    },
+    {
+      "id": "hats0190",
+      "name": "PK Fire hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0191",
+      "name": "Termy Boi hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0192",
+      "name": "Tippy hat",
+      "artist": "LayZ"
+    },
+    {
+      "id": "hats0193",
+      "name": "Akatsuki hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0194",
+      "name": "Bearded Grizzly hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0195",
+      "name": "Dumbdog hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0196",
+      "name": "Eyeball hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0197",
+      "name": "Friday Night Funkin hat 1",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0198",
+      "name": "Friday Night Funkin hat 2",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0199",
+      "name": "Jerm hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0200",
+      "name": "Milky Joe hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0201",
+      "name": "Monkeh hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0202",
+      "name": "Pink hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0203",
+      "name": "Sugarcat hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0204",
+      "name": "Zombie hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0205",
+      "name": "Iron Man hat",
+      "artist": "TheLastShaymin"
+    },
+    {
+      "id": "hats0206",
+      "name": "Thanos hat",
+      "artist": "TheLastShaymin"
+    },
+    {
+      "id": "hats0207",
+      "name": "Side Arms hat",
+      "artist": "Ghost_ejims"
+    },
+    {
+      "id": "hats0208",
+      "name": "Kara hat 2",
+      "artist": "TheLastShaymin"
+    },
+    {
+      "id": "hats0209",
+      "name": "Bergmeister hat",
+      "artist": "Bergmeister"
+    },
+    {
+      "id": "hats0210",
+      "name": "Chrome hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0211",
+      "name": "Dabi hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0212",
+      "name": "James hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0213",
+      "name": "Meowth hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0214",
+      "name": "Mudkip hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0215",
+      "name": "Patrick Jenner hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0216",
+      "name": "Ravenclaw hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0217",
+      "name": "Taxi hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0218",
+      "name": "The Witcher hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0219",
+      "name": "Blue Dream hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0220",
+      "name": "BrittanyP95 Treasure hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0221",
+      "name": "Chibiusa hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0222",
+      "name": "Cynda hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0223",
+      "name": "Chicky Tenders hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0224",
+      "name": "Chicky Tenders Sauce hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0225",
+      "name": "Demogorgan hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0226",
+      "name": "Detective hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0227",
+      "name": "Fairy hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0228",
+      "name": "FengPJ hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0229",
+      "name": "Freckled Phenom hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0230",
+      "name": "Golden Boi hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0231",
+      "name": "Hold My Beer hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0232",
+      "name": "Huntress hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0233",
+      "name": "Kate hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0234",
+      "name": "Lil Too Much hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0235",
+      "name": "Liv Chipz Periodt hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0236",
+      "name": "Mac Vibes hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0237",
+      "name": "McRib hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0238",
+      "name": "Nurse hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0239",
+      "name": "Periodt hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0240",
+      "name": "Petty Perkins hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0241",
+      "name": "Pilborg It Me hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0242",
+      "name": "Sailor Steve hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0243",
+      "name": "Sweetroll hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0244",
+      "name": "Taste The Rainbow hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0245",
+      "name": "Tux hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0246",
+      "name": "Undead Marah hat",
+      "artist": "Sweetrolled"
+    },
+    {
+      "id": "hats0247",
+      "name": "Kn0vis hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0248",
+      "name": "Anya hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0249",
+      "name": "Pizza hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0250",
+      "name": "Gaara hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0251",
+      "name": "Hinata hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0252",
+      "name": "MartiMoo hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0253",
+      "name": "Jesus hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0254",
+      "name": "Purple Shark hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0255",
+      "name": "Umbreon hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0256",
+      "name": "Virgil hat",
+      "artist": "Ophidian"
+    },
+    {
       "id": "misc0000",
       "name": "ZeroXFusionz hat",
+      "artist": "TheLastShaymin"
+    },
+    {
+      "id": "misc0002",
+      "name": "wrench_f hat",
       "artist": "TheLastShaymin"
     },
     {
@@ -457,7 +1357,7 @@
     },
     {
       "id": "standard0012",
-      "name": "kris hat hat",
+      "name": "kris hat",
       "artist": "tori#1277"
     },
     {
@@ -481,13 +1381,18 @@
       "artist": "TheLastShaymin"
     },
     {
+      "id": "standard0019",
+      "name": "frog hat",
+      "artist": "Little Doo Doo"
+    },
+    {
       "id": "standard0022",
       "name": "crunchy hat",
       "artist": "TheLastShaymin"
     },
     {
       "id": "standard0024",
-      "name": "charizard",
+      "name": "charizard hat",
       "artist": "TheLastShaymin"
     },
     {
@@ -502,12 +1407,12 @@
     },
     {
       "id": "standard0034",
-      "name": "basetrade_3",
+      "name": "basetrade_3 hat",
       "artist": "Ressnie"
     },
     {
       "id": "standard0035",
-      "name": "basetrade_2",
+      "name": "basetrade_2 hat",
       "artist": "Ressnie"
     },
     {
@@ -521,9 +1426,24 @@
       "artist": "TheLastShaymin"
     },
     {
-      "id": "vu_hat0000",
+      "id": "standard0039",
+      "name": "Snapper hat",
+      "artist": "Little Doo Doo"
+    },
+    {
+      "id": "standard0040",
+      "name": "Slippy hat",
+      "artist": "Little Doo Doo"
+    },
+    {
+      "id": "vu_visor0000",
       "name": "Panda hat",
-      "artist": "VotezVert"
+      "artist": "Kalmah"
+    },
+    {
+      "id": "vu_visor0001",
+      "name": "Gok'Us hat",
+      "artist": "Gusgus"
     }
   ]
 }

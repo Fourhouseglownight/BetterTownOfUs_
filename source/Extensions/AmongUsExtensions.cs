@@ -65,6 +65,10 @@ namespace BetterTownOfUs.Extensions
             else
                 return player.GetDefaultAppearance();
         }
+        public static bool IsImpostor(this GameData.PlayerInfo playerinfo)
+        {
+            return playerinfo?.Role?.TeamType == RoleTeamTypes.Impostor;
+        }
 
         public static void SetImpostor(this GameData.PlayerInfo playerinfo, bool impostor)
         {
@@ -96,8 +100,7 @@ namespace BetterTownOfUs.Extensions
             playerControl.RawSetHat(newOutfit.HatId, newOutfit.ColorId);
             playerControl.RawSetVisor(newOutfit.VisorId);
             playerControl.RawSetPet(newOutfit.PetId, newOutfit.ColorId);
-            if (playerControl?.MyPhysics?.Skin?.skin?.ProdId != newOutfit.SkinId)
-                playerControl.RawSetSkin(newOutfit.SkinId);
+            playerControl.RawSetSkin(newOutfit.SkinId, newOutfit.ColorId);
 
         }
 
@@ -116,5 +119,11 @@ namespace BetterTownOfUs.Extensions
 
             return false;
         }
+
+        public static TMPro.TextMeshPro nameText(this PlayerControl p) => p.cosmetics.nameText;
+
+        public static TMPro.TextMeshPro NameText(this PoolablePlayer p) => p.cosmetics.nameText;
+
+        public static UnityEngine.SpriteRenderer myRend(this PlayerControl p) => p.cosmetics.currentBodySprite.BodySprite;
     }
 }

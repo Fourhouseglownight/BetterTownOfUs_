@@ -9,6 +9,7 @@ using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using BetterTownOfUs.Roles.Modifiers;
 
 namespace BetterTownOfUs.CrewmateRoles.AltruistMod
 {
@@ -63,13 +64,17 @@ namespace BetterTownOfUs.CrewmateRoles.AltruistMod
             Murder.KilledPlayers.Remove(
                 Murder.KilledPlayers.FirstOrDefault(x => x.PlayerId == player.PlayerId));
             revived.Add(player);
-            player.NetTransform.SnapTo(position);
+            player.NetTransform.SnapTo(new Vector2(position.x, position.y + 0.3636f));
 
+            if (Patches.SubmergedCompatibility.isSubmerged() && PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
+            {
+                Patches.SubmergedCompatibility.ChangeFloor(player.transform.position.y > -7);
+            }
             if (target != null) Object.Destroy(target.gameObject);
 
-            if (player.isLover() && CustomGameOptions.BothLoversDie)
+            if (player.IsLover() && CustomGameOptions.BothLoversDie)
             {
-                var lover = Role.GetRole<Lover>(player).OtherLover.Player;
+                var lover = Modifier.GetModifier<Lover>(player).OtherLover.Player;
 
                 lover.Revive();
                 Murder.KilledPlayers.Remove(
@@ -96,7 +101,9 @@ namespace BetterTownOfUs.CrewmateRoles.AltruistMod
                 }
 
 
-            if (PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(RoleEnum.Glitch))
+            if (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleEnum.Glitch) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut)
+                || PlayerControl.LocalPlayer.Is(RoleEnum.Arsonist) || PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf)
+                || PlayerControl.LocalPlayer.Is(RoleEnum.Plaguebearer) || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence))
             {
                 var gameObj = new GameObject();
                 Arrow = gameObj.AddComponent<ArrowBehaviour>();

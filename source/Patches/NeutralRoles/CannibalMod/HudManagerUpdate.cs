@@ -9,60 +9,57 @@ namespace BetterTownOfUs.NeutralRoles.CannibalMod
     {
         public static ArrowBehaviour Arrow;
         public static DeadBody Target;
+
         public static void Postfix(HudManager __instance)
         {
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
             if (PlayerControl.LocalPlayer == null) return;
             if (PlayerControl.LocalPlayer.Data == null) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Cannibal)) return;
-            var eatButton = __instance.KillButton;
 
             var role = Role.GetRole<Cannibal>(PlayerControl.LocalPlayer);
-            if (PlayerControl.LocalPlayer.Data.IsDead)
+            if (role.CleanButton == null)
             {
-                    eatButton.gameObject.SetActive(false);
-                    //eatButton.isActive = false;
-            }
-            else
-            {
-                eatButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
-                eatButton.graphic.enabled = true;
-                eatButton.GetComponent<AspectPosition>().DistanceFromEdge = BetterTownOfUs.ButtonPosition;
-                eatButton.gameObject.SetActive(false);
-                //eatButton.isActive = !MeetingHud.Instance;
+                role.CleanButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
+                role.CleanButton.graphic.enabled = true;
+                role.CleanButton.GetComponent<AspectPosition>().DistanceFromEdge = BetterTownOfUs.ButtonPosition;
+                role.CleanButton.gameObject.SetActive(false);
             }
 
-            eatButton.GetComponent<AspectPosition>().Update();
-            eatButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
-            eatButton.graphic.sprite = BetterTownOfUs.JanitorClean;
+            role.CleanButton.GetComponent<AspectPosition>().Update();
+            role.CleanButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
+            role.CleanButton.graphic.sprite = BetterTownOfUs.JanitorClean;
 
+
+            var data = PlayerControl.LocalPlayer.Data;
+            var isDead = data.IsDead;
             var truePosition = PlayerControl.LocalPlayer.GetTruePosition();
             var maxDistance = GameOptionsData.KillDistances[PlayerControl.GameOptions.KillDistance];
-            var flag = (PlayerControl.GameOptions.GhostsDoTasks || !PlayerControl.LocalPlayer.Data.IsDead) &&
+            var flag = (PlayerControl.GameOptions.GhostsDoTasks || !data.IsDead) &&
                        (!AmongUsClient.Instance || !AmongUsClient.Instance.IsGameOver) &&
                        PlayerControl.LocalPlayer.CanMove;
             var allocs = Physics2D.OverlapCircleAll(truePosition, 10,
-                LayerMask.GetMask(new[] {"Players", "Ghost"}));
+                LayerMask.GetMask(new[] { "Players", "Ghost" }));
+            var killButton = role.CleanButton;
             DeadBody closestBody = null;
             var closestDistance = float.MaxValue;
 
             foreach (var collider2D in allocs)
             {
-                if (!flag || PlayerControl.LocalPlayer.Data.IsDead || collider2D.tag != "DeadBody") continue;
+                if (!flag || isDead || collider2D.tag != "DeadBody") continue;
                 var component = collider2D.GetComponent<DeadBody>();
                 var distance = Vector2.Distance(truePosition, component.TruePosition);
                 if (distance <= 10 && Arrow == null) Target = component;
                 else if (distance > 10 && Target == component) Target = null;
-                if (!(distance <= maxDistance)) continue;  
+                if (!(distance <= maxDistance)) continue;
                 if (!(distance < closestDistance)) continue;
-
                 closestBody = component;
                 closestDistance = distance;
             }
 
-            KillButtonTarget.SetTarget(eatButton, closestBody, role);
-            eatButton.SetCoolDown(role.CannibalTimer(), CustomGameOptions.CannibalCd);
 
+            KillButtonTarget.SetTarget(killButton, closestBody, role);
+            role.CleanButton.SetCoolDown(role.EatTimer(), CustomGameOptions.CannibalCd);
             if (Target != null && Arrow == null)
             {
                 var gameObj = new GameObject();

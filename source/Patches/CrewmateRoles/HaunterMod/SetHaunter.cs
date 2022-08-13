@@ -7,14 +7,15 @@ using UnityEngine.UI;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using System.Linq;
+using BetterTownOfUs.Extensions;
 
 namespace BetterTownOfUs.CrewmateRoles.HaunterMod
 {
     public enum HaunterCanBeClickedBy
     {
-        NonCrew,
         ImpsOnly,
-        All
+        All,
+        NonCrew,
     }
     [HarmonyPatch(typeof(AirshipExileController), nameof(AirshipExileController.WrapUpAndSpawn))]
     public static class AirshipExileController_WrapUpAndSpawn
@@ -40,6 +41,7 @@ namespace BetterTownOfUs.CrewmateRoles.HaunterMod
                 Role.RoleDictionary.Remove(PlayerControl.LocalPlayer.PlayerId);
                 var role = new Haunter(PlayerControl.LocalPlayer);
                 role.RegenTask();
+                Lights.SetLights();
 
                 RemoveTasks(PlayerControl.LocalPlayer);
                 PlayerControl.LocalPlayer.MyPhysics.ResetMoveState();
@@ -54,10 +56,17 @@ namespace BetterTownOfUs.CrewmateRoles.HaunterMod
             }
 
             if (Role.GetRole<Haunter>(PlayerControl.LocalPlayer).Caught) return;
-            Vent startingVent =
-                ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
-            Vector3 destination = Utils.GetCoordinatesToSendPlayerToVent(startingVent);
-            PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(destination);
+            var startingVent =
+                ShipStatus.Instance.AllVents[BetterTownOfUs.Random.Next(0, ShipStatus.Instance.AllVents.Count)];
+
+            var writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                    (byte)CustomRPC.SetPos, SendOption.Reliable, -1);
+            writer2.Write(PlayerControl.LocalPlayer.PlayerId);
+            writer2.Write(startingVent.transform.position.x);
+            writer2.Write(startingVent.transform.position.y);
+            AmongUsClient.Instance.FinishRpcImmediately(writer2);
+
+            PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
             PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
         }
 
@@ -128,8 +137,8 @@ namespace BetterTownOfUs.CrewmateRoles.HaunterMod
             {
                 if (MeetingHud.Instance) return;
                 if (PlayerControl.LocalPlayer.Data.IsDead) return;
-                if (CustomGameOptions.HaunterCanBeClickedBy == HaunterCanBeClickedBy.ImpsOnly && !PlayerControl.LocalPlayer.Is(Faction.Impostors)) return;
-                if (CustomGameOptions.HaunterCanBeClickedBy == HaunterCanBeClickedBy.NonCrew && !(PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(RoleEnum.Jester) || PlayerControl.LocalPlayer.Is(RoleEnum.Shifter) || PlayerControl.LocalPlayer.Is(RoleEnum.Glitch) || PlayerControl.LocalPlayer.Is(RoleEnum.Executioner) || PlayerControl.LocalPlayer.Is(RoleEnum.Arsonist))) return;
+                if (CustomGameOptions.HaunterCanBeClickedBy == HaunterCanBeClickedBy.ImpsOnly && !PlayerControl.LocalPlayer.Data.IsImpostor()) return;
+                if (CustomGameOptions.HaunterCanBeClickedBy == HaunterCanBeClickedBy.NonCrew && !(PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(Faction.Neutral))) return;
                 var taskinfos = player.Data.Tasks.ToArray();
                 var tasksLeft = taskinfos.Count(x => !x.Complete);
                 if (tasksLeft <= CustomGameOptions.HaunterTasksRemainingClicked)

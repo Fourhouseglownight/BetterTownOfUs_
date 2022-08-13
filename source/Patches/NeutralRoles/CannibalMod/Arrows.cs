@@ -10,10 +10,8 @@ namespace BetterTownOfUs.NeutralRoles.CannibalMod
         {
             if (HudManagerUpdate.Arrow != null)
             {
-                if (LobbyBehaviour.Instance || MeetingHud.Instance || PlayerControl.LocalPlayer.Data.IsDead ||
-                    HudManagerUpdate.Target == null)
+                if (LobbyBehaviour.Instance || MeetingHud.Instance || PlayerControl.LocalPlayer.Data.IsDead || HudManagerUpdate.Target == null)
                 {
-                    BetterTownOfUs.log.LogMessage("destroy");
                     HudManagerUpdate.Arrow.gameObject.Destroy();
                     return;
                 }

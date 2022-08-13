@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BetterTownOfUs.Roles
@@ -7,10 +7,14 @@ namespace BetterTownOfUs.Roles
     {
         public List<byte> ExtraVotes = new List<byte>();
 
-        public Mayor(PlayerControl player) : base(player, RoleEnum.Mayor)
+        public Mayor(PlayerControl player) : base(player)
         {
+            Name = "Mayor";
             ImpostorText = () => "Save your votes to double vote";
             TaskText = () => "Save your votes to vote multiple times";
+            Color = Patches.Colors.Mayor;
+            RoleType = RoleEnum.Mayor;
+            AddToRoleHistory(RoleType);
             VoteBank = CustomGameOptions.MayorVoteBank;
         }
 

@@ -1,4 +1,6 @@
 using HarmonyLib;
+using Reactor;
+using System.Linq;
 using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
 using UnityEngine;
@@ -28,8 +30,9 @@ namespace BetterTownOfUs
             var role = Role.GetRole<Undertaker>(player);
             return player.Data.IsDead || role.CurrentlyDragging != null;
         }
+
         public static bool CanVent(PlayerControl player, GameData.PlayerInfo playerInfo)
-        {
+        { 
             if (player.inVent)
                 return true;
 
@@ -37,17 +40,25 @@ namespace BetterTownOfUs
                 return false;
 
             if (player.Is(RoleEnum.Morphling) && !CustomGameOptions.MorphlingVent
-            || player.Is(RoleEnum.Swooper) && !CustomGameOptions.SwooperVent
-            || (player.Is(RoleEnum.Undertaker) && !CustomGameOptions.UndertakerVent
-            || (player.Is(RoleEnum.Undertaker) && Role.GetRole<Undertaker>(player).CurrentlyDragging != null && !CustomGameOptions.UndertakerVentWithBody))
-            || player.Is(RoleEnum.Lycan) && Role.GetRole<Lycan>(player).Wolfed && !CustomGameOptions.LycanWolfVent)
+                || player.Is(RoleEnum.Swooper) && !CustomGameOptions.SwooperVent
+                || player.Is(RoleEnum.Grenadier) && !CustomGameOptions.GrenadierVent
+                || player.Is(RoleEnum.Undertaker) && !CustomGameOptions.UndertakerVent
+                || player.Is(RoleEnum.Poisoner) && !CustomGameOptions.PoisonerVent
+                || (player.Is(RoleEnum.Undertaker) && Role.GetRole<Undertaker>(player).CurrentlyDragging != null && !CustomGameOptions.UndertakerVentWithBody))
                 return false;
 
-
-            if (player.Is(RoleEnum.Engineer) || (player.Is(RoleEnum.Jester) && CustomGameOptions.JesterVent) || (player.Is(RoleEnum.Glitch) && CustomGameOptions.GlitchVent))
+            if (player.Is(RoleEnum.Engineer) || (player.roleAssigned && playerInfo.Role?.Role == RoleTypes.Engineer) ||
+                (player.Is(RoleEnum.Glitch) && CustomGameOptions.GlitchVent) || (player.Is(RoleEnum.Juggernaut) && CustomGameOptions.GlitchVent) ||
+                (player.Is(RoleEnum.Pestilence) && CustomGameOptions.PestVent) || (player.Is(RoleEnum.Jester) && CustomGameOptions.JesterVent))
                 return true;
-            
-            return playerInfo.Is(Faction.Impostors);
+
+            if (player.Is(RoleEnum.Werewolf) && CustomGameOptions.WerewolfVent)
+            {
+                var role = Role.GetRole<Werewolf>(PlayerControl.LocalPlayer);
+                if (role.Rampaged) return true;
+            }
+
+            return playerInfo.IsImpostor();
         }
 
         public static void Postfix(Vent __instance,
@@ -59,7 +70,6 @@ namespace BetterTownOfUs
             float num = float.MaxValue;
             PlayerControl playerControl = playerInfo.Object;
             couldUse = CanVent(playerControl, playerInfo) && !playerControl.MustCleanVent(__instance.Id) && (!playerInfo.IsDead || playerControl.inVent) && (playerControl.CanMove || playerControl.inVent);
-
             var ventitaltionSystem = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
             if (ventitaltionSystem != null && ventitaltionSystem.PlayersCleaningVents != null)
             {
@@ -71,6 +81,33 @@ namespace BetterTownOfUs
 
             }
             canUse = couldUse;
+
+            if (Patches.SubmergedCompatibility.isSubmerged())
+            {
+                if (Patches.SubmergedCompatibility.getInTransition())
+                {
+                    __result = float.MaxValue;
+                    return;
+                }
+                switch (__instance.Id)
+                {
+                    case 9:  //Engine Room Exit Only Vent
+                        if (PlayerControl.LocalPlayer.inVent) break;
+                        __result = float.MaxValue;
+                        return;
+                    case 14: // Lower Central
+                        __result = float.MaxValue;
+                        if (canUse)
+                        {
+                            Vector3 center = playerControl.Collider.bounds.center;
+                            Vector3 position = __instance.transform.position;
+                            __result = Vector2.Distance(center, position);
+                            canUse &= __result <= __instance.UsableDistance;
+                        }
+                        return;
+                }
+            }
+
             if (canUse)
             {
                 Vector3 center = playerControl.Collider.bounds.center;
@@ -78,7 +115,20 @@ namespace BetterTownOfUs
                 num = Vector2.Distance((Vector2)center, (Vector2)position);
                 canUse = ((canUse ? 1 : 0) & ((double)num > (double)__instance.UsableDistance ? 0 : (!PhysicsHelpers.AnythingBetween(playerControl.Collider, (Vector2)center, (Vector2)position, Constants.ShipOnlyMask, false) ? 1 : 0))) != 0;
             }
+
             __result = num;
+
+        }
+    }
+
+    [HarmonyPatch(typeof(Vent), nameof(Vent.SetButtons))]
+    public static class JesterEnterVent
+    {
+        public static bool Prefix(Vent __instance)
+        {
+            if (!CustomGameOptions.JesterSwitchVent && CustomGameOptions.JesterVent && PlayerControl.LocalPlayer.Is(RoleEnum.Jester))
+                return false;
+            return true;
         }
     }
 }

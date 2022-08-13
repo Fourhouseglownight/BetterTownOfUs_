@@ -6,11 +6,12 @@ using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
-using BepInEx.Logging;
 using HarmonyLib;
 using Reactor;
 using Reactor.Extensions;
 using BetterTownOfUs.CustomOption;
+using BetterTownOfUs.Patches;
+using BetterTownOfUs.Patches.CustomHats;
 using BetterTownOfUs.RainbowMod;
 using UnhollowerBaseLib;
 using UnhollowerRuntimeLib;
@@ -19,46 +20,70 @@ using UnityEngine.SceneManagement;
 
 namespace BetterTownOfUs
 {
-    [BepInPlugin(Id, "Better Town Of Us", MajorVersion)]
+    [BepInPlugin(Id, "Town Of Us", ReleaseVersion)]
     [BepInDependency(ReactorPlugin.Id)]
+    [BepInDependency(SubmergedCompatibility.SUBMERGED_GUID, BepInDependency.DependencyFlags.SoftDependency)]
     public class BetterTownOfUs : BasePlugin
     {
-        public const string MajorVersion = "2.1.0";
+        internal static BepInEx.Logging.ManualLogSource Logger;
+        public const string Id = "fr.vincentvision.bettertownofus";
         public static string GetVersion() => typeof(BetterTownOfUs).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-        private const string Id = "fr.vincentvision.BetterTownOfUs";
-
+        public const string ReleaseVersion = "2.1.13";
+        public static string Beta = GetVersion().Substring(GetVersion().LastIndexOf(".") + 1);
+        public static string DisplayVersion = Beta == "0" ?
+                ReleaseVersion :
+                ReleaseVersion + "-dev-" + Beta;
+        
         public static Sprite JanitorClean;
         public static Sprite EngineerFix;
         public static Sprite SwapperSwitch;
         public static Sprite SwapperSwitchDisabled;
-        public static Sprite Shift;
         public static Sprite Footprint;
         public static Sprite Rewind;
         public static Sprite NormalKill;
-        public static Sprite ShiftKill;
         public static Sprite MedicSprite;
         public static Sprite SeerSprite;
         public static Sprite SampleSprite;
         public static Sprite MorphSprite;
-        public static Sprite Camouflage;
         public static Sprite Arrow;
-        public static Sprite Abstain;
         public static Sprite MineSprite;
         public static Sprite SwoopSprite;
         public static Sprite DouseSprite;
         public static Sprite IgniteSprite;
         public static Sprite ReviveSprite;
         public static Sprite ButtonSprite;
-        public static Sprite VotezVertSprite;
-
-        public static Sprite CycleSprite;
+        public static Sprite CycleBackSprite;
+        public static Sprite CycleForwardSprite;
         public static Sprite GuessSprite;
-
-
         public static Sprite DragSprite;
         public static Sprite DropSprite;
         public static Sprite FlashSprite;
+        public static Sprite AlertSprite;
+        public static Sprite RememberSprite;
+        public static Sprite TrackSprite;
+        public static Sprite PoisonSprite;
+        public static Sprite PoisonedSprite;
+        public static Sprite TransportSprite;
+        public static Sprite MediateSprite;
+        public static Sprite VestSprite;
+        public static Sprite ProtectSprite;
+        public static Sprite BlackmailSprite;
+        public static Sprite BlackmailLetterSprite;
+        public static Sprite BlackmailOverlaySprite;
+        public static Sprite LighterSprite;
+        public static Sprite DarkerSprite;
+        public static Sprite InfectSprite;
+        public static Sprite RampageSprite;
+        public static Sprite TrapSprite;
+        public static Sprite ExamineSprite;
+
         public static Sprite SettingsButtonSprite;
+        public static Sprite ToUBanner;
+        public static Sprite UpdateTOUButton;
+        public static Sprite UpdateSubmergedButton;
+
+        public static Sprite HorseEnabledImage;
+        public static Sprite HorseDisabledImage;
         public static Vector3 ButtonPosition { get; private set; } = new Vector3(2.6f, 0.7f, -9f);
 
         private static DLoadImage _iCallLoadImage;
@@ -66,19 +91,18 @@ namespace BetterTownOfUs
 
         private Harmony _harmony;
 
-        public static ConfigEntry<bool> StreamMode;
         public ConfigEntry<string> Ip { get; set; }
 
         public ConfigEntry<ushort> Port { get; set; }
-        public static ManualLogSource log;
 
+        public static System.Random Random = new System.Random();
 
         public override void Load()
         {
-            log = Log;
+            Logger = Log;
             System.Console.WriteLine("000.000.000.000/000000000000000000");
 
-            _harmony = new Harmony("fr.vincentvision.BetterTownOfUs");
+            _harmony = new Harmony(Id);
 
             Generate.GenerateAll();
 
@@ -86,18 +110,14 @@ namespace BetterTownOfUs
             EngineerFix = CreateSprite("BetterTownOfUs.Resources.Engineer.png");
             SwapperSwitch = CreateSprite("BetterTownOfUs.Resources.SwapperSwitch.png");
             SwapperSwitchDisabled = CreateSprite("BetterTownOfUs.Resources.SwapperSwitchDisabled.png");
-            Shift = CreateSprite("BetterTownOfUs.Resources.Shift.png");
             Footprint = CreateSprite("BetterTownOfUs.Resources.Footprint.png");
             Rewind = CreateSprite("BetterTownOfUs.Resources.Rewind.png");
             NormalKill = CreateSprite("BetterTownOfUs.Resources.NormalKill.png");
-            ShiftKill = CreateSprite("BetterTownOfUs.Resources.ShiftKill.png");
             MedicSprite = CreateSprite("BetterTownOfUs.Resources.Medic.png");
             SeerSprite = CreateSprite("BetterTownOfUs.Resources.Seer.png");
             SampleSprite = CreateSprite("BetterTownOfUs.Resources.Sample.png");
             MorphSprite = CreateSprite("BetterTownOfUs.Resources.Morph.png");
-            Camouflage = CreateSprite("BetterTownOfUs.Resources.Camouflage.png");
             Arrow = CreateSprite("BetterTownOfUs.Resources.Arrow.png");
-            Abstain = CreateSprite("BetterTownOfUs.Resources.Abstain.png");
             MineSprite = CreateSprite("BetterTownOfUs.Resources.Mine.png");
             SwoopSprite = CreateSprite("BetterTownOfUs.Resources.Swoop.png");
             DouseSprite = CreateSprite("BetterTownOfUs.Resources.Douse.png");
@@ -106,14 +126,40 @@ namespace BetterTownOfUs
             ButtonSprite = CreateSprite("BetterTownOfUs.Resources.Button.png");
             DragSprite = CreateSprite("BetterTownOfUs.Resources.Drag.png");
             DropSprite = CreateSprite("BetterTownOfUs.Resources.Drop.png");
-            VotezVertSprite = CreateSprite("BetterTownOfUs.Resources.Votez Vert.png");
-            CycleSprite = CreateSprite("BetterTownOfUs.Resources.Cycle.png");
+            CycleBackSprite = CreateSprite("BetterTownOfUs.Resources.CycleBack.png");
+            CycleForwardSprite = CreateSprite("BetterTownOfUs.Resources.CycleForward.png");
             GuessSprite = CreateSprite("BetterTownOfUs.Resources.Guess.png");
             FlashSprite = CreateSprite("BetterTownOfUs.Resources.Flash.png");
+            AlertSprite = CreateSprite("BetterTownOfUs.Resources.Alert.png");
+            RememberSprite = CreateSprite("BetterTownOfUs.Resources.Remember.png");
+            TrackSprite = CreateSprite("BetterTownOfUs.Resources.Track.png");
+            PoisonSprite = CreateSprite("BetterTownOfUs.Resources.Poison.png");
+            PoisonedSprite = CreateSprite("BetterTownOfUs.Resources.Poisoned.png");
+            TransportSprite = CreateSprite("BetterTownOfUs.Resources.Transport.png");
+            MediateSprite = CreateSprite("BetterTownOfUs.Resources.Mediate.png");
+            VestSprite = CreateSprite("BetterTownOfUs.Resources.Vest.png");
+            ProtectSprite = CreateSprite("BetterTownOfUs.Resources.Protect.png");
+            BlackmailSprite = CreateSprite("BetterTownOfUs.Resources.Blackmail.png");
+            BlackmailLetterSprite = CreateSprite("BetterTownOfUs.Resources.BlackmailLetter.png");
+            BlackmailOverlaySprite = CreateSprite("BetterTownOfUs.Resources.BlackmailOverlay.png");
+            LighterSprite = CreateSprite("BetterTownOfUs.Resources.Lighter.png");
+            DarkerSprite = CreateSprite("BetterTownOfUs.Resources.Darker.png");
+            InfectSprite = CreateSprite("BetterTownOfUs.Resources.Infect.png");
+            RampageSprite = CreateSprite("BetterTownOfUs.Resources.Rampage.png");
+            TrapSprite = CreateSprite("BetterTownOfUs.Resources.Trap.png");
+            ExamineSprite = CreateSprite("BetterTownOfUs.Resources.Examine.png");
+
             SettingsButtonSprite = CreateSprite("BetterTownOfUs.Resources.SettingsButton.png");
+            ToUBanner = CreateSprite("BetterTownOfUs.Resources.BetterTownOfUsBanner.png");
+            UpdateTOUButton = CreateSprite("BetterTownOfUs.Resources.UpdateToUButton.png");
+            UpdateSubmergedButton = CreateSprite("BetterTownOfUs.Resources.UpdateSubmergedButton.png");
+
+            HorseEnabledImage = CreateSprite("BetterTownOfUs.Resources.HorseOn.png");
+            HorseDisabledImage = CreateSprite("BetterTownOfUs.Resources.HorseOff.png");
 
             PalettePatch.Load();
-            ClassInjector.RegisterTypeInIl2Cpp<RainbowBehaviour>();
+
+            // RegisterInIl2CppAttribute.Register();
 
             Ip = Config.Bind("Custom", "Ipv4 or Hostname", "127.0.0.1");
             Port = Config.Bind("Custom", "Port", (ushort) 22023);
@@ -129,11 +175,15 @@ namespace BetterTownOfUs
                 }
 
             ServerManager.DefaultRegions = defaultRegions.ToArray();
- 
-            StreamMode = Config.Bind("Custom", "Enable Streamer Mode", false);
+
+            SceneManager.add_sceneLoaded((Action<Scene, LoadSceneMode>) ((scene, loadSceneMode) =>
+            {
+                if (scene.name == "MainMenu") ModManager.Instance.ShowModStamp();
+            }));
+
             _harmony.PatchAll();
-            DirtyPatches.Initialize(_harmony);
-            log.LogMessage($"Better Town of Us {GetVersion()} by Votez Vert.");
+            SubmergedCompatibility.Initialize();
+            Logger.LogMessage($"Better Town of Us v{DisplayVersion} By Vincent Vision");
         }
 
         public static Sprite CreateSprite(string name)

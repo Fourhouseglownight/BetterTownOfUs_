@@ -36,7 +36,7 @@ namespace BetterTownOfUs.ImpostorRoles.JanitorMod
                        (!AmongUsClient.Instance || !AmongUsClient.Instance.IsGameOver) &&
                        PlayerControl.LocalPlayer.CanMove;
             var allocs = Physics2D.OverlapCircleAll(truePosition, maxDistance,
-                LayerMask.GetMask(new[] {"Players", "Ghost"}));
+                LayerMask.GetMask(new[] { "Players", "Ghost" }));
             var killButton = role.CleanButton;
             DeadBody closestBody = null;
             var closestDistance = float.MaxValue;

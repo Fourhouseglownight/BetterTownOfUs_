@@ -24,7 +24,8 @@ namespace BetterTownOfUs.CrewmateRoles.AltruistMod
                        (!AmongUsClient.Instance || !AmongUsClient.Instance.IsGameOver) &&
                        PlayerControl.LocalPlayer.CanMove;
             var allocs = Physics2D.OverlapCircleAll(truePosition, maxDistance,
-                LayerMask.GetMask(new[] {"Players", "Ghost"}));
+                LayerMask.GetMask(new[] { "Players", "Ghost" }));
+
             var killButton = __instance.KillButton;
             DeadBody closestBody = null;
             var closestDistance = float.MaxValue;
@@ -47,12 +48,12 @@ namespace BetterTownOfUs.CrewmateRoles.AltruistMod
             if (isDead)
             {
                 killButton.gameObject.SetActive(false);
-                //killButton.isActive = false;
+             //   killButton.isActive = false;
             }
             else
             {
                 killButton.gameObject.SetActive(!MeetingHud.Instance);
-                //killButton.isActive = !MeetingHud.Instance;
+          //      killButton.isActive = !MeetingHud.Instance;
             }
 
             KillButtonTarget.SetTarget(killButton, closestBody, role);

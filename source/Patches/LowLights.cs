@@ -1,6 +1,6 @@
 using HarmonyLib;
+using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
-using BetterTownOfUs.Roles.Modifiers;
 using UnityEngine;
 
 namespace BetterTownOfUs
@@ -17,29 +17,35 @@ namespace BetterTownOfUs
                 return false;
             }
 
-            if (player.Is(Faction.Impostors) || player._object.Is(RoleEnum.Glitch))
+            var switchSystem = __instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+            if (player.IsImpostor() || player._object.Is(RoleEnum.Glitch) || player._object.Is(RoleEnum.Juggernaut) || player._object.Is(RoleEnum.Pestilence))
             {
                 __result = __instance.MaxLightRadius * PlayerControl.GameOptions.ImpostorLightMod;
-                if (player.Object.Is(ModifierEnum.ButtonBarry))
-                    if (Modifier.GetModifier<ButtonBarry>(PlayerControl.LocalPlayer).ButtonUsed)
-                        __result *= 0.5f;
+                return false;
+            }
+            else if (player._object.Is(RoleEnum.Werewolf))
+            {
+                var role = Role.GetRole<Werewolf>(PlayerControl.LocalPlayer);
+                if (role.Rampaged)
+                {
+                    __result = __instance.MaxLightRadius * PlayerControl.GameOptions.ImpostorLightMod;
+                    return false;
+                }
+            }
+
+
+            if (Patches.SubmergedCompatibility.isSubmerged())
+            {
+                if (player._object.Is(ModifierEnum.Torch)) __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, 1) * PlayerControl.GameOptions.CrewLightMod;
                 return false;
             }
 
-            SwitchSystem switchSystem = __instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-            float lightPercentage = switchSystem.Value / 255f;
-            if (player._object.Is(ModifierEnum.Torch)) lightPercentage = 1;
-            __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, lightPercentage) *
+
+            var t = switchSystem.Value / 255f;
+            
+            if (player._object.Is(ModifierEnum.Torch)) t = 1;
+            __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, t) *
                        PlayerControl.GameOptions.CrewLightMod;
-
-            if (player.Object.Is(ModifierEnum.ButtonBarry))
-                if (Modifier.GetModifier<ButtonBarry>(PlayerControl.LocalPlayer).ButtonUsed)
-                    __result *= 0.5f;
-
-            if (player.Object.Is(RoleEnum.Covert) && Role.GetRole<Covert>(PlayerControl.LocalPlayer).IsCovert)
-            {
-                __result *= 0.5f;
-            }
             return false;
         }
     }

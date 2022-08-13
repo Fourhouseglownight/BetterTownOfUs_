@@ -5,9 +5,6 @@ namespace BetterTownOfUs
 {
     public static class ListExtensions
     {
-        /// <summary>
-        ///     Shuffles the element order of the specified list.
-        /// </summary>
         public static void Shuffle<T>(this List<T> list)
         {
             var count = list.Count;
@@ -25,6 +22,12 @@ namespace BetterTownOfUs
         {
             var item = list[0];
             list.RemoveAt(0);
+            return item;
+        }
+
+        public static T Ability<T>(this List<T> list)
+        {
+            var item = list[0];
             return item;
         }
     }

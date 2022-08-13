@@ -1,68 +1,108 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using BetterTownOfUs.Patches;
 using UnityEngine;
+using Hazel;
+using BetterTownOfUs.NeutralRoles.ExecutionerMod;
+using BetterTownOfUs.NeutralRoles.GuardianAngelMod;
 
 namespace BetterTownOfUs.Roles.Modifiers
 {
-    public class Assassin : Modifier, IMeetingGuesser
+    public class Assassin : Ability
     {
-        public static readonly Dictionary<byte, Modifier> AssassinsDictionary = new Dictionary<byte, Modifier>();
-        public Dictionary<byte, (GameObject, GameObject, TMP_Text)> Buttons { get; } = new Dictionary<byte, (GameObject, GameObject, TMP_Text)>();
-        public Dictionary<byte, int> Guesses { get; } = new Dictionary<byte, int>();
-        public List<RoleEnum> PossibleGuesses { get; }
-        public int RemainingKills { get; set; }
-        public bool CanKeepGuessing() => RemainingKills > 0;
-        private static bool MissKill;
-        public bool CanMissKill() => !MissKill;
-        public bool MissingGuess() => MissKill = true;
-        public static bool AssassinCanMissKill() => MissKill = AssassinsNumber == 1;
-        public static int AssassinsNumber;
+        public Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)> Buttons = new Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)>();
 
-        public Assassin(PlayerControl player) : base(player, ModifierEnum.Assassin)
+
+        private Dictionary<string, Color> ColorMapping = new Dictionary<string, Color>();
+
+        public Dictionary<string, Color> SortedColorMapping;
+
+        public Dictionary<byte, string> Guesses = new Dictionary<byte, string>();
+
+
+        public Assassin(PlayerControl player) : base(player)
         {
             Name = "Assassin";
             TaskText = () => "Guess the roles of the people and kill them mid-meeting";
-            Color = Palette.ImpostorRed;
+            Color = Patches.Colors.Impostor;
+            AbilityType = AbilityEnum.Assassin;
 
-            RemainingKills = CustomGameOptions.GuesserKills;
+            RemainingKills = CustomGameOptions.AssassinKills;
 
-            PossibleGuesses = CustomGameOptions.CanGuessNeutrals
-                ? CustomGameOptions.GetEnabledRoles(Faction.Crewmates, Faction.Neutral)
-                : CustomGameOptions.GetEnabledRoles(Faction.Crewmates);
+            // Adds all the roles that have a non-zero chance of being in the game.
+            if (CustomGameOptions.MayorOn > 0) ColorMapping.Add("Mayor", Colors.Mayor);
+            if (CustomGameOptions.SheriffOn > 0) ColorMapping.Add("Sheriff", Colors.Sheriff);
+            if (CustomGameOptions.EngineerOn > 0) ColorMapping.Add("Engineer", Colors.Engineer);
+            if (CustomGameOptions.SwapperOn > 0) ColorMapping.Add("Swapper", Colors.Swapper);
+            if (CustomGameOptions.InvestigatorOn > 0) ColorMapping.Add("Investigator", Colors.Investigator);
+            if (CustomGameOptions.TimeLordOn > 0) ColorMapping.Add("Time Lord", Colors.TimeLord);
+            if (CustomGameOptions.MedicOn > 0) ColorMapping.Add("Medic", Colors.Medic);
+            if (CustomGameOptions.SeerOn > 0) ColorMapping.Add("Seer", Colors.Seer);
+            if (CustomGameOptions.SpyOn > 0) ColorMapping.Add("Spy", Colors.Spy);
+            if (CustomGameOptions.SnitchOn > 0 && !CustomGameOptions.AssassinSnitchViaCrewmate) ColorMapping.Add("Snitch", Colors.Snitch);
+            if (CustomGameOptions.AltruistOn > 0) ColorMapping.Add("Altruist", Colors.Altruist);
+            if (CustomGameOptions.VigilanteOn > 0) ColorMapping.Add("Vigilante", Colors.Vigilante);
+            if (CustomGameOptions.VeteranOn > 0) ColorMapping.Add("Veteran", Colors.Veteran);
+            if (CustomGameOptions.TrackerOn > 0) ColorMapping.Add("Tracker", Colors.Tracker);
+            if (CustomGameOptions.TrapperOn > 0) ColorMapping.Add("Trapper", Colors.Trapper);
+            if (CustomGameOptions.TransporterOn > 0) ColorMapping.Add("Transporter", Colors.Transporter);
+            if (CustomGameOptions.MediumOn > 0) ColorMapping.Add("Medium", Colors.Medium);
+            if (CustomGameOptions.MysticOn > 0) ColorMapping.Add("Mystic", Colors.Mystic);
+            if (CustomGameOptions.DetectiveOn > 0) ColorMapping.Add("Detective", Colors.Detective);
 
-            if (CustomGameOptions.GuesserKillNoRole || CustomGameOptions.GuessSnitchViaCrewmate)
-                PossibleGuesses.Add(RoleEnum.Crewmate);
-            if (CustomGameOptions.GuessSnitchViaCrewmate)
-                PossibleGuesses.Remove(RoleEnum.Snitch);
-
-            if (CustomGameOptions.ImpostorsKnowTeam == 3)
+            // Add Neutral roles if enabled
+            if (CustomGameOptions.AssassinGuessNeutralBenign)
             {
-                PossibleGuesses.AddRange(CustomGameOptions.GetEnabledRoles(Faction.Impostors));
-                PossibleGuesses.Add(RoleEnum.Impostor);
+                if (CustomGameOptions.AmnesiacOn > 0 || (CustomGameOptions.ExecutionerOn > 0 && CustomGameOptions.OnTargetDead == OnTargetDead.Amnesiac) || (CustomGameOptions.GuardianAngelOn > 0 && CustomGameOptions.GaOnTargetDeath == BecomeOptions.Amnesiac)) ColorMapping.Add("Amnesiac", Colors.Amnesiac);
+                if (CustomGameOptions.GuardianAngelOn > 0) ColorMapping.Add("Guardian Angel", Colors.GuardianAngel);
+                if (CustomGameOptions.SurvivorOn > 0 || (CustomGameOptions.ExecutionerOn > 0 && CustomGameOptions.OnTargetDead == OnTargetDead.Survivor) || (CustomGameOptions.GuardianAngelOn > 0 && CustomGameOptions.GaOnTargetDeath == BecomeOptions.Survivor)) ColorMapping.Add("Survivor", Colors.Survivor);
             }
+            if (CustomGameOptions.AssassinGuessNeutralEvil)
+            {
+                if (CustomGameOptions.ExecutionerOn > 0) ColorMapping.Add("Executioner", Colors.Executioner);
+                if (CustomGameOptions.JesterOn > 0 || (CustomGameOptions.ExecutionerOn > 0 && CustomGameOptions.OnTargetDead == OnTargetDead.Jester) || (CustomGameOptions.GuardianAngelOn > 0 && CustomGameOptions.GaOnTargetDeath == BecomeOptions.Jester)) ColorMapping.Add("Jester", Colors.Jester);
+                if (CustomGameOptions.CannibalOn > 0) ColorMapping.Add("Cannibal", Colors.Cannibal);
+            }
+            if (CustomGameOptions.AssassinGuessNeutralKilling)
+            {
+                if (CustomGameOptions.ArsonistOn > 0) ColorMapping.Add("Arsonist", Colors.Arsonist);
+                if (CustomGameOptions.GlitchOn > 0) ColorMapping.Add("The Glitch", Colors.Glitch);
+                if (CustomGameOptions.PlaguebearerOn > 0) ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
+                if (CustomGameOptions.WerewolfOn > 0) ColorMapping.Add("Werewolf", Colors.Werewolf);
+                ColorMapping.Add("Juggernaut", Colors.Juggernaut);
+            }
+            if (CustomGameOptions.NeutralGuess && player.Is(Faction.Neutral))
+            {
+                if (CustomGameOptions.GrenadierOn > 0) ColorMapping.Add("Grenadier", Colors.Impostor);
+                if (CustomGameOptions.SwooperOn > 0) ColorMapping.Add("Swooper", Colors.Impostor);
+                if (CustomGameOptions.MorphlingOn > 0) ColorMapping.Add("Morphling", Colors.Impostor);
+                if (CustomGameOptions.PoisonerOn > 0) ColorMapping.Add("Poisoner", Colors.Impostor);
+                if (CustomGameOptions.UnderdogOn > 0) ColorMapping.Add("Underdog", Colors.Impostor);
+                if (CustomGameOptions.TraitorOn > 0) ColorMapping.Add("Traitor", Colors.Impostor);
+                if (CustomGameOptions.JanitorOn > 0) ColorMapping.Add("Janitor", Colors.Impostor);
+                if (CustomGameOptions.MinerOn > 0) ColorMapping.Add("Miner", Colors.Impostor);
+                if (CustomGameOptions.UndertakerOn > 0) ColorMapping.Add("Undertaker", Colors.Impostor);
+                if (CustomGameOptions.BlackmailerOn > 0) ColorMapping.Add("Blackmailer", Colors.Impostor);
+            }
+
+            // Add vanilla crewmate if enabled
+            if (CustomGameOptions.AssassinCrewmateGuess) ColorMapping.Add("Crewmate", Colors.Crewmate);
+            if (CustomGameOptions.AssassinCrewmateGuess && CustomGameOptions.NeutralGuess && player.Is(Faction.Neutral)) ColorMapping.Add("Impostor", Colors.Impostor);
+            //Add modifiers if enabled
+            if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.BaitOn > 0) ColorMapping.Add("Bait", Colors.Bait);
+            if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.DiseasedOn > 0) ColorMapping.Add("Diseased", Colors.Diseased);
+            if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.TorchOn > 0) ColorMapping.Add("Torch", Colors.Torch);
+            if (CustomGameOptions.AssassinGuessLovers && CustomGameOptions.LoversOn > 0) ColorMapping.Add("Lover", Colors.Lovers);
+
+            // Sorts the list alphabetically. 
+            SortedColorMapping = ColorMapping.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
         }
 
-        public static bool IsAssassin(PlayerControl player)
-        {
-            return player != null ? GetAssassin(player) != null : false;
-        }
+        public bool GuessedThisMeeting { get; set; } = false;
 
-        public static Modifier GetAssassin(PlayerControl player)
-        {
-            if (player == null) return null;
-            return (from entry in AssassinsDictionary where entry.Key == player.PlayerId select entry.Value)
-                .FirstOrDefault();
-        }
+        public int RemainingKills { get; set; }
 
-        public static Assassin GetAssassin<Assassin>(PlayerControl player) where Assassin : Modifier
-        {
-            return GetAssassin(player) as Assassin;
-        }
-
-        public static List<Modifier> GetAssassins()
-        {
-            return AssassinsDictionary.Values.ToList();
-        }
+        public List<string> PossibleGuesses => SortedColorMapping.Keys.ToList();
     }
 }

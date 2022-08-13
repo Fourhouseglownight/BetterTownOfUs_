@@ -1,5 +1,5 @@
-﻿using UnityEngine;
 using BetterTownOfUs.Extensions;
+using UnityEngine;
 
 namespace BetterTownOfUs.Roles
 {
@@ -9,10 +9,15 @@ namespace BetterTownOfUs.Roles
         public bool CompletedTasks;
         public bool Faded;
 
-        public Phantom(PlayerControl player) : base(player, RoleEnum.Phantom)
+        public Phantom(PlayerControl player) : base(player)
         {
+            Name = "Phantom";
             ImpostorText = () => "";
             TaskText = () => "Complete all your tasks without being caught!";
+            Color = Patches.Colors.Phantom;
+            RoleType = RoleEnum.Phantom;
+            AddToRoleHistory(RoleType);
+            Faction = Faction.Neutral;
         }
 
         public void Loses()
@@ -24,7 +29,6 @@ namespace BetterTownOfUs.Roles
         {
             Faded = true;
             var color = new Color(1f, 1f, 1f, 0f);
-
 
             var maxDistance = ShipStatus.Instance.MaxLightRadius * PlayerControl.GameOptions.CrewLightMod;
 
@@ -48,12 +52,13 @@ namespace BetterTownOfUs.Roles
                     HatId = "",
                     SkinId = "",
                     VisorId = "",
-                    _playerName = Player.GetDefaultOutfit()._playerName
+                    PlayerName = ""
                 });
             }
 
-            Player.MyRend.color = color;
-            Player.nameText.color = color;
+            Player.myRend().color = color;
+            Player.nameText().color = Color.clear;
+
         }
     }
 }

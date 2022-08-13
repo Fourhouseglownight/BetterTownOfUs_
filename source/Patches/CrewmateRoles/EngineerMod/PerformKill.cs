@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using HarmonyLib;
 using Hazel;
@@ -18,13 +17,17 @@ namespace BetterTownOfUs.CrewmateRoles.EngineerMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             if (!__instance.enabled) return false;
             var role = Role.GetRole<Engineer>(PlayerControl.LocalPlayer);
-            var custom = CustomGameOptions.EngineerFixPer == Engineer.EngineerFixPer.Custom;
-            if (role.FixesPerRound == 0 || (custom && role.RemainingFixes == 0)) return false;
-            if (custom && CustomGameOptions.IsCdEngineer && role.EngineerTimer() != 0) return false;
-            if (!Utils.IsSabotageActive()) return false;
-            role.FixesPerRound--;
-            role.RemainingFixes--;
-            if (custom && CustomGameOptions.IsCdEngineer) role.LastFix = DateTime.UtcNow;
+            if (role.EngiFixPerRound == 0 || role.EngiFixPerGame == 0) return false;
+
+
+
+            var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+            var specials = system.specials.ToArray();
+            var dummyActive = system.dummy.IsActive;
+            var sabActive = specials.Any(s => s.IsActive);
+            if (!sabActive | dummyActive) return false;
+            role.EngiFixPerGame--;
+            role.EngiFixPerRound--;
 
             switch (PlayerControl.GameOptions.MapId)
             {
@@ -67,6 +70,21 @@ namespace BetterTownOfUs.CrewmateRoles.EngineerMod
                     var lights4 = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                     if (lights4.IsActive) return FixLights(lights4);
                     break;
+                case 5:
+                    var reactor5 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
+                    if (reactor5.IsActive) return FixReactor(SystemTypes.Reactor);
+                    var lights5 = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (lights5.IsActive) return FixLights(lights5);
+                    var comms5 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
+                    if (comms5.IsActive) return FixComms();
+                    foreach (PlayerTask i in PlayerControl.LocalPlayer.myTasks)
+                    {
+                        if (i.TaskType == Patches.SubmergedCompatibility.RetrieveOxygenMask)
+                        {
+                            return FixSubOxygen();
+                        }
+                    }
+                    break;
             }
 
             var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
@@ -106,6 +124,18 @@ namespace BetterTownOfUs.CrewmateRoles.EngineerMod
         private static bool FixOxygen()
         {
             ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 16);
+            return false;
+        }
+
+        private static bool FixSubOxygen()
+        {
+            Patches.SubmergedCompatibility.RepairOxygen();
+
+            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                (byte)CustomRPC.SubmergedFixOxygen, SendOption.Reliable, -1);
+            writer.Write(PlayerControl.LocalPlayer.NetId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+
             return false;
         }
 

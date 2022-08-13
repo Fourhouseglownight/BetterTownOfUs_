@@ -2,6 +2,7 @@ using System.Linq;
 using HarmonyLib;
 using Hazel;
 using BetterTownOfUs.Roles;
+using Reactor;
 
 namespace BetterTownOfUs.NeutralRoles.PhantomMod
 {

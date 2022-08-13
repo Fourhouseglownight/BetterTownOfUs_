@@ -33,9 +33,6 @@ namespace BetterTownOfUs.ImpostorRoles.MorphlingMod
                 role.MorphButton.graphic.sprite = SampleSprite;
 
             role.MorphButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
-            var position = __instance.KillButton.transform.localPosition;
-            role.MorphButton.transform.localPosition = new Vector3(position.x,
-                __instance.ReportButton.transform.localPosition.y, position.z);
             if (role.MorphButton.graphic.sprite == SampleSprite)
             {
                 role.MorphButton.SetCoolDown(0f, 1f);

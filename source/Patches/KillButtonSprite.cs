@@ -15,28 +15,33 @@ namespace BetterTownOfUs
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class KillButtonSprite
     {
-        private static Sprite Shift => BetterTownOfUs.Shift;
         private static Sprite Rewind => BetterTownOfUs.Rewind;
         private static Sprite Medic => BetterTownOfUs.MedicSprite;
         private static Sprite Seer => BetterTownOfUs.SeerSprite;
         private static Sprite Douse => BetterTownOfUs.DouseSprite;
-
         private static Sprite Revive => BetterTownOfUs.ReviveSprite;
-
+        private static Sprite Alert => BetterTownOfUs.AlertSprite;
+        private static Sprite Remember => BetterTownOfUs.RememberSprite;
+        private static Sprite Track => BetterTownOfUs.TrackSprite;
+        private static Sprite Transport => BetterTownOfUs.TransportSprite;
+        private static Sprite Mediate => BetterTownOfUs.MediateSprite;
+        private static Sprite Vest => BetterTownOfUs.VestSprite;
+        private static Sprite Protect => BetterTownOfUs.ProtectSprite;
+        private static Sprite Infect => BetterTownOfUs.InfectSprite;
+        private static Sprite Trap => BetterTownOfUs.TrapSprite;
+        private static Sprite Examine => BetterTownOfUs.ExamineSprite;
         private static Sprite Button => BetterTownOfUs.ButtonSprite;
+        private static Sprite Kill;
 
 
         public static void Postfix(HudManager __instance)
         {
             if (__instance.KillButton == null) return;
 
+            if (!Kill) Kill = __instance.KillButton.graphic.sprite;
+
             var flag = false;
-            if (PlayerControl.LocalPlayer.Is(RoleEnum.Shifter))
-            {
-                __instance.KillButton.graphic.sprite = Shift;
-                flag = true;
-            }
-            else if (PlayerControl.LocalPlayer.Is(RoleEnum.TimeLord))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.TimeLord))
             {
                 __instance.KillButton.graphic.sprite = Rewind;
                 flag = true;
@@ -61,13 +66,69 @@ namespace BetterTownOfUs
                 __instance.KillButton.graphic.sprite = Revive;
                 flag = true;
             }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Veteran))
+            {
+                __instance.KillButton.graphic.sprite = Alert;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Amnesiac))
+            {
+                __instance.KillButton.graphic.sprite = Remember;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Tracker))
+            {
+                __instance.KillButton.graphic.sprite = Track;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Transporter))
+            {
+                __instance.KillButton.graphic.sprite = Transport;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Medium))
+            {
+                __instance.KillButton.graphic.sprite = Mediate;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Survivor))
+            {
+                __instance.KillButton.graphic.sprite = Vest;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.GuardianAngel))
+            {
+                __instance.KillButton.graphic.sprite = Protect;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Plaguebearer))
+            {
+                __instance.KillButton.graphic.sprite = Infect;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Engineer))
+            {
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Trapper)) {
+                __instance.KillButton.graphic.sprite = Trap;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
+            {
+                __instance.KillButton.graphic.sprite = Examine;
+                flag = true;
+            }
             else
             {
-                __instance.KillButton.graphic.sprite = TranslationController.Instance.GetImage(ImageNames.KillButton);
-                flag = PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff);
+                __instance.KillButton.graphic.sprite = Kill;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Kill";
+                flag = PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff) || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence) ||
+                    PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut);
             }
 
-            var keyInt = Input.GetKeyInt(KeyCode.Q);
+            var keyInt = Input.GetKeyInt(KeyCode.F);
             var controller = ConsoleJoystick.player.GetButtonDown(8);
             if (keyInt | controller && __instance.KillButton != null && flag && !PlayerControl.LocalPlayer.Data.IsDead)
                 __instance.KillButton.DoClick();

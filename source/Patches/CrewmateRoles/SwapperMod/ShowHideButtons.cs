@@ -6,7 +6,6 @@ using Reactor;
 using BetterTownOfUs.CrewmateRoles.MayorMod;
 using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
-using BetterTownOfUs.Roles.Modifiers;
 using UnhollowerBaseLib;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,15 +20,11 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
             if (SwapVotes.Swap1 == null || SwapVotes.Swap2 == null) return self;
             //
 
-            PluginSingleton<BetterTownOfUs>.Instance.Log.LogInfo($"Swap1 playerid = {SwapVotes.Swap1.TargetPlayerId}");
             var swap1 = 0;
             if (self.TryGetValue(SwapVotes.Swap1.TargetPlayerId, out var value)) swap1 = value;
-            PluginSingleton<BetterTownOfUs>.Instance.Log.LogInfo($"Swap1 player has votes = {swap1}");
 
             var swap2 = 0;
-            PluginSingleton<BetterTownOfUs>.Instance.Log.LogInfo($"Swap2 playerid = {SwapVotes.Swap2.TargetPlayerId}");
             if (self.TryGetValue(SwapVotes.Swap2.TargetPlayerId, out var value2)) swap2 = value2;
-            PluginSingleton<BetterTownOfUs>.Instance.Log.LogInfo($"Swap2 player has votes  = {swap2}");
 
             self[SwapVotes.Swap2.TargetPlayerId] = swap1;
             self[SwapVotes.Swap1.TargetPlayerId] = swap2;
@@ -42,7 +37,7 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
         {
             public static bool Prefix(MeetingHud __instance)
             {
-                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Swapper) || CustomGameOptions.SGAfterVote) return true;
+                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Swapper)) return true;
                 var swapper = Role.GetRole<Swapper>(PlayerControl.LocalPlayer);
                 foreach (var button in swapper.Buttons.Where(button => button != null))
                 {
@@ -97,7 +92,7 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
 
                 var playerControl = playerInfo.Object;
                 
-                if (Assassin.IsAssassin(playerControl) && playerInfo.IsDead)
+                if (playerControl.Is(AbilityEnum.Assassin) && playerInfo.IsDead)
                 {
                     playerVoteArea.VotedFor = PlayerVoteArea.DeadVote;
                     playerVoteArea.SetDead(false, true);
@@ -118,7 +113,6 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
 
                     var maxIdx = self.MaxPair(out var tie);
 
-                    PluginSingleton<BetterTownOfUs>.Instance.Log.LogMessage($"Meeting was a tie = {tie}");
                     var exiled = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(v => !tie && v.PlayerId == maxIdx.Key);
                     for (var i = 0; i < __instance.playerStates.Length; i++)
                     {

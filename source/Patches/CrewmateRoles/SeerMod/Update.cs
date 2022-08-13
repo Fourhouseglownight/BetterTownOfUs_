@@ -1,6 +1,6 @@
 using System.Linq;
 using HarmonyLib;
-using BetterTownOfUs.ImpostorRoles.CamouflageMod;
+using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ namespace BetterTownOfUs.CrewmateRoles.SeerMod
         {
             if (CamouflageUnCamouflage.IsCamoed)
             {
-                if (meeting && !CustomGameOptions.MeetingColourblind) return player.name + str;
+                if (meeting) return player.name + str;
 
                 return "";
             }
@@ -21,51 +21,41 @@ namespace BetterTownOfUs.CrewmateRoles.SeerMod
             return player.name + str;
         }
 
-        private static void RevealSeerInMeeting(MeetingHud __instance)
-        {
-            foreach (var role in Role.GetRoles(RoleEnum.Seer))
-            {
-                var seerRole = (Seer) role;
-                if (!seerRole.Investigated.ContainsKey(PlayerControl.LocalPlayer.PlayerId)) continue;
-                if (!seerRole.CheckSeeReveal(PlayerControl.LocalPlayer)) continue;
-                var state = __instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == seerRole.Player.PlayerId);
-                state.NameText.color = seerRole.Color;
-                state.NameText.text = NameText(seerRole.Player, " (Seer)", true);
-            }
-        }
-
-        // Assumes the local player is the Seer
-        private static void RevealSightsInMeeting(MeetingHud __instance, Seer seer)
+        private static void UpdateMeeting(MeetingHud __instance, Seer seer)
         {
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (!seer.Investigated.TryGetValue(player.PlayerId, out var successfulInvestigation) || !successfulInvestigation) continue;
+                if (!seer.Investigated.Contains(player.PlayerId)) continue;
                 foreach (var state in __instance.playerStates)
                 {
                     if (player.PlayerId != state.TargetPlayerId) continue;
                     var roleType = Utils.GetRole(player);
                     switch (roleType)
                     {
-                        case RoleEnum.Crewmate:
-                            state.NameText.color =
-                                CustomGameOptions.SeerInfo == SeerInfo.Faction ? Color.green : Color.white;
-                            state.NameText.text = NameText(player,
-                                CustomGameOptions.SeerInfo == SeerInfo.Role ? " (Crew)" : "", true);
-                            break;
-                        case RoleEnum.Impostor:
-                            state.NameText.color = CustomGameOptions.SeerInfo == SeerInfo.Faction
-                                ? Color.red
-                                : Palette.ImpostorRed;
-                            state.NameText.text = NameText(player,
-                                CustomGameOptions.SeerInfo == SeerInfo.Role ? " (Imp)" : "", true);
-                            break;
                         default:
-                            var role = Role.GetRole(player);
-                            state.NameText.color = CustomGameOptions.SeerInfo == SeerInfo.Faction
-                                ? role.FactionColor
-                                : role.Color;
-                            state.NameText.text = NameText(player,
-                                CustomGameOptions.SeerInfo == SeerInfo.Role ? $" ({role.Name})" : "", true);
+                            if ((player.Is(Faction.Crewmates) && !(player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante))) ||
+                            ((player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante)) && !CustomGameOptions.CrewKillingRed) ||
+                            ((player.Is(RoleEnum.Amnesiac) || player.Is(RoleEnum.Survivor) || player.Is(RoleEnum.GuardianAngel)) && !CustomGameOptions.NeutBenignRed) ||
+                            ((player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Jester) || player.Is(RoleEnum.Cannibal) || player.Is(RoleEnum.Phantom)) && !CustomGameOptions.NeutEvilRed) ||
+                            ((player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Glitch) || player.Is(RoleEnum.Juggernaut) ||
+                            player.Is(RoleEnum.Plaguebearer) || player.Is(RoleEnum.Pestilence) || player.Is(RoleEnum.Werewolf)) && !CustomGameOptions.NeutKillingRed))
+                            {
+                                state.NameText.color = Color.green;
+                            }
+                            else if (player.Is(RoleEnum.Traitor) && CustomGameOptions.TraitorColourSwap)
+                            {
+                                foreach (var role in Role.GetRoles(RoleEnum.Traitor))
+                                {
+                                    var traitor = (Traitor)role;
+                                    if (traitor.formerRole == RoleEnum.Sheriff || traitor.formerRole == RoleEnum.Vigilante ||
+                                        traitor.formerRole == RoleEnum.Veteran) state.NameText.color = Color.red;
+                                    else state.NameText.color = Color.green;
+                                }
+                            }
+                            else
+                            {
+                                state.NameText.color = Color.red;
+                            }
                             break;
                     }
                 }
@@ -74,59 +64,49 @@ namespace BetterTownOfUs.CrewmateRoles.SeerMod
 
         [HarmonyPriority(Priority.Last)]
         private static void Postfix(HudManager __instance)
+
         {
-            if (
-                PlayerControl.AllPlayerControls.Count <= 1
-                || PlayerControl.LocalPlayer == null
-                || PlayerControl.LocalPlayer.Data == null
-                || (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles)
-            )
-            {
-                return;
-            }
-            foreach (var role in Role.GetRoles(RoleEnum.Seer))
-            {
-                var seerRole = (Seer) role;
-                if (!seerRole.Investigated.ContainsKey(PlayerControl.LocalPlayer.PlayerId)) continue;
-                if (!seerRole.CheckSeeReveal(PlayerControl.LocalPlayer)) continue;
+            if (PlayerControl.AllPlayerControls.Count <= 1) return;
+            if (PlayerControl.LocalPlayer == null) return;
+            if (PlayerControl.LocalPlayer.Data == null) return;
+            if (PlayerControl.LocalPlayer.Data.IsDead) return;
 
-                seerRole.Player.nameText.color = seerRole.Color;
-                seerRole.Player.nameText.text = NameText(seerRole.Player, " (Seer)");
-            }
-
-            if (MeetingHud.Instance != null) RevealSeerInMeeting(MeetingHud.Instance);
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Seer)) return;
             var seer = Role.GetRole<Seer>(PlayerControl.LocalPlayer);
-            if (MeetingHud.Instance != null) RevealSightsInMeeting(MeetingHud.Instance, seer);
+            if (MeetingHud.Instance != null) UpdateMeeting(MeetingHud.Instance, seer);
 
 
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (!seer.Investigated.TryGetValue(player.PlayerId, out var successfulInvestigation) || !successfulInvestigation) continue;
+                if (!seer.Investigated.Contains(player.PlayerId)) continue;
                 var roleType = Utils.GetRole(player);
-                player.nameText.transform.localPosition = new Vector3(0f, 2f, -0.5f);
+                player.nameText().transform.localPosition = new Vector3(0f, 2f, -0.5f);
                 switch (roleType)
                 {
-                    case RoleEnum.Crewmate:
-                        player.nameText.color =
-                            CustomGameOptions.SeerInfo == SeerInfo.Faction ? Color.green : Color.white;
-                        player.nameText.text = NameText(player,
-                            CustomGameOptions.SeerInfo == SeerInfo.Role ? " (Crew)" : "");
-                        break;
-                    case RoleEnum.Impostor:
-                        player.nameText.color = CustomGameOptions.SeerInfo == SeerInfo.Faction
-                            ? Color.red
-                            : Palette.ImpostorRed;
-                        player.nameText.text = NameText(player,
-                            CustomGameOptions.SeerInfo == SeerInfo.Role ? " (Imp)" : "");
-                        break;
                     default:
-                        var role = Role.GetRole(player);
-                        player.nameText.color = CustomGameOptions.SeerInfo == SeerInfo.Faction
-                            ? role.FactionColor
-                            : role.Color;
-                        player.nameText.text = NameText(player,
-                            CustomGameOptions.SeerInfo == SeerInfo.Role ? $" ({role.Name})" : "");
+                        if ((player.Is(Faction.Crewmates) && !(player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante))) ||
+                            ((player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Veteran) || player.Is(RoleEnum.Vigilante)) && !CustomGameOptions.CrewKillingRed) ||
+                            ((player.Is(RoleEnum.Amnesiac) || player.Is(RoleEnum.Survivor) || player.Is(RoleEnum.GuardianAngel)) && !CustomGameOptions.NeutBenignRed) ||
+                            ((player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Jester) || player.Is(RoleEnum.Cannibal) || player.Is(RoleEnum.Phantom)) && !CustomGameOptions.NeutEvilRed) ||
+                            ((player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Glitch) || player.Is(RoleEnum.Juggernaut) ||
+                            player.Is(RoleEnum.Plaguebearer) || player.Is(RoleEnum.Pestilence) || player.Is(RoleEnum.Werewolf)) && !CustomGameOptions.NeutKillingRed))
+                        {
+                            player.nameText().color = Color.green;
+                        }
+                        else if (player.Is(RoleEnum.Traitor) && CustomGameOptions.TraitorColourSwap)
+                        {
+                            foreach (var role in Role.GetRoles(RoleEnum.Traitor))
+                            {
+                                var traitor = (Traitor)role;
+                                if (traitor.formerRole == RoleEnum.Sheriff || traitor.formerRole == RoleEnum.Vigilante ||
+                                    traitor.formerRole == RoleEnum.Veteran) player.nameText().color = Color.red;
+                                else player.nameText().color = Color.green;
+                            }
+                        }
+                        else
+                        {
+                            player.nameText().color = Color.red;
+                        }
                         break;
                 }
             }

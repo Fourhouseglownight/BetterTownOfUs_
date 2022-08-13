@@ -2,10 +2,11 @@ namespace BetterTownOfUs.CustomOption
 {
     public class CustomToggleOption : CustomOption
     {
-        protected internal CustomToggleOption(int id, string name, bool value = true) : base(id, name,
+        protected internal CustomToggleOption(int id, string name, bool value = true, bool indent = false) : base(id, name,
             CustomOptionType.Toggle,
             value)
         {
+            Indent = indent;
             Format = val => (bool) val ? "On" : "Off";
         }
 

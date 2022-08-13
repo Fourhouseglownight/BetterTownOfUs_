@@ -1,5 +1,7 @@
 using HarmonyLib;
+using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Roles;
+using UnityEngine;
 
 namespace BetterTownOfUs.ImpostorRoles.MorphlingMod
 {
@@ -14,7 +16,7 @@ namespace BetterTownOfUs.ImpostorRoles.MorphlingMod
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Morphling)) return;
             var role = Role.GetRole<Morphling>(PlayerControl.LocalPlayer);
             if (target != null && __instance == DestroyableSingleton<HudManager>.Instance.KillButton)
-                if (target.Is(Faction.Impostors))
+                if (target.Data.IsImpostor())
                 {
                     __instance.graphic.color = Palette.DisabledClear;
                     __instance.graphic.material.SetFloat("_Desat", 1f);

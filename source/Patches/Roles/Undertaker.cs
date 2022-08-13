@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BetterTownOfUs.Roles
 {
@@ -6,26 +6,21 @@ namespace BetterTownOfUs.Roles
     {
         public KillButton _dragDropButton;
 
-        public Undertaker(PlayerControl player) : base(player, RoleEnum.Undertaker)
+        public Undertaker(PlayerControl player) : base(player)
         {
+            Name = "Undertaker";
             ImpostorText = () => "Drag bodies and hide them";
             TaskText = () => "Drag bodies around to hide them from being reported";
+            Color = Patches.Colors.Impostor;
+            LastDragged = DateTime.UtcNow;
+            RoleType = RoleEnum.Undertaker;
+            AddToRoleHistory(RoleType);
+            Faction = Faction.Impostors;
         }
 
         public DateTime LastDragged { get; set; }
         public DeadBody CurrentTarget { get; set; }
         public DeadBody CurrentlyDragging { get; set; }
-
-        protected override void DoOnGameStart()
-        {
-            LastDragged = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.DragCd);
-        }
-
-        protected override void DoOnMeetingEnd()
-        {
-            CurrentlyDragging = null;
-            LastDragged = DateTime.UtcNow;
-        }
 
         public KillButton DragDropButton
         {

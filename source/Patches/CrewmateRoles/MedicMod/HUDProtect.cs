@@ -4,7 +4,7 @@ using BetterTownOfUs.Roles;
 namespace BetterTownOfUs.CrewmateRoles.MedicMod
 {
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
-    public class HUDRewind
+    public class HUDProtect
     {
         public static void Postfix(PlayerControl __instance)
         {
@@ -27,7 +27,7 @@ namespace BetterTownOfUs.CrewmateRoles.MedicMod
             if (isDead)
             {
                 protectButton.gameObject.SetActive(false);
-                //protectButton.isActive = false;
+             //   protectButton.isActive = false;
             }
             else
             {

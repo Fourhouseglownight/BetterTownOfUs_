@@ -1,52 +1,26 @@
-﻿using System;
 using UnityEngine;
-
+using BetterTownOfUs.CrewmateRoles.EngineerMod;
 namespace BetterTownOfUs.Roles
 {
     public class Engineer : Role
     {
-        public Engineer(PlayerControl player) : base(player, RoleEnum.Engineer)
+        public float EngiCooldown { get; set; }
+        public float EngiFixPerRound { get; set; }
+        public float EngiFixPerGame { get; set; }
+        public Engineer(PlayerControl player) : base(player)
         {
+            Name = "Engineer";
             ImpostorText = () => "Maintain important systems on the ship";
             TaskText = () => "Vent and fix a sabotage from anywhere!";
+            Color = Patches.Colors.Engineer;
+            RoleType = RoleEnum.Engineer;
+            EngiCooldown = CustomGameOptions.EngiCooldown;
+            EngiFixPerRound = CustomGameOptions.EngineerFixPer  ==  EngineerFixPer.Custom ? CustomGameOptions.EngiFixPerRound : 1;
+            EngiFixPerGame = CustomGameOptions.EngiFixPerGame;
 
-            FixesPerRound = CustomGameOptions.EngineerFixPer == EngineerFixPer.Custom ? CustomGameOptions.FixesPerRound : 1;
-            RemainingFixes = CustomGameOptions.FixesNumber;
+
+            AddToRoleHistory(RoleType);
         }
-
-        public DateTime LastFix { get; set; }
-        public int FixesPerRound { get; set; }
-        public int RemainingFixes { get; set; }
-
-        protected override void DoOnGameStart()
-        {
-            if (CustomGameOptions.EngineerFixPer != EngineerFixPer.Custom || !CustomGameOptions.IsCdEngineer) return;
-            LastFix = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.EngineerCd);
-        }
-
-        protected override void DoOnMeetingEnd()
-        {
-            if (CustomGameOptions.EngineerFixPer == EngineerFixPer.Round || (CustomGameOptions.EngineerFixPer == EngineerFixPer.Custom && RemainingFixes > 0))
-            {
-                FixesPerRound = CustomGameOptions.EngineerFixPer == EngineerFixPer.Custom ? CustomGameOptions.FixesPerRound : 1;
-            }
-            if (CustomGameOptions.EngineerFixPer != EngineerFixPer.Custom || !CustomGameOptions.IsCdEngineer) return;
-            LastFix = DateTime.UtcNow;
-        }
-
-        public float EngineerTimer()
-        {
-            var t = DateTime.UtcNow - LastFix;
-            var i = CustomGameOptions.EngineerCd * 1000;
-            if (i - (float) t.TotalMilliseconds < 0) return 0;
-            return (i - (float) t.TotalMilliseconds) / 1000;
-        }
-
-        public enum EngineerFixPer
-        {
-            Custom,
-            Round,
-            Game
-        }
+        
     }
 }

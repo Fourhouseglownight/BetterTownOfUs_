@@ -1,42 +1,43 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Hazel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Reactor.Extensions;
 using TMPro;
-using BetterTownOfUs.Extensions;
-using BetterTownOfUs.ImpostorRoles.CamouflageMod;
-using BetterTownOfUs.Patches;
-using BetterTownOfUs.CrewmateRoles.MedicMod;
 using BetterTownOfUs.Roles.Modifiers;
 using UnhollowerBaseLib;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
+using BetterTownOfUs.Extensions;
+using BetterTownOfUs.ImpostorRoles.TraitorMod;
 
 namespace BetterTownOfUs.Roles
 {
     public abstract class Role
     {
         public static readonly Dictionary<byte, Role> RoleDictionary = new Dictionary<byte, Role>();
+        public static readonly List<KeyValuePair<byte, RoleEnum>> RoleHistory = new List<KeyValuePair<byte, RoleEnum>>();
 
         public static bool NobodyWins;
+        public static bool SurvOnlyWins;
 
-        public readonly List<KillButton> ExtraButtons = new List<KillButton>();
+        public List<KillButton> ExtraButtons = new List<KillButton>();
 
-        protected Func<string> ImpostorText;
-        protected Func<string> TaskText;
+        public Func<string> ImpostorText;
+        public Func<string> TaskText;
 
-        protected Role(PlayerControl player, RoleEnum roleEnum)
+        protected Role(PlayerControl player)
         {
             Player = player;
             RoleDictionary.Add(player.PlayerId, this);
-            RoleType = roleEnum;
-            RoleDetailsAttribute = RoleDetailsAttribute.GetRoleDetails(roleEnum);
+            //TotalTasks = player.Data.Tasks.Count;
+            //TasksLeft = TotalTasks;
         }
 
         public static IEnumerable<Role> AllRoles => RoleDictionary.Values.ToList();
+        protected internal string Name { get; set; }
 
         private PlayerControl _player { get; set; }
 
@@ -45,44 +46,39 @@ namespace BetterTownOfUs.Roles
             get => _player;
             set
             {
-                if (_player != null) _player.nameText.color = Color.white;
+                if (_player != null) _player.nameText().color = Color.white;
 
                 _player = value;
                 PlayerName = value.Data.PlayerName;
             }
         }
 
-        public string Name => RoleDetailsAttribute.Name;
-        public Color Color => RoleDetailsAttribute.ColorObject;
-        protected internal RoleEnum RoleType { get; }
+        protected float Scale { get; set; } = 1f;
+        protected internal Color Color { get; set; }
+        protected internal RoleEnum RoleType { get; set; }
         public bool LostByRPC { get; protected set; }
-        private RoleDetailsAttribute RoleDetailsAttribute { get; }
+        protected internal int TasksLeft => Player.Data.Tasks.ToArray().Count(x => !x.Complete);
+        protected internal int TotalTasks => Player.Data.Tasks.Count;
+
+        public bool Local => PlayerControl.LocalPlayer.PlayerId == Player.PlayerId;
 
         protected internal bool Hidden { get; set; } = false;
 
-        protected internal Faction Faction => RoleDetailsAttribute.Faction;
+        protected internal Faction Faction { get; set; } = Faction.Crewmates;
 
-        protected internal Color FactionColor
-        {
-            get
-            {
-                return Faction switch
-                {
-                    Faction.Crewmates => Color.green,
-                    Faction.Impostors => Color.red,
-                    Faction.Neutral => CustomGameOptions.NeutralRed ? Color.red : Color.grey,
-                    _ => Color.white
-                };
-            }
-        }
-
-        public string PlayerName { get; private set; }
+        public static uint NetId => PlayerControl.LocalPlayer.NetId;
+        public string PlayerName { get; set; }
 
         public string ColorString => "<color=#" + Color.ToHtmlStringRGBA() + ">";
 
         private bool Equals(Role other)
         {
             return Equals(Player, other.Player) && RoleType == other.RoleType;
+        }
+
+        public void AddToRoleHistory(RoleEnum role)
+        {
+            RoleHistory.Add(KeyValuePair.Create(_player.PlayerId, role));
         }
 
         public override bool Equals(object obj)
@@ -98,44 +94,62 @@ namespace BetterTownOfUs.Roles
             return HashCode.Combine(Player, (int)RoleType);
         }
 
+        //public static T Gen<T>()
+
         internal virtual bool Criteria()
         {
-            Player.nameText.transform.localPosition = new Vector3(
+            Player.nameText().transform.localPosition = new Vector3(
                 0f,
                 Player.Data.DefaultOutfit.HatId == "hat_NoHat" ? 1.5f : 2.0f,
                 -0.5f
             );
+            return (DeadCriteria() || ImpostorCriteria() || LoverCriteria() || SelfCriteria() || RoleCriteria() || GuardianAngelCriteria() || Local);
+        }
+
+        internal virtual bool ColorCriteria()
+        {
+            return SelfCriteria() || DeadCriteria() || ImpostorCriteria() || RoleCriteria() || GuardianAngelCriteria();
+        }
+
+        internal virtual bool DeadCriteria()
+        {
             if (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles) return Utils.ShowDeadBodies;
-            if (Faction == Faction.Impostors && PlayerControl.LocalPlayer.Is(Faction.Impostors) &&
-                CustomGameOptions.ImpostorsKnowTeam == 0) return true;
+            return false;
+        }
+
+        internal virtual bool ImpostorCriteria()
+        {
+            if (Faction == Faction.Impostors && PlayerControl.LocalPlayer.Data.IsImpostor() &&
+                CustomGameOptions.ImpostorSeeRoles) return true;
+            return false;
+        }
+
+        internal virtual bool LoverCriteria()
+        {
+            if (PlayerControl.LocalPlayer.Is(ModifierEnum.Lover))
+            {
+                if (Local) return true;
+                var lover = Modifier.GetModifier<Lover>(PlayerControl.LocalPlayer);
+                return lover.OtherLover.Player == Player;
+            }
+            return false;
+        }
+
+        internal virtual bool SelfCriteria()
+        {
             return GetRole(PlayerControl.LocalPlayer) == this;
         }
 
-        /*
-         * Hook. Override this method to run before the cutscene showing the player who's on their team.
-         * I'm not really sure why anybody does this at the moment.
-         */
-        protected virtual void IntroPrefix(IntroCutscene._CoBegin_d__18 __instance)
+        internal virtual bool RoleCriteria()
         {
+            return PlayerControl.LocalPlayer.Is(ModifierEnum.Sleuth) && Modifier.GetModifier<Sleuth>(PlayerControl.LocalPlayer).Reported.Contains(Player.PlayerId);
+        }
+        internal virtual bool GuardianAngelCriteria()
+        {
+            return PlayerControl.LocalPlayer.Is(RoleEnum.GuardianAngel) && CustomGameOptions.GAKnowsTargetRole && Player == Role.GetRole<GuardianAngel>(PlayerControl.LocalPlayer).target;
         }
 
-        /*
-         * Hook. to simplify creating setting up initial cooldowns and things. Called some time at the start of the
-         * game to initialize the player's role.
-         * WARNING: This method could be called more than once right now.
-         * We don't do these things in the constructor because some constructors will be instantiated more than once.
-         * See https://github.com/Anusien/Town-Of-Us/pull/22 for more context.
-         */
-        protected virtual void DoOnGameStart()
-        {
-        }
-
-        /*
-         * Hook. to simplify resetting cooldowns and things. Called at the end of the meeting to initialize the
-         * player's role.
-         * See https://github.com/Anusien/Town-Of-Us/pull/22 for more context.
-         */
-        protected virtual void DoOnMeetingEnd()
+        protected virtual void IntroPrefix(IntroCutscene._ShowTeam_d__21 __instance)
         {
         }
 
@@ -143,10 +157,13 @@ namespace BetterTownOfUs.Roles
         {
             NobodyWins = true;
         }
+        public static void SurvOnlyWin()
+        {
+            SurvOnlyWins = true;
+        }
 
         internal static bool NobodyEndCriteria(ShipStatus __instance)
         {
-            // TODO
             bool CheckNoImpsNoCrews()
             {
                 var alives = PlayerControl.AllPlayerControls.ToArray()
@@ -156,25 +173,50 @@ namespace BetterTownOfUs.Roles
                 {
                     var role = GetRole(x);
                     if (role == null) return false;
-                    var flag2 = role.Faction == Faction.Neutral && !x.Is(RoleEnum.Glitch) && !x.Is(RoleEnum.Arsonist);
-                    var flag3 = x.Is(RoleEnum.Arsonist) && ((Arsonist)role).IgniteUsed && alives.Count > 1;
+                    var flag2 = role.Faction == Faction.Neutral && !x.Is(RoleEnum.Juggernaut) && !x.Is(RoleEnum.Glitch)
+                    && !x.Is(RoleEnum.Arsonist) && !x.Is(RoleEnum.Plaguebearer) && !x.Is(RoleEnum.Pestilence) && !x.Is(RoleEnum.Werewolf);
 
-                    return flag2 || flag3;
+                    return flag2;
                 });
 
                 return flag;
             }
 
+            bool SurvOnly()
+            {
+                var alives = PlayerControl.AllPlayerControls.ToArray()
+                    .Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList();
+                if (alives.Count == 0) return false;
+                var flag = false;
+                foreach (var player in alives)
+                {
+                    if (player.Is(RoleEnum.Survivor)) flag = true;
+                }
+                return flag;
+            }
+
             if (CheckNoImpsNoCrews())
             {
-                System.Console.WriteLine("NO IMPS NO CREWS");
-                var messageWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.NobodyWins, SendOption.Reliable, -1);
-                AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+                if (SurvOnly())
+                {
+                    var messageWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                        (byte)CustomRPC.SurvivorOnlyWin, SendOption.Reliable, -1);
+                    AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
 
-                NobodyWinsFunc();
-                Utils.EndGame();
-                return false;
+                    SurvOnlyWin();
+                    Utils.EndGame();
+                    return false;
+                }
+                else
+                {
+                    var messageWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                        (byte)CustomRPC.NobodyWins, SendOption.Reliable, -1);
+                    AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+
+                    NobodyWinsFunc();
+                    Utils.EndGame();
+                    return false;
+                }
             }
 
             return true;
@@ -185,23 +227,53 @@ namespace BetterTownOfUs.Roles
             return true;
         }
 
-        protected virtual string NameText(PlayerVoteArea player = null)
+        protected virtual string NameText(bool revealTasks, bool revealRole, bool revealModifier, bool revealLover, PlayerVoteArea player = null)
         {
             if (CamouflageUnCamouflage.IsCamoed && player == null) return "";
 
             if (Player == null) return "";
 
+            String PlayerName = Player.GetDefaultOutfit().PlayerName;
+            if (CustomGameOptions.GATargetKnows) {
+                foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
+                {
+                    var ga = (GuardianAngel)role;
+                    if (Player == ga.target)
+                    {
+                        PlayerName += "<color=#B2FFFFFF> ★</color>";
+                    }
+                }
+            }
+
+            var modifier = Modifier.GetModifier(Player);
+            if (modifier != null && modifier.GetColoredSymbol() != null)
+            {
+                if (modifier.ModifierType == ModifierEnum.Lover && (revealModifier || revealLover))
+                    PlayerName += $" {modifier.GetColoredSymbol()}";
+                else if (modifier.ModifierType != ModifierEnum.Lover && revealModifier)
+                    PlayerName += $" {modifier.GetColoredSymbol()}";
+            }
+
+            if (revealTasks && (Faction == Faction.Crewmates || RoleType == RoleEnum.Phantom))
+            {
+                if ((PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.SeeTasksWhenDead) || (MeetingHud.Instance && CustomGameOptions.SeeTasksDuringMeeting) || (!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance && CustomGameOptions.SeeTasksDuringRound))
+                {
+                    PlayerName += $" ({TotalTasks - TasksLeft}/{TotalTasks})";
+                }
+            }
+
             if (player != null && (MeetingHud.Instance.state == MeetingHud.VoteStates.Proceeding ||
-                                   MeetingHud.Instance.state == MeetingHud.VoteStates.Results)) return Player.name;
+                                   MeetingHud.Instance.state == MeetingHud.VoteStates.Results)) return PlayerName;
 
-            if (!CustomGameOptions.RoleUnderName && player == null) return Player.name;
+            if (!revealRole) return PlayerName;
 
-            Player.nameText.transform.localPosition = new Vector3(
+            Player.nameText().transform.localPosition = new Vector3(
                 0f,
                 Player.CurrentOutfit.HatId == "hat_NoHat" ? 1.5f : 2.0f,
                 -0.5f
             );
-            return Player.GetDefaultOutfit()._playerName + "\n" + Name;
+
+            return PlayerName + "\n" + Name;
         }
 
         public static bool operator ==(Role a, Role b)
@@ -255,7 +327,7 @@ namespace BetterTownOfUs.Roles
 
         public static T Gen<T>(Type type, List<PlayerControl> players, CustomRPC rpc)
         {
-            var player = players[Random.RandomRangeInt(0, players.Count)];
+            var player = players[BetterTownOfUs.Random.Next(0, players.Count)];
             
             var role = Gen<T>(type, player, rpc);
             players.Remove(player);
@@ -263,15 +335,6 @@ namespace BetterTownOfUs.Roles
         }
         
         public static Role GetRole(PlayerControl player)
-        {
-            if (player == null) return null;
-            if (RoleDictionary.TryGetValue(player.PlayerId, out var role))
-                return role;
-
-            return null;
-        }
-
-        public static Role GetRole(GameData.PlayerInfo player)
         {
             if (player == null) return null;
             if (RoleDictionary.TryGetValue(player.PlayerId, out var role))
@@ -300,7 +363,8 @@ namespace BetterTownOfUs.Roles
         public static class IntroCutScenePatch
         {
             public static TextMeshPro ModifierText;
-            public static TextMeshPro AssassinText;
+
+            public static float Scale;
 
             [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
             public static class IntroCutscene_BeginCrewmate
@@ -315,6 +379,8 @@ namespace BetterTownOfUs.Roles
                     //                        Scale = ModifierText.scale;
                     else
                         ModifierText = null;
+
+                    Lights.SetLights();
                 }
             }
 
@@ -323,11 +389,6 @@ namespace BetterTownOfUs.Roles
             {
                 public static void Postfix(IntroCutscene __instance)
                 {
-                    if (Assassin.IsAssassin(PlayerControl.LocalPlayer))
-                        AssassinText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
-                    else
-                        AssassinText = null;
-
                     //System.Console.WriteLine("REACHED HERE - IMP");
                     var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                     if (modifier != null)
@@ -336,142 +397,169 @@ namespace BetterTownOfUs.Roles
                     //                        Scale = ModifierText.scale;
                     else
                         ModifierText = null;
+                    Lights.SetLights();
                 }
             }
 
-            [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__18), nameof(IntroCutscene._CoBegin_d__18.MoveNext))]
-            public static class IntroCutscene_CoBegin__d_MoveNext
+            [HarmonyPatch(typeof(IntroCutscene._ShowTeam_d__21), nameof(IntroCutscene._ShowTeam_d__21.MoveNext))]
+            public static class IntroCutscene_ShowTeam__d_MoveNext
             {
-                public static void Prefix(IntroCutscene._CoBegin_d__18 __instance)
+                public static void Prefix(IntroCutscene._ShowTeam_d__21 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
 
                     if (role != null) role.IntroPrefix(__instance);
                 }
 
-                public static void Postfix(IntroCutscene._CoBegin_d__18 __instance)
+                public static void Postfix(IntroCutscene._ShowRole_d__24 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
-                    var alpha = __instance.__4__this.RoleText.color.a;
+                    // var alpha = __instance.__4__this.RoleText.color.a;
                     if (role != null && !role.Hidden)
                     {
+                        __instance.__4__this.TeamTitle.text = role.Faction == Faction.Neutral ? "Neutral" : __instance.__4__this.TeamTitle.text;
+                        __instance.__4__this.TeamTitle.color = role.Faction == Faction.Neutral ? Color.white : __instance.__4__this.TeamTitle.color;
                         __instance.__4__this.RoleText.text = role.Name;
                         __instance.__4__this.RoleText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
-                        __instance.__4__this.RoleBlurbText.color = role.Color;
-                        __instance.__4__this.YouAreText.color = role.Color;
+                        //    __instance.__4__this.ImpostorText.gameObject.SetActive(true);
                         __instance.__4__this.BackgroundBar.material.color = role.Color;
-                        if (role.Faction == Faction.Neutral)
+                        //                        TestScale = Mathf.Max(__instance.__this.Title.scale, TestScale);
+                        //                        __instance.__this.Title.scale = TestScale / role.Scale;
+                    }
+                    /*else if (!__instance.isImpostor)
+                    {
+                        __instance.__this.ImpostorText.text = "Haha imagine being a boring old crewmate";
+                    }*/
+
+                    if (ModifierText != null)
+                    {
+                        var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
+                        if (modifier.GetType() == typeof(Lover))
                         {
-                            __instance.__4__this.TeamTitle.text = "Neutral";
-                            __instance.__4__this.TeamTitle.color = role.FactionColor;
-                            __instance.__4__this.ImpostorText.text = "You are Alone You Win Alone";
+                            ModifierText.text = $"<size=3>{modifier.TaskText()}</size>";
                         }
+                        else
+                        {
+                            ModifierText.text = "<size=4>Modifier: " + modifier.Name + "</size>";
+                        }
+                        ModifierText.color = modifier.Color;
+
+                        //
+                        ModifierText.transform.position =
+                            __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
+                        ModifierText.gameObject.SetActive(true);
+                    }
+                }
+            }
+
+            [HarmonyPatch(typeof(IntroCutscene._ShowRole_d__24), nameof(IntroCutscene._ShowRole_d__24.MoveNext))]
+            public static class IntroCutscene_ShowRole_d__24
+            {
+                public static void Postfix(IntroCutscene._ShowRole_d__24 __instance)
+                {
+                    var role = GetRole(PlayerControl.LocalPlayer);
+                    //var alpha = __instance.__4__this.RoleText.color.a;
+                    if (role != null && !role.Hidden)
+                    {
+                        __instance.__4__this.TeamTitle.text = role.Faction == Faction.Neutral ? "Neutral" : __instance.__4__this.TeamTitle.text;
+                        __instance.__4__this.TeamTitle.color = role.Faction == Faction.Neutral ? Color.white : __instance.__4__this.TeamTitle.color;
+                        __instance.__4__this.RoleText.text = role.Name;
+                        __instance.__4__this.RoleText.color = role.Color;
+                        __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
+                        __instance.__4__this.BackgroundBar.material.color = role.Color;
+
                     }
 
-                    if (AssassinText != null)
+
+                    if (ModifierText != null)
                     {
-                        if (Assassin.IsAssassin(PlayerControl.LocalPlayer))
+                        var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
+                        if (modifier.GetType() == typeof(Lover))
                         {
-                            AssassinText.text = "<size=4>Modifier: Assassin</size>";
-                            AssassinText.color = Color.red;
-                            AssassinText.transform.position =
-                                __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
-                            AssassinText.gameObject.SetActive(true);
+                            ModifierText.text = $"<size=3>{modifier.TaskText()}</size>";
                         }
+                        else
+                        {
+                            ModifierText.text = "<size=4>Modifier: " + modifier.Name + "</size>";
+                        }
+                        ModifierText.color = modifier.Color;
+
+                        //
+                        ModifierText.transform.position =
+                            __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
+                        ModifierText.gameObject.SetActive(true);
+                    }
+                }
+            }
+
+            [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__19), nameof(IntroCutscene._CoBegin_d__19.MoveNext))]
+            public static class IntroCutscene_CoBegin_d__19
+            {
+                public static void Postfix(IntroCutscene._CoBegin_d__19 __instance)
+                {
+                    var role = GetRole(PlayerControl.LocalPlayer);
+                    //var alpha = __instance.__4__this.RoleText.color.a;
+                    if (role != null && !role.Hidden)
+                    {
+                        __instance.__4__this.TeamTitle.text = role.Faction == Faction.Neutral ? "Neutral" : __instance.__4__this.TeamTitle.text;
+                        __instance.__4__this.TeamTitle.color = role.Faction == Faction.Neutral ? Color.white : __instance.__4__this.TeamTitle.color;
+                        __instance.__4__this.RoleText.text = role.Name;
+                        __instance.__4__this.RoleText.color = role.Color;
+                        __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
+                        __instance.__4__this.BackgroundBar.material.color = role.Color;
+
                     }
 
                     if (ModifierText != null)
                     {
-                        Modifier modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
-                        if (modifier != null)
+                        var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
+                        if (modifier.GetType() == typeof(Lover))
                         {
-                            string txt = AssassinText == null ? "Modifier: " + modifier.Name : modifier.Name;
-                            ModifierText.text = $"<size=4>{txt}</size>";
-                            ModifierText.color = modifier.Color;
-
-                            ModifierText.transform.position =
-                            __instance.__4__this.transform.position - new Vector3(0f, 2.0f, 0f);
-                            ModifierText.gameObject.SetActive(true);
+                            ModifierText.text = $"<size=3>{modifier.TaskText()}</size>";
                         }
-                    }
+                        else
+                        {
+                            ModifierText.text = "<size=4>Modifier: " + modifier.Name + "</size>";
+                        }
+                        ModifierText.color = modifier.Color;
 
-                    foreach (Role r in AllRoles)
-                    {
-                        r.DoOnGameStart();
+                        //
+                        ModifierText.transform.position =
+                            __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
+                        ModifierText.gameObject.SetActive(true);
                     }
                 }
             }
         }
 
-        [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
-        public static class PostMeeting
-        {
-            public static void Postfix()
-            {
-                foreach (Role r in AllRoles)
-                {
-                    r.DoOnMeetingEnd();
-                }
-            }
-        }
-
-        [HarmonyPatch(typeof(PlayerControl._CoSetTasks_d__102), nameof(PlayerControl._CoSetTasks_d__102.MoveNext))]
+        [HarmonyPatch(typeof(PlayerControl._CoSetTasks_d__104), nameof(PlayerControl._CoSetTasks_d__104.MoveNext))]
         public static class PlayerControl_SetTasks
         {
-            public static void Postfix(PlayerControl._CoSetTasks_d__102 __instance)
+            public static void Postfix(PlayerControl._CoSetTasks_d__104 __instance)
             {
                 if (__instance == null) return;
                 var player = __instance.__4__this;
                 var role = GetRole(player);
                 var modifier = Modifier.GetModifier(player);
 
-                if (Assassin.IsAssassin(player) || modifier != null)
+                if (modifier != null)
                 {
-                    ImportantTextTask modTask = new GameObject(modifier.Name + "Task").AddComponent<ImportantTextTask>();
+                    var modTask = new GameObject(modifier.Name + "Task").AddComponent<ImportantTextTask>();
                     modTask.transform.SetParent(player.transform, false);
-                    modTask.Text = "";
-                    if (Assassin.IsAssassin(player))
-                    {
-                        Assassin assassin = Assassin.GetAssassin<Assassin>(player);
-                        modTask.Text += $"{assassin.ColorString}Modifier: {assassin.Name}\n{assassin.TaskText()}</color>";
-
-                    }
-                    if (modifier != null)
-                    {
-                        modTask.Text += modTask.Text == ""
-                            ? $"{modifier.ColorString}Modifier: {modifier.Name}\n{modifier.TaskText()}</color>"
-                            : $"\n{modifier.ColorString}Modifier: {modifier.Name}\n{modifier.TaskText()}</color>" ;
-                    }
+                    modTask.Text =
+                        $"{modifier.ColorString}Modifier: {modifier.Name}\n{modifier.TaskText()}</color>";
                     player.myTasks.Insert(0, modTask);
                 }
 
                 if (role == null || role.Hidden) return;
-                if (role.RoleType == RoleEnum.Shifter && role.Player != PlayerControl.LocalPlayer) return;
+                if (role.RoleType == RoleEnum.Amnesiac && role.Player != PlayerControl.LocalPlayer) return;
                 var task = new GameObject(role.Name + "Task").AddComponent<ImportantTextTask>();
                 task.transform.SetParent(player.transform, false);
                 task.Text = $"{role.ColorString}Role: {role.Name}\n{role.TaskText()}</color>";
                 player.myTasks.Insert(0, task);
             }
         }
-
-        /*[HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
-        public static class ButtonsFix
-        {
-            public static void Postfix(PlayerControl __instance)
-            {
-                if (__instance != PlayerControl.LocalPlayer) return;
-                var role = GetRole(PlayerControl.LocalPlayer);
-                if (role == null) return;
-                var instance = DestroyableSingleton<HudManager>.Instance;
-                var position = instance.KillButton.transform.position;
-                foreach (var button in role.ExtraButtons)
-                {
-                    button.transform.position = new Vector3(position.x,
-                        instance.ReportButton.transform.position.y, position.z);
-                }
-            }
-        }*/
 
         [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckEndCriteria))]
         public static class ShipStatus_KMPKPPGPNIH
@@ -503,16 +591,24 @@ namespace BetterTownOfUs.Roles
                 var result = true;
                 foreach (var role in AllRoles)
                 {
-                    //System.Console.WriteLine(role.Name);
-                    var isend = role.EABBNOODFGL(__instance);
-                    //System.Console.WriteLine(isend);
-                    if (!isend) result = false;
+                    var roleIsEnd = role.EABBNOODFGL(__instance);
+                    var modifier = Modifier.GetModifier(role.Player);
+                    bool modifierIsEnd = true;
+                    var alives = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList();
+                    var impsAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor()).ToList();
+                    var traitorIsEnd = true;
+                    if (SetTraitor.WillBeTraitor != null)
+                    {
+                        traitorIsEnd = SetTraitor.WillBeTraitor.Data.IsDead || SetTraitor.WillBeTraitor.Data.Disconnected || alives.Count < CustomGameOptions.LatestSpawn || impsAlive.Count * 2 >= alives.Count;
+                    }
+                    if (modifier != null)
+                        modifierIsEnd = modifier.EABBNOODFGL(__instance);
+                    if (!roleIsEnd || !modifierIsEnd || !traitorIsEnd) result = false;
                 }
 
                 if (!NobodyEndCriteria(__instance)) result = false;
 
                 return result;
-                //return true;
             }
         }
 
@@ -524,12 +620,36 @@ namespace BetterTownOfUs.Roles
                 foreach (var role in AllRoles.Where(x => x.RoleType == RoleEnum.Snitch))
                 {
                     ((Snitch)role).ImpArrows.DestroyAll();
-                    ((Snitch)role).SnitchArrows.DestroyAll();
+                    ((Snitch)role).SnitchArrows.Values.DestroyAll();
+                    ((Snitch)role).SnitchArrows.Clear();
+                }
+                foreach (var role in AllRoles.Where(x => x.RoleType == RoleEnum.Tracker))
+                {
+                    ((Tracker)role).TrackerArrows.Values.DestroyAll();
+                    ((Tracker)role).TrackerArrows.Clear();
+                }
+                foreach (var role in AllRoles.Where(x => x.RoleType == RoleEnum.Amnesiac))
+                {
+                    ((Amnesiac)role).BodyArrows.Values.DestroyAll();
+                    ((Amnesiac)role).BodyArrows.Clear();
+                }
+                foreach (var role in AllRoles.Where(x => x.RoleType == RoleEnum.Medium))
+                {
+                    ((Medium)role).MediatedPlayers.Values.DestroyAll();
+                    ((Medium)role).MediatedPlayers.Clear();
+                }
+                foreach (var role in AllRoles.Where(x => x.RoleType == RoleEnum.Mystic))
+                {
+                    ((Mystic)role).BodyArrows.Values.DestroyAll();
+                    ((Mystic)role).BodyArrows.Clear();
                 }
 
                 RoleDictionary.Clear();
+                RoleHistory.Clear();
                 Modifier.ModifierDictionary.Clear();
-                Assassin.AssassinsDictionary.Clear();
+                Ability.AbilityDictionary.Clear();
+                Lights.SetLights(Color.white);                
+                RpcHandling.CheckImpostors = false;
             }
         }
 
@@ -567,60 +687,32 @@ namespace BetterTownOfUs.Roles
 
             private static void UpdateMeeting(MeetingHud __instance)
             {
-                foreach (var playerState in __instance.playerStates)
+                foreach (var player in __instance.playerStates)
                 {
-                    var player = PlayerControl.AllPlayerControls.ToArray()
-                        .FirstOrDefault(x => x.PlayerId == playerState.TargetPlayerId);
-                    var localPlayer = PlayerControl.LocalPlayer;
-                    var role = GetRole(playerState);
+                    var role = GetRole(player);
                     if (role != null && role.Criteria())
                     {
-                        playerState.NameText.color = role.Color;
-                        playerState.NameText.text = role.NameText(playerState);
-                        // if (player.NameText.text.Contains("\n"))
-                        // {
-                        //     var newScale = Vector3.one * 1.8f;
-                        //
-                        //     // TODO: scale
-                        //     var trueScale = player.NameText.transform.localScale / 2;
-                        //
-                        //
-                        //     if (trueScale != newScale) oldScale = trueScale;
-                        //     var newPosition = new Vector3(1.43f, 0.055f, 0f);
-                        //
-                        //     var truePosition = player.NameText.transform.localPosition;
-                        //
-                        //     if (newPosition != truePosition) oldPosition = truePosition;
-                        //
-                        //     player.NameText.transform.localPosition = newPosition;
-                        //     player.NameText.transform.localScale = newScale;
-                        // }
-                        // else
-                        // {
-                        // if (oldPosition != Vector3.zero) player.NameText.transform.localPosition = oldPosition;
-                        // if (oldScale != Vector3.zero) player.NameText.transform.localScale = oldScale;
-                        // }
+                        bool selfFlag = role.SelfCriteria();
+                        bool deadFlag = role.DeadCriteria();
+                        bool impostorFlag = role.ImpostorCriteria();
+                        bool loverFlag = role.LoverCriteria();
+                        bool roleFlag = role.RoleCriteria();
+                        bool gaFlag = role.GuardianAngelCriteria();
+                        player.NameText.text = role.NameText(
+                            selfFlag || deadFlag || role.Local,
+                            selfFlag || deadFlag || impostorFlag || roleFlag || gaFlag,
+                            selfFlag || deadFlag,
+                            loverFlag,
+                            player
+                        );
+                        if(role.ColorCriteria())
+                            player.NameText.color = role.Color;
                     }
                     else
                     {
-                        if (!localPlayer.Data.IsDead && localPlayer != player && player != null && player.Data != null)
-                        {
-                            if (CustomGameOptions.ImpostorsKnowTeam > 1 && localPlayer.Is(Faction.Impostors) && player.Is(Faction.Impostors))
-                            {
-                                playerState.NameText.color = Color.white;
-                                playerState.NameText.text = playerState.name;
-                            }
-
-                            if (localPlayer.Is(RoleEnum.Medic) && BodyReport.Colors[player.CurrentOutfit.ColorId] == BodyReport.ColorsEnum.Darker)
-                            {
-                                playerState.NameText.color = Color.black;
-                                playerState.NameText.text = playerState.name + "\nDarker Color";
-                            }
-                        }
-                        
                         try
                         {
-                            playerState.NameText.text = role.Player.GetDefaultOutfit()._playerName;
+                            player.NameText.text = role.Player.GetDefaultOutfit().PlayerName;
                         }
                         catch
                         {
@@ -640,26 +732,35 @@ namespace BetterTownOfUs.Roles
 
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {
-                    var flag = CustomGameOptions.ImpostorsKnowTeam > 1 && !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Is(Faction.Impostors) && PlayerControl.LocalPlayer != player && player.Is(Faction.Impostors);
-
-                    if (player.Data != null && (!(player.Is(Faction.Impostors) && PlayerControl.LocalPlayer.Is(Faction.Impostors)) || flag))
+                    if (!(player.Data != null && player.Data.IsImpostor() && PlayerControl.LocalPlayer.Data.IsImpostor()))
                     {
-                        player.nameText.text = player.name;
-                        player.nameText.color = Color.white;
-                        foreach (var bubble in HudManager.Instance.Chat.chatBubPool.activeChildren)
-                            if (flag) bubble.Cast<ChatBubble>().NameText.color = Color.white;
+                        player.nameText().text = player.name;
+                        player.nameText().color = Color.white;
                     }
 
                     var role = GetRole(player);
                     if (role != null)
-                        if (role.Criteria() && !flag)
+                        if (role.Criteria())
                         {
-                            player.nameText.color = role.Color;
-                            player.nameText.text = role.NameText();
-                            continue;
+
+                            bool selfFlag = role.SelfCriteria();
+                            bool deadFlag = role.DeadCriteria();
+                            bool impostorFlag = role.ImpostorCriteria();
+                            bool loverFlag = role.LoverCriteria();
+                            bool roleFlag = role.RoleCriteria();
+                            bool gaFlag = role.GuardianAngelCriteria();
+                            player.nameText().text = role.NameText(
+                                selfFlag || deadFlag || role.Local,
+                                selfFlag || deadFlag || impostorFlag || roleFlag || gaFlag,
+                                selfFlag || deadFlag,
+                                loverFlag
+                             );
+
+                            if (role.ColorCriteria())
+                                player.nameText().color = role.Color;
                         }
 
-                    if (player.Data != null && PlayerControl.LocalPlayer.Is(Faction.Impostors) && player.Is(Faction.Impostors)) continue;
+                    if (player.Data != null && PlayerControl.LocalPlayer.Data.IsImpostor() && player.Data.IsImpostor()) continue;
                 }
             }
         }

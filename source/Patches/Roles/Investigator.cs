@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using BetterTownOfUs.CrewmateRoles.InvestigatorMod;
 using UnityEngine;
 
@@ -9,10 +9,15 @@ namespace BetterTownOfUs.Roles
         public readonly List<Footprint> AllPrints = new List<Footprint>();
 
 
-        public Investigator(PlayerControl player) : base(player, RoleEnum.Investigator)
+        public Investigator(PlayerControl player) : base(player)
         {
-            ImpostorText = () => "Find all imposters by examining footprints";
+            Name = "Investigator";
+            ImpostorText = () => "Find all impostors by examining footprints";
             TaskText = () => "You can see everyone's footprints.";
+            Color = Patches.Colors.Investigator;
+            RoleType = RoleEnum.Investigator;
+            AddToRoleHistory(RoleType);
+            Scale = 1.4f;
         }
     }
 }

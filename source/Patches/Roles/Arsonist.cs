@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
-using UnityEngine;
+using BetterTownOfUs.Extensions;
 
 namespace BetterTownOfUs.Roles
 {
@@ -10,26 +10,24 @@ namespace BetterTownOfUs.Roles
     {
         private KillButton _igniteButton;
         public bool ArsonistWins;
-        public PlayerControl ClosestPlayer;
-        public readonly List<byte> DousedPlayers = new List<byte>();
-        public bool IgniteUsed;
+        public PlayerControl ClosestPlayerDouse;
+        public PlayerControl ClosestPlayerIgnite;
+        public List<byte> DousedPlayers = new List<byte>();
         public DateTime LastDoused;
 
+        public int DousedAlive => DousedPlayers.Count(x => Utils.PlayerById(x) != null && Utils.PlayerById(x).Data != null && !Utils.PlayerById(x).Data.IsDead);
 
-        public Arsonist(PlayerControl player) : base(player, RoleEnum.Arsonist)
+
+        public Arsonist(PlayerControl player) : base(player)
         {
+            Name = "Arsonist";
             ImpostorText = () => "Douse players and ignite the light";
             TaskText = () => "Douse players and ignite to kill everyone\nFake Tasks:";
-        }
-
-        protected override void DoOnGameStart()
-        {
-            LastDoused = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.DouseCd);
-        }
-
-        protected override void DoOnMeetingEnd()
-        {
+            Color = Patches.Colors.Arsonist;
             LastDoused = DateTime.UtcNow;
+            RoleType = RoleEnum.Arsonist;
+            AddToRoleHistory(RoleType);
+            Faction = Faction.Neutral;
         }
 
         public KillButton IgniteButton
@@ -45,7 +43,12 @@ namespace BetterTownOfUs.Roles
 
         internal override bool EABBNOODFGL(ShipStatus __instance)
         {
-            if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) == 0)
+            if (Player.Data.IsDead || Player.Data.Disconnected) return true;
+
+            if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) <= 2 &&
+                    PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected &&
+                    (x.Data.IsImpostor() || x.Is(RoleEnum.Glitch) || x.Is(RoleEnum.Juggernaut) ||
+                    x.Is(RoleEnum.Werewolf) || x.Is(RoleEnum.Plaguebearer) || x.Is(RoleEnum.Pestilence))) == 0)
             {
                 var writer = AmongUsClient.Instance.StartRpcImmediately(
                     PlayerControl.LocalPlayer.NetId,
@@ -60,15 +63,12 @@ namespace BetterTownOfUs.Roles
                 return false;
             }
 
-            if (IgniteUsed || Player.Data.IsDead) return true;
-
-            return !CustomGameOptions.ArsonistGameEnd;
+            return false;
         }
 
 
         public void Wins()
         {
-            //System.Console.WriteLine("Reached Here - Glitch Edition");
             ArsonistWins = true;
         }
 
@@ -77,27 +77,11 @@ namespace BetterTownOfUs.Roles
             LostByRPC = true;
         }
 
-        public bool CheckEveryoneDoused()
-        {
-            var arsoId = Player.PlayerId;
-            foreach (var player in PlayerControl.AllPlayerControls)
-            {
-                if (
-                    player.PlayerId == arsoId ||
-                    player.Data.IsDead ||
-                    player.Data.Disconnected
-                ) continue;
-                if (!DousedPlayers.Contains(player.PlayerId)) return false;
-            }
-
-            return true;
-        }
-
-        protected override void IntroPrefix(IntroCutscene._CoBegin_d__18 __instance)
+        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__21 __instance)
         {
             var arsonistTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
             arsonistTeam.Add(PlayerControl.LocalPlayer);
-            __instance.yourTeam = arsonistTeam;
+            __instance.teamToShow = arsonistTeam;
         }
 
         public float DouseTimer()
@@ -108,6 +92,24 @@ namespace BetterTownOfUs.Roles
             var flag2 = num - (float) timeSpan.TotalMilliseconds < 0f;
             if (flag2) return 0;
             return (num - (float) timeSpan.TotalMilliseconds) / 1000f;
+        }
+
+        public void Ignite()
+        {
+            System.Console.WriteLine("Ignite 1");
+            foreach (var playerId in DousedPlayers)
+            {
+                var player = Utils.PlayerById(playerId);
+                if (
+                    player == null ||
+                    player.Data.Disconnected ||
+                    player.Data.IsDead ||
+                    player.Is(RoleEnum.Pestilence)
+                ) continue;
+                Utils.MurderPlayer(Player, player);
+            }
+            DousedPlayers.Clear();
+            System.Console.WriteLine("Ignite 2");
         }
     }
 }

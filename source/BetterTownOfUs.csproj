@@ -1,34 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <Time>$([System.DateTime]::Now.ToString("yyyyMMddHmm"))</Time>
-    <AssemblyVersion>2.1.0</AssemblyVersion>
-    <Version>2.1.0</Version>
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
-  
-  <PropertyGroup>
-    <GameProvider>Static</GameProvider>
-    <GameVersion>$(AmongUs)</GameVersion>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Reactor" Version="1.1.0" />
-    <PackageReference Include="Reactor.MSBuild" Version="0.1.5" />
-  </ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<Version>2.1.12.1</Version>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\*" />
-    <EmbeddedResource Include="Resources\Hats\**" />
-  </ItemGroup>
- 
+	<PropertyGroup>
+		<GameProvider>Static</GameProvider>
+		<LangVersion>latest</LangVersion>
+		<GameVersion>$(AmongUs)</GameVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Reactor" Version="1.0.0-rc.1" />
+		<PackageReference Include="Reactor.MSBuild" Version="0.1.5" />
+	</ItemGroup>
+
 	<Target Name="Copy" AfterTargets="Build">
-		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(GameVersion)/BepInEx/plugins/" />
+		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)\BepInEx\plugins" />
 	</Target>
 
-  <ItemGroup>
-    <Content Include="..\README.md">
-      <Link>README.md</Link>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\*" />
+		<EmbeddedResource Include="Resources\Hats\**" />
+	</ItemGroup>
 </Project>

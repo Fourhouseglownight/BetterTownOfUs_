@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Linq;
+using BetterTownOfUs.Extensions;
 
 namespace BetterTownOfUs.Roles
 {
@@ -10,24 +11,27 @@ namespace BetterTownOfUs.Roles
         public bool Enabled;
         public DateTime LastFlashed;
         public float TimeRemaining;
-        public bool Flashed => TimeRemaining > 0f;
         public static Il2CppSystem.Collections.Generic.List<PlayerControl> closestPlayers = null;
 
-        public Grenadier(PlayerControl player) : base(player, RoleEnum.Grenadier)
+        static readonly Color normalVision = new Color(0.83f, 0.83f, 0.83f, 0f);
+        static readonly Color dimVision = new Color(0.83f, 0.83f, 0.83f, 0.2f);
+        static readonly Color blindVision = new Color(0.83f, 0.83f, 0.83f, 1f);
+        public Il2CppSystem.Collections.Generic.List<PlayerControl> flashedPlayers = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+
+        public Grenadier(PlayerControl player) : base(player)
         {
+            Name = "Grenadier";
             ImpostorText = () => "Hinder the Crewmates Vision";
             TaskText = () => "Blind the crewmates to get sneaky kills";
-        }
-
-        protected override void DoOnGameStart()
-        {
-            LastFlashed = DateTime.UtcNow.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.WolfCd);
-        }
-
-        protected override void DoOnMeetingEnd()
-        {
+            Color = Patches.Colors.Impostor;
             LastFlashed = DateTime.UtcNow;
+            RoleType = RoleEnum.Grenadier;
+            AddToRoleHistory(RoleType);
+            Faction = Faction.Impostors;
         }
+
+        public bool Flashed => TimeRemaining > 0f;
+
 
         public KillButton FlashButton
         {
@@ -55,6 +59,7 @@ namespace BetterTownOfUs.Roles
             if (Enabled != true)
             {
                 closestPlayers = FindClosestPlayers(Player);
+                flashedPlayers = closestPlayers;
             }
             Enabled = true;
             TimeRemaining -= Time.deltaTime;
@@ -72,16 +77,18 @@ namespace BetterTownOfUs.Roles
                     if (TimeRemaining > CustomGameOptions.GrenadeDuration - 0.5f && (!sabActive | dummyActive))
                     {
                         float fade = (TimeRemaining - CustomGameOptions.GrenadeDuration) * -2.0f;
-                        if (!player.Is(Faction.Impostors) && !player.Data.IsDead && !MeetingHud.Instance)
+                        if (ShouldPlayerBeBlinded(player))
                         {
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp((new Color(0.83f, 0.83f, 0.83f, 0f)), (new Color(0.83f, 0.83f, 0.83f, 1f)), fade);
+                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp(normalVision, blindVision, fade);
                         }
-                        else if ((player.Is(Faction.Impostors) || player.Data.IsDead) && !MeetingHud.Instance)
+                        else if (ShouldPlayerBeDimmed(player))
                         {
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp((new Color(0.83f, 0.83f, 0.83f, 0f)), (new Color(0.83f, 0.83f, 0.83f, 0.2f)), fade);
-                            if (PlayerControl.LocalPlayer.Is(Faction.Impostors) && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
+                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp(normalVision, dimVision, fade);
+                            if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
                             {
                                 MapBehaviour.Instance.infectedOverlay.SabSystem.Timer = 0.5f;
                             }
@@ -89,21 +96,24 @@ namespace BetterTownOfUs.Roles
                         else
                         {
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = new Color(0.83f, 0.83f, 0.83f, 0f);
+                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = normalVision;
                         }
                     }
                     else if (TimeRemaining <= (CustomGameOptions.GrenadeDuration - 0.5f) && TimeRemaining >= 0.5f && (!sabActive | dummyActive))
                     {
-                        if ((!player.Is(Faction.Impostors) && !player.Data.IsDead) && !MeetingHud.Instance)
+                        if (ShouldPlayerBeBlinded(player))
                         {
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = new Color(0.83f, 0.83f, 0.83f, 1f);
+                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = blindVision;
                         }
-                        else if ((player.Is(Faction.Impostors) || player.Data.IsDead) && !MeetingHud.Instance)
+                        else if (ShouldPlayerBeDimmed(player))
                         {
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = new Color(0.83f, 0.83f, 0.83f, 0.2f);
-                            if (PlayerControl.LocalPlayer.Is(Faction.Impostors) && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
+                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = dimVision;
+                            if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
                             {
                                 MapBehaviour.Instance.infectedOverlay.SabSystem.Timer = 0.5f;
                             }
@@ -111,22 +121,25 @@ namespace BetterTownOfUs.Roles
                         else
                         {
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = new Color(0.83f, 0.83f, 0.83f, 0f);
+                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = normalVision;
                         }
                     }
                     else if (TimeRemaining < 0.5f && (!sabActive | dummyActive))
                     {
                         float fade2 = (TimeRemaining * -2.0f) + 1.0f;
-                        if ((!player.Is(Faction.Impostors) && !player.Data.IsDead) && !MeetingHud.Instance)
+                        if (ShouldPlayerBeBlinded(player))
                         {
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp((new Color(0.83f, 0.83f, 0.83f, 1f)), (new Color(0.83f, 0.83f, 0.83f, 0f)), fade2);
+                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp(blindVision, normalVision, fade2);
                         }
-                        else if ((player.Is(Faction.Impostors) || player.Data.IsDead) && !MeetingHud.Instance)
+                        else if (ShouldPlayerBeDimmed(player))
                         {
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp((new Color(0.83f, 0.83f, 0.83f, 0.2f)), (new Color(0.83f, 0.83f, 0.83f, 0f)), fade2);
-                            if (PlayerControl.LocalPlayer.Is(Faction.Impostors) && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
+                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp(dimVision, normalVision, fade2);
+                            if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
                             {
                                 MapBehaviour.Instance.infectedOverlay.SabSystem.Timer = 0.5f;
                             }
@@ -134,13 +147,15 @@ namespace BetterTownOfUs.Roles
                         else
                         {
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = new Color(0.83f, 0.83f, 0.83f, 0f);
+                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = normalVision;
                         }
                     }
                     else
                     {
                         ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                        DestroyableSingleton<HudManager>.Instance.FullScreen.color = new Color(0.83f, 0.83f, 0.83f, 0f);
+                        ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                        DestroyableSingleton<HudManager>.Instance.FullScreen.color = normalVision;
                         TimeRemaining = 0.0f;
                     }
                 }
@@ -148,11 +163,19 @@ namespace BetterTownOfUs.Roles
 
             if (TimeRemaining > 0.5f)
             {
-                if (PlayerControl.LocalPlayer.Is(Faction.Impostors) && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
+                if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
                 {
                     MapBehaviour.Instance.infectedOverlay.SabSystem.Timer = 0.5f;
                 }
             }
+        }
+
+        private static bool ShouldPlayerBeDimmed(PlayerControl player) {
+            return (player.Data.IsImpostor() || player.Data.IsDead) && !MeetingHud.Instance;
+        }
+
+        private static bool ShouldPlayerBeBlinded(PlayerControl player) {
+            return !player.Data.IsImpostor() && !player.Data.IsDead && !MeetingHud.Instance;
         }
 
         public void UnFlash()
@@ -160,13 +183,14 @@ namespace BetterTownOfUs.Roles
             Enabled = false;
             LastFlashed = DateTime.UtcNow;
             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-            DestroyableSingleton<HudManager>.Instance.FullScreen.color = new Color(0.83f, 0.83f, 0.83f, 0f);
+            DestroyableSingleton<HudManager>.Instance.FullScreen.color = normalVision;
+            flashedPlayers.Clear();
         }
 
         public static Il2CppSystem.Collections.Generic.List<PlayerControl> FindClosestPlayers(PlayerControl player)
         {
             Il2CppSystem.Collections.Generic.List<PlayerControl> playerControlList = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
-            float impostorLightMod = PlayerControl.GameOptions.ImpostorLightMod;
+            float flashRadius = CustomGameOptions.FlashRadius * 5;
             Vector2 truePosition = player.GetTruePosition();
             Il2CppSystem.Collections.Generic.List<GameData.PlayerInfo> allPlayers = GameData.Instance.AllPlayers;
             for (int index = 0; index < allPlayers.Count; ++index)
@@ -176,7 +200,7 @@ namespace BetterTownOfUs.Roles
                 {
                     Vector2 vector2 = new Vector2(playerInfo.Object.GetTruePosition().x - truePosition.x, playerInfo.Object.GetTruePosition().y - truePosition.y);
                     float magnitude = ((Vector2) vector2).magnitude;
-                    if (magnitude <= impostorLightMod * 5)
+                    if (magnitude <= flashRadius)
                     {
                         PlayerControl playerControl = playerInfo.Object;
                         playerControlList.Add(playerControl);

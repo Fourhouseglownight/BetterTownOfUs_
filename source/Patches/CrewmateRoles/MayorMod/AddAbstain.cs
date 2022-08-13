@@ -7,15 +7,13 @@ namespace BetterTownOfUs.CrewmateRoles.MayorMod
 {
     public class AddAbstain
     {
-        private static Sprite Abstain => BetterTownOfUs.Abstain;
-
         public static void UpdateButton(Mayor role, MeetingHud __instance)
         {
             var skip = __instance.SkipVoteButton;
             role.Abstain.gameObject.SetActive(skip.gameObject.active && !role.VotedOnce);
             role.Abstain.voteComplete = skip.voteComplete;
             role.Abstain.GetComponent<SpriteRenderer>().enabled = skip.GetComponent<SpriteRenderer>().enabled;
-            //role.Abstain.skipVoteText.text = "Abstain";
+            role.Abstain.GetComponentsInChildren<TextMeshPro>()[0].text = "Abstain";
         }
 
 
