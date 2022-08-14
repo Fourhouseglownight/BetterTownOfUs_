@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/github/downloads/VincentVision/BetterTownOfUs/total?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)   
 [![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/2.1.13/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/tag/2.1.13)
 [![Open Issues](https://img.shields.io/github/issues-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)
-[![Closed Issues](https://img.shields.io/github/issues-closed-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)  
+[![Closed Issues](https://img.shields.io/github/issues-closed-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/issues?q=is%3Aissue+is%3Aclosed)  
 [![Discord](https://img.shields.io/discord/867814078332534815?color=7289DA&label=%20&logo=discord&logoColor=ffffff&style=plastic)](https://dsc.gg/visionfamily)
 [![Followers](https://img.shields.io/github/followers/VincentVision?style=social)](https://github.com/VincentVision/)
 [![Site](https://img.shields.io/website?down_color=D9644D&down_message=offline&label=VisionUniverse.fr&logo=v&logoColor=3769fe&style=plastic&up_color=018001&up_message=online&url=https%3A%2F%2Fvisionuniverse.fr)](https://github.com/VincentVision/)
