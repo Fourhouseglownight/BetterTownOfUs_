@@ -152,6 +152,7 @@ namespace BetterTownOfUs.CustomOption
         public static CustomStringOption WhoGetsNotification;
         public static CustomToggleOption ShieldBreaks;
         public static CustomToggleOption MedicReportSwitch;
+        public static CustomToggleOption MedicFlashReport;
         public static CustomNumberOption MedicReportNameDuration;
         public static CustomNumberOption MedicReportColorDuration;
 
@@ -473,6 +474,8 @@ namespace BetterTownOfUs.CustomOption
                 PercentFormat);
 
             NeutralEvilRoles = new CustomHeaderOption(num++, "Neutral Evil Roles");
+            ArsonistOn = new CustomNumberOption(true, num++, "<color=#FF4D00FF>Arsonist</color>", 40f, 0f, 100f, 05f,
+                PercentFormat);
             ExecutionerOn = new CustomNumberOption(true, num++, "<color=#8C4005FF>Executioner</color>", 90f, 0f, 100f, 05f,
                 PercentFormat);
             JesterOn = new CustomNumberOption(true, num++, "<color=#FFBFCCFF>Jester</color>", 90f, 0f, 100f, 05f,
@@ -483,8 +486,6 @@ namespace BetterTownOfUs.CustomOption
                 PercentFormat);
 
             NeutralKillingRoles = new CustomHeaderOption(num++, "Neutral Killing Roles");
-            ArsonistOn = new CustomNumberOption(true, num++, "<color=#FF4D00FF>Arsonist</color>", 40f, 0f, 100f, 05f,
-                PercentFormat);
             PlaguebearerOn = new CustomNumberOption(true, num++, "<color=#E6FFB3FF>Plaguebearer</color>", 100f, 0f, 100f, 05f,
                 PercentFormat);
             GlitchOn = new CustomNumberOption(true, num++, "<color=#00FF00FF>The Glitch</color>", 100f, 0f, 100f, 05f,
@@ -734,6 +735,7 @@ namespace BetterTownOfUs.CustomOption
                     new[] { "Medic", "Shielded", "Everyone", "Nobody" });
             ShieldBreaks = new CustomToggleOption(num++, "Shield Breaks On Murder Attempt", true);
             MedicReportSwitch = new CustomToggleOption(num++, "Show Medic Reports", true);
+            MedicFlashReport = new CustomToggleOption(num++, "Medic Reports Can't Have Name If Flashed By Grenadier", true);
             MedicReportNameDuration =
                 new CustomNumberOption(num++, "Time Where Medic Will Have Name", 2.5f, 0, 90, 0.5f,
                     CooldownFormat);
@@ -834,6 +836,12 @@ namespace BetterTownOfUs.CustomOption
             MaxVests =
                 new CustomNumberOption(num++, "Maximum Number Of Vests", 5, 0, 90, 1);
 
+            Arsonist = new CustomHeaderOption(num++, "<color=#FF4D00FF>Arsonist</color>");
+            DouseCooldown =
+                new CustomNumberOption(num++, "Douse Cooldown", 30f, 2.5f, 90f, 2.5f, CooldownFormat);
+            MaxDoused =
+                new CustomNumberOption(num++, "Maximum Alive Players Doused", 5, 0, 15, 1);
+
             Executioner =
                 new CustomHeaderOption(num++, "<color=#8C4005FF>Executioner</color>");
             OnTargetDead = new CustomStringOption(num++, "Executioner Becomes On Target Dead",
@@ -863,12 +871,6 @@ namespace BetterTownOfUs.CustomOption
                 new CustomHeaderOption(num++, "<color=#662962FF>Phantom</color>");
             PhantomTasksRemaining =
                  new CustomNumberOption(num++, "Tasks Remaining When Phantom Can Be Clicked", 4, 0, 15, 1);
-
-            Arsonist = new CustomHeaderOption(num++, "<color=#FF4D00FF>Arsonist</color>");
-            DouseCooldown =
-                new CustomNumberOption(num++, "Douse Cooldown", 30f, 2.5f, 90f, 2.5f, CooldownFormat);
-            MaxDoused =
-                new CustomNumberOption(num++, "Maximum Alive Players Doused", 5, 0, 15, 1);
 
             Plaguebearer = new CustomHeaderOption(num++, "<color=#E6FFB3FF>Plaguebearer</color>");
             InfectCooldown =

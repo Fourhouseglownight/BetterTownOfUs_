@@ -34,7 +34,7 @@ namespace BetterTownOfUs.CrewmateRoles.MedicMod
             bool grenade = false;
             foreach (Role grenadier in Role.GetRoles(RoleEnum.Grenadier)) grenade = ((Grenadier) grenadier).flashedPlayers.Contains(br.Reporter);
 
-            if (!grenade && br.KillAge < CustomGameOptions.MedicReportNameDuration * 1000)
+            if (!(CustomGameOptions.MedicFlashReport && grenade) && br.KillAge < CustomGameOptions.MedicReportNameDuration * 1000)
                 return
                     $"Body Report: The killer appears to be {br.Killer.Data.PlayerName}! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
 
