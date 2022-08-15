@@ -143,6 +143,10 @@ namespace BetterTownOfUs
         public static bool SnitchSeesNeutrals => Generate.SnitchSeesNeutrals.Get();
         public static int SnitchTasksRemaining => (int)Generate.SnitchTasksRemaining.Get();
         public static bool SnitchSeesImpInMeeting => Generate.SnitchSeesImpInMeeting.Get();
+        public static float SpyCd => Generate.SpyCd.Get();
+        public static float SpyDuration => Generate.SpyDuration.Get();
+        public static bool SpyVitals => Generate.SpyVitals.Get();
+        public static bool SpyAdmin => Generate.SpyAdmin.Get() || !SpyVitals;
         public static float MineCd => Generate.MineCooldown.Get();
         public static float SwoopCd => Generate.SwoopCooldown.Get();
         public static float SwoopDuration => Generate.SwoopDuration.Get();
@@ -159,6 +163,7 @@ namespace BetterTownOfUs
         public static int MinNeutralNonKillingRoles => (int)Generate.MinNeutralNonKillingRoles.Get();
         public static int MaxNeutralNonKillingRoles => (int)Generate.MaxNeutralNonKillingRoles.Get();
         public static bool BegninNeutralHasTasks => Generate.BegninNeutralHasTasks.Get();
+        public static bool JesterXExec => Generate.JesterXExec.Get();
         public static int MinNeutralKillingRoles => (int)Generate.MinNeutralKillingRoles.Get();
         public static int MaxNeutralKillingRoles => (int)Generate.MaxNeutralKillingRoles.Get();
         public static bool ParallelMedScans => Generate.ParallelMedScans.Get();
@@ -253,6 +258,7 @@ namespace BetterTownOfUs
         public static float BaitMaxDelay => Generate.BaitMaxDelay.Get();
         public static float InfectCd => Generate.InfectCooldown.Get();
         public static float PestKillCd => Generate.PestKillCooldown.Get();
+        public static bool PlaguebearerEndGame => Generate.PlaguebearerEndGame.Get();
         public static bool PestVent => Generate.PestVent.Get();
         public static float RampageCd => Generate.RampageCooldown.Get();
         public static float RampageDuration => Generate.RampageDuration.Get();

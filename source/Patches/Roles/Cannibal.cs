@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using Hazel;
 
 namespace BetterTownOfUs.Roles
@@ -9,6 +10,7 @@ namespace BetterTownOfUs.Roles
         public DateTime LastEat { get; set; }
         public int EatNeeded;
         public bool CannibalWins;
+        public TextMeshPro UsesText;
 
         public Cannibal(PlayerControl player) : base(player)
         {

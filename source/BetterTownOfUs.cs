@@ -28,7 +28,7 @@ namespace BetterTownOfUs
         internal static BepInEx.Logging.ManualLogSource Logger;
         public const string Id = "fr.vincentvision.bettertownofus";
         public static string GetVersion() => typeof(BetterTownOfUs).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-        public const string ReleaseVersion = "2.1.13";
+        public const string ReleaseVersion = "2.1.14";
         public static string Beta = GetVersion().Substring(GetVersion().LastIndexOf(".") + 1);
         public static string DisplayVersion = Beta == "0" ?
                 ReleaseVersion :
@@ -65,6 +65,7 @@ namespace BetterTownOfUs
         public static Sprite PoisonedSprite;
         public static Sprite TransportSprite;
         public static Sprite MediateSprite;
+        public static Sprite SpySprite;
         public static Sprite VestSprite;
         public static Sprite ProtectSprite;
         public static Sprite BlackmailSprite;
@@ -137,6 +138,7 @@ namespace BetterTownOfUs
             PoisonedSprite = CreateSprite("BetterTownOfUs.Resources.Poisoned.png");
             TransportSprite = CreateSprite("BetterTownOfUs.Resources.Transport.png");
             MediateSprite = CreateSprite("BetterTownOfUs.Resources.Mediate.png");
+            SpySprite = CreateSprite("BetterTownOfUs.Resources.Spy.png");
             VestSprite = CreateSprite("BetterTownOfUs.Resources.Vest.png");
             ProtectSprite = CreateSprite("BetterTownOfUs.Resources.Protect.png");
             BlackmailSprite = CreateSprite("BetterTownOfUs.Resources.Blackmail.png");

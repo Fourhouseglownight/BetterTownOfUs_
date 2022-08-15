@@ -25,6 +25,22 @@ namespace BetterTownOfUs.NeutralRoles.CannibalMod
                 role.CleanButton.GetComponent<AspectPosition>().DistanceFromEdge = BetterTownOfUs.ButtonPosition;
                 role.CleanButton.gameObject.SetActive(false);
             }
+            if (role.UsesText == null)
+            {
+                role.UsesText = Object.Instantiate(role.CleanButton.cooldownTimerText, role.CleanButton.transform);
+                role.UsesText.gameObject.SetActive(true);
+                role.UsesText.transform.localPosition = new Vector3(
+                    role.UsesText.transform.localPosition.x + 0.26f,
+                    role.UsesText.transform.localPosition.y + 0.29f,
+                    role.UsesText.transform.localPosition.z);
+                role.UsesText.transform.localScale = role.UsesText.transform.localScale * 0.65f;
+                role.UsesText.alignment = TMPro.TextAlignmentOptions.Right;
+                role.UsesText.fontStyle = TMPro.FontStyles.Bold;
+            }
+            if (role.UsesText != null)
+            {
+                role.UsesText.text = role.EatNeeded + "";
+            }
 
             role.CleanButton.GetComponent<AspectPosition>().Update();
             role.CleanButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);

@@ -26,11 +26,15 @@ namespace BetterTownOfUs.NeutralRoles.CannibalMod
                 component.material.SetColor("_OutlineColor", Color.yellow);
                 __instance.graphic.color = Palette.EnabledColor;
                 __instance.graphic.material.SetFloat("_Desat", 0f);
+                role.UsesText.color = Palette.EnabledColor;
+                role.UsesText.material.SetFloat("_Desat", 0f);
                 return;
             }
 
             __instance.graphic.color = Palette.DisabledClear;
             __instance.graphic.material.SetFloat("_Desat", 1f);
+            role.UsesText.color = Palette.DisabledClear;
+            role.UsesText.material.SetFloat("_Desat", 1f);
         }
     }
 }

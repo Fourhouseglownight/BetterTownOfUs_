@@ -13,7 +13,6 @@ namespace BetterTownOfUs.NeutralRoles.CannibalMod
 
         public static IEnumerator CleanCoroutine(DeadBody body, Cannibal role)
         {
-            KillButtonTarget.SetTarget(DestroyableSingleton<HudManager>.Instance.KillButton, null, role);
             var renderer = body.bodyRenderer;
             var backColor = renderer.material.GetColor(BackColor);
             var bodyColor = renderer.material.GetColor(BodyColor);

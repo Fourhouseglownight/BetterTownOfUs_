@@ -3,21 +3,23 @@
 [![Release Version](https://img.shields.io/github/v/release/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Release Date](https://img.shields.io/github/release-date/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Total Downloads](https://img.shields.io/github/downloads/VincentVision/BetterTownOfUs/total?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)   
-[![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/1.2.1/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.1)
+[![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/2.1.13/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/tag/2.1.13)
 [![Open Issues](https://img.shields.io/github/issues-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)
-[![Closed Issues](https://img.shields.io/github/issues-closed-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)  
+[![Closed Issues](https://img.shields.io/github/issues-closed-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/issues?q=is%3Aissue+is%3Aclosed)  
 [![Discord](https://img.shields.io/discord/867814078332534815?color=7289DA&label=%20&logo=discord&logoColor=ffffff&style=plastic)](https://dsc.gg/visionfamily)
 [![Followers](https://img.shields.io/github/followers/VincentVision?style=social)](https://github.com/VincentVision/)
 [![Site](https://img.shields.io/website?down_color=D9644D&down_message=offline&label=VisionUniverse.fr&logo=v&logoColor=3769fe&style=plastic&up_color=018001&up_message=online&url=https%3A%2F%2Fvisionuniverse.fr)](https://github.com/VincentVision/)
 
 ---
 
-Imaginé par la communauté **[Discord francophone de Town of Us](https://dsc.gg/visionfamily)**, ce mod Among Us modifie **__[Town of Us](https://github.com/Anusien/Town-Of-Us)__** en lui ajoutant plein d'options afin de le perfectionner.  
-Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfamily)** community, this Among Us mod modifies **__[Town of Us](https://github.com/Anusien/Town-Of-Us)__** by adding lots of options to improve it.  
+Imaginé par la communauté **[Discord francophone de Town of Us](https://dsc.gg/visionfamily)**, ce mod Among Us modifie **__[Town of Us](https://github.com/eDonnes124/Town-Of-Us-R)__** en lui ajoutant plein d'options afin de le perfectionner.  
+Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfamily)** community, this Among Us mod modifies **__[Town of Us](https://github.com/eDonnes124/Town-Of-Us-R)__** by adding lots of options to improve it.  
 <details>
-  <summary>Ce que ce mod ajoute (cliques sur la flèche pour dérouler, certains ajouts ne sont disponnibles qu'en bêta 2.1.0)./What this mod adds (click on the arrow to expand, some adds is only available on beta 2.1.0).</summary>
-  <ul> <li>Paramètre "Mode Streamer"/"Streamer Mode" Setting. </li> </ul>
+  <summary>Ce que ce mod ajoute (cliques sur la flèche pour dérouler)./What this mod adds (click on the arrow to expand).</summary>
+  <ul> <li>Remplacement du système aléatoire pour une génération plus aléatoire/RNG Replacement for a better random genration. </li> </ul>
   <ul> <li>Timmer de Lobby/Lobby Timer. </li> </ul>
+  <ul> <li>Option "Max Players" pour changer le nombre max de joueurs directement dans le lobby/"Max Players" option to change the max players number directly in lobby. </li> </ul>
+  <ul><li>les paramètres par défaut sont réglé sur les paramètres recommandé./Default recommanded settings. </ul></li>
   <ul> <li>Options "Better Polus"/"Better Polus" options.
     <details>
       <ul> <li>Option "Vitals in Laboratory"/"Vitals in Laboratory" option. </li> </ul>
@@ -25,23 +27,22 @@ Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfami
       <ul> <li>Option "New Tasks Positions"/"New Tasks Positions" option. </li> </ul>
     </details>
   </li> </ul>
-  <ul> <li>Options "Impostors Don't Know Their Team" et "Impostors Can Win Solo"/"Impostors Don't Know Their Team" and "Impostors Can Win Solo" options. </li> </ul>
+  <!-- <ul> <li>Options "Impostors Don't Know Their Team" et "Impostors Can Win Solo"/"Impostors Don't Know Their Team" and "Impostors Can Win Solo" options. </li> </ul>
   <ul> <li>Rôle Imposteur "Lycan"/"Lycan" Imposotor Role. </li> </ul>
-  <ul> <li>Rôle Neutre "Parasite"/"Parasite" Neutral Role. </li> </ul>
+  <ul> <li>Rôle Neutre "Parasite"/"Parasite" Neutral Role. </li> </ul> -->
   <ul> <li>Rôle Neutre "Cannibal"/"Cannibal" Neutral Role. </li> </ul>
-  <ul> <li>Rôle Neutre "Mentalist"/"Mentalist" Neutral Role. </li> </ul>
+  <!-- <ul> <li>Rôle Neutre "Mentalist"/"Mentalist" Neutral Role. </li> </ul>
   <ul> <li>L'Assassin devient un modifieur Imposteur/Assassin become a Impostor Modifier. </li> </ul>
   <ul> <li>Option "Can't kill players in vent"/"Can't kill players in vent" option. </li> </ul>
   <ul> <li>Option "Loving Impostor can't kill his Lover"/"Loving Impostor can't kill his Lover" option. </li> </ul>
-  <ul> <li>Option "Can't report voted Lover"/"Can't report voted Lover" option. </li> </ul>
-  <ul> <li>Option "Jester Can Take Vent"/"Jester Can Take Vent" option. </li> </ul>
-  <ul> <li>Option "Shifter Suicide on Sheriff Kills"/"Shifter Suicide on Sheriff Kills" option. </li> </ul>
-  <ul> <li>Augmente la limite d'assassinat de l'assassin de 5 à 15/Increase limit of assassin's kills from 5 to 15. </li> </ul>
-  <ul> <li>Option "Can Missing Guess 1 Time" pour les Guessers/"Can Missing Guess 1 Time" option for the Guessers. </li> </ul>
+  <ul> <li>Option "Can't report voted Lover"/"Can't report voted Lover" option. </li> </ul>  -->
+  <ul> <li>Option "Jester Can Switch Beetween Vent"/"Jester Can Switch Beetween Vent" option. </li> </ul>
+  <ul> <li>Option "Killing Neutral Can Guess"/"Killing Neutral Can Guess" option. </li> </ul>
+  <!-- <ul> <li>Option "Shifter Suicide on Sheriff Kills"/"Shifter Suicide on Sheriff Kills" option. </li> </ul> -->
+  <ul> <li>Option "Can Missing Guess 1 Time" pour les Assassin 1 par équipe/"Can Missing Guess 1 Time" option for the Assassin 1 per Team. </li> </ul>
   <ul> <li>Option "Who gets Guesser miss kill indicator" pour le Miss Kill de l'Assassin/"Who gets Guesser miss kill indicator" option for Miss Kill of the Assassin. </li> </ul>
   <ul> <li>Modifie l'interval pour les traces de pas de l'investigateur de 2.5 à 0.25/Modify interval for Investigator's foot print size option from 2.5 to 0.25. </li> </ul>
   <ul> <li>Modifie l'interval pour le rapport du Medic de 2.5 à 0.5/Modify interval for Medic's report duration option from 2.5 to 0.5. </li> </ul>
-  <ul> <li>Le Medic verra le pseudo des couleurs sombres en noirs pendant les meetings/Medic sees the darker color player's name in black during meeting. </li> </ul>
   <ul> <li>Un tas d'options pour l'Engineer/A bunch of options for Engineer's fixes. 
     <details>
       <ul> <li>Ajout de l'option "Custom" pour l'option "Engineer Fix Per"/"Custom" to "Engineer Fix Per" option. </li> </ul>
@@ -51,8 +52,22 @@ Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfami
       <ul> <li>Option "Max Fixes Per Game"/"Number of Fixes Per Game" option. </li> </ul>
     </details>
   </li> </ul>
-  <ul> <li>Nouvelle couleur Panda/New Panda color. </li> </ul>
+  <ul> <li>Ajout des kills timing sur Vitals et un cooldown/duration pour le Spy/Add kills timing on Vitals and cooldown/duration for Spy. 
+    <details>
+      <ul> <li>Option "Spy Cooldown"/"Spy Cooldown" option. </li> </ul>
+      <ul> <li>Option "Spy Duration"/"Spy Duration" option. </li> </ul>
+      <ul> <li>Option "Spy See Colors On Admin Table"/"Spy See Colors On Admin Table" option. </li> </ul>
+      <ul> <li>Option "Spy See Kills Timing On Vitals"/"Spy See Kills Timing On Vitals" option. </li> </ul>
+      <ul> <li>Si les couleurs et les timings sont désactivé, les couleurs seront activés/If colors and timing was deactivate, colors are automaticaly activated. </li> </ul>
+    </details>
+  </li> </ul>
+  <ul> <li>Ajout de l'affichage du bouclier du medic pendant les meetings/Add shield display in meetings. </li> </ul>
+  <ul> <li>Option "Jester & Executioner Can Spawn In Same Game" permet d'avoir qu'un des 2 sans choisir/"Jester & Executioner Can Spawn In Same Game" option to have only one of two without choose. </li> </ul>
+  <ul> <li>Le Cannibal et le Janitor ne peuvent pas apparaître dans la meêm partie/Cannibal and Janitor can't spawn in same game. </li> </ul>
+  <ul> <li>Remplace la couleur arc-en-ciel par la couleur Panda/New Panda color replace the Rainbow color. </li> </ul>
   <ul> <li>Nouveau chapeau Panda/New Panda hat. </li> </ul>
+  <ul> <li>Nouveau chapeau Gok'Us/New Gok'Us hat. </li> </ul>
+  <ul> <li>Nouveau chapeau Pikach'Us/New Pikach'Us hat. </li> </ul>
 </details>  
 
 ## Sommaire/Summary  
@@ -78,6 +93,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfami
 
 | <center> Among Us - Version </center> | <center> Town of Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|---------------|
+| 2022.6.21s | 3.2.0 | v2.1.13 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/2.1.13) |
 | 2021.6.30s & 2021.11.9 (no recommanded) | 2.6.2 | v2.0.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.1) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.6.2 | v1.2.1 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.1) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.6.2 | v1.2.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.0) |
@@ -187,7 +203,7 @@ If you have any bugs or any need to contact me, join the **[Discord server](http
 
 # Credits | Resources
 
-[TownOfUs](https://github.com/Anusien/Town-Of-Us) & [TownOfUs-R](https://github.com/eDonnes124/Town-Of-Us-R) - Better Town of Us est une modification de ces mods./Better Town of Us is a modification of this mods. 
+[TownOfUs-R](https://github.com/eDonnes124/Town-Of-Us-R) - Better Town of Us est une modification de ces mods./Better Town of Us is a modification of this mods. 
 [Reactor](https://github.com/NuclearPowered/Reactor) - Le framework Among Us./The Among Us framework.  
 [BepInEx](https://github.com/BepInEx) - Le framework Unity./The Unity framework.  
 [Among Us Anonymous Impostors Mod](https://github.com/Wunax/Among-Us-Anonymous-Impostors-Mod) - Pour l'inspiration des options imposteurs anonymes./For inspiration of Anonymous Impostors Options.  
@@ -201,9 +217,7 @@ If you have any bugs or any need to contact me, join the **[Discord server](http
 [PhasmoFireGod](https://twitch.tv/PhasmoFireGod) - Artiste des bouttons./Buttons Art.  
 [TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - Pour l'inspiration du rôle Spy, le mode streamer et le timmer de Lobby./For the inspiration of the Spy roles, the streamer mode and the Lobby timmer.  
 
-[Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - Pour créer les options de jeu personnalisés./For created custom game options.  
-
-Iezzi - Pour l'idée du Mentalist (Analyst)/For Mentalist Idea (Analyst).
+[Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - Pour créer les options de jeu personnalisés./For created custom game options.
 
 ---
 <p align="center">Ce mod n'est pas affilié à Among Us ou à Innersloth LLC, et le contenu qu'il contient n'est pas approuvé ou autrement parrainé par Innersloth LLC. Certaines parties des documents contenus dans le présent document sont la propriété d'Innersloth LLC.</p>
