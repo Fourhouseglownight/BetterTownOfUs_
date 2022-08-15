@@ -735,7 +735,7 @@ namespace BetterTownOfUs.CustomOption
                     new[] { "Medic", "Shielded", "Everyone", "Nobody" });
             ShieldBreaks = new CustomToggleOption(num++, "Shield Breaks On Murder Attempt", true);
             MedicReportSwitch = new CustomToggleOption(num++, "Show Medic Reports", true);
-            MedicFlashReport = new CustomToggleOption(num++, "Medic Reports Can't Have Name If Flashed By Grenadier", true);
+            MedicFlashReport = new CustomToggleOption(num++, "Medic Report Can't Have Name If Flashed By Grenadier", true);
             MedicReportNameDuration =
                 new CustomNumberOption(num++, "Time Where Medic Will Have Name", 2.5f, 0, 90, 0.5f,
                     CooldownFormat);

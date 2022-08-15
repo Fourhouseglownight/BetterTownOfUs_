@@ -1447,7 +1447,7 @@
     },
     {
       "id": "vu_visor0002",
-      "name": "Super Gok'Us hat",
+      "name": "Gok'Us SSJ hat",
       "artist": "Gusgus"
     },
     {
@@ -1459,6 +1459,16 @@
       "id": "vu_hat0201",
       "name": "Mario hat",
       "artist": "KaKashi"
+    },
+    {
+      "id": "vu_hat0500",
+      "name": "Jotaro Kujo hat",
+      "artist": "Sagemo"
+    },
+    {
+      "id": "vu_hat0501",
+      "name": "Carlo Leonhardt hat",
+      "artist": "Sagemo"
     }
   ]
 }
