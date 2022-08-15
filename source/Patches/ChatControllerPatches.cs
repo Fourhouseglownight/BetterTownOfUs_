@@ -1,3 +1,4 @@
+using System;
 using HarmonyLib;
 
 namespace BetterTownOfUs
@@ -11,7 +12,10 @@ namespace BetterTownOfUs
             bool handled = false;
             if (text.ToLower().StartsWith("/set"))
             {
-                __instance.AddChat(PlayerControl.LocalPlayer, clearSettingsTxt(GameSettings.SettingsTxt).Remove(0, 25));
+                var txtArray = GameSettings.SettingsTxt.Remove(0, 27).Split("\n");
+                Array.Reverse(txtArray);
+                var txt = String.Join("\n", txtArray).Remove(0, 2);
+                __instance.AddChat(PlayerControl.LocalPlayer, clearSettingsTxt(txt));
                 handled = true;
             }
 
