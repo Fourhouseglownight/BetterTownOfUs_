@@ -28,13 +28,14 @@ namespace BetterTownOfUs
         {
             public static void Postfix(PlayerVoteArea __instance, [HarmonyArgument(0)] string plateId)
             {
-                if (CustomGameOptions.WhiteNameplates)
+                var viewData = DestroyableSingleton<HatManager>.Instance.GetNamePlateById("nameplate_NoPlate").viewData.viewData;
+                if (CustomGameOptions.WhiteNameplates && viewData != null)
                 {
-                    __instance.Background.sprite = DestroyableSingleton<HatManager>.Instance.GetNamePlateById("nameplate_NoPlate").viewData.viewData.Image;
+                    __instance.Background.sprite = viewData.Image;
                 }
 
 
-                if (CustomGameOptions.DisableLevels)
+                if (CustomGameOptions.DisableLevels && __instance.LevelNumberText.GetComponentInParent<SpriteRenderer>() != null)
                 {
                     __instance.LevelNumberText.GetComponentInParent<SpriteRenderer>().enabled = false;
                     __instance.LevelNumberText.GetComponentInParent<SpriteRenderer>().gameObject.SetActive(false);

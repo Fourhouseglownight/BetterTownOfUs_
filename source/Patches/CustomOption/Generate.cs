@@ -554,8 +554,8 @@ namespace BetterTownOfUs.CustomOption
                 new CustomNumberOption(num++, "Game Start Cooldowns", 20, 5, 40, 2.5f, CooldownFormat);
             ParallelMedScans = new CustomToggleOption(num++, "Parallel Medbay Scans", true);
             SkipButtonDisable = new CustomStringOption(num++, "Disable Meeting Skip Button", new[] { "No", "Emergency", "Always" });
-            DisableLevels = new CustomToggleOption(num++, "Disable Level Icons", true);
-            WhiteNameplates = new CustomToggleOption(num++, "Disable Player Nameplates", true);
+            DisableLevels = new CustomToggleOption(num++, "Disable Level Icons", false);
+            WhiteNameplates = new CustomToggleOption(num++, "Disable Player Nameplates", false);
             TaskTrackingSettings =
                 new CustomHeaderOption(num++, "Task Tracking Settings");
             SeeTasksDuringRound = new CustomToggleOption(num++, "See Tasks During Round", false);

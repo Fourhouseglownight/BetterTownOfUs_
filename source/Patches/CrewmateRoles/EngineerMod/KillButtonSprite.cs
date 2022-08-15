@@ -35,7 +35,7 @@ namespace BetterTownOfUs.CrewmateRoles.EngineerMod
             }
             if (role.UsesText != null)
             {
-                role.UsesText.text = role.EngiFixPerRound + "";
+                role.UsesText.text = role.EngiFixPerRound + "/" + role.EngiFixPerGame;
             }
             
             __instance.KillButton.graphic.sprite = Sprite;
