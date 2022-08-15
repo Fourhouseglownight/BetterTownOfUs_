@@ -20,7 +20,7 @@ using UnityEngine.SceneManagement;
 
 namespace BetterTownOfUs
 {
-    [BepInPlugin(Id, "Town Of Us", ReleaseVersion)]
+    [BepInPlugin(Id, "Better Town Of Us", ReleaseVersion)]
     [BepInDependency(ReactorPlugin.Id)]
     [BepInDependency(SubmergedCompatibility.SUBMERGED_GUID, BepInDependency.DependencyFlags.SoftDependency)]
     public class BetterTownOfUs : BasePlugin
@@ -29,6 +29,7 @@ namespace BetterTownOfUs
         public const string Id = "fr.vincentvision.bettertownofus";
         public static string GetVersion() => typeof(BetterTownOfUs).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
         public const string ReleaseVersion = "2.1.14";
+        public static System.Version Version = System.Version.Parse(ReleaseVersion);
         public static string Beta = GetVersion().Substring(GetVersion().LastIndexOf(".") + 1);
         public static string DisplayVersion = Beta == "0" ?
                 ReleaseVersion :
@@ -80,7 +81,7 @@ namespace BetterTownOfUs
 
         public static Sprite SettingsButtonSprite;
         public static Sprite ToUBanner;
-        public static Sprite UpdateTOUButton;
+        public static Sprite UpdateBTOUButton;
         public static Sprite UpdateSubmergedButton;
 
         public static Sprite HorseEnabledImage;
@@ -153,7 +154,7 @@ namespace BetterTownOfUs
 
             SettingsButtonSprite = CreateSprite("BetterTownOfUs.Resources.SettingsButton.png");
             ToUBanner = CreateSprite("BetterTownOfUs.Resources.BetterTownOfUsBanner.png");
-            UpdateTOUButton = CreateSprite("BetterTownOfUs.Resources.UpdateToUButton.png");
+            UpdateBTOUButton = CreateSprite("BetterTownOfUs.Resources.UpdateBToUButton.png");
             UpdateSubmergedButton = CreateSprite("BetterTownOfUs.Resources.UpdateSubmergedButton.png");
 
             HorseEnabledImage = CreateSprite("BetterTownOfUs.Resources.HorseOn.png");

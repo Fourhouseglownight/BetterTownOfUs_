@@ -11,6 +11,7 @@ namespace BetterTownOfUs
     public static class GameSettings
     {
         public static bool AllOptions;
+        public static string SettingsTxt;
 
         [HarmonyPatch]
         private static class GameOptionsDataPatch
@@ -39,7 +40,7 @@ namespace BetterTownOfUs
                     else builder.AppendLine($"{option.Name}: {option}");
                 }
 
-                __result = builder.ToString();
+                SettingsTxt = __result = builder.ToString();
                 __result = $"<size=1.25>{__result}</size>";
             }
         }
@@ -49,7 +50,7 @@ namespace BetterTownOfUs
         {
             public static void Postfix(ref GameOptionsMenu __instance)
             {
-                __instance.GetComponentInParent<Scroller>().ContentYBounds.max = (__instance.Children.Length - 6.5f) / 2;
+                __instance.GetComponentInParent<Scroller>().ContentYBounds.max = (__instance.Children.Length - 6.5f) / 2.0f;
             }
         }
     }
