@@ -3,7 +3,7 @@
 [![Release Version](https://img.shields.io/github/v/release/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Release Date](https://img.shields.io/github/release-date/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Total Downloads](https://img.shields.io/github/downloads/VincentVision/BetterTownOfUs/total?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)   
-[![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/2.1.13/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/tag/2.1.13)
+[![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/latest/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/latest)
 [![Open Issues](https://img.shields.io/github/issues-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)
 [![Closed Issues](https://img.shields.io/github/issues-closed-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/issues?q=is%3Aissue+is%3Aclosed)  
 [![Discord](https://img.shields.io/discord/867814078332534815?color=7289DA&label=%20&logo=discord&logoColor=ffffff&style=plastic)](https://dsc.gg/visionfamily)
@@ -16,6 +16,7 @@ Imaginé par la communauté **[Discord francophone de Town of Us](https://dsc.gg
 Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfamily)** community, this Among Us mod modifies **__[Town of Us](https://github.com/eDonnes124/Town-Of-Us-R)__** by adding lots of options to improve it.  
 <details>
   <summary>Ce que ce mod ajoute (cliques sur la flèche pour dérouler)./What this mod adds (click on the arrow to expand).</summary>
+  <ul> <li>Ajout d'une commande Chat "/set" pour voir les paramètres de la game pendant la game/Add a chat command "/set" to see the game settings in game. </li> </ul>
   <ul> <li>Remplacement du système aléatoire pour une génération plus aléatoire/RNG Replacement for a better random genration. </li> </ul>
   <ul> <li>Timmer de Lobby/Lobby Timer. </li> </ul>
   <ul> <li>Option "Max Players" pour changer le nombre max de joueurs directement dans le lobby/"Max Players" option to change the max players number directly in lobby. </li> </ul>
@@ -37,6 +38,7 @@ Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfami
   <ul> <li>Option "Loving Impostor can't kill his Lover"/"Loving Impostor can't kill his Lover" option. </li> </ul>
   <ul> <li>Option "Can't report voted Lover"/"Can't report voted Lover" option. </li> </ul>  -->
   <ul> <li>Option "Jester Can Switch Beetween Vent"/"Jester Can Switch Beetween Vent" option. </li> </ul>
+  <ul> <li>Arsonist passe de Neutral Killing à Neutral Evil/Arsonist is now Neutral Evil from Neutral Killing. </li> </ul>
   <ul> <li>Option "Killing Neutral Can Guess"/"Killing Neutral Can Guess" option. </li> </ul>
   <!-- <ul> <li>Option "Shifter Suicide on Sheriff Kills"/"Shifter Suicide on Sheriff Kills" option. </li> </ul> -->
   <ul> <li>Option "Can Missing Guess 1 Time" pour les Assassin 1 par équipe/"Can Missing Guess 1 Time" option for the Assassin 1 per Team. </li> </ul>
@@ -63,11 +65,14 @@ Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfami
   </li> </ul>
   <ul> <li>Ajout de l'affichage du bouclier du medic pendant les meetings/Add shield display in meetings. </li> </ul>
   <ul> <li>Option "Jester & Executioner Can Spawn In Same Game" permet d'avoir qu'un des 2 sans choisir/"Jester & Executioner Can Spawn In Same Game" option to have only one of two without choose. </li> </ul>
-  <ul> <li>Le Cannibal et le Janitor ne peuvent pas apparaître dans la meêm partie/Cannibal and Janitor can't spawn in same game. </li> </ul>
+  <ul> <li>Option "Medic Report Can't Have Name If Flashed By Grenadier" le Medic ne pourra pas avoir le nom du tueur (il aura ligther ou darker à la place) s'il report pendant qu'il est flashé par le grenadier/"Medic Report Can't Have Name If Flashed By Grenadier" Medic have only darker or lighter color when he report while he flashed by Grenadier. </li> </ul>
+  <ul> <li>Le Cannibal et le Janitor ne peuvent pas apparaître dans la même partie/Cannibal and Janitor can't spawn in same game. </li> </ul>
   <ul> <li>Remplace la couleur arc-en-ciel par la couleur Panda/New Panda color replace the Rainbow color. </li> </ul>
   <ul> <li>Nouveau chapeau Panda/New Panda hat. </li> </ul>
   <ul> <li>Nouveau chapeau Gok'Us/New Gok'Us hat. </li> </ul>
+  <ul> <li>Nouveau chapeau Gok'Us SSJ/New Gok'Us SSJ hat. </li> </ul>
   <ul> <li>Nouveau chapeau Pikach'Us/New Pikach'Us hat. </li> </ul>
+  <ul> <li>Nouveau chapeau Mario/New Mario hat. </li> </ul>
 </details>  
 
 ## Sommaire/Summary  
@@ -93,7 +98,8 @@ Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfami
 
 | <center> Among Us - Version </center> | <center> Town of Us - Version </center> | <center> Mod - Version </center> | <center> [Mod - Lien/Link](https://github.com/VincentVision/BetterTownOfUs/releases) </center> |
 |----------------|---------------|---------------|---------------|
-| 2022.6.21s | 3.2.0 | v2.1.13 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/2.1.13) |
+| 2022.6.21 | 3.2.0 | v2.1.14 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/v2.1.14) |
+| 2022.6.21 | 3.2.0 | v2.1.13 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/2.1.13) |
 | 2021.6.30s & 2021.11.9 (no recommanded) | 2.6.2 | v2.0.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.1) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.6.2 | v1.2.1 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.1) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | 2.6.2 | v1.2.0 | [Download](https://github.com/VincentVision/BetterTownOfUs/releases/tag/1.2.0) |
