@@ -198,6 +198,7 @@ namespace BetterTownOfUs
             if (crewmates.Count - NeutralKillingRoles.Count > CustomGameOptions.MaxNeutralNonKillingRoles)
                 SortRoles(NeutralNonKillingRoles, CustomGameOptions.MaxNeutralNonKillingRoles, CustomGameOptions.MinNeutralNonKillingRoles, true);
             else SortRoles(NeutralNonKillingRoles, crewmates.Count - NeutralKillingRoles.Count - 1, CustomGameOptions.MinNeutralKillingRoles, true);
+            SortRoles(ImpostorRoles, impostors.Count, impostors.Count, true);
             CheckBodyCleaner(ImpostorRoles, NeutralNonKillingRoles);
 
             if (impostors.Count() > 1 && NeutralKillingRoles.Count > 0 && CheckJugg())
@@ -209,7 +210,6 @@ namespace BetterTownOfUs
 
             SortRoles(CrewmateRoles, crewmates.Count - NeutralNonKillingRoles.Count - NeutralKillingRoles.Count,
                 crewmates.Count - NeutralNonKillingRoles.Count - NeutralKillingRoles.Count);
-            SortRoles(ImpostorRoles, impostors.Count, impostors.Count, true);
 
             SortModifiers(CrewmateModifiers, crewmates.Count);
             SortModifiers(GlobalModifiers, crewmates.Count + impostors.Count);
@@ -234,7 +234,6 @@ namespace BetterTownOfUs
                 HaunterOn = false;
                 TraitorOn = false;
             }
-
             foreach (var (type, rpc, _) in crewAndNeutralRoles)
             {  
                 Role.Gen<Role>(type, crewmates, rpc);
@@ -263,7 +262,7 @@ namespace BetterTownOfUs
             }
             canHaveAbility.Shuffle();
             var assassins = CustomGameOptions.NumberOfAssassins;
-
+            
             foreach (var (type, rpc, _) in GlobalModifiers)
             {
                 if (canHaveModifier.Count == 0) break;
@@ -288,7 +287,7 @@ namespace BetterTownOfUs
 
             canHaveModifier.RemoveAll(player => player.Is(RoleEnum.Juggernaut) || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Plaguebearer) || player.Is(RoleEnum.Arsonist) || player.Is(Faction.Impostors));
             canHaveModifier.Shuffle();
-
+            
             while (canHaveModifier.Count > 0 && CrewmateModifiers.Count > 0)
             {
                 var (type, rpc, _) = CrewmateModifiers.TakeFirst();
