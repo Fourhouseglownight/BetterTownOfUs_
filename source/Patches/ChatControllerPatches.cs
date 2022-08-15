@@ -11,7 +11,7 @@ namespace BetterTownOfUs
             bool handled = false;
             if (text.ToLower().StartsWith("/set"))
             {
-                __instance.AddChat(PlayerControl.LocalPlayer, clearSettingsTxt(GameSettings.SettingsTxt));
+                __instance.AddChat(PlayerControl.LocalPlayer, clearSettingsTxt(GameSettings.SettingsTxt).Remove(0, 25));
                 handled = true;
             }
 
