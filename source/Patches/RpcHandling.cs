@@ -7,13 +7,14 @@ using Reactor;
 using Reactor.Extensions;
 using BetterTownOfUs.CrewmateRoles.AltruistMod;
 using BetterTownOfUs.CrewmateRoles.MedicMod;
+using BetterTownOfUs.CrewmateRoles.SeerMod;
 using BetterTownOfUs.CrewmateRoles.SwapperMod;
 using BetterTownOfUs.CrewmateRoles.TimeLordMod;
 using BetterTownOfUs.CrewmateRoles.VigilanteMod;
 using BetterTownOfUs.CustomOption;
 using BetterTownOfUs.Extensions;
 using BetterTownOfUs.Modifiers.AssassinMod;
-using BetterTownOfUs.ImpostorRoles.MinerMod;
+using PerformKill = BetterTownOfUs.ImpostorRoles.MinerMod.PerformKill;
 using BetterTownOfUs.NeutralRoles.ExecutionerMod;
 using BetterTownOfUs.NeutralRoles.GuardianAngelMod;
 using BetterTownOfUs.NeutralRoles.PhantomMod;
@@ -749,8 +750,26 @@ namespace BetterTownOfUs
                     case CustomRPC.Investigate:
                         var seer = Utils.PlayerById(reader.ReadByte());
                         var otherPlayer = Utils.PlayerById(reader.ReadByte());
-                        Role.GetRole<Seer>(seer).Investigated.Add(otherPlayer.PlayerId);
-                        Role.GetRole<Seer>(seer).LastInvestigated = DateTime.UtcNow;
+                        bool successfulSee = reader.ReadByte() == 1;
+                        var seerRole = Role.GetRole<Seer>(seer);
+                        seerRole.Investigated.Add(otherPlayer.PlayerId, successfulSee);
+                        seerRole.LastInvestigated = DateTime.UtcNow;
+                        if (otherPlayer.AmOwner && successfulSee)
+                        {
+                            var otherRole = Role.GetRole(otherPlayer);
+                            var flash = false;
+                            switch (otherRole.Faction)
+                            {
+                                case Faction.Crewmates:
+                                    if (CustomGameOptions.SeeReveal == SeeReveal.All || CustomGameOptions.SeeReveal == SeeReveal.Crew) flash = true;
+                                    break;
+                                case Faction.Neutral:
+                                case Faction.Impostors:
+                                    if (CustomGameOptions.SeeReveal == SeeReveal.All || CustomGameOptions.SeeReveal == SeeReveal.ImpsAndNeut) flash = true;
+                                    break;
+                            }
+                            if (flash) Coroutines.Start(Utils.FlashCoroutine(seerRole.Color));
+                        }
                         break;
                     case CustomRPC.SetSeer:
                         new Seer(Utils.PlayerById(reader.ReadByte()));

@@ -158,11 +158,12 @@ namespace BetterTownOfUs.CustomOption
 
         public static CustomHeaderOption Seer;
         public static CustomNumberOption SeerCooldown;
-        public static CustomToggleOption CrewKillingRed;
-        public static CustomToggleOption NeutBenignRed;
-        public static CustomToggleOption NeutEvilRed;
-        public static CustomToggleOption NeutKillingRed;
-        public static CustomToggleOption TraitorColourSwap;
+        public static CustomStringOption SeerInfo;
+        public static CustomStringOption SeeReveal;
+        public static CustomToggleOption NeutralRed;
+        public static CustomNumberOption SeerCrewmateChance;
+        public static CustomNumberOption SeerNeutralChance;
+        public static CustomNumberOption SeerImpostorChance;
 
         public static CustomHeaderOption Swapper;
         public static CustomToggleOption SwapperButton;
@@ -231,6 +232,7 @@ namespace BetterTownOfUs.CustomOption
         public static CustomHeaderOption Arsonist;
         public static CustomNumberOption DouseCooldown;
         public static CustomNumberOption MaxDoused;
+        public static CustomToggleOption ArsonistGameEnd;
 
         public static CustomHeaderOption Undertaker;
         public static CustomNumberOption DragCooldown;
@@ -504,7 +506,7 @@ namespace BetterTownOfUs.CustomOption
             ImpostorKillingRoles = new CustomHeaderOption(num++, "Impostor Killing Roles");
             PoisonerOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Poisoner</color>", 50f, 0f, 100f, 05f,
                 PercentFormat);
-            TraitorOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Traitor</color>", 50f, 0f, 100f, 05f,
+            TraitorOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Traitor</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
             UnderdogOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Underdog</color>", 30f, 0f, 100f, 05f,
                 PercentFormat);
@@ -624,17 +626,20 @@ namespace BetterTownOfUs.CustomOption
             Seer =
                 new CustomHeaderOption(num++, "<color=#FFCC80FF>Seer</color>");
             SeerCooldown =
-                new CustomNumberOption(num++, "Seer Cooldown", 45f, 2.5f, 90f, 2.5f, CooldownFormat);
-            CrewKillingRed =
-                new CustomToggleOption(num++, "Crewmate Killing Roles Show Evil", false);
-            NeutBenignRed =
-                new CustomToggleOption(num++, "Neutral Benign Roles Show Evil", false);
-            NeutEvilRed =
-                new CustomToggleOption(num++, "Neutral Evil Roles Show Evil", false);
-            NeutKillingRed =
-                new CustomToggleOption(num++, "Neutral Killing Roles Show Evil", true);
-            TraitorColourSwap =
-                new CustomToggleOption(num++, "Traitor Does Not Swap Colours", true);
+                new CustomNumberOption(num++, "Seer Cooldown", 45f, 10f, 100f, 2.5f, CooldownFormat);
+            SeerInfo =
+                new CustomStringOption(num++, "Info that Seer sees", new[] {"Team", "Role"});
+            SeeReveal =
+                new CustomStringOption(num++, "Who Sees That They Are Revealed",
+                    new[] {"Imps+Neut", "Crew", "All", "Nobody"});
+            NeutralRed =
+                new CustomToggleOption(num++, "Neutrals show up as Impostors", false);
+            SeerCrewmateChance = new CustomNumberOption(num++,
+                "Chance to successfully reveal a Crewmate", 80f, 0f, 100f, 10f, PercentFormat);
+            SeerNeutralChance = new CustomNumberOption(num++,
+                "Chance to successfully reveal a Neutral role", 80f, 0f, 100f, 10f, PercentFormat);
+            SeerImpostorChance = new CustomNumberOption(num++,
+                "Chance to successfully reveal an Impostor", 80f, 0f, 100f, 10f, PercentFormat);
 
             Snitch = new CustomHeaderOption(num++, "<color=#D4AF37FF>Snitch</color>");
             SnitchOnLaunch =
@@ -841,6 +846,8 @@ namespace BetterTownOfUs.CustomOption
                 new CustomNumberOption(num++, "Douse Cooldown", 30f, 2.5f, 90f, 2.5f, CooldownFormat);
             MaxDoused =
                 new CustomNumberOption(num++, "Maximum Alive Players Doused", 5, 0, 15, 1);
+            ArsonistGameEnd =
+                new CustomToggleOption(num++, "Game Keeps Going So Long As Arsonist Is Alive", false);
 
             Executioner =
                 new CustomHeaderOption(num++, "<color=#8C4005FF>Executioner</color>");
@@ -946,7 +953,7 @@ namespace BetterTownOfUs.CustomOption
                 new CustomToggleOption(num++, "Poisoner Can Vent", true);
 
             Traitor = new CustomHeaderOption(num++, "<color=#FF0000FF>Traitor</color>");
-            LatestSpawn = new CustomNumberOption(num++, "Minimum People Alive When Traitor Can Spawn", 5, 2, 15, 1);
+            LatestSpawn = new CustomNumberOption(num++, "Minimum People Alive When Traitor Can Spawn", 7, 2, 15, 1);
             NeutralKillingStopsTraitor =
                 new CustomToggleOption(num++, "Traitor Won't Spawn If Any Neutral Killing Is Alive", false);
 

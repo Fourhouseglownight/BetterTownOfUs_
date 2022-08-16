@@ -306,7 +306,7 @@ namespace BetterTownOfUs.NeutralRoles.AmnesiacMod
             else if (role == RoleEnum.Seer)
             {
                 var seerRole = Role.GetRole<Seer>(amnesiac);
-                seerRole.Investigated.RemoveRange(0, seerRole.Investigated.Count);
+                seerRole.Investigated.Clear();
                 seerRole.LastInvestigated = DateTime.UtcNow;
             }
 

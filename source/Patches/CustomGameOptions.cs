@@ -1,5 +1,6 @@
 using BetterTownOfUs.CrewmateRoles.EngineerMod;
 using BetterTownOfUs.CrewmateRoles.MedicMod;
+using BetterTownOfUs.CrewmateRoles.SeerMod;
 using BetterTownOfUs.CustomOption;
 using BetterTownOfUs.NeutralRoles.ExecutionerMod;
 using BetterTownOfUs.CrewmateRoles.HaunterMod;
@@ -122,11 +123,12 @@ namespace BetterTownOfUs
         public static bool ShowReports => Generate.MedicReportSwitch.Get();
         public static bool MedicFlashReport => Generate.MedicFlashReport.Get();
         public static float SeerCd => Generate.SeerCooldown.Get();
-        public static bool CrewKillingRed => Generate.CrewKillingRed.Get();
-        public static bool NeutBenignRed => Generate.NeutBenignRed.Get();
-        public static bool NeutEvilRed => Generate.NeutEvilRed.Get();
-        public static bool NeutKillingRed => Generate.NeutKillingRed.Get();
-        public static bool TraitorColourSwap => Generate.TraitorColourSwap.Get();
+        public static SeerInfo SeerInfo => (SeerInfo) Generate.SeerInfo.Get();
+        public static SeeReveal SeeReveal => (SeeReveal) Generate.SeeReveal.Get();
+        public static float SeerCrewmateChance => Generate.SeerCrewmateChance.Get();
+        public static float SeerNeutralChance => Generate.SeerNeutralChance.Get();
+        public static float SeerImpostorChance => Generate.SeerImpostorChance.Get();
+        public static bool NeutralRed => Generate.NeutralRed.Get();
         public static float MimicCooldown => Generate.MimicCooldownOption.Get();
         public static float MimicDuration => Generate.MimicDurationOption.Get();
         public static float HackCooldown => Generate.HackCooldownOption.Get();
@@ -161,6 +163,7 @@ namespace BetterTownOfUs
         public static bool SeeTasksWhenDead => Generate.SeeTasksWhenDead.Get();
         public static float DouseCd => Generate.DouseCooldown.Get();
         public static int MaxDoused => (int)Generate.MaxDoused.Get();
+        public static bool ArsonistGameEnd => Generate.ArsonistGameEnd.Get();
         public static int MinNeutralNonKillingRoles => (int)Generate.MinNeutralNonKillingRoles.Get();
         public static int MaxNeutralNonKillingRoles => (int)Generate.MaxNeutralNonKillingRoles.Get();
         public static bool BegninNeutralHasTasks => Generate.BegninNeutralHasTasks.Get();

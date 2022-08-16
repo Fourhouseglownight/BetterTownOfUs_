@@ -63,7 +63,7 @@ namespace BetterTownOfUs.Roles
                 return false;
             }
 
-            return false;
+            return !CustomGameOptions.ArsonistGameEnd;
         }
 
 
