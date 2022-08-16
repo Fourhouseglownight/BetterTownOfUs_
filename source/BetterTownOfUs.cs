@@ -28,7 +28,7 @@ namespace BetterTownOfUs
         internal static BepInEx.Logging.ManualLogSource Logger;
         public const string Id = "fr.vincentvision.bettertownofus";
         public static string GetVersion() => typeof(BetterTownOfUs).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-        public const string ReleaseVersion = "2.1.14";
+        public const string ReleaseVersion = "2.1.15";
         public static System.Version Version = System.Version.Parse(ReleaseVersion);
         public static string Beta = GetVersion().Substring(GetVersion().LastIndexOf(".") + 1);
         public static string DisplayVersion = Beta == "0" ?
