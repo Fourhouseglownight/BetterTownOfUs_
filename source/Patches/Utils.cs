@@ -30,14 +30,22 @@ namespace BetterTownOfUs
 
         public static void Morph(PlayerControl player, PlayerControl MorphedPlayer, bool resetAnim = false)
         {
+            GameData.PlayerOutfit targetOutfit;
+            if (MorphedPlayer != null) targetOutfit = MorphedPlayer.Data.DefaultOutfit;
+            else
+            {
+                targetOutfit = Lycan.WolfOutfit;
+                PlayerMaterial.SetColors(Color.grey, player.myRend());
+                player.nameText().color = Palette.ImpostorRed;
+            }
             if (CamouflageUnCamouflage.IsCamoed) return;
             if (player.GetCustomOutfitType() != CustomPlayerOutfitType.Morph)
-                player.SetOutfit(CustomPlayerOutfitType.Morph, MorphedPlayer.Data.DefaultOutfit);
+                player.SetOutfit(CustomPlayerOutfitType.Morph, targetOutfit);
         }
 
         public static void Unmorph(PlayerControl player)
         {
-           player.SetOutfit(CustomPlayerOutfitType.Default);
+            player.SetOutfit(CustomPlayerOutfitType.Default);
         }
 
         public static void Camouflage()
@@ -337,7 +345,11 @@ namespace BetterTownOfUs
                     target.myTasks.Insert(0, importantTextTask);
                 }
 
-                if (!killer.Is(RoleEnum.Poisoner) && !killer.Is(RoleEnum.Arsonist))
+                if (killer.Is(RoleEnum.Lycan) && Role.GetRole<Lycan>(killer).Wolfed)
+                {
+                    target.Data.IsDead = true;
+                }
+                else if (!killer.Is(RoleEnum.Poisoner) && !killer.Is(RoleEnum.Arsonist))
                 {
                     killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(killer, target));
                 }

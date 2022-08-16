@@ -42,6 +42,7 @@ namespace BetterTownOfUs
         Undertaker,
         Underdog,
         Grenadier,
+        Lycan,
         Poisoner,
         Traitor,
         Blackmailer,

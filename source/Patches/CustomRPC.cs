@@ -25,6 +25,7 @@ namespace BetterTownOfUs
         SetAltruist,
         SetUndertaker,
         SetUnderdog,
+        SetLycan,
         SetVigilante,
         SetGrenadier,
         SetVeteran,
@@ -69,7 +70,6 @@ namespace BetterTownOfUs
 
         SetCrewmate,
         SetImpostor,
-        ReassignImpostors,
 
 
         LoveWin,
@@ -125,6 +125,7 @@ namespace BetterTownOfUs
         VigilanteKill,
         HaunterFinished,
         FlashGrenade,
+        Wolf,
         Alert,
         Remember,
         BaitReport,

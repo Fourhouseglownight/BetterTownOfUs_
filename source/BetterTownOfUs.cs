@@ -33,9 +33,10 @@ namespace BetterTownOfUs
         public static string Beta = GetVersion().Substring(GetVersion().LastIndexOf(".") + 1);
         public static string DisplayVersion = Beta == "0" ?
                 ReleaseVersion :
-                ReleaseVersion + "-dev-" + Beta;
+                ReleaseVersion + "-dev." + Beta;
         
         public static Sprite JanitorClean;
+        public static Sprite LycanWolf;
         public static Sprite EngineerFix;
         public static Sprite SwapperSwitch;
         public static Sprite SwapperSwitchDisabled;
@@ -109,6 +110,7 @@ namespace BetterTownOfUs
             Generate.GenerateAll();
 
             JanitorClean = CreateSprite("BetterTownOfUs.Resources.Janitor.png");
+            LycanWolf = CreateSprite("BetterTownOfUs.Resources.Lycan.png");
             EngineerFix = CreateSprite("BetterTownOfUs.Resources.Engineer.png");
             SwapperSwitch = CreateSprite("BetterTownOfUs.Resources.SwapperSwitch.png");
             SwapperSwitchDisabled = CreateSprite("BetterTownOfUs.Resources.SwapperSwitchDisabled.png");

@@ -64,6 +64,7 @@ namespace BetterTownOfUs.CustomOption
         public static CustomNumberOption PoisonerOn;
         public static CustomNumberOption TraitorOn;
         public static CustomNumberOption UnderdogOn;
+        public static CustomNumberOption LycanOn;
 
         public static CustomHeaderOption ImpostorSupportRoles;
         public static CustomNumberOption BlackmailerOn;
@@ -261,6 +262,10 @@ namespace BetterTownOfUs.CustomOption
         public static CustomHeaderOption Underdog;
         public static CustomNumberOption UnderdogKillBonus;
         public static CustomToggleOption UnderdogIncreasedKC;
+
+        public static CustomHeaderOption Lycan;
+        public static CustomNumberOption WolfCooldown;
+        public static CustomNumberOption WolfDuration;
 
         public static CustomHeaderOption Vigilante;
         public static CustomNumberOption VigilanteKills;
@@ -509,6 +514,8 @@ namespace BetterTownOfUs.CustomOption
             TraitorOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Traitor</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
             UnderdogOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Underdog</color>", 30f, 0f, 100f, 05f,
+                PercentFormat);
+            LycanOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Lycan</color>", 50f, 0f, 100f, 10f,
                 PercentFormat);
 
             ImpostorSupportRoles = new CustomHeaderOption(num++, "Impostor Support Roles");
@@ -960,6 +967,10 @@ namespace BetterTownOfUs.CustomOption
             Underdog = new CustomHeaderOption(num++, "<color=#FF0000FF>Underdog</color>");
             UnderdogKillBonus = new CustomNumberOption(num++, "Kill Cooldown Bonus", 10, 2.5f, 90, 2.5f, CooldownFormat);
             UnderdogIncreasedKC = new CustomToggleOption(num++, "Increased Kill Cooldown When 2+ Imps", true);
+
+            Lycan = new CustomHeaderOption(num++, "<color=#FF0000FF>Lycan</color>");
+            WolfCooldown = new CustomNumberOption(num++, "Lycanthropy Cooldown", 30, 10, 40, 2.5f, CooldownFormat);
+            WolfDuration = new CustomNumberOption(num++, "Lycanthropy Duration", 10, 5, 15, 1f, CooldownFormat);
 
             Blackmailer = new CustomHeaderOption(num++, "<color=#FF0000FF>Blackmailer</color>");
             BlackmailCooldown =

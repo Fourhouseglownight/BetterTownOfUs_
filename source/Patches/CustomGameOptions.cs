@@ -52,6 +52,7 @@ namespace BetterTownOfUs
         public static int AltruistOn => (int)Generate.AltruistOn.Get();
         public static int UndertakerOn => (int)Generate.UndertakerOn.Get();
         public static int UnderdogOn => (int)Generate.UnderdogOn.Get();
+        public static int LycanOn => (int) Generate.LycanOn.Get();
         public static int PhantomOn => (int)Generate.PhantomOn.Get();
         public static int VigilanteOn => (int)Generate.VigilanteOn.Get();
         public static int HaunterOn => (int)Generate.HaunterOn.Get();
@@ -201,6 +202,8 @@ namespace BetterTownOfUs
         public static bool AssassinateAfterVoting => Generate.AssassinateAfterVoting.Get();
         public static float UnderdogKillBonus => Generate.UnderdogKillBonus.Get();
         public static bool UnderdogIncreasedKC => Generate.UnderdogIncreasedKC.Get();
+        public static float WolfCd => Generate.WolfCooldown.Get();
+        public static float WolfDuration => Generate.WolfDuration.Get();
         public static int PhantomTasksRemaining => (int)Generate.PhantomTasksRemaining.Get();
         public static bool VigilanteGuessNeutralBenign => Generate.VigilanteGuessNeutralBenign.Get();
         public static bool VigilanteGuessNeutralEvil => Generate.VigilanteGuessNeutralEvil.Get();

@@ -52,6 +52,7 @@ namespace BetterTownOfUs.Patches.CustomHats
                 hatIdx += 5;
                 foreach (var hat in hats.OrderBy(HatManager.Instance.allHats.IndexOf))
                 {
+                    if (hat.ProductId == "wolf") continue;
                     float num = __instance.XRange.Lerp(hatIdx % __instance.NumPerRow / (__instance.NumPerRow - 1f));
                     float num2 = __instance.YStart - hatIdx / __instance.NumPerRow * __instance.YOffset;
                     ColorChip colorChip = Object.Instantiate(__instance.ColorTabPrefab, __instance.scroller.Inner);

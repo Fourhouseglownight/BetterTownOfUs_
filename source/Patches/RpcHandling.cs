@@ -34,7 +34,6 @@ namespace BetterTownOfUs
 {
     public static class RpcHandling
     {
-        private static List<byte> ImpostorsIds;
         public static bool CheckImpostors;
         private static readonly List<(Type, CustomRPC, int)> CrewmateRoles = new List<(Type, CustomRPC, int)>();
         private static readonly List<(Type, CustomRPC, int)> NeutralNonKillingRoles = new List<(Type, CustomRPC, int)>();
@@ -60,85 +59,30 @@ namespace BetterTownOfUs
             var num = BetterTownOfUs.Random.Next(1, 101);
             return num <= 10 * NeutralKillingRoles.Count;
         }
-        internal static void CheckBodyCleaner(List<(Type, CustomRPC, int)> impostors, List<(Type, CustomRPC, int)> neutrals)
+        internal static void ChooseOne(List<(Type, CustomRPC, int)> roles)
         {
-            var janitorPercent = 0; var janitorIndex = 0;
-            var cannibalPercent = 0; var cannibalIndex = 0;
-            foreach (var role in impostors)
+            SortRoles(roles, 1, 1);
+            switch (roles.FirstOrDefault().Item2)
             {
-                if (role.Item2 == CustomRPC.SetJanitor)
-                {
-                    if (janitorIndex != impostors.Count() -1) janitorPercent = role.Item3;
+                case CustomRPC.SetJester:
+                case CustomRPC.SetExecutioner:
+                case CustomRPC.SetCannibal:
+                    NeutralNonKillingRoles.AddRange(roles);
                     break;
-                }
-                janitorIndex++;
-            }
-            foreach (var role in neutrals)
-            {
-                if (role.Item2 == CustomRPC.SetCannibal)
-                {
-                    if (cannibalIndex != neutrals.Count() -1) cannibalPercent = role.Item3;
+                case CustomRPC.SetJanitor:
+                case CustomRPC.SetLycan:
+                    ImpostorRoles.AddRange(roles);
                     break;
-                }
-                cannibalIndex++;
-            }
-            if (cannibalPercent == 0 || janitorPercent == 0)
-            {
-                impostors.RemoveAt(impostors.Count -1);
-                neutrals.RemoveAt(neutrals.Count -1);
-            }
-            else
-            {
-                var maxPercent = janitorPercent + cannibalPercent;
-                var num = BetterTownOfUs.Random.Next(1, maxPercent + 1);
-                if (num <= janitorPercent)
-                {
-                    impostors.RemoveAt(impostors.Count -1);
-                    neutrals.RemoveAt(cannibalIndex);
-                }
-                else
-                {
-                    impostors.RemoveAt(janitorIndex);
-                    neutrals.RemoveAt(neutrals.Count -1);
-                }
             }
         }
 
-        internal static void CheckJesterXExec()
-        {
-            var jesterPercent = 0; var jesterIndex = 0;
-            var execPercent = 0; var execIndex = 0;
-            foreach (var role in NeutralNonKillingRoles)
-            {
-                if (role.Item2 == CustomRPC.SetExecutioner)
-                {
-                    jesterPercent = role.Item3;
-                }
-                if (role.Item2 == CustomRPC.SetJester)
-                {
-                    execPercent = role.Item3;
-                }
-                if (jesterPercent < 1) jesterIndex++;
-                if (execPercent < 1) execIndex++;
-            }
-            if (jesterPercent > execPercent) NeutralNonKillingRoles.RemoveAt(execIndex);
-            else if (jesterPercent < execPercent) NeutralNonKillingRoles.RemoveAt(jesterIndex);
-            else
-            {
-                var random = BetterTownOfUs.Random.Next(0, 2);
-                if (random < 1) NeutralNonKillingRoles.RemoveAt(execIndex);
-                else NeutralNonKillingRoles.RemoveAt(jesterIndex);
-            }
-        }
-
-
-        private static void SortRoles(List<(Type, CustomRPC, int)> roles, int max, int min, bool addOne = false)
+        private static void SortRoles(List<(Type, CustomRPC, int)> roles, int max, int min, int add = 0)
         {
             roles.Shuffle();
             if (roles.Count < max) max = roles.Count;
             if (min > max) min = max;
             var amount = BetterTownOfUs.Random.Next(min, max + 1);
-            if (addOne) amount++;
+            amount += add;
             roles.Sort((a, b) =>
             {
                 var a_ = a.Item3 == 100 ? 0 : 100;
@@ -191,16 +135,14 @@ namespace BetterTownOfUs
             var crewmates = Utils.GetCrewmates(impostors);
             crewmates.Shuffle();
             impostors.Shuffle();
-            if (!CustomGameOptions.JesterXExec) CheckJesterXExec();
 
             if (crewmates.Count > CustomGameOptions.MaxNeutralKillingRoles)
                 SortRoles(NeutralKillingRoles, CustomGameOptions.MaxNeutralKillingRoles, CustomGameOptions.MinNeutralKillingRoles);
             else SortRoles(NeutralKillingRoles, crewmates.Count - 1, CustomGameOptions.MinNeutralKillingRoles);
             if (crewmates.Count - NeutralKillingRoles.Count > CustomGameOptions.MaxNeutralNonKillingRoles)
-                SortRoles(NeutralNonKillingRoles, CustomGameOptions.MaxNeutralNonKillingRoles, CustomGameOptions.MinNeutralNonKillingRoles, true);
-            else SortRoles(NeutralNonKillingRoles, crewmates.Count - NeutralKillingRoles.Count - 1, CustomGameOptions.MinNeutralKillingRoles, true);
-            SortRoles(ImpostorRoles, impostors.Count, impostors.Count, true);
-            CheckBodyCleaner(ImpostorRoles, NeutralNonKillingRoles);
+                SortRoles(NeutralNonKillingRoles, CustomGameOptions.MaxNeutralNonKillingRoles, CustomGameOptions.MinNeutralNonKillingRoles);
+            else SortRoles(NeutralNonKillingRoles, crewmates.Count - NeutralKillingRoles.Count - 1, CustomGameOptions.MinNeutralKillingRoles);
+            SortRoles(ImpostorRoles, impostors.Count, impostors.Count);
 
             if (impostors.Count() > 1 && NeutralKillingRoles.Count > 0 && CheckJugg())
             {
@@ -409,14 +351,6 @@ namespace BetterTownOfUs
                 sbyte readSByte, readSByte2;
                 switch ((CustomRPC) callId)
                 {
-                    case CustomRPC.ReassignImpostors:
-                        ImpostorsIds = new List<byte>();
-                        int num = reader.ReadInt32();
-                        for (int i = 0; i < num; i++)
-                        {
-                            ImpostorsIds.Add(reader.ReadByte());
-                        }
-                        break;
                     case CustomRPC.SetMayor:
                         readByte = reader.ReadByte();
                         new Mayor(Utils.PlayerById(readByte));
@@ -781,6 +715,12 @@ namespace BetterTownOfUs
                         morphRole.TimeRemaining = CustomGameOptions.MorphlingDuration;
                         morphRole.MorphedPlayer = morphTarget;
                         break;
+                    case CustomRPC.Wolf:
+                        var lycan = Utils.PlayerById(reader.ReadByte());
+                        var wolfRole = Role.GetRole<Lycan>(lycan);
+                        wolfRole.TimeRemaining = CustomGameOptions.WolfDuration;
+                        wolfRole.Wolfed = true;
+                        break;
                     case CustomRPC.Poison:
                         var poisoner = Utils.PlayerById(reader.ReadByte());
                         var poisoned = Utils.PlayerById(reader.ReadByte());
@@ -1111,6 +1051,9 @@ namespace BetterTownOfUs
                     case CustomRPC.SetUnderdog:
                         new Underdog(Utils.PlayerById(reader.ReadByte()));
                         break;
+                    case CustomRPC.SetLycan:
+                        new Lycan(Utils.PlayerById(reader.ReadByte()));
+                        break;
                     case CustomRPC.SetPhantom:
                         readByte = reader.ReadByte();
                         SetPhantom.WillBePhantom = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
@@ -1233,6 +1176,9 @@ namespace BetterTownOfUs
                 HaunterOn = Check(CustomGameOptions.HaunterOn);
                 TraitorOn = Check(CustomGameOptions.TraitorOn);
 
+                var cleaningRoles = new List<(Type, CustomRPC, int)>();
+                var jesterExecRoles = new List<(Type, CustomRPC, int)>();
+
                 #region Crewmate Roles
                 if (CustomGameOptions.MayorOn > 0)
                     CrewmateRoles.Add((typeof(Mayor), CustomRPC.SetMayor, CustomGameOptions.MayorOn));
@@ -1296,16 +1242,16 @@ namespace BetterTownOfUs
                     NeutralNonKillingRoles.Add((typeof(Arsonist), CustomRPC.SetArsonist, CustomGameOptions.ArsonistOn));
 
                 if (CustomGameOptions.JesterOn > 0)
-                    NeutralNonKillingRoles.Add((typeof(Jester), CustomRPC.SetJester, CustomGameOptions.JesterOn));
+                    jesterExecRoles.Add((typeof(Jester), CustomRPC.SetJester, CustomGameOptions.JesterOn));
 
                 if (CustomGameOptions.CannibalOn > 0)
-                    NeutralNonKillingRoles.Add((typeof(Cannibal), CustomRPC.SetCannibal, CustomGameOptions.CannibalOn));
+                    cleaningRoles.Add((typeof(Cannibal), CustomRPC.SetCannibal, CustomGameOptions.CannibalOn));
 
                 if (CustomGameOptions.AmnesiacOn > 0)
                     NeutralNonKillingRoles.Add((typeof(Amnesiac), CustomRPC.SetAmnesiac, CustomGameOptions.AmnesiacOn));
 
                 if (CustomGameOptions.ExecutionerOn > 0)
-                    NeutralNonKillingRoles.Add((typeof(Executioner), CustomRPC.SetExecutioner, CustomGameOptions.ExecutionerOn));
+                    jesterExecRoles.Add((typeof(Executioner), CustomRPC.SetExecutioner, CustomGameOptions.ExecutionerOn));
 
                 if (CustomGameOptions.SurvivorOn > 0)
                     NeutralNonKillingRoles.Add((typeof(Survivor), CustomRPC.SetSurvivor, CustomGameOptions.SurvivorOn));
@@ -1329,6 +1275,9 @@ namespace BetterTownOfUs
                 if (num > 1 && CustomGameOptions.UnderdogOn > 0)
                     ImpostorRoles.Add((typeof(Underdog), CustomRPC.SetUnderdog, CustomGameOptions.UnderdogOn));
 
+                if (CustomGameOptions.LycanOn > 0)
+                    cleaningRoles.Add((typeof(Lycan), CustomRPC.SetLycan, CustomGameOptions.LycanOn));
+
                 if (CustomGameOptions.MorphlingOn > 0)
                     ImpostorRoles.Add((typeof(Morphling), CustomRPC.SetMorphling, CustomGameOptions.MorphlingOn));
 
@@ -1342,7 +1291,7 @@ namespace BetterTownOfUs
                     ImpostorRoles.Add((typeof(Swooper), CustomRPC.SetSwooper, CustomGameOptions.SwooperOn));
 
                 if (num > 1 && CustomGameOptions.JanitorOn > 0)
-                    ImpostorRoles.Add((typeof(Janitor), CustomRPC.SetJanitor, CustomGameOptions.JanitorOn));
+                    cleaningRoles.Add((typeof(Janitor), CustomRPC.SetJanitor, CustomGameOptions.JanitorOn));
 
                 if (CustomGameOptions.GrenadierOn > 0)
                     ImpostorRoles.Add((typeof(Grenadier), CustomRPC.SetGrenadier, CustomGameOptions.GrenadierOn));
@@ -1385,6 +1334,9 @@ namespace BetterTownOfUs
                 #region Assassin Modifier
                 AssassinModifier.Add((typeof(Assassin), CustomRPC.SetAssassin, 100));
                 #endregion
+                if (cleaningRoles.Count() > 0) ChooseOne(cleaningRoles);
+                if (!CustomGameOptions.JesterXExec && jesterExecRoles.Count() > 0) ChooseOne(jesterExecRoles);
+                else NeutralNonKillingRoles.AddRange(jesterExecRoles);
                 GenEachRole(infected.ToList());
             }
         }
