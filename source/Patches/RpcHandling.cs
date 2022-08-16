@@ -1273,6 +1273,9 @@ namespace BetterTownOfUs
                     CrewmateRoles.Add((typeof(Detective), CustomRPC.SetDetective, CustomGameOptions.DetectiveOn));
                 #endregion
                 #region Neutral Roles
+                if (CustomGameOptions.ArsonistOn > 0)
+                    NeutralNonKillingRoles.Add((typeof(Arsonist), CustomRPC.SetArsonist, CustomGameOptions.ArsonistOn));
+
                 if (CustomGameOptions.JesterOn > 0)
                     NeutralNonKillingRoles.Add((typeof(Jester), CustomRPC.SetJester, CustomGameOptions.JesterOn));
 
@@ -1293,9 +1296,6 @@ namespace BetterTownOfUs
 
                 if (CustomGameOptions.GlitchOn > 0)
                     NeutralKillingRoles.Add((typeof(Glitch), CustomRPC.SetGlitch, CustomGameOptions.GlitchOn));
-
-                if (CustomGameOptions.ArsonistOn > 0)
-                    NeutralKillingRoles.Add((typeof(Arsonist), CustomRPC.SetArsonist, CustomGameOptions.ArsonistOn));
 
                 if (CustomGameOptions.PlaguebearerOn > 0)
                     NeutralKillingRoles.Add((typeof(Plaguebearer), CustomRPC.SetPlaguebearer, CustomGameOptions.PlaguebearerOn));

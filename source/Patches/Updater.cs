@@ -14,35 +14,34 @@ using Reactor;
 namespace BetterTownOfUs {
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     public class ModUpdaterButton {
-        private static Sprite TOUUpdateSprite => BetterTownOfUs.UpdateTOUButton;
+        private static Sprite BTOUUpdateSprite => BetterTownOfUs.UpdateBTOUButton;
         private static Sprite SubmergedUpdateSprite => BetterTownOfUs.UpdateSubmergedButton;
         private static void Prefix(MainMenuManager __instance) {
-            //Check if there's a ToU update
+            //Check if there's a BToU update
             ModUpdater.LaunchUpdater();
-            /*
-            if (ModUpdater.hasTOUUpdate) {
+            if (ModUpdater.hasBTOUUpdate) {
                 //If there's an update, create and show the update button
                 var template = GameObject.Find("ExitGameButton");
                 if (template != null) {
 
-                    var touButton = UnityEngine.Object.Instantiate(template, null);
-                    touButton.transform.localPosition = new Vector3(touButton.transform.localPosition.x, touButton.transform.localPosition.y + 0.6f, touButton.transform.localPosition.z);
+                    var btouButton = UnityEngine.Object.Instantiate(template, null);
+                    btouButton.transform.localPosition = new Vector3(btouButton.transform.localPosition.x, btouButton.transform.localPosition.y + 0.6f, btouButton.transform.localPosition.z);
 
-                    PassiveButton passiveTOUButton = touButton.GetComponent<PassiveButton>();
-                    SpriteRenderer touButtonSprite = touButton.GetComponent<SpriteRenderer>();
-                    passiveTOUButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+                    PassiveButton passiveBTOUButton = btouButton.GetComponent<PassiveButton>();
+                    SpriteRenderer btouButtonSprite = btouButton.GetComponent<SpriteRenderer>();
+                    passiveBTOUButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
 
-                    touButtonSprite.sprite = TOUUpdateSprite;
+                    btouButtonSprite.sprite = BTOUUpdateSprite;
 
                     //Add onClick event to run the update on button click
-                    passiveTOUButton.OnClick.AddListener((Action) (() =>
+                    passiveBTOUButton.OnClick.AddListener((Action) (() =>
                     {
-                        ModUpdater.ExecuteUpdate("TOU");
-                        touButton.SetActive(false);
+                        ModUpdater.ExecuteUpdate("BTOU");
+                        btouButton.SetActive(false);
                     }));
                     
                     //Set button text
-                    var text = touButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
+                    var text = btouButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
                     __instance.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) => {
                         text.SetText("");
                     })));
@@ -53,7 +52,7 @@ namespace BetterTownOfUs {
                     ModUpdater.InfoPopup.TextAreaTMP.fontSize *= 0.7f;
                     ModUpdater.InfoPopup.TextAreaTMP.enableAutoSizing = false;
                 }
-            }*/
+            }
             
             if (ModUpdater.hasSubmergedUpdate) {
                 //If there's an update, create and show the update button
@@ -94,18 +93,18 @@ namespace BetterTownOfUs {
 
     public class ModUpdater { 
         public static bool running = false;
-        public static bool hasTOUUpdate = false;
+        public static bool hasBTOUUpdate = false;
         public static bool hasSubmergedUpdate = false;
-        public static string updateTOUURI = null;
+        public static string updateBTOUURI = null;
         public static string updateSubmergedURI = null;
-        private static Task updateTOUTask = null;
+        private static Task updateBTOUTask = null;
         private static Task updateSubmergedTask = null;
         public static GenericPopup InfoPopup;
 
         public static void LaunchUpdater() {
             if (running) return;
             running = true;
-            checkForUpdate("TOU").GetAwaiter().GetResult();
+            checkForUpdate("BTOU").GetAwaiter().GetResult();
 
             //Only check of Submerged update if Submerged is already installed
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
@@ -118,14 +117,14 @@ namespace BetterTownOfUs {
             clearOldVersions();
         }
 
-        public static void ExecuteUpdate(string updateType = "TOU") {
+        public static void ExecuteUpdate(string updateType = "BTOU") {
             string info = "";
-            if (updateType == "TOU") {
-                info = "Updating Town Of Us\nPlease wait...";
+            if (updateType == "BTOU") {
+                info = "Updating Better Town Of Us\nPlease wait...";
                 ModUpdater.InfoPopup.Show(info);
-                if (updateTOUTask == null) {
-                    if (updateTOUURI != null) {
-                        updateTOUTask = downloadUpdate("TOU");
+                if (updateBTOUTask == null) {
+                    if (updateBTOUURI != null) {
+                        updateBTOUTask = downloadUpdate("BTOU");
                     } else {
                         info = "Unable to auto-update\nPlease update manually";
                     }
@@ -160,19 +159,18 @@ namespace BetterTownOfUs {
                 BetterTownOfUs.Logger.LogMessage("Exception occured when clearing old versions:\n" + e);
             }
         }
-        public static async Task<bool> checkForUpdate(string updateType = "TOU") {
-            //Checks the github api for Town Of Us tags. Compares current version (from VersionString in BetterTownOfUs.cs) to the latest tag version(on GitHub)
+        public static async Task<bool> checkForUpdate(string updateType = "BTOU") {
+            //Checks the github api for Better Town Of Us tags. Compares current version (from VersionString in BetterTownOfUs.cs) to the latest tag version(on GitHub)
             try {
                 string githubURI = "";
-                if (updateType == "TOU") {
-                    githubURI = "https://github.com/GaranceF/ToU-R_Better/releases/latest";
+                if (updateType == "BTOU") {
+                    githubURI = "https://api.github.com/repos/VincentVision/BetterTownOfUs/releases/latest";
                 } else if (updateType == "Submerged") {
                     githubURI = "https://api.github.com/repos/SubmergedAmongUs/Submerged/releases/latest";
                 }
                 HttpClient http = new HttpClient();
                 http.DefaultRequestHeaders.Add("User-Agent", "BetterTownOfUs Updater");
                 var response = await http.GetAsync(new System.Uri(githubURI), HttpCompletionOption.ResponseContentRead);
-                //var response = await http.GetAsync(new System.Uri("https://api.github.com/repos/ItsTheNumberH/Town-Of-H/releases/latest"), HttpCompletionOption.ResponseContentRead);
                 if (response.StatusCode != HttpStatusCode.OK || response.Content == null) {
                     BetterTownOfUs.Logger.LogMessage("Server returned no data: " + response.StatusCode.ToString());
                     return false;
@@ -187,10 +185,10 @@ namespace BetterTownOfUs {
 
                 int diff = 0;
                 System.Version ver = System.Version.Parse(tagname.Replace("v", ""));
-                if (updateType == "TOU") { //Check TOU version
-                    diff = BetterTownOfUs.ReleaseVersion.CompareTo(ver);
-                    if (diff < 0) { // TOU update required
-                        hasTOUUpdate = true;
+                if (updateType == "BTOU") { //Check BTOU version
+                    diff = BetterTownOfUs.Version.CompareTo(ver);
+                    if (diff < 0) { // BTOU update required
+                        hasBTOUUpdate = true;
                     }
                 } else if (updateType == "Submerged") {
                     //account for broken version
@@ -212,8 +210,8 @@ namespace BetterTownOfUs {
                     string browser_download_url = current["browser_download_url"]?.ToString();
                     if (browser_download_url != null && current["content_type"] != null) {
                         if (browser_download_url.EndsWith(".dll")) {
-                            if (updateType == "TOU") {
-                                updateTOUURI = browser_download_url;
+                            if (updateType == "BTOU") {
+                                updateBTOUURI = browser_download_url;
                             } else if (updateType == "Submerged") {
                                 updateSubmergedURI = browser_download_url;
                             }
@@ -227,13 +225,13 @@ namespace BetterTownOfUs {
             return false;
         }
 
-        public static async Task<bool> downloadUpdate(string updateType = "TOU") {
+        public static async Task<bool> downloadUpdate(string updateType = "BTOU") {
             //Downloads the new BetterTownOfUs/Submerged dll from GitHub into the plugins folder
             string downloadDLL= "";
             string info = "";
-            if (updateType == "TOU") {
-                downloadDLL = updateTOUURI;
-                info = "Town Of Us\nupdated successfully.\nPlease RESTART the game.";
+            if (updateType == "BTOU") {
+                downloadDLL = updateBTOUURI;
+                info = "Better Town Of Us\nupdated successfully.\nPlease RESTART the game.";
             } else if (updateType == "Submerged") {
                 downloadDLL = updateSubmergedURI;
                 info = "Submerged\nupdated successfully.\nPlease RESTART the game.";

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BetterTownOfUs.Extensions;
+using BetterTownOfUs.Roles;
 
 namespace BetterTownOfUs.CrewmateRoles.MedicMod
 {
@@ -30,7 +31,10 @@ namespace BetterTownOfUs.CrewmateRoles.MedicMod
                 return
                     $"Body Report: The kill appears to have been a suicide! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
 
-            if (br.KillAge < CustomGameOptions.MedicReportNameDuration * 1000)
+            bool grenade = false;
+            foreach (Role grenadier in Role.GetRoles(RoleEnum.Grenadier)) grenade = ((Grenadier) grenadier).flashedPlayers.Contains(br.Reporter);
+
+            if (!(CustomGameOptions.MedicFlashReport && grenade) && br.KillAge < CustomGameOptions.MedicReportNameDuration * 1000)
                 return
                     $"Body Report: The killer appears to be {br.Killer.Data.PlayerName}! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
 

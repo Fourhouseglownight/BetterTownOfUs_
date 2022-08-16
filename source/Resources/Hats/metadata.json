@@ -1436,18 +1436,18 @@
       "artist": "Little Doo Doo"
     },
     {
-      "id": "vu_visor0000",
+      "id": "vu_hat0000",
       "name": "Panda hat",
       "artist": "Kalmah"
     },
     {
-      "id": "vu_visor0001",
+      "id": "vu_hat0001",
       "name": "Gok'Us hat",
       "artist": "Gusgus"
     },
     {
-      "id": "vu_visor0002",
-      "name": "Super Gok'Us hat",
+      "id": "vu_hat0002",
+      "name": "Gok'Us SSJ hat",
       "artist": "Gusgus"
     },
     {
@@ -1464,6 +1464,17 @@
       "id": "vu_hat0202",
       "name": "demogorgon",
       "artist": "KaKashi"
+    },
+    {
+
+      "id": "vu_hat0500",
+      "name": "Jotaro Kujo hat",
+      "artist": "Sagemo"
+    },
+    {
+      "id": "vu_hat0501",
+      "name": "Carlo Leonhardt hat",
+      "artist": "Sagemo"
     }
   ]
 }

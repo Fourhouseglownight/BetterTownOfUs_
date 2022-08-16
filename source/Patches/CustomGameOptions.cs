@@ -120,6 +120,7 @@ namespace BetterTownOfUs
         public static float MedicReportNameDuration => Generate.MedicReportNameDuration.Get();
         public static float MedicReportColorDuration => Generate.MedicReportColorDuration.Get();
         public static bool ShowReports => Generate.MedicReportSwitch.Get();
+        public static bool MedicFlashReport => Generate.MedicFlashReport.Get();
         public static float SeerCd => Generate.SeerCooldown.Get();
         public static bool CrewKillingRed => Generate.CrewKillingRed.Get();
         public static bool NeutBenignRed => Generate.NeutBenignRed.Get();
