@@ -44,7 +44,7 @@ namespace BetterTownOfUs.NeutralRoles.CannibalMod
 
             role.CleanButton.GetComponent<AspectPosition>().Update();
             role.CleanButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
-            role.CleanButton.graphic.sprite = BetterTownOfUs.JanitorClean;
+            role.CleanButton.graphic.sprite = BetterTownOfUs.CannibalSprite;
 
 
             var data = PlayerControl.LocalPlayer.Data;

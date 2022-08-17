@@ -26,6 +26,7 @@ using UnhollowerBaseLib;
 using UnityEngine;
 using Coroutine = BetterTownOfUs.ImpostorRoles.JanitorMod.Coroutine;
 using Coroutine2 = BetterTownOfUs.NeutralRoles.CannibalMod.Coroutine;
+using Coroutine3 = BetterTownOfUs.ImpostorRoles.LycanMod.Coroutine;
 using Object = UnityEngine.Object;
 using PerformKillButton = BetterTownOfUs.NeutralRoles.AmnesiacMod.PerformKillButton;
 using Random = UnityEngine.Random; //using Il2CppSystem;
@@ -307,7 +308,7 @@ namespace BetterTownOfUs
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
 
-            var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ModifierEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && x != SetTraitor.WillBeTraitor).ToList();
+            var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ModifierEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && !x.Is(RoleEnum.Sheriff) && !x.Is(RoleEnum.Veteran) && x != SetTraitor.WillBeTraitor).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Executioner))
             {
                 var exe = (Executioner)role;
@@ -557,6 +558,15 @@ namespace BetterTownOfUs
                         foreach (var body in deadBodies2)
                             if (body.ParentId == readByte)
                                 Coroutines.Start(Coroutine2.CleanCoroutine(body, cannibalRole));
+
+                        break;
+
+                    case CustomRPC.WolfClean:
+                        readByte1 = reader.ReadByte();
+                        var lycanPlayer = Utils.PlayerById(readByte1);
+                        var lycanRole = Role.GetRole<Lycan>(lycanPlayer);
+                        var bodyId = reader.ReadByte();
+                        Coroutines.Start(Coroutine3.CleanCoroutine(bodyId, lycanRole));
 
                         break;
                     case CustomRPC.EngineerFix:

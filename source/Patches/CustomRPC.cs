@@ -101,6 +101,7 @@ namespace BetterTownOfUs
 
         JanitorClean,
         CannibalClean,
+        WolfClean,
         FixLights,
         EngineerFix,
         SetExtraVotes,
@@ -119,8 +120,8 @@ namespace BetterTownOfUs
         AltruistRevive,
         BarryButton,
         Drag,
-        Drop,
-        AssassinKill = 211,
+        Drop = 211,
+        AssassinKill,
         AssassinFail,
         VigilanteKill,
         HaunterFinished,

@@ -142,7 +142,7 @@ namespace BetterTownOfUs.Roles
 
         internal virtual bool RoleCriteria()
         {
-            return PlayerControl.LocalPlayer.Is(ModifierEnum.Sleuth) && Modifier.GetModifier<Sleuth>(PlayerControl.LocalPlayer).Reported.Contains(Player.PlayerId);
+            return (PlayerControl.LocalPlayer.Is(ModifierEnum.Sleuth) && Modifier.GetModifier<Sleuth>(PlayerControl.LocalPlayer).Reported.Contains(Player.PlayerId));
         }
         internal virtual bool GuardianAngelCriteria()
         {

@@ -62,6 +62,7 @@ namespace BetterTownOfUs
         public static Sprite FlashSprite;
         public static Sprite AlertSprite;
         public static Sprite RememberSprite;
+        public static Sprite CannibalSprite;
         public static Sprite TrackSprite;
         public static Sprite PoisonSprite;
         public static Sprite PoisonedSprite;
@@ -136,6 +137,7 @@ namespace BetterTownOfUs
             FlashSprite = CreateSprite("BetterTownOfUs.Resources.Flash.png");
             AlertSprite = CreateSprite("BetterTownOfUs.Resources.Alert.png");
             RememberSprite = CreateSprite("BetterTownOfUs.Resources.Remember.png");
+            CannibalSprite = CreateSprite("BetterTownOfUs.Resources.Cannibal.png");
             TrackSprite = CreateSprite("BetterTownOfUs.Resources.Track.png");
             PoisonSprite = CreateSprite("BetterTownOfUs.Resources.Poison.png");
             PoisonedSprite = CreateSprite("BetterTownOfUs.Resources.Poisoned.png");

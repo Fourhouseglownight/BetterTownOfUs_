@@ -55,7 +55,6 @@ namespace BetterTownOfUs.Patches {
                     else if (role.Value == RoleEnum.Jester) {playerRole += "<color=#"+Patches.Colors.Jester.ToHtmlStringRGBA()+">Jester</color> > ";}
                     else if (role.Value == RoleEnum.Cannibal) {playerRole += "<color=#"+Patches.Colors.Cannibal.ToHtmlStringRGBA()+">Cannibal</color> > ";}
                     else if (role.Value == RoleEnum.Phantom) {playerRole += "<color=#"+Patches.Colors.Phantom.ToHtmlStringRGBA()+">Phantom</color> > ";}
-                    //else if (role.Value == RoleEnum.Assassin) {playerRole += "<color=#"+Patches.Colors.Impostor.ToHtmlStringRGBA()+">Assassin</color> > ";}
                     //else if (role.Value == RoleEnum.Camouflager) {playerRole += "<color=#"+Patches.Colors.Impostor.ToHtmlStringRGBA()+">Camouflager</color> > ";}
                     else if (role.Value == RoleEnum.Grenadier) {playerRole += "<color=#"+Patches.Colors.Impostor.ToHtmlStringRGBA()+">Grenadier</color> > ";}
                     else if (role.Value == RoleEnum.Janitor) {playerRole += "<color=#"+Patches.Colors.Impostor.ToHtmlStringRGBA()+">Janitor</color> > ";}
@@ -63,6 +62,7 @@ namespace BetterTownOfUs.Patches {
                     else if (role.Value == RoleEnum.Morphling) {playerRole += "<color=#"+Patches.Colors.Impostor.ToHtmlStringRGBA()+">Morphling</color> > ";}
                     else if (role.Value == RoleEnum.Swooper) {playerRole += "<color=#"+Patches.Colors.Impostor.ToHtmlStringRGBA()+">Swooper</color> > ";}
                     else if (role.Value == RoleEnum.Underdog) {playerRole += "<color=#"+Patches.Colors.Impostor.ToHtmlStringRGBA()+">Underdog</color> > ";}
+                    else if (role.Value == RoleEnum.Lycan) {playerRole += "<color=#"+Patches.Colors.Impostor.ToHtmlStringRGBA()+">Lycan</color> > ";}
                     else if (role.Value == RoleEnum.Undertaker) {playerRole += "<color=#"+Patches.Colors.Impostor.ToHtmlStringRGBA()+">Undertaker</color> > "; }
                     else if (role.Value == RoleEnum.Haunter) { playerRole += "<color=#"+Patches.Colors.Haunter.ToHtmlStringRGBA()+">Haunter</color> > "; }
                     else if (role.Value == RoleEnum.Grenadier) { playerRole += "<color=#"+Patches.Colors.Impostor.ToHtmlStringRGBA()+">Grenadier</color> > "; }

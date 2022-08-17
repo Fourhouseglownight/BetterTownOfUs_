@@ -37,8 +37,8 @@ namespace BetterTownOfUs.Roles
             if (CustomGameOptions.MinerOn > 0) ColorMapping.Add("Miner", Colors.Impostor);
             if (CustomGameOptions.SwooperOn > 0) ColorMapping.Add("Swooper", Colors.Impostor);
             if (CustomGameOptions.UndertakerOn > 0) ColorMapping.Add("Undertaker", Colors.Impostor);
-            //if (CustomGameOptions.AssassinOn > 0) ColorMapping.Add("Assassin", Colors.Impostor);
             if (CustomGameOptions.UnderdogOn > 0) ColorMapping.Add("Underdog", Colors.Impostor);
+            if (CustomGameOptions.LycanOn > 0) ColorMapping.Add("Lycan", Colors.Impostor);
             if (CustomGameOptions.GrenadierOn > 0) ColorMapping.Add("Grenadier", Colors.Impostor);
             if (CustomGameOptions.PoisonerOn > 0) ColorMapping.Add("Poisoner", Colors.Impostor);
             if (CustomGameOptions.TraitorOn > 0) ColorMapping.Add("Traitor", Colors.Impostor);

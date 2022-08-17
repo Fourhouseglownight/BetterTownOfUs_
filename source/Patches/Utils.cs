@@ -347,9 +347,10 @@ namespace BetterTownOfUs
 
                 if (killer.Is(RoleEnum.Lycan) && Role.GetRole<Lycan>(killer).Wolfed)
                 {
-                    target.Data.IsDead = true;
+                    Role.GetRole<Lycan>(killer).Eaten = target.PlayerId;
+                    //target.Data.IsDead = true;
                 }
-                else if (!killer.Is(RoleEnum.Poisoner) && !killer.Is(RoleEnum.Arsonist))
+                if (!killer.Is(RoleEnum.Poisoner) && !killer.Is(RoleEnum.Arsonist))
                 {
                     killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(killer, target));
                 }

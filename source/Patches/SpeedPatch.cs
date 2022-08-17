@@ -18,11 +18,16 @@ namespace BetterTownOfUs.Patches
         [HarmonyPostfix]
         public static void PostfixNetwork(CustomNetworkTransform __instance)
         {
+            BetterTownOfUs.Logger.LogMessage("speed patch 1");
             if (!__instance.AmOwner && __instance.interpolateMovement != 0.0f && !__instance.gameObject.GetComponent<PlayerControl>().Data.IsDead)
             {
+                BetterTownOfUs.Logger.LogMessage("speed patch 2");
                 var player = __instance.gameObject.GetComponent<PlayerControl>();
+                BetterTownOfUs.Logger.LogMessage("speed patch 3");
                 __instance.body.velocity *= player.GetAppearance().SpeedFactor;
+                BetterTownOfUs.Logger.LogMessage("speed patch 4");
             }
+            BetterTownOfUs.Logger.LogMessage("speed patch 3");
         }
     }
 }

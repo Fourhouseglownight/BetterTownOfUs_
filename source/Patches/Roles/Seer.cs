@@ -51,25 +51,23 @@ namespace BetterTownOfUs.Roles
             return false;
         }
 
+        private bool SeerCriteria()
+        {
+            byte playerId = PlayerControl.LocalPlayer.PlayerId;
+            bool value = true;
+            Investigated.TryGetValue(playerId, out value);
+            if (value) value = CheckSeeReveal(PlayerControl.LocalPlayer);
+            return value || base.Criteria();
+        }
+
         internal override bool Criteria()
         {
-            foreach (var player in Investigated)
-            {
-                if (!player.Value) return base.Criteria();
-                var role = Role.GetRole(Utils.PlayerById(player.Key));
-                switch (role.Faction)
-                {
-                    case Faction.Crewmates:
-                        if (CustomGameOptions.SeeReveal == SeeReveal.All || CustomGameOptions.SeeReveal == SeeReveal.Crew) return true;
-                        break;
-                    case Faction.Neutral:
-                    case Faction.Impostors:
-                        if (CustomGameOptions.SeeReveal == SeeReveal.All || CustomGameOptions.SeeReveal == SeeReveal.ImpsAndNeut) return true;
-                        break;
-                }
-                return base.Criteria();
-            }
-            return base.Criteria();
+            return SeerCriteria();
+        }
+
+        internal override bool RoleCriteria()
+        {
+            return SeerCriteria();
         }
     }
 }

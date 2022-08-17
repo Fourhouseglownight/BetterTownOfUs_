@@ -10,6 +10,7 @@ namespace BetterTownOfUs.Roles
         public KillButton _lycanButton;
         public DateTime LastWolfed;
         public float TimeRemaining;
+        public byte Eaten { get; set; } = byte.MaxValue;
         public Lycan(PlayerControl player) : base(player)
         {
             Name = "Lycan";
