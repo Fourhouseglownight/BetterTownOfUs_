@@ -38,6 +38,18 @@ namespace BetterTownOfUs.ImpostorRoles.BlackmailerMod
 
             role.BlackmailButton.SetCoolDown(role.BlackmailTimer(), CustomGameOptions.BlackmailCd);
 
+            var renderer = role.BlackmailButton.graphic;
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (role.ClosestPlayer != null && player == role.ClosestPlayer && __instance.enabled)
+                {
+                    player.myRend().material.SetFloat("_Outline", 1f);
+                    player.myRend().material.SetColor("_OutlineColor", Palette.ImpostorRed);
+                    continue;
+                }
+                player.myRend().material.SetFloat("_Outline", 0f);
+            }
+
             if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead && !role.Blackmailed.Data.Disconnected)
             {
                 role.Blackmailed.myRend().material.SetFloat("_Outline", 1f);
@@ -61,6 +73,15 @@ namespace BetterTownOfUs.ImpostorRoles.BlackmailerMod
                     imp.GetCustomOutfitType() != CustomPlayerOutfitType.Swooper && 
                     imp.nameText().color == Color.clear) imp.nameText().color = Patches.Colors.Impostor;
             }
+
+            if (role.ClosestPlayer != null && __instance.enabled)
+            {
+                renderer.color = Palette.EnabledColor;
+                renderer.material.SetFloat("_Desat", 0f);
+                return;
+            }
+            renderer.color = Palette.DisabledClear;
+            renderer.material.SetFloat("_Desat", 1f);
         }
     }
 }

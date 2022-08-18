@@ -213,7 +213,7 @@ namespace BetterTownOfUs
                 if (player.Data.IsDead
                 || player.PlayerId == refPlayer.PlayerId
                 || !player.Collider.enabled
-                || (refPlayer.IsLover() && player.IsLover())
+                || (killButton && refPlayer.IsLover() && player.IsLover())
                 ) continue;
                 var playerPosition = player.GetTruePosition();
                 var distBetweenPlayers = Vector2.Distance(refPosition, playerPosition);

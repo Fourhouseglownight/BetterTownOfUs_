@@ -45,8 +45,6 @@ namespace BetterTownOfUs.NeutralRoles.WerewolfMod
             {
                 role.RampageButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.RampageDuration);
                 Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, float.NaN, killButton:true);
-
-                return;
             }
             else
             {
@@ -54,8 +52,6 @@ namespace BetterTownOfUs.NeutralRoles.WerewolfMod
 
                 role.RampageButton.graphic.color = Palette.EnabledColor;
                 role.RampageButton.graphic.material.SetFloat("_Desat", 0f);
-
-                return;
             }
         }
     }

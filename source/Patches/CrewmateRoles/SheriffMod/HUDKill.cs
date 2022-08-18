@@ -31,12 +31,10 @@ namespace BetterTownOfUs.CrewmateRoles.SheriffMod
                 if (isDead)
                 {
                     KillButton.gameObject.SetActive(false);
-                //    KillButton.isActive = false;
                 }
                 else
                 {
                     KillButton.gameObject.SetActive(!MeetingHud.Instance);
-                 //   KillButton.isActive = !MeetingHud.Instance;
                     KillButton.SetCoolDown(role.SheriffKillTimer(), PlayerControl.GameOptions.KillCooldown + 15f);
 
                     Utils.SetTarget(ref role.ClosestPlayer, KillButton, killButton: true);
@@ -50,12 +48,10 @@ namespace BetterTownOfUs.CrewmateRoles.SheriffMod
                 if (isDead2)
                 {
                     KillButton.gameObject.SetActive(false);
-                //    KillButton.isActive = false;
                 }
                 else
                 {
                     __instance.KillButton.gameObject.SetActive(!MeetingHud.Instance);
-                 //   __instance.KillButton.isActive = !MeetingHud.Instance;
                 }
             }
         }

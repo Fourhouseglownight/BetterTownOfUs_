@@ -12,7 +12,6 @@ namespace BetterTownOfUs
 
         public static bool Prefix(ref PlayerControl target)
         {
-            if (!PlayerControl.LocalPlayer.Data.IsImpostor()) return true;
             target = Target;
             return true;
         }
@@ -23,11 +22,16 @@ namespace BetterTownOfUs
             public static void Postfix(HudManager __instance)
             {
                 if (PlayerControl.AllPlayerControls.Count <= 1) return;
-                if (PlayerControl.LocalPlayer == null) return;
-                if (PlayerControl.LocalPlayer.Data == null) return;
+                var player = PlayerControl.LocalPlayer;
+                if (player == null) return;
+                if (player.Data == null) return;
                 if (__instance.KillButton == null) return;
-                if (Role.GetRole(PlayerControl.LocalPlayer) == null) return;
-                Utils.SetTarget(ref Target, __instance.KillButton, float.NaN, PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Is(Faction.Impostors)).ToList(), killButton:true);
+                if (Role.GetRole(player) == null) return;
+                Utils.SetTarget(ref Target, __instance.KillButton, float.NaN, PlayerControl.AllPlayerControls.ToArray().Where(x =>
+                {
+                    if (player.Data.IsImpostor()) return !x.Is(Faction.Impostors);
+                    return x;
+                }).ToList(), killButton:true);
             }
         }
     }
