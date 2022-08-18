@@ -13,6 +13,7 @@ namespace BetterTownOfUs.ImpostorRoles.LycanMod
         public static IEnumerator CleanCoroutine(byte bodyId, Lycan role)
         {
             var deadBodies = Object.FindObjectsOfType<DeadBody>();
+            role.Eaten = byte.MaxValue;
             foreach (var body in deadBodies)
             {
                 if (body.ParentId == bodyId)

@@ -64,8 +64,9 @@ namespace BetterTownOfUs.CrewmateRoles.SeerMod
             AmongUsClient.Instance.FinishRpcImmediately(writer);
 
             role.LastInvestigated = DateTime.UtcNow;
-            role.Investigated.Add(role.ClosestPlayer.PlayerId, successfulSee);
-            if (successfulSee) Coroutines.Start(Utils.FlashCoroutine(role.Color));
+            if (!successfulSee) return false;
+            role.Investigated.Add(role.ClosestPlayer.PlayerId);
+            Coroutines.Start(Utils.FlashCoroutine(role.Color));
             return false;
         }
 

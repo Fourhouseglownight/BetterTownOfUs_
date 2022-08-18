@@ -169,6 +169,7 @@ namespace BetterTownOfUs
                 CrewmateRoles.Clear();
                 NeutralNonKillingRoles.Clear();
                 NeutralKillingRoles.Clear();
+                crewAndNeutralRoles.Clear();
                 CrewmateModifiers.Clear();
                 GlobalModifiers.Clear();
                 ButtonModifiers.Clear();
@@ -179,7 +180,7 @@ namespace BetterTownOfUs
                 TraitorOn = false;
             }
             foreach (var (type, rpc, _) in crewAndNeutralRoles)
-            {  
+            {
                 Role.Gen<Role>(type, crewmates, rpc);
             }
 
@@ -566,6 +567,7 @@ namespace BetterTownOfUs
                         var lycanPlayer = Utils.PlayerById(readByte1);
                         var lycanRole = Role.GetRole<Lycan>(lycanPlayer);
                         var bodyId = reader.ReadByte();
+                        lycanRole.Eaten = byte.MaxValue;
                         Coroutines.Start(Coroutine3.CleanCoroutine(bodyId, lycanRole));
 
                         break;
@@ -696,24 +698,23 @@ namespace BetterTownOfUs
                         var otherPlayer = Utils.PlayerById(reader.ReadByte());
                         bool successfulSee = reader.ReadByte() == 1;
                         var seerRole = Role.GetRole<Seer>(seer);
-                        seerRole.Investigated.Add(otherPlayer.PlayerId, successfulSee);
                         seerRole.LastInvestigated = DateTime.UtcNow;
-                        if (otherPlayer.AmOwner && successfulSee)
+                        if (!successfulSee) break;
+                        seerRole.Investigated.Add(otherPlayer.PlayerId);
+                        if (!otherPlayer.AmOwner) break;
+                        var otherRole = Role.GetRole(otherPlayer);
+                        var flash = false;
+                        switch (otherRole.Faction)
                         {
-                            var otherRole = Role.GetRole(otherPlayer);
-                            var flash = false;
-                            switch (otherRole.Faction)
-                            {
-                                case Faction.Crewmates:
-                                    if (CustomGameOptions.SeeReveal == SeeReveal.All || CustomGameOptions.SeeReveal == SeeReveal.Crew) flash = true;
-                                    break;
-                                case Faction.Neutral:
-                                case Faction.Impostors:
-                                    if (CustomGameOptions.SeeReveal == SeeReveal.All || CustomGameOptions.SeeReveal == SeeReveal.ImpsAndNeut) flash = true;
-                                    break;
-                            }
-                            if (flash) Coroutines.Start(Utils.FlashCoroutine(seerRole.Color));
+                            case Faction.Crewmates:
+                                if (CustomGameOptions.SeeReveal == SeeReveal.All || CustomGameOptions.SeeReveal == SeeReveal.Crew) flash = true;
+                                break;
+                            case Faction.Neutral:
+                            case Faction.Impostors:
+                                if (CustomGameOptions.SeeReveal == SeeReveal.All || CustomGameOptions.SeeReveal == SeeReveal.ImpsAndNeut) flash = true;
+                                break;
                         }
+                        if (flash) Coroutines.Start(Utils.FlashCoroutine(seerRole.Color));
                         break;
                     case CustomRPC.SetSeer:
                         new Seer(Utils.PlayerById(reader.ReadByte()));

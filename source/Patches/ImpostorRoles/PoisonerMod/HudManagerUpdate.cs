@@ -37,7 +37,7 @@ namespace BetterTownOfUs.ImpostorRoles.PoisonerMod
                     .ToArray()
                     .Where(x => !x.Is(Faction.Impostors))
                     .ToList();
-            Utils.SetTarget(ref role.ClosestPlayer, role.PoisonButton, float.NaN, notImp);
+            Utils.SetTarget(ref role.ClosestPlayer, role.PoisonButton, float.NaN, notImp, true);
 
             if (role.ClosestPlayer != null)
             {

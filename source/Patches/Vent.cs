@@ -39,7 +39,8 @@ namespace BetterTownOfUs
             if (playerInfo.IsDead)
                 return false;
 
-            if (player.Is(RoleEnum.Morphling) && !CustomGameOptions.MorphlingVent
+            if (player.Is(RoleEnum.Morphling) && (!CustomGameOptions.MorphlingVent
+                || Role.GetRole<Morphling>(player).Morphed && !CustomGameOptions.MorphlingMorphVent)
                 || player.Is(RoleEnum.Swooper) && !CustomGameOptions.SwooperVent
                 || player.Is(RoleEnum.Grenadier) && !CustomGameOptions.GrenadierVent
                 || player.Is(RoleEnum.Undertaker) && !CustomGameOptions.UndertakerVent
@@ -49,7 +50,7 @@ namespace BetterTownOfUs
                 return false;
 
             if (player.Is(RoleEnum.Engineer) || (player.roleAssigned && playerInfo.Role?.Role == RoleTypes.Engineer) ||
-                (player.Is(RoleEnum.Glitch) && CustomGameOptions.GlitchVent) || (player.Is(RoleEnum.Juggernaut) && CustomGameOptions.GlitchVent) ||
+                (player.Is(RoleEnum.Glitch) && CustomGameOptions.GlitchVent && (!Role.GetRole<Glitch>(player).IsUsingMimic || CustomGameOptions.GlitchMimicVent)) || (player.Is(RoleEnum.Juggernaut) && CustomGameOptions.GlitchVent) ||
                 (player.Is(RoleEnum.Pestilence) && CustomGameOptions.PestVent) || (player.Is(RoleEnum.Jester) && CustomGameOptions.JesterVent))
                 return true;
 

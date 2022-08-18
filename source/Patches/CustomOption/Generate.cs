@@ -192,11 +192,13 @@ namespace BetterTownOfUs.CustomOption
         public static CustomNumberOption GlitchKillCooldownOption;
         public static CustomStringOption GlitchHackDistanceOption;
         public static CustomToggleOption GlitchVent;
+        public static CustomToggleOption GlitchMimicVent;
 
         public static CustomHeaderOption Morphling;
         public static CustomNumberOption MorphlingCooldown;
         public static CustomNumberOption MorphlingDuration;
         public static CustomToggleOption MorphlingVent;
+        public static CustomToggleOption MorphlingMorphVent;
 
         public static CustomHeaderOption Executioner;
         public static CustomStringOption OnTargetDead;
@@ -621,14 +623,14 @@ namespace BetterTownOfUs.CustomOption
             FootprintSize = new CustomNumberOption(num++, "Footprint Size", 4f, 1f, 10f, 1f);
             FootprintInterval =
                 new CustomNumberOption(num++, "Footprint Interval", 0.35f, 0.05f, 5f, 0.05f, CooldownFormat);
-            FootprintDuration = new CustomNumberOption(num++, "Footprint Duration", 5f, 1f, 50f, 0.5f, CooldownFormat);
+            FootprintDuration = new CustomNumberOption(num++, "Footprint Duration", 3f, 1f, 50f, 0.5f, CooldownFormat);
             AnonymousFootPrint = new CustomToggleOption(num++, "Anonymous Footprint", false);
             VentFootprintVisible = new CustomToggleOption(num++, "Footprint Vent Visible", false);
 
             Mystic =
                 new CustomHeaderOption(num++, "<color=#4D99E6FF>Mystic</color>");
             MysticArrowDuration =
-                new CustomNumberOption(num++, "Dead Body Arrow Duration", 0.2f, 0f, 25f, 0.05f, CooldownFormat);
+                new CustomNumberOption(num++, "Dead Body Arrow Duration", 0.3f, 0f, 25f, 0.05f, CooldownFormat);
 
             Seer =
                 new CustomHeaderOption(num++, "<color=#FFCC80FF>Seer</color>");
@@ -660,7 +662,7 @@ namespace BetterTownOfUs.CustomOption
             SpyCd =
                 new CustomNumberOption(num++, "Spy Cooldown", 27.5f, 2.5f, 90f, 2.5f, CooldownFormat);
             SpyDuration =
-                new CustomNumberOption(num++, "Spy Duration", 10, 1, 90, 1, CooldownFormat);
+                new CustomNumberOption(num++, "Spy Duration", 15, 1, 90, 1, CooldownFormat);
             SpyAdmin =
                 new CustomToggleOption(num++, "Spy See Color On Admin Table", true);
             SpyVitals =
@@ -907,7 +909,9 @@ namespace BetterTownOfUs.CustomOption
             GlitchHackDistanceOption =
                 new CustomStringOption(num++, "Glitch Hack Distance", new[] { "Short", "Normal", "Long" });
             GlitchVent =
-                new CustomToggleOption(num++, "Glitch Can Vent", false);
+                new CustomToggleOption(num++, "Glitch Can Vent", true);
+            GlitchMimicVent =
+                new CustomToggleOption(num++, "Glitch Can Vent When Using Mimic", false);
 
             Werewolf = new CustomHeaderOption(num++, "<color=#A86629FF>Werewolf</color>");
             RampageCooldown =
@@ -939,7 +943,9 @@ namespace BetterTownOfUs.CustomOption
             MorphlingDuration =
                 new CustomNumberOption(num++, "Morphling Duration", 10, 1, 90, 1f, CooldownFormat);
             MorphlingVent =
-                new CustomToggleOption(num++, "Morphling Can Vent", false);
+                new CustomToggleOption(num++, "Morphling Can Vent", true);
+            MorphlingMorphVent =
+                new CustomToggleOption(num++, "Morphling Can Vent When Morph", false);
 
             Swooper = new CustomHeaderOption(num++, "<color=#FF0000FF>Swooper</color>");
 

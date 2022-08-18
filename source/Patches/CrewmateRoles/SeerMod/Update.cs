@@ -21,8 +21,9 @@ namespace BetterTownOfUs.CrewmateRoles.SeerMod
             return player.name + str;
         }
 
-        private static void UpdateNameText(PlayerControl player, TMPro.TextMeshPro nameText, RoleEnum roleType)
+        private static void UpdateNameText(PlayerControl player, TMPro.TextMeshPro nameText)
         {
+            var roleType = Utils.GetRole(player);
             switch (roleType)
             {
                 case RoleEnum.Crewmate:
@@ -69,12 +70,11 @@ namespace BetterTownOfUs.CrewmateRoles.SeerMod
         {
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (!seer.Investigated.TryGetValue(player.PlayerId, out var successfulInvestigation) || !successfulInvestigation) continue;
+                if (!seer.Investigated.Contains(player.PlayerId)) continue;
                 foreach (var state in __instance.playerStates)
                 {
                     if (player.PlayerId != state.TargetPlayerId) continue;
-                    var roleType = Utils.GetRole(player);
-                    UpdateNameText(player, state.NameText, roleType);
+                    UpdateNameText(player, state.NameText);
                 }
             }
         }
@@ -93,11 +93,9 @@ namespace BetterTownOfUs.CrewmateRoles.SeerMod
 
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (!seer.Investigated.TryGetValue(player.PlayerId, out var successfulInvestigation) || !successfulInvestigation) continue;
-                var roleType = Utils.GetRole(player);
-                var nameText = player.cosmetics.nameText;
-                nameText.transform.localPosition = new Vector3(0f, 2f, -0.5f);
-                UpdateNameText(player, nameText, roleType);                
+                if (!seer.Investigated.Contains(player.PlayerId)) continue;
+                player.cosmetics.nameText.transform.localPosition = new Vector3(0f, 2f, -0.5f);
+                UpdateNameText(player, player.cosmetics.nameText);
             }
         }
     }

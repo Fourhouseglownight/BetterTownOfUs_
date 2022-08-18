@@ -136,10 +136,12 @@ namespace BetterTownOfUs
         public static float HackDuration => Generate.HackDurationOption.Get();
         public static float GlitchKillCooldown => Generate.GlitchKillCooldownOption.Get();
         public static int GlitchHackDistance => Generate.GlitchHackDistanceOption.Get();
-        public static bool GlitchVent => Generate.GlitchVent.Get();
+        public static bool GlitchMimicVent => Generate.GlitchMimicVent.Get();
+        public static bool GlitchVent => Generate.GlitchVent.Get() || GlitchMimicVent;
         public static float MorphlingCd => Generate.MorphlingCooldown.Get();
         public static float MorphlingDuration => Generate.MorphlingDuration.Get();
-        public static bool MorphlingVent => Generate.MorphlingVent.Get();
+        public static bool MorphlingMorphVent => Generate.MorphlingMorphVent.Get();
+        public static bool MorphlingVent => Generate.MorphlingVent.Get() || MorphlingMorphVent;
         public static bool ColourblindComms => Generate.ColourblindComms.Get();
         public static OnTargetDead OnTargetDead => (OnTargetDead)Generate.OnTargetDead.Get();
         public static bool ExecutionerButton => Generate.ExecutionerButton.Get();

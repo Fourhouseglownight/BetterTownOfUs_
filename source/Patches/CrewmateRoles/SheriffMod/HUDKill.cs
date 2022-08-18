@@ -39,7 +39,7 @@ namespace BetterTownOfUs.CrewmateRoles.SheriffMod
                  //   KillButton.isActive = !MeetingHud.Instance;
                     KillButton.SetCoolDown(role.SheriffKillTimer(), PlayerControl.GameOptions.KillCooldown + 15f);
 
-                    Utils.SetTarget(ref role.ClosestPlayer, KillButton);
+                    Utils.SetTarget(ref role.ClosestPlayer, KillButton, killButton: true);
                 }
             }
             else

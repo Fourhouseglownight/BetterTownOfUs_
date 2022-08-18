@@ -7,7 +7,7 @@ namespace BetterTownOfUs.Roles
 {
     public class Seer : Role
     {
-        public readonly Dictionary<byte, bool> Investigated = new Dictionary<byte, bool>();
+        public readonly List<byte> Investigated = new List<byte>();
 
         public Seer(PlayerControl player) : base(player)
         {
@@ -53,21 +53,20 @@ namespace BetterTownOfUs.Roles
 
         private bool SeerCriteria()
         {
-            byte playerId = PlayerControl.LocalPlayer.PlayerId;
-            bool value = true;
-            Investigated.TryGetValue(playerId, out value);
-            if (value) value = CheckSeeReveal(PlayerControl.LocalPlayer);
-            return value || base.Criteria();
+            var player = PlayerControl.LocalPlayer;
+            if (!(Investigated.Contains(player.PlayerId)
+                && CheckSeeReveal(player))) return false;
+            return true;
         }
 
         internal override bool Criteria()
         {
-            return SeerCriteria();
+            return SeerCriteria() || base.Criteria();
         }
 
         internal override bool RoleCriteria()
         {
-            return SeerCriteria();
+            return SeerCriteria() || base.RoleCriteria();
         }
     }
 }

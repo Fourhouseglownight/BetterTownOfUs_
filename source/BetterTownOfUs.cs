@@ -11,10 +11,7 @@ using Reactor;
 using Reactor.Extensions;
 using BetterTownOfUs.CustomOption;
 using BetterTownOfUs.Patches;
-using BetterTownOfUs.Patches.CustomHats;
-using BetterTownOfUs.RainbowMod;
 using UnhollowerBaseLib;
-using UnhollowerRuntimeLib;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,11 +26,11 @@ namespace BetterTownOfUs
         public const string Id = "fr.vincentvision.bettertownofus";
         public static string GetVersion() => typeof(BetterTownOfUs).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
         public const string ReleaseVersion = "2.1.15";
-        public static System.Version Version = System.Version.Parse(ReleaseVersion);
+        public static System.Version Version = System.Version.Parse(GetVersion().Remove(GetVersion().LastIndexOf(".")));
         public static string Beta = GetVersion().Substring(GetVersion().LastIndexOf(".") + 1);
-        public static string DisplayVersion = Beta == "0" ?
-                ReleaseVersion :
-                ReleaseVersion + "-dev." + Beta;
+        public static string DisplayVersion = Beta == "0"
+            ? ReleaseVersion
+            : ReleaseVersion + "-dev." + Beta;
         
         public static Sprite JanitorClean;
         public static Sprite LycanWolf;
@@ -190,7 +187,7 @@ namespace BetterTownOfUs
 
             _harmony.PatchAll();
             SubmergedCompatibility.Initialize();
-            Logger.LogMessage($"Better Town of Us v{DisplayVersion} By Vincent Vision");
+            Logger.LogMessage($"Better Town of Us v{GetVersion()} By Vincent Vision");
         }
 
         public static Sprite CreateSprite(string name)

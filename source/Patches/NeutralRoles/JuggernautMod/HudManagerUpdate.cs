@@ -21,7 +21,7 @@ namespace BetterTownOfUs.NeutralRoles.JuggernautMod
 
             __instance.KillButton.SetCoolDown(role.KillTimer(), CustomGameOptions.GlitchKillCooldown + 5.0f - 5.0f * role.JuggKills);
 
-            Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton);
+            Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, killButton:true);
         }
     }
 }

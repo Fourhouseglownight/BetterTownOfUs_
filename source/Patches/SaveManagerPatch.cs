@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Reactor;
 
-namespace BetterTownOfUs.RainbowMod
+namespace BetterTownOfUs
 {
     [HarmonyPatch(typeof(SaveManager), nameof(SaveManager.GetPrefsName))]
     public class SaveManagerPatch

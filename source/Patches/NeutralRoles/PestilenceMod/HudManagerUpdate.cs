@@ -21,7 +21,7 @@ namespace BetterTownOfUs.NeutralRoles.PestilenceMod
 
             __instance.KillButton.SetCoolDown(role.KillTimer(), CustomGameOptions.PestKillCd);
 
-            Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton);
+            Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, killButton:true);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace BetterTownOfUs.Roles
         public DateTime LastKill { get; set; }
         public KillButton HackButton { get; set; }
         public KillButton MimicButton { get; set; }
-        public PlayerControl KillTarget { get; set; }
+        public PlayerControl KillTarget;
         public PlayerControl HackTarget { get; set; }
         public ChatController MimicList { get; set; }
         public bool IsUsingMimic { get; set; }
@@ -113,7 +113,8 @@ namespace BetterTownOfUs.Roles
         {
             if (!Player.Data.IsDead)
             {
-                Utils.SetClosestPlayer(ref ClosestPlayer);
+                Utils.SetClosestPlayer(ref ClosestPlayer, killButton:false);
+                Utils.SetClosestPlayer(ref KillTarget, killButton:true);
             }
 
             Player.nameText().color = Color;
@@ -463,10 +464,7 @@ namespace BetterTownOfUs.Roles
                 __gInstance.KillTarget = null;
 
                 if (__instance.KillButton.isActiveAndEnabled)
-                {
-                    __instance.KillButton.SetTarget(__gInstance.ClosestPlayer);
-                    __gInstance.KillTarget = __gInstance.ClosestPlayer;
-                }
+                    __instance.KillButton.SetTarget(__gInstance.KillTarget);
 
                 if (__gInstance.KillTarget != null)
                     __gInstance.KillTarget.myRend().material.SetColor("_OutlineColor", __gInstance.Color);

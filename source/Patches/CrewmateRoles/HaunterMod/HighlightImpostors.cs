@@ -9,16 +9,15 @@ namespace BetterTownOfUs.CrewmateRoles.HaunterMod
     {
         public static void UpdateMeeting(MeetingHud __instance)
         {
-            foreach (var player in PlayerControl.AllPlayerControls)
+            foreach (var state in __instance.playerStates)
             {
-                foreach (var state in __instance.playerStates)
+                var player = Utils.PlayerById(state.TargetPlayerId);
+                if (player.Is(Faction.Impostors))
+                    state.NameText.color = Palette.ImpostorRed;
+                if (player.Is(Faction.Neutral) && CustomGameOptions.HaunterRevealsNeutrals)
                 {
-                    if (player.PlayerId != state.TargetPlayerId) continue;
                     var role = Role.GetRole(player);
-                    if (player.Is(Faction.Impostors))
-                        state.NameText.color = Palette.ImpostorRed;
-                    if (player.Is(Faction.Neutral) && CustomGameOptions.HaunterRevealsNeutrals)
-                        state.NameText.color = role.Color;
+                    state.NameText.color = role.Color;
                 }
             }
         }

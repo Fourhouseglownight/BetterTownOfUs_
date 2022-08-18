@@ -1,4 +1,4 @@
-using System.Linq;
+using Il2CppSystem.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
 using BetterTownOfUs.Roles;
@@ -8,8 +8,6 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class HudManagerUpdate
     {
-        public static Sprite SpySprite => BetterTownOfUs.SpySprite;
-
         public static void Postfix(HudManager __instance)
         {
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
@@ -26,7 +24,7 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
             }
 
             role.SpyButton.GetComponent<AspectPosition>().Update();
-            role.SpyButton.graphic.sprite = SpySprite;
+            role.SpyButton.graphic.sprite = BetterTownOfUs.SpySprite;
             role.SpyButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead && !MeetingHud.Instance);
 
             if (role.Enabled)
@@ -37,12 +35,8 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
 
             role.SpyButton.SetCoolDown(role.SpyTimer(), CustomGameOptions.SpyCd);
 
-            var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
-            var specials = system.specials.ToArray();
-            var dummyActive = system.dummy.IsActive;
-            var sabActive = specials.Any(s => s.IsActive);
-
-            if (sabActive & !dummyActive)
+            var systems = ShipStatus.Instance.Systems;
+            if (CheckCommsSab(systems) & !systems[SystemTypes.Sabotage].Cast<SabotageSystemType>().dummy.IsActive)
             {
                 role.SpyButton.graphic.color = Palette.DisabledClear;
                 role.SpyButton.graphic.material.SetFloat("_Desat", 1f);
@@ -51,6 +45,20 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
 
             role.SpyButton.graphic.color = Palette.EnabledColor;
             role.SpyButton.graphic.material.SetFloat("_Desat", 0f);
+        }
+
+        private static bool CheckCommsSab(Dictionary<SystemTypes, ISystemType> systems)
+        {
+            switch (PlayerControl.GameOptions.MapId)
+            {
+                default:
+                    if (systems[SystemTypes.Comms].Cast<HudOverrideSystemType>().IsActive) return true;
+                    break;
+                case 1:
+                    if (systems[SystemTypes.Comms].Cast<HqHudSystemType>().IsActive) return true;
+                    break;
+            }
+            return false;
         }
     }
 }

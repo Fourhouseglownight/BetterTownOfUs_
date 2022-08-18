@@ -203,14 +203,18 @@ namespace BetterTownOfUs
             });
         }
 
-        public static PlayerControl GetClosestPlayer(PlayerControl refPlayer, List<PlayerControl> AllPlayers)
+        public static PlayerControl GetClosestPlayer(PlayerControl refPlayer, List<PlayerControl> AllPlayers, bool killButton)
         {
             var num = double.MaxValue;
             var refPosition = refPlayer.GetTruePosition();
             PlayerControl result = null;
             foreach (var player in AllPlayers)
             {
-                if (player.Data.IsDead || player.PlayerId == refPlayer.PlayerId || !player.Collider.enabled) continue;
+                if (player.Data.IsDead
+                || player.PlayerId == refPlayer.PlayerId
+                || !player.Collider.enabled
+                || (refPlayer.IsLover() && player.IsLover())
+                ) continue;
                 var playerPosition = player.GetTruePosition();
                 var distBetweenPlayers = Vector2.Distance(refPosition, playerPosition);
                 var isClosest = distBetweenPlayers < num;
@@ -226,26 +230,28 @@ namespace BetterTownOfUs
             return result;
         }
 
-        public static PlayerControl GetClosestPlayer(PlayerControl refplayer)
+        public static PlayerControl GetClosestPlayer(PlayerControl refplayer, bool killButton)
         {
-            return GetClosestPlayer(refplayer, PlayerControl.AllPlayerControls.ToArray().ToList());
+            return GetClosestPlayer(refplayer, PlayerControl.AllPlayerControls.ToArray().ToList(), killButton);
         }
         public static void SetTarget(
             ref PlayerControl closestPlayer,
             KillButton button,
             float maxDistance = float.NaN,
-            List<PlayerControl> targets = null
+            List<PlayerControl> targets = null,
+            bool killButton = false
         )
         {
             if (!button.isActiveAndEnabled) return;
 
             button.SetTarget(
-                SetClosestPlayer(ref closestPlayer, maxDistance, targets)
+                SetClosestPlayer(ref closestPlayer, killButton, maxDistance, targets)
             );
         }
 
         public static PlayerControl SetClosestPlayer(
             ref PlayerControl closestPlayer,
+            bool killButton,
             float maxDistance = float.NaN,
             List<PlayerControl> targets = null
         )
@@ -254,7 +260,7 @@ namespace BetterTownOfUs
                 maxDistance = GameOptionsData.KillDistances[PlayerControl.GameOptions.KillDistance];
             var player = GetClosestPlayer(
                 PlayerControl.LocalPlayer,
-                targets ?? PlayerControl.AllPlayerControls.ToArray().ToList()
+                targets ?? PlayerControl.AllPlayerControls.ToArray().ToList(), killButton
             );
             var closeEnough = player == null || (
                 GetDistBetweenPlayers(PlayerControl.LocalPlayer, player) < maxDistance
@@ -400,7 +406,7 @@ namespace BetterTownOfUs
                     var lowerKC = (PlayerControl.GameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus) * CustomGameOptions.DiseasedMultiplier;
                     var normalKC = PlayerControl.GameOptions.KillCooldown * CustomGameOptions.DiseasedMultiplier;
                     var upperKC = (PlayerControl.GameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus) * CustomGameOptions.DiseasedMultiplier;
-                    killer.SetKillTimer(PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC));
+                    killer.SetKillTimer(PerformKill.LastImp() ? lowerKC : (CustomGameOptions.UnderdogIncreasedKC ? normalKC : upperKC));
                     return;
                 }
 
@@ -421,7 +427,7 @@ namespace BetterTownOfUs
                     var lowerKC = PlayerControl.GameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus;
                     var normalKC = PlayerControl.GameOptions.KillCooldown;
                     var upperKC = PlayerControl.GameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus;
-                    killer.SetKillTimer(PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC));
+                    killer.SetKillTimer(PerformKill.LastImp() ? lowerKC : (CustomGameOptions.UnderdogIncreasedKC ? normalKC : upperKC));
                     return;
                 }
 
