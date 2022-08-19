@@ -10,6 +10,24 @@ namespace BetterTownOfUs.CrewmateRoles.EngineerMod
     {
         private static Sprite Sprite => BetterTownOfUs.EngineerFix;
 
+        private static void UpdtateEngineerVentTimer(HudManager __instance, Engineer role)
+        {
+            var ventButton = __instance.ImpostorVentButton;
+            if (ventButton.cooldownTimerText == null) ventButton.cooldownTimerText = Object.Instantiate(__instance.KillButton.cooldownTimerText, ventButton.transform);
+            if (PlayerControl.LocalPlayer.inVent)
+            {
+                if (role.TimeRemaining <= 0)
+                {
+                    ventButton.DoClick();
+                }
+                ventButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.EngiVentDuration);
+                role.TimeRemaining -= Time.deltaTime;
+            }
+            else
+            {
+                ventButton.SetCoolDown(role.EngineerTimer(role.LastVent, CustomGameOptions.EngiVentCooldown), CustomGameOptions.EngiVentCooldown);
+            }
+        }
 
         [HarmonyPatch(nameof(HudManager.Update))]
         public static void Postfix(HudManager __instance)
@@ -18,9 +36,10 @@ namespace BetterTownOfUs.CrewmateRoles.EngineerMod
             if (PlayerControl.LocalPlayer == null) return;
             if (PlayerControl.LocalPlayer.Data == null) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Engineer)) return;
+            var role = Role.GetRole<Engineer>(PlayerControl.LocalPlayer);
+            if (CustomGameOptions.EngiHasVentCooldown) UpdtateEngineerVentTimer(__instance, role);
             if (__instance.KillButton == null) return;
 
-            var role = Role.GetRole<Engineer>(PlayerControl.LocalPlayer);
             if (role.UsesText == null && role.EngiFixPerRound > 0 && role.EngiFixPerGame > 0)
             {
                 role.UsesText = Object.Instantiate(__instance.KillButton.cooldownTimerText, __instance.KillButton.transform);
@@ -39,6 +58,8 @@ namespace BetterTownOfUs.CrewmateRoles.EngineerMod
             }
             
             __instance.KillButton.graphic.sprite = Sprite;
+            if ((CustomGameOptions.EngineerFixPer == EngineerFixPer.Custom) && CustomGameOptions.EngiHasCooldown) __instance.KillButton.SetCoolDown(role.EngineerTimer(role.LastFix, CustomGameOptions.EngiCooldown), CustomGameOptions.EngiCooldown);
+            else __instance.KillButton.SetCoolDown(0f, 10f);
             __instance.KillButton.SetCoolDown(0f, 10f);
             __instance.KillButton.gameObject.SetActive(!PlayerControl.LocalPlayer.Data.IsDead &&
                                                        __instance.UseButton.isActiveAndEnabled && !MeetingHud.Instance && role.EngiFixPerRound > 0 && role.EngiFixPerGame > 0);

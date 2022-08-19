@@ -15,11 +15,9 @@ namespace BetterTownOfUs.CrewmateRoles.EngineerMod
             if (!flag) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
-            if (!__instance.enabled) return false;
+            if (!__instance.enabled || __instance.isCoolingDown) return false;
             var role = Role.GetRole<Engineer>(PlayerControl.LocalPlayer);
             if (role.EngiFixPerRound == 0 || role.EngiFixPerGame == 0) return false;
-
-
 
             var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
             var specials = system.specials.ToArray();

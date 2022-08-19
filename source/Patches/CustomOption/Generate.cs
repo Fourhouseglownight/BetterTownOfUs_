@@ -128,6 +128,9 @@ namespace BetterTownOfUs.CustomOption
 
 
         public static CustomHeaderOption Engineer;
+        public static CustomToggleOption EngiHasVentCooldown;
+        public static CustomNumberOption EngiVentCooldown;
+        public static CustomNumberOption EngiVentDuration;
         public static CustomStringOption EngineerPer;
         public static CustomToggleOption EngiHasCooldown;
         public static CustomNumberOption EngiCooldown;
@@ -759,6 +762,12 @@ namespace BetterTownOfUs.CustomOption
 
             Engineer =
                 new CustomHeaderOption(num++, "<color=#FFA60AFF>Engineer</color>");
+            EngiHasVentCooldown =
+                new CustomToggleOption(num++, "Engineer Has A Vent Cooldown & Duration", true);
+            EngiVentCooldown = 
+                new CustomNumberOption(num++, "Engineer Vent Cooldown", 25f, 5f, 100f, 2.5f);
+            EngiVentDuration = 
+                new CustomNumberOption(num++, "Engineer Vent Duration", 15f, 10f, 30f, 2.5f);
             EngineerPer =
                 new CustomStringOption(num++, "Engineer Fix Per", new[] { "Custom", "Round", "Game" });
             EngiHasCooldown =

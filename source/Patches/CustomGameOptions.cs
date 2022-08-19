@@ -174,6 +174,9 @@ namespace BetterTownOfUs
         public static int MinNeutralKillingRoles => (int)Generate.MinNeutralKillingRoles.Get();
         public static int MaxNeutralKillingRoles => (int)Generate.MaxNeutralKillingRoles.Get();
         public static bool ParallelMedScans => Generate.ParallelMedScans.Get();
+        public static bool EngiHasVentCooldown => (bool)Generate.EngiHasVentCooldown.Get();
+        public static float EngiVentCooldown => (float) Generate.EngiVentCooldown.Get();
+        public static float EngiVentDuration => (float) Generate.EngiVentDuration.Get();
         public static EngineerFixPer EngineerFixPer => (EngineerFixPer)Generate.EngineerPer.Get();
         public static bool EngiHasCooldown => (bool)Generate.EngiHasCooldown.Get();
         public static float EngiCooldown => (float) Generate.EngiCooldown.Get();

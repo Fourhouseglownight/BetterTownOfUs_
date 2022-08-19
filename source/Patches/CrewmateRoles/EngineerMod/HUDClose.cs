@@ -1,6 +1,7 @@
+using System;
 using HarmonyLib;
 using BetterTownOfUs.Roles;
-using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace BetterTownOfUs.CrewmateRoles.EngineerMod
 {
@@ -25,7 +26,9 @@ namespace BetterTownOfUs.CrewmateRoles.EngineerMod
                     engineer.EngiFixPerRound = 1;
                     engineer.EngiFixPerGame = 1;
                 }
-                if (CustomGameOptions.EngineerFixPer == EngineerFixPer.Custom) engineer.EngiFixPerRound = CustomGameOptions.EngiFixPerRound;
+                if (CustomGameOptions.EngineerFixPer != EngineerFixPer.Custom) return;
+                engineer.EngiFixPerRound = CustomGameOptions.EngiFixPerRound;
+                if (CustomGameOptions.EngiHasCooldown) engineer.LastFix = DateTime.UtcNow;
 
             }
         }
