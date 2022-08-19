@@ -113,8 +113,7 @@ namespace BetterTownOfUs.Roles
         {
             if (!Player.Data.IsDead)
             {
-                Utils.SetClosestPlayer(ref ClosestPlayer, killButton:false);
-                Utils.SetClosestPlayer(ref KillTarget, killButton:true);
+                Utils.SetClosestPlayer(ref ClosestPlayer, killButton:true);
             }
 
             Player.nameText().color = Color;
@@ -464,7 +463,10 @@ namespace BetterTownOfUs.Roles
                 __gInstance.KillTarget = null;
 
                 if (__instance.KillButton.isActiveAndEnabled)
-                    __instance.KillButton.SetTarget(__gInstance.KillTarget);
+                {
+                    __instance.KillButton.SetTarget(__gInstance.ClosestPlayer);
+                    __gInstance.KillTarget = __gInstance.ClosestPlayer;
+                }
 
                 if (__gInstance.KillTarget != null)
                     __gInstance.KillTarget.myRend().material.SetColor("_OutlineColor", __gInstance.Color);

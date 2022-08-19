@@ -15,6 +15,7 @@ namespace BetterTownOfUs.ImpostorRoles.LycanMod
             {
                 var role = Role.GetRole<Lycan>(PlayerControl.LocalPlayer);
                 role.LastWolfed = DateTime.UtcNow;
+                role.Eating = false;
             }
         }
     }

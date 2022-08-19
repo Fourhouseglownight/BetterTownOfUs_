@@ -40,6 +40,7 @@ namespace BetterTownOfUs.Roles.Modifiers
 
             foreach(var player in canHaveModifiers)
             {
+                if (player.Is(RoleEnum.Altruist)) continue;
                 if (player.Is(Faction.Impostors) || ((player.Is(RoleEnum.Glitch) || player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Plaguebearer)
                     || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Juggernaut)) && CustomGameOptions.NeutralLovers))
                     impostors.Add(player);

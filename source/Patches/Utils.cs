@@ -35,7 +35,6 @@ namespace BetterTownOfUs
             else
             {
                 targetOutfit = Lycan.WolfOutfit;
-                PlayerMaterial.SetColors(Color.grey, player.myRend());
                 player.nameText().color = Palette.ImpostorRed;
             }
             if (CamouflageUnCamouflage.IsCamoed) return;
@@ -287,6 +286,7 @@ namespace BetterTownOfUs
 
         public static void MurderPlayer(PlayerControl killer, PlayerControl target)
         {
+            if (killer.IsLover() && target.IsLover() && !killer.Is(RoleEnum.Arsonist)) return;
             var data = target.Data;
             if (data != null && !data.IsDead)
             {
@@ -353,8 +353,9 @@ namespace BetterTownOfUs
 
                 if (killer.Is(RoleEnum.Lycan) && Role.GetRole<Lycan>(killer).Wolfed)
                 {
-                    Role.GetRole<Lycan>(killer).Eaten = target.PlayerId;
-                    //target.Data.IsDead = true;
+                    var lycan = Role.GetRole<Lycan>(killer);
+                    lycan.Eaten = target.PlayerId;
+                    lycan.Eating = true;
                 }
                 if (!killer.Is(RoleEnum.Poisoner) && !killer.Is(RoleEnum.Arsonist))
                 {

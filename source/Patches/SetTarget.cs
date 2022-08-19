@@ -10,8 +10,9 @@ namespace BetterTownOfUs
     {
         private static PlayerControl Target;
 
-        public static bool Prefix(ref PlayerControl target)
+        public static bool Prefix(ref PlayerControl target, [HarmonyArgument(0)] KillButton __instance)
         {
+            if (KillButtonSprite.Kill != null && __instance.graphic.sprite != KillButtonSprite.Kill) return false;
             target = Target;
             return true;
         }

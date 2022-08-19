@@ -31,7 +31,7 @@ namespace BetterTownOfUs
         private static Sprite Trap => BetterTownOfUs.TrapSprite;
         private static Sprite Examine => BetterTownOfUs.ExamineSprite;
         private static Sprite Button => BetterTownOfUs.ButtonSprite;
-        private static Sprite Kill;
+        public static Sprite Kill;
 
 
         public static void Postfix(HudManager __instance)

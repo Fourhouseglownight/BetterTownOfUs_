@@ -1,4 +1,5 @@
 using HarmonyLib;
+using BetterTownOfUs.ImpostorRoles.LycanMod;
 
 namespace BetterTownOfUs.Patches
 {
@@ -21,7 +22,8 @@ namespace BetterTownOfUs.Patches
                            && !MeetingHud.Instance
                            && !PlayerCustomizationMenu.Instance 
                            && !ExileController.Instance
-                           && !IntroCutscene.Instance;
+                           && !IntroCutscene.Instance
+                           && !Coroutine.Eating(__instance);
 
                 return false;
             }

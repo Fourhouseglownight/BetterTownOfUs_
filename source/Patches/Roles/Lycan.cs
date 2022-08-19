@@ -11,6 +11,7 @@ namespace BetterTownOfUs.Roles
         public DateTime LastWolfed;
         public float TimeRemaining;
         public byte Eaten { get; set; } = byte.MaxValue;
+        public bool Eating { get; set; } = false;
         public Lycan(PlayerControl player) : base(player)
         {
             Name = "Lycan";
@@ -42,7 +43,7 @@ namespace BetterTownOfUs.Roles
 
         public static GameData.PlayerOutfit WolfOutfit = new GameData.PlayerOutfit()
         {
-          ColorId = 0,
+          ColorId = 9,
           HatId = "wolf",
           SkinId = "",
           VisorId = "",

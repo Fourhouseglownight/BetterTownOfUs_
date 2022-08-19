@@ -10,6 +10,14 @@ namespace BetterTownOfUs.ImpostorRoles.LycanMod
         private static readonly int BodyColor = Shader.PropertyToID("_BodyColor");
         private static readonly int BackColor = Shader.PropertyToID("_BackColor");
 
+        public static bool Eating(PlayerControl player)
+        {
+            if (!player.Is(RoleEnum.Lycan)) return false;
+            var role = Role.GetRole<Lycan>(player);
+            if (!role.Eating) return false;
+            return true;
+        }
+
         public static IEnumerator CleanCoroutine(byte bodyId, Lycan role)
         {
             var deadBodies = Object.FindObjectsOfType<DeadBody>();
@@ -30,6 +38,7 @@ namespace BetterTownOfUs.ImpostorRoles.LycanMod
                         yield return null;
                     }
                     Object.Destroy(body.gameObject);
+                    role.Eating = false;
                 }
             }
         }
