@@ -40,10 +40,11 @@ Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfami
   <!-- <ul> <li>Option "Shifter Suicide on Sheriff Kills"/"Shifter Suicide on Sheriff Kills" option. </li> </ul> -->
   <ul> <li>Option "Can Missing Guess 1 Time" pour les Assassin 1 par équipe/"Can Missing Guess 1 Time" option for the Assassin 1 per Team. </li> </ul>
   <ul> <li>Option "Who gets Guesser miss kill indicator" pour le Miss Kill de l'Assassin/"Who gets Guesser miss kill indicator" option for Miss Kill of the Assassin. </li> </ul>
-  <ul> <li>Modifie l'interval pour les traces de pas de l'investigateur de 2.5 à 0.25/Modify interval for Investigator's foot print size option from 2.5 to 0.25. </li> </ul>
-  <ul> <li>Modifie l'interval pour le rapport du Medic de 2.5 à 0.5/Modify interval for Medic's report duration option from 2.5 to 0.5. </li> </ul>
+  <ul> <li>Modifie l'intervalle pour les traces de pas de l'investigateur de 2.5 à 0.25/Modify interval for Investigator's foot print size option from 2.5 to 0.25. </li> </ul>
+  <ul> <li>Modifie l'intervalle pour le rapport du Medic de 2.5 à 0.5/Modify interval for Medic's report duration option from 2.5 to 0.5. </li> </ul>
   <ul> <li>Un tas d'options pour l'Engineer/A bunch of options for Engineer's fixes. 
     <details>
+      <ul> <li>Ajout de l'option "Engineer Has A Vent Cooldown & Duration" qui donne un cooldown à l'Engineer pour entrer (et rester) dans les vents. </li> </ul>
       <ul> <li>Ajout de l'option "Custom" pour l'option "Engineer Fix Per"/"Custom" to "Engineer Fix Per" option. </li> </ul>
       <ul> <li>Option "Engineer Have Cooldown" pour ajouter un cooldown à l'Engineer/"Engineer Have Cooldown" option for add a cooldown to Engineer. </li> </ul>
       <ul> <li>Option "Engineer Cooldown" pour régler le cooldown si activé/"Engineer Cooldown" option to set the Engineer Cooldown if activated. </li> </ul>
