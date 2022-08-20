@@ -8,9 +8,9 @@ namespace BetterTownOfUs.NeutralRoles.GuardianAngelMod
 {
     public enum BecomeOptions
     {
+        Amnesiac,
         Survivor,
         Crew,
-        Amnesiac,
         Jester
     }
 

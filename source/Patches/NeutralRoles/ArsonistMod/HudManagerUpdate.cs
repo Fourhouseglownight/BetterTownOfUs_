@@ -64,6 +64,42 @@ namespace BetterTownOfUs.NeutralRoles.ArsonistMod
             {
                 Utils.SetTarget(ref role.ClosestPlayerIgnite, role.IgniteButton, float.NaN, doused);
             }
+            
+            var renderer = __instance.KillButton.graphic;
+            if (role.ClosestPlayerDouse != null)
+            {
+                renderer.color = Palette.EnabledColor;
+                renderer.material.SetFloat("_Desat", 0f);
+            }
+            else
+            {
+                renderer.color = Palette.DisabledClear;
+                renderer.material.SetFloat("_Desat", 1f);
+            }
+            
+            var renderer2 = role.IgniteButton.graphic;
+            if (role.ClosestPlayerIgnite != null)
+            {
+                renderer2.color = Palette.EnabledColor;
+                renderer2.material.SetFloat("_Desat", 0f);
+            }
+            else
+            {
+                renderer2.color = Palette.DisabledClear;
+                renderer2.material.SetFloat("_Desat", 1f);
+            }
+            
+
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if ((role.ClosestPlayerDouse != null && player == role.ClosestPlayerDouse || role.ClosestPlayerIgnite != null && player == role.ClosestPlayerIgnite) && __instance.enabled)
+                {
+                    player.myRend().material.SetFloat("_Outline", 1f);
+                    player.myRend().material.SetColor("_OutlineColor", role.Color);
+                    continue;
+                }
+                player.myRend().material.SetFloat("_Outline", 0f);
+            }
 
             return;
         }

@@ -419,14 +419,14 @@ namespace BetterTownOfUs.CustomOption
                 new CustomNumberOption(true,num++, "Min Neutral Non-Killing Roles", 1f, 0f, 6f, 1f);
             MaxNeutralNonKillingRoles =
                 new CustomNumberOption(true,num++, "Max Neutral Non-Killing Roles", 2f, 0f, 6f, 1f);
-            BegninNeutralHasTasks =
-                new CustomToggleOption(num++, "Begnin Neutrals Roles Can Use Tasks", false, true);
-            JesterXExec =
-                new CustomToggleOption(num++, "Jester & Executioner Can Spawn In Same Game", false, true);
             MinNeutralKillingRoles =
                 new CustomNumberOption(true,num++, "Min Neutral Killing Roles", 1f, 0f, 4f, 1f);
             MaxNeutralKillingRoles =
                 new CustomNumberOption(true,num++, "Max Neutral Killing Roles", 1f, 0f, 4f, 1f);
+            BegninNeutralHasTasks =
+                new CustomToggleOption(num++, "Begnin Neutrals Roles Can Use Tasks", false, true);
+            JesterXExec =
+                new CustomToggleOption(num++, "Jester & Executioner Can Spawn In Same Game", false, true);
 
             CrewInvestigativeRoles = new CustomHeaderOption(num++, "Crewmate Investigative Roles");
             DetectiveOn = new CustomNumberOption(true, num++, "<color=#4D4DFFFF>Detective</color>", 90f, 0f, 100f, 05f,
@@ -435,11 +435,11 @@ namespace BetterTownOfUs.CustomOption
                 PercentFormat);
             InvestigatorOn = new CustomNumberOption(true, num++, "<color=#00B3B3FF>Investigator</color>", 60f, 0f, 100f, 05f,
                 PercentFormat);
-            MysticOn = new CustomNumberOption(true, num++, "<color=#4D99E6FF>Mystic</color>", 90f, 0f, 100f, 05f,
+            MysticOn = new CustomNumberOption(true, num++, "<color=#4D99E6FF>Mystic</color>", 60f, 0f, 100f, 05f,
                 PercentFormat);
             SeerOn = new CustomNumberOption(true, num++, "<color=#FFCC80FF>Seer</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
-            SnitchOn = new CustomNumberOption(true, num++, "<color=#D4AF37FF>Snitch</color>", 90f, 0f, 100f, 05f,
+            SnitchOn = new CustomNumberOption(true, num++, "<color=#D4AF37FF>Snitch</color>", 80f, 0f, 100f, 05f,
                 PercentFormat);
             SpyOn = new CustomNumberOption(true, num++, "<color=#CCA3CCFF>Spy</color>", 50f, 0f, 100f, 05f,
                 PercentFormat);
@@ -457,32 +457,32 @@ namespace BetterTownOfUs.CustomOption
                 PercentFormat);
 
             CrewProtectiveRoles = new CustomHeaderOption(num++, "Crewmate Protective Roles");
-            AltruistOn = new CustomNumberOption(true, num++, "<color=#660000FF>Altruist</color>", 50f, 0f, 100f, 05f,
+            AltruistOn = new CustomNumberOption(true, num++, "<color=#660000FF>Altruist</color>", 40f, 0f, 100f, 05f,
                 PercentFormat);
-            MedicOn = new CustomNumberOption(true, num++, "<color=#006600FF>Medic</color>", 30f, 0f, 100f, 05f,
+            MedicOn = new CustomNumberOption(true, num++, "<color=#006600FF>Medic</color>", 70f, 0f, 100f, 05f,
                 PercentFormat);
 
             CrewSupportRoles = new CustomHeaderOption(num++, "Crewmate Support Roles");
-            EngineerOn = new CustomNumberOption(true, num++, "<color=#FFA60AFF>Engineer</color>", 50f, 0f, 100f, 05f,
+            EngineerOn = new CustomNumberOption(true, num++, "<color=#FFA60AFF>Engineer</color>", 40f, 0f, 100f, 05f,
                 PercentFormat);
-            MayorOn = new CustomNumberOption(true, num++, "<color=#704FA8FF>Mayor</color>", 30f, 0f, 100f, 05f,
+            MayorOn = new CustomNumberOption(true, num++, "<color=#704FA8FF>Mayor</color>", 40f, 0f, 100f, 05f,
                 PercentFormat);
-            MediumOn = new CustomNumberOption(true, num++, "<color=#A680FFFF>Medium</color>", 90f, 0f, 100f, 05f,
+            MediumOn = new CustomNumberOption(true, num++, "<color=#A680FFFF>Medium</color>", 70f, 0f, 100f, 05f,
                 PercentFormat);
-            SwapperOn = new CustomNumberOption(true, num++, "<color=#66E666FF>Swapper</color>", 20f, 0f, 100f, 05f,
+            SwapperOn = new CustomNumberOption(true, num++, "<color=#66E666FF>Swapper</color>", 30f, 0f, 100f, 05f,
                 PercentFormat);
-            TimeLordOn = new CustomNumberOption(true, num++, "<color=#0000FFFF>Time Lord</color>", 20f, 0f, 100f, 05f,
+            TimeLordOn = new CustomNumberOption(true, num++, "<color=#0000FFFF>Time Lord</color>", 0f, 0f, 100f, 05f,
                 PercentFormat);
             TransporterOn = new CustomNumberOption(true, num++, "<color=#00EEFFFF>Transporter</color>", 90f, 0f, 100f, 05f,
                 PercentFormat);
 
 
             NeutralBenignRoles = new CustomHeaderOption(num++, "Neutral Benign Roles");
-            AmnesiacOn = new CustomNumberOption(true, num++, "<color=#80B2FFFF>Amnesiac</color>", 50f, 0f, 100f, 05f,
+            AmnesiacOn = new CustomNumberOption(true, num++, "<color=#80B2FFFF>Amnesiac</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
             GuardianAngelOn = new CustomNumberOption(true, num++, "<color=#B3FFFFFF>Guardian Angel</color>", 50f, 0f, 100f, 05f,
                 PercentFormat);
-            SurvivorOn = new CustomNumberOption(true, num++, "<color=#FFE64DFF>Survivor</color>", 50f, 0f, 100f, 05f,
+            SurvivorOn = new CustomNumberOption(true, num++, "<color=#FFE64DFF>Survivor</color>", 30f, 0f, 100f, 05f,
                 PercentFormat);
 
             NeutralEvilRoles = new CustomHeaderOption(num++, "Neutral Evil Roles");
@@ -492,9 +492,9 @@ namespace BetterTownOfUs.CustomOption
                 PercentFormat);
             JesterOn = new CustomNumberOption(true, num++, "<color=#FFBFCCFF>Jester</color>", 90f, 0f, 100f, 05f,
                 PercentFormat);
-            CannibalOn = new CustomNumberOption(true, num++, "<color=#1E300BFF>Cannibal</color>", 90f, 0f, 100f, 05f,
+            CannibalOn = new CustomNumberOption(true, num++, "<color=#1E300BFF>Cannibal</color>", 40f, 0f, 100f, 05f,
                 PercentFormat);
-            PhantomOn = new CustomNumberOption(true, num++, "<color=#662962FF>Phantom</color>", 30f, 0f, 100f, 05f,
+            PhantomOn = new CustomNumberOption(true, num++, "<color=#662962FF>Phantom</color>", 90f, 0f, 100f, 05f,
                 PercentFormat);
 
             NeutralKillingRoles = new CustomHeaderOption(num++, "Neutral Killing Roles");
@@ -506,15 +506,15 @@ namespace BetterTownOfUs.CustomOption
                 PercentFormat);
 
             ImpostorConcealingRoles = new CustomHeaderOption(num++, "Impostor Concealing Roles");
-            GrenadierOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Grenadier</color>", 50f, 0f, 100f, 05f,
+            GrenadierOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Grenadier</color>", 60f, 0f, 100f, 05f,
                 PercentFormat);
-            MorphlingOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Morphling</color>", 0f, 0f, 100f, 05f,
+            MorphlingOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Morphling</color>", 40f, 0f, 100f, 05f,
                 PercentFormat);
-            SwooperOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Swooper</color>", 50f, 0f, 100f, 05f,
+            SwooperOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Swooper</color>", 40f, 0f, 100f, 05f,
                 PercentFormat);
 
             ImpostorKillingRoles = new CustomHeaderOption(num++, "Impostor Killing Roles");
-            PoisonerOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Poisoner</color>", 50f, 0f, 100f, 05f,
+            PoisonerOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Poisoner</color>", 60f, 0f, 100f, 05f,
                 PercentFormat);
             TraitorOn = new CustomNumberOption(true, num++, "<color=#FF0000FF>Traitor</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
@@ -534,27 +534,27 @@ namespace BetterTownOfUs.CustomOption
                 PercentFormat);
 
             CrewmateModifiers = new CustomHeaderOption(num++, "Crewmate Modifiers");
-            BaitOn = new CustomNumberOption(true, num++, "<color=#00B3B3FF>Bait</color>", 30f, 0f, 100f, 05f,
+            BaitOn = new CustomNumberOption(true, num++, "<color=#00B3B3FF>Bait</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
-            DiseasedOn = new CustomNumberOption(true, num++, "<color=#808080FF>Diseased</color>", 30f, 0f, 100f, 05f,
+            DiseasedOn = new CustomNumberOption(true, num++, "<color=#808080FF>Diseased</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
-            TorchOn = new CustomNumberOption(true, num++, "<color=#FFFF99FF>Torch</color>", 30f, 0f, 100f, 05f,
+            TorchOn = new CustomNumberOption(true, num++, "<color=#FFFF99FF>Torch</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
 
             GlobalModifiers = new CustomHeaderOption(num++, "Global Modifiers");
-            BlindOn = new CustomNumberOption(true, num++, "<color=#AAAAAAFF>Blind</color>", 30f, 0f, 100f, 05f,
+            BlindOn = new CustomNumberOption(true, num++, "<color=#AAAAAAFF>Blind</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
-            ButtonBarryOn = new CustomNumberOption(true, num++, "<color=#E600FFFF>Button Barry</color>", 30f, 0f, 100f, 05f,
+            ButtonBarryOn = new CustomNumberOption(true, num++, "<color=#E600FFFF>Button Barry</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
-            FlashOn = new CustomNumberOption(true, num++, "<color=#FF8080FF>Flash</color>", 30f, 0f, 100f, 05f,
+            FlashOn = new CustomNumberOption(true, num++, "<color=#FF8080FF>Flash</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
-            GiantOn = new CustomNumberOption(true, num++, "<color=#FFB34DFF>Giant</color>", 30f, 0f, 100f, 05f,
+            GiantOn = new CustomNumberOption(true, num++, "<color=#FFB34DFF>Giant</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
             LoversOn = new CustomNumberOption(true, num++, "<color=#FF66CCFF>Lovers</color>", 40f, 0f, 100f, 05f,
                 PercentFormat);
-            SleuthOn = new CustomNumberOption(true, num++, "<color=#803333FF>Sleuth</color>", 30f, 0f, 100f, 05f,
+            SleuthOn = new CustomNumberOption(true, num++, "<color=#803333FF>Sleuth</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
-            TiebreakerOn = new CustomNumberOption(true, num++, "<color=#99E699FF>Tiebreaker</color>", 30f, 0f, 100f, 05f,
+            TiebreakerOn = new CustomNumberOption(true, num++, "<color=#99E699FF>Tiebreaker</color>", 20f, 0f, 100f, 05f,
                 PercentFormat);
 
             CustomGameSettings =
@@ -573,19 +573,19 @@ namespace BetterTownOfUs.CustomOption
             WhiteNameplates = new CustomToggleOption(num++, "Disable Player Nameplates", false);
             TaskTrackingSettings =
                 new CustomHeaderOption(num++, "Task Tracking Settings");
-            SeeTasksDuringRound = new CustomToggleOption(num++, "See Tasks During Round", false);
-            SeeTasksDuringMeeting = new CustomToggleOption(num++, "See Tasks During Meetings", false);
+            SeeTasksDuringRound = new CustomToggleOption(num++, "See Tasks During Round", true);
+            SeeTasksDuringMeeting = new CustomToggleOption(num++, "See Tasks During Meetings", true);
             SeeTasksWhenDead = new CustomToggleOption(num++, "See Tasks When Dead", true);
 
             Assassin = new CustomHeaderOption(num++, "<color=#FF0000FF>Assassin Ability</color>");
-            NumberOfAssassins = new CustomNumberOption(num++, "Number Of Assassins", 6, 0, 10, 1);
+            NumberOfAssassins = new CustomNumberOption(num++, "Number Of Assassins", 6, 0, 6, 1);
             NeutralGuess = new CustomToggleOption(num++, "Neutral Killing Roles Can Guess", true);
             
             AssassinProtection = new CustomToggleOption(num++, "Assassin Protection From Missing Guess", true);
             WhoSeesFailedFlash = new CustomStringOption(num++, "Who Sees Assassin Failed Notification", new[] { "Everyone","Impostors","Target + Impostors", "Target + Assassin","Assassin"});
             AmneTurnAssassin = new CustomToggleOption(num++, "Amnesiac Turned Impostor Gets Ability", true);
             TraitorCanAssassin = new CustomToggleOption(num++, "Traitor Gets Ability", true);
-            AssassinKills = new CustomNumberOption(num++, "Number Of Assassin Kills", 15, 1, 30, 1);
+            AssassinKills = new CustomNumberOption(num++, "Number Of Assassin Kills", 15, 1, 15, 1);
             AssassinMultiKill = new CustomToggleOption(num++, "Assassin Can Kill More Than Once Per Meeting", true);
             AssassinCrewmateGuess = new CustomToggleOption(num++, "Assassin Can Guess \"Crewmate\"", true);
             AssassinSnitchViaCrewmate = new CustomToggleOption(num++, "Assassinate Snitch Via \"Crewmate\" Guess", true);
@@ -601,15 +601,15 @@ namespace BetterTownOfUs.CustomOption
             InitialExamineCooldown =
                 new CustomNumberOption(num++, "Initial Examine Cooldown", 25f, 2.5f, 90f, 2.5f, CooldownFormat);
             ExamineCooldown =
-                new CustomNumberOption(num++, "Examine Cooldown", 10f, 1f, 40f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, "Examine Cooldown", 20f, 1f, 40f, 1f, CooldownFormat);
             RecentKill =
-                new CustomNumberOption(num++, "How Long Players Stay Bloody For", 15f, 2.5f, 90f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, "How Long Players Stay Bloody For", 10f, 2.5f, 90f, 2.5f, CooldownFormat);
             DetectiveReportOn = new CustomToggleOption(num++, "Show Detective Reports", true);
             DetectiveRoleDuration =
-                new CustomNumberOption(num++, "Time Where Detective Will Have Role", 15, 0, 90, 2.5f,
+                new CustomNumberOption(num++, "Time Where Detective Will Have Role", 7.5f, 0, 90, 0.5f,
                     CooldownFormat);
             DetectiveFactionDuration =
-                new CustomNumberOption(num++, "Time Where Detective Will Have Faction", 30, 0, 120, 2.5f,
+                new CustomNumberOption(num++, "Time Where Detective Will Have Faction", 20, 0, 120, 0.5f,
                     CooldownFormat);
 
             Haunter =
@@ -623,9 +623,9 @@ namespace BetterTownOfUs.CustomOption
 
             Investigator =
                 new CustomHeaderOption(num++, "<color=#00B3B3FF>Investigator</color>");
-            FootprintSize = new CustomNumberOption(num++, "Footprint Size", 4f, 1f, 10f, 1f);
+            FootprintSize = new CustomNumberOption(num++, "Footprint Size", 3f, 1f, 10f, 1f);
             FootprintInterval =
-                new CustomNumberOption(num++, "Footprint Interval", 0.35f, 0.05f, 5f, 0.05f, CooldownFormat);
+                new CustomNumberOption(num++, "Footprint Interval", 0.5f, 0.05f, 5f, 0.05f, CooldownFormat);
             FootprintDuration = new CustomNumberOption(num++, "Footprint Duration", 3f, 1f, 50f, 0.5f, CooldownFormat);
             AnonymousFootPrint = new CustomToggleOption(num++, "Anonymous Footprint", false);
             VentFootprintVisible = new CustomToggleOption(num++, "Footprint Vent Visible", false);
@@ -663,7 +663,7 @@ namespace BetterTownOfUs.CustomOption
 
             Spy = new CustomHeaderOption(num++, "<color=#CCA3CCFF>Spy</color>");
             SpyCd =
-                new CustomNumberOption(num++, "Spy Cooldown", 27.5f, 2.5f, 90f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Spy Cooldown", 30f, 2.5f, 90f, 2.5f, CooldownFormat);
             SpyDuration =
                 new CustomNumberOption(num++, "Spy Duration", 15, 1, 90, 1, CooldownFormat);
             SpyAdmin =
@@ -683,7 +683,7 @@ namespace BetterTownOfUs.CustomOption
             Trapper =
                 new CustomHeaderOption(num++, "<color=#A7D1B3FF>Trapper</color>");
             MinAmountOfTimeInTrap =
-                new CustomNumberOption(num++, "Min Amount Of Time In Trap To Register", 2f, 0f, 50f, 0.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Min Amount Of Time In Trap To Register", 1.5f, 0f, 50f, 0.5f, CooldownFormat);
             TrapCooldown =
                 new CustomNumberOption(num++, "Trap Cooldown", 15f, 2.5f, 90f, 2.5f, CooldownFormat);
             TrapsRemoveOnNewRound =
@@ -714,7 +714,7 @@ namespace BetterTownOfUs.CustomOption
             SheriffKillsPlaguebearer =
                 new CustomToggleOption(num++, "Sheriff Kills Plaguebearer", true);
             SheriffKillCd =
-                new CustomNumberOption(num++, "Sheriff Kill Cooldown", 22.5f, 2.5f, 90, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Sheriff Kill Cooldown", 25f, 2.5f, 90, 2.5f, CooldownFormat);
             SheriffBodyReport = new CustomToggleOption(num++, "Sheriff Can Report Who They've Killed",true);
 
             Veteran =
@@ -738,7 +738,7 @@ namespace BetterTownOfUs.CustomOption
 
             Altruist = new CustomHeaderOption(num++, "<color=#660000FF>Altruist</color>");
             ReviveDuration =
-                new CustomNumberOption(num++, "Altruist Revive Duration", 5, 1, 90, 1f, CooldownFormat);
+                new CustomNumberOption(num++, "Altruist Revive Duration", 4, 1, 90, 1f, CooldownFormat);
             AltruistTargetBody =
                 new CustomToggleOption(num++, "Target's Body Disappears On Beginning Of Revive", false);
 
@@ -754,7 +754,7 @@ namespace BetterTownOfUs.CustomOption
             MedicReportSwitch = new CustomToggleOption(num++, "Show Medic Reports", true);
             MedicFlashReport = new CustomToggleOption(num++, "Medic Report Can't Have Name If Flashed By Grenadier", true);
             MedicReportNameDuration =
-                new CustomNumberOption(num++, "Time Where Medic Will Have Name", 2.5f, 0, 90, 0.5f,
+                new CustomNumberOption(num++, "Time Where Medic Will Have Name", 3, 0, 90, 0.5f,
                     CooldownFormat);
             MedicReportColorDuration =
                 new CustomNumberOption(num++, "Time Where Medic Will Have Color Type", 15, 0, 150, 0.5f,
@@ -765,7 +765,7 @@ namespace BetterTownOfUs.CustomOption
             EngiHasVentCooldown =
                 new CustomToggleOption(num++, "Engineer Has A Vent Cooldown & Duration", true);
             EngiVentCooldown = 
-                new CustomNumberOption(num++, "Engineer Vent Cooldown", 25f, 5f, 100f, 2.5f);
+                new CustomNumberOption(num++, "Engineer Vent Cooldown", 15f, 5f, 100f, 2.5f);
             EngiVentDuration = 
                 new CustomNumberOption(num++, "Engineer Vent Duration", 15f, 10f, 30f, 2.5f);
             EngineerPer =
@@ -783,14 +783,14 @@ namespace BetterTownOfUs.CustomOption
             Mayor =
                 new CustomHeaderOption(num++, "<color=#704FA8FF>Mayor</color>");
             MayorVoteBank =
-                new CustomNumberOption(num++, "Initial Mayor Vote Bank", 5, 0, 15, 1);
+                new CustomNumberOption(num++, "Initial Mayor Vote Bank", 4, 0, 15, 1);
             MayorAnonymous =
                 new CustomToggleOption(num++, "Mayor Votes Show Anonymous", true);
 
             Medium =
                 new CustomHeaderOption(num++, "<color=#A680FFFF>Medium</color>");
             MediateCooldown =
-                new CustomNumberOption(num++, "Mediate Cooldown", 10f, 1f, 90f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, "Mediate Cooldown", 18f, 1f, 90f, 1f, CooldownFormat);
             ShowMediatePlayer =
                 new CustomToggleOption(num++, "Reveal Appearance Of Mediate Target", true);
             ShowMediumToDead =
@@ -809,7 +809,7 @@ namespace BetterTownOfUs.CustomOption
             RewindDuration = new CustomNumberOption(num++, "Rewind Duration", 2f, 0.5f, 50f, 0.5f, CooldownFormat);
             RewindCooldown = new CustomNumberOption(num++, "Rewind Cooldown", 35f, 2.5f, 90f, 2.5f, CooldownFormat);
             RewindMaxUses =
-                 new CustomNumberOption(num++, "Maximum Number Of Rewinds", 4, 0, 50, 1);
+                 new CustomNumberOption(num++, "Maximum Number Of Rewinds", 3, 0, 50, 1);
             TimeLordVitals =
                 new CustomToggleOption(num++, "Time Lord Can Use Vitals", false);
 
@@ -826,7 +826,7 @@ namespace BetterTownOfUs.CustomOption
             RememberArrows =
                 new CustomToggleOption(num++, "Amnesiac Gets Arrows Pointing To Dead Bodies", true);
             RememberArrowDelay =
-                new CustomNumberOption(num++, "Time After Death Arrow Appears", 12f, 0f, 90f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, "Time After Death Arrow Appears", 7f, 0f, 90f, 1f, CooldownFormat);
 
             GuardianAngel =
                 new CustomHeaderOption(num++, "<color=#B3FFFFFF>Guardian Angel</color>");
@@ -835,14 +835,14 @@ namespace BetterTownOfUs.CustomOption
             ProtectDuration =
                 new CustomNumberOption(num++, "Protect Duration", 10, 1, 50, 1f, CooldownFormat);
             ProtectKCReset =
-                new CustomNumberOption(num++, "Kill Cooldown Reset When Protected", 20f, 0f, 90f, 0.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Kill Cooldown Reset When Protected", 27.5f, 0f, 90f, 0.5f, CooldownFormat);
             MaxProtects =
                 new CustomNumberOption(num++, "Maximum Number Of Protects", 5, 0, 50, 1);
             ShowProtect =
                 new CustomStringOption(num++, "Show Protected Player",
-                    new[] { "Self+GA","Self", "Guardian Angel", "Everyone" });
+                    new[] {"Guardian Angel", "Self+GA", "Self", "Everyone"});
             GaOnTargetDeath = new CustomStringOption(num++, "GA Becomes On Target Dead",
-                new[] { "Survivor", "Crew", "Amnesiac","Jester" });
+                new[] { "Amnesiac", "Survivor", "Crew", "Jester" });
             GATargetKnows =
                 new CustomToggleOption(num++, "Target Knows GA Exists", false);
             GAKnowsTargetRole =
@@ -855,15 +855,15 @@ namespace BetterTownOfUs.CustomOption
             VestDuration =
                 new CustomNumberOption(num++, "Vest Duration", 10, 1, 90, 1f, CooldownFormat);
             VestKCReset =
-                new CustomNumberOption(num++, "Kill Cooldown Reset On Attack", 20f, 0f, 90f, 0.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Kill Cooldown Reset On Attack", 27.5f, 0f, 90f, 0.5f, CooldownFormat);
             MaxVests =
-                new CustomNumberOption(num++, "Maximum Number Of Vests", 5, 0, 90, 1);
+                new CustomNumberOption(num++, "Maximum Number Of Vests", 7, 0, 90, 1);
 
             Arsonist = new CustomHeaderOption(num++, "<color=#FF4D00FF>Arsonist</color>");
             DouseCooldown =
-                new CustomNumberOption(num++, "Douse Cooldown", 30f, 2.5f, 90f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Douse Cooldown", 32.5f, 2.5f, 90f, 2.5f, CooldownFormat);
             MaxDoused =
-                new CustomNumberOption(num++, "Maximum Alive Players Doused", 5, 0, 15, 1);
+                new CustomNumberOption(num++, "Minimum Alive Players Doused For Ignite", 7, 0, 15, 1);
             ArsonistGameEnd =
                 new CustomToggleOption(num++, "Game Keeps Going So Long As Arsonist Is Alive", false);
 
@@ -886,11 +886,11 @@ namespace BetterTownOfUs.CustomOption
             Cannibal =
                 new CustomHeaderOption(num++, "<color=#1E300BFF>Cannibal</color>");
             EatNeeded =
-                new CustomStringOption(num++, "Number Of Bodies The Cannibal Must Eat", StrToNbr("Players/3", 6));
+                new CustomStringOption(num++, "Number Of Bodies The Cannibal Must Eat", StrToNbr("Players/4", 6));
             CannibalCdOn =
                 new CustomToggleOption(num++, "Cannibal Have A Cooldown", true);
             CannibalCd =
-                new CustomNumberOption(num++, "Cannibal Cooldown", 20, 10, 60, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Cannibal Cooldown", 15, 10, 60, 2.5f, CooldownFormat);
 
             Phantom =
                 new CustomHeaderOption(num++, "<color=#662962FF>Phantom</color>");
@@ -901,11 +901,11 @@ namespace BetterTownOfUs.CustomOption
             InfectCooldown =
                 new CustomNumberOption(num++, "Infect Cooldown", 25f, 2.5f, 90f, 2.5f, CooldownFormat);
             PestKillCooldown =
-                new CustomNumberOption(num++, "Pestilence Kill Cooldown", 25f, 2.5f, 90f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Pestilence Kill Cooldown", 27.5f, 2.5f, 90f, 2.5f, CooldownFormat);
             PlaguebearerEndGame =
                 new CustomToggleOption(num++, "Game Keeps Going So Long As Plaguebearer Non Pestilence Is Alive", false);
             PestVent =
-                new CustomToggleOption(num++, "Pestilence Can Vent", false);
+                new CustomToggleOption(num++, "Pestilence Can Vent", true);
 
             TheGlitch =
                 new CustomHeaderOption(num++, "<color=#00FF00FF>The Glitch</color>");
@@ -914,7 +914,7 @@ namespace BetterTownOfUs.CustomOption
             HackCooldownOption = new CustomNumberOption(num++, "Hack Cooldown", 25f, 2.5f, 240f, 2.5f, CooldownFormat);
             HackDurationOption = new CustomNumberOption(num++, "Hack Duration", 10f, 1f, 90f, 1f, CooldownFormat);
             GlitchKillCooldownOption =
-                new CustomNumberOption(num++, "Glitch Kill Cooldown", 25f, 2.5f, 240f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Glitch Kill Cooldown", 27.5f, 2.5f, 240f, 2.5f, CooldownFormat);
             GlitchHackDistanceOption =
                 new CustomStringOption(num++, "Glitch Hack Distance", new[] { "Short", "Normal", "Long" });
             GlitchVent =
@@ -924,20 +924,20 @@ namespace BetterTownOfUs.CustomOption
 
             Werewolf = new CustomHeaderOption(num++, "<color=#A86629FF>Werewolf</color>");
             RampageCooldown =
-                new CustomNumberOption(num++, "Rampage Cooldown", 25f, 2.5f, 90f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Rampage Cooldown", 27.5f, 2.5f, 90f, 2.5f, CooldownFormat);
             RampageDuration =
                 new CustomNumberOption(num++, "Rampage Duration", 25f, 2.5f, 90f, 2.5f, CooldownFormat);
             RampageKillCooldown =
                 new CustomNumberOption(num++, "Rampage Kill Cooldown", 10f, 0.5f, 120f, 0.5f, CooldownFormat);
             WerewolfVent =
-                new CustomToggleOption(num++, "Werewolf Can Vent When Rampaged", false);
+                new CustomToggleOption(num++, "Werewolf Can Vent When Rampaged", true);
 
             Grenadier =
                 new CustomHeaderOption(num++, "<color=#FF0000FF>Grenadier</color>");
             GrenadeCooldown =
                 new CustomNumberOption(num++, "Flash Grenade Cooldown", 25, 2.5f, 90, 2.5f, CooldownFormat);
             GrenadeDuration =
-                new CustomNumberOption(num++, "Flash Grenade Duration", 5, 1, 90, 1f, CooldownFormat);
+                new CustomNumberOption(num++, "Flash Grenade Duration", 4, 1, 90, 1f, CooldownFormat);
             FlashRadius =
                 new CustomNumberOption(num++, "Flash Radius", 1.25f, 0.25f, 10f, 0.25f, MultiplierFormat);
             GrenadierIndicators =
@@ -968,9 +968,9 @@ namespace BetterTownOfUs.CustomOption
             Poisoner =
                 new CustomHeaderOption(num++, "<color=#FF0000FF>Poisoner</color>");
             PoisonCooldown =
-                new CustomNumberOption(num++, "Poison Cooldown", 25, 2.5f, 90, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Poison Cooldown", 27.5f, 2.5f, 90, 2.5f, CooldownFormat);
             PoisonDuration =
-                new CustomNumberOption(num++, "Poison Kill Delay", 5, 1, 90, 1f, CooldownFormat);
+                new CustomNumberOption(num++, "Poison Kill Delay", 4, 1, 90, 1f, CooldownFormat);
             PoisonerVent =
                 new CustomToggleOption(num++, "Poisoner Can Vent", true);
 
@@ -984,7 +984,7 @@ namespace BetterTownOfUs.CustomOption
             UnderdogIncreasedKC = new CustomToggleOption(num++, "Increased Kill Cooldown When 2+ Imps", true);
 
             Lycan = new CustomHeaderOption(num++, "<color=#FF0000FF>Lycan</color>");
-            WolfCooldown = new CustomNumberOption(num++, "Lycanthropy Cooldown", 30, 10, 40, 2.5f, CooldownFormat);
+            WolfCooldown = new CustomNumberOption(num++, "Lycanthropy Cooldown", 25, 10, 40, 2.5f, CooldownFormat);
             WolfDuration = new CustomNumberOption(num++, "Lycanthropy Duration", 10, 5, 15, 1f, CooldownFormat);
 
             Blackmailer = new CustomHeaderOption(num++, "<color=#FF0000FF>Blackmailer</color>");
@@ -993,7 +993,7 @@ namespace BetterTownOfUs.CustomOption
 
             Miner = new CustomHeaderOption(num++, "<color=#FF0000FF>Miner</color>");
             MineCooldown =
-                new CustomNumberOption(num++, "Mine Cooldown", 27.5f, 2.5f, 90, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, "Mine Cooldown", 25f, 2.5f, 90, 2.5f, CooldownFormat);
 
             Undertaker = new CustomHeaderOption(num++, "<color=#FF0000FF>Undertaker</color>");
             DragCooldown = new CustomNumberOption(num++, "Drag Cooldown", 25, 2.5f, 90, 2.5f, CooldownFormat);
@@ -1017,8 +1017,8 @@ namespace BetterTownOfUs.CustomOption
 
             Lovers =
                 new CustomHeaderOption(num++, "<color=#FF66CCFF>Lovers</color>");
-            BothLoversDie = new CustomToggleOption(num++, "Both Lovers Die",true);
-            LovingImpPercent = new CustomNumberOption(num++, "Loving Impostor Probability", 20f, 0f, 100f, 05f,
+            BothLoversDie = new CustomToggleOption(num++, "Both Lovers Die", true);
+            LovingImpPercent = new CustomNumberOption(num++, "Loving Impostor Probability", 40f, 0f, 100f, 05f,
                 PercentFormat);
             NeutralLovers = new CustomToggleOption(num++, "Neutral Roles Can Be Lovers", false);
         }

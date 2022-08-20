@@ -2,6 +2,7 @@
 using HarmonyLib;
 using BetterTownOfUs.Roles;
 using UnityEngine;
+using BetterTownOfUs.Extensions;
 
 namespace BetterTownOfUs.CrewmateRoles.TrackerMod
 {
@@ -44,12 +45,10 @@ namespace BetterTownOfUs.CrewmateRoles.TrackerMod
             if (isDead)
             {
                 trackButton.gameObject.SetActive(false);
-                // trackButton.isActive = false;
             }
             else
             {
                 trackButton.gameObject.SetActive(!MeetingHud.Instance);
-                // trackButton.isActive = !MeetingHud.Instance;
                 trackButton.SetCoolDown(role.TrackerTimer(), CustomGameOptions.TrackCd);
                 if (role.UsesLeft == 0) return;
 
@@ -75,6 +74,17 @@ namespace BetterTownOfUs.CrewmateRoles.TrackerMod
                 renderer.material.SetFloat("_Desat", 1f);
                 role.UsesText.color = Palette.DisabledClear;
                 role.UsesText.material.SetFloat("_Desat", 1f);
+            }
+
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (role.ClosestPlayer != null && player == role.ClosestPlayer && __instance.enabled)
+                {
+                    player.myRend().material.SetFloat("_Outline", 1f);
+                    player.myRend().material.SetColor("_OutlineColor", Palette.CrewmateBlue);
+                    continue;
+                }
+                player.myRend().material.SetFloat("_Outline", 0f);
             }
         }
     }

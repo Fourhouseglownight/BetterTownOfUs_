@@ -120,7 +120,7 @@ namespace BetterTownOfUs
         AltruistRevive,
         BarryButton,
         Drag,
-        Drop = 211,
+        Drop = 220,
         AssassinKill,
         AssassinFail,
         VigilanteKill,

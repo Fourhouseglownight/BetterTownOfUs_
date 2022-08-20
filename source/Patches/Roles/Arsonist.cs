@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
-using BetterTownOfUs.Extensions;
 
 namespace BetterTownOfUs.Roles
 {
@@ -15,7 +14,7 @@ namespace BetterTownOfUs.Roles
         public List<byte> DousedPlayers = new List<byte>();
         public DateTime LastDoused;
 
-        public int DousedAlive => DousedPlayers.Count(x => Utils.PlayerById(x) != null && Utils.PlayerById(x).Data != null && !Utils.PlayerById(x).Data.IsDead);
+        public int DousedAlive => DousedPlayers.Count(x => Utils.PlayerById(x) != null && Utils.PlayerById(x).Data != null && !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected);
 
 
         public Arsonist(PlayerControl player) : base(player)
@@ -45,10 +44,7 @@ namespace BetterTownOfUs.Roles
         {
             if (Player.Data.IsDead || Player.Data.Disconnected) return true;
 
-            if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) <= 2 &&
-                    PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected &&
-                    (x.Data.IsImpostor() || x.Is(RoleEnum.Glitch) || x.Is(RoleEnum.Juggernaut) ||
-                    x.Is(RoleEnum.Werewolf) || x.Is(RoleEnum.Plaguebearer) || x.Is(RoleEnum.Pestilence))) == 0)
+            if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) == 0)
             {
                 var writer = AmongUsClient.Instance.StartRpcImmediately(
                     PlayerControl.LocalPlayer.NetId,
@@ -96,20 +92,15 @@ namespace BetterTownOfUs.Roles
 
         public void Ignite()
         {
-            System.Console.WriteLine("Ignite 1");
-            foreach (var playerId in DousedPlayers)
+            foreach (var player in PlayerControl.AllPlayerControls)
             {
-                var player = Utils.PlayerById(playerId);
                 if (
                     player == null ||
                     player.Data.Disconnected ||
-                    player.Data.IsDead ||
-                    player.Is(RoleEnum.Pestilence)
+                    player.Data.IsDead
                 ) continue;
                 Utils.MurderPlayer(Player, player);
             }
-            DousedPlayers.Clear();
-            System.Console.WriteLine("Ignite 2");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using HarmonyLib;
 using Hazel;
 using BetterTownOfUs.Roles;
@@ -21,6 +22,7 @@ namespace BetterTownOfUs.NeutralRoles.ArsonistMod
 
             if (__instance == role.IgniteButton && role.DousedAlive > 0)
             {
+                if (role.DousedAlive < PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) && role.DousedAlive < CustomGameOptions.MaxDoused) return false;
                 if (role.ClosestPlayerIgnite == null) return false;
                 var distBetweenPlayers2 = Utils.GetDistBetweenPlayers(PlayerControl.LocalPlayer, role.ClosestPlayerIgnite);
                 var flag3 = distBetweenPlayers2 <

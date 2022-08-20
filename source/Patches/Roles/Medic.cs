@@ -21,7 +21,7 @@ namespace BetterTownOfUs.Roles
             LightDarkColors.Add(1, "darker"); //Blue
             LightDarkColors.Add(2, "darker"); //Green
             LightDarkColors.Add(3, "lighter"); //Pink
-            LightDarkColors.Add(4, "lighter"); //Orange
+            LightDarkColors.Add(4, "darker"); //Orange
             LightDarkColors.Add(5, "lighter"); //Yellow
             LightDarkColors.Add(6, "darker"); //Black
             LightDarkColors.Add(7, "lighter"); //White
@@ -44,7 +44,7 @@ namespace BetterTownOfUs.Roles
             LightDarkColors.Add(24, "lighter"); //Lilac
             LightDarkColors.Add(25, "darker"); //Olive
             LightDarkColors.Add(26, "lighter"); //Azure
-            LightDarkColors.Add(27, "lighter"); //Rainbow
+            LightDarkColors.Add(27, "lighter"); //Panda
         }
 
         public PlayerControl ClosestPlayer;

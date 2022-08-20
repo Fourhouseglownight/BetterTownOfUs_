@@ -12,13 +12,18 @@ namespace BetterTownOfUs.Patches
         [HarmonyPostfix]
         public static void Postfix(HudManager __instance)
         {
-            foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+            try
             {
-                if (!player.Data.IsDead)
-                    player.transform.localScale = player.GetAppearance().SizeFactor;
-                else
-                    player.transform.localScale = new Vector3(0.7f, 0.7f, 1.0f);
+                foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+                {
+                    if (!player.Data.IsDead)
+                        player.transform.localScale = player.GetAppearance().SizeFactor;
+                    else
+                        player.transform.localScale = new Vector3(0.7f, 0.7f, 1.0f);
+                }
             }
+            catch
+            {}
 
             var playerBindings = PlayerControl.AllPlayerControls.ToArray().ToDictionary(player => player.PlayerId);
             var bodies = UnityEngine.Object.FindObjectsOfType<DeadBody>();

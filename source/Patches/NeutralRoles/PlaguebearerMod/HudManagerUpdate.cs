@@ -47,6 +47,30 @@ namespace BetterTownOfUs.NeutralRoles.PlaguebearerMod
                 Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, float.NaN, notInfected);
             }
 
+            var renderer = __instance.KillButton.graphic;
+            if (role.ClosestPlayer != null)
+            {
+                renderer.color = Palette.EnabledColor;
+                renderer.material.SetFloat("_Desat", 0f);
+            }
+            else
+            {
+                renderer.color = Palette.DisabledClear;
+                renderer.material.SetFloat("_Desat", 1f);
+            }
+            
+
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (role.ClosestPlayer != null && player == role.ClosestPlayer && __instance.enabled)
+                {
+                    player.myRend().material.SetFloat("_Outline", 1f);
+                    player.myRend().material.SetColor("_OutlineColor", role.Color);
+                    continue;
+                }
+                player.myRend().material.SetFloat("_Outline", 0f);
+            }
+
             if (role.CanTransform && (PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList().Count > 1) && !isDead)
             {
                 var transform = false;

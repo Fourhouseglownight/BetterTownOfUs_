@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using BepInEx.Logging;
 using Newtonsoft.Json;
 using Reactor;
 using Reactor.Extensions;

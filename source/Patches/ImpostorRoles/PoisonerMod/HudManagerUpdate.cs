@@ -39,11 +39,6 @@ namespace BetterTownOfUs.ImpostorRoles.PoisonerMod
                     .ToList();
             Utils.SetTarget(ref role.ClosestPlayer, role.PoisonButton, float.NaN, notImp, true);
 
-            if (role.ClosestPlayer != null)
-            {
-                role.ClosestPlayer.myRend().material.SetColor("_OutlineColor", Palette.Purple);
-            }
-
             role.Player.SetKillTimer(1f);
             try
             {

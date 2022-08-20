@@ -9,7 +9,6 @@ using HarmonyLib;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using Reactor;
-using UnhollowerBaseLib;
 using BetterTownOfUs.Roles;
 using Hazel;
 
@@ -364,41 +363,46 @@ namespace BetterTownOfUs.Patches
 
         public static void Ghostrolefix(PlayerPhysics __instance)
         {
-            if (Loaded && __instance.myPlayer.Data.IsDead)
+            try
             {
-                PlayerControl player = __instance.myPlayer;
-                if (player.Is(RoleEnum.Phantom))
+                if (Loaded && __instance.myPlayer.Data.IsDead)
                 {
-
-                    if (!Role.GetRole<Phantom>(player).Caught)
+                    PlayerControl player = __instance.myPlayer;
+                    if (player.Is(RoleEnum.Phantom))
                     {
 
-                        if (player.AmOwner) MoveDeadPlayerElevator(player);
-                        else player.Collider.enabled = false;
-                        Transform transform = __instance.transform;
-                        Vector3 position = transform.position;
-                        position.z = position.y/1000;
+                        if (!Role.GetRole<Phantom>(player).Caught)
+                        {
 
-                        transform.position = position;
-                        __instance.myPlayer.gameObject.layer = 8;
+                            if (player.AmOwner) MoveDeadPlayerElevator(player);
+                            else player.Collider.enabled = false;
+                            Transform transform = __instance.transform;
+                            Vector3 position = transform.position;
+                            position.z = position.y/1000;
+
+                            transform.position = position;
+                            __instance.myPlayer.gameObject.layer = 8;
+                        }
                     }
-                }
-                if (player.Is(RoleEnum.Haunter))
-                {
-                    if (!Role.GetRole<Haunter>(player).Caught)
+                    if (player.Is(RoleEnum.Haunter))
                     {
+                        if (!Role.GetRole<Haunter>(player).Caught)
+                        {
 
-                        if (player.AmOwner) MoveDeadPlayerElevator(player);
-                        else player.Collider.enabled = false;
-                        Transform transform = __instance.transform;
-                        Vector3 position = transform.position;
-                        position.z = position.y / 1000;
+                            if (player.AmOwner) MoveDeadPlayerElevator(player);
+                            else player.Collider.enabled = false;
+                            Transform transform = __instance.transform;
+                            Vector3 position = transform.position;
+                            position.z = position.y / 1000;
 
-                        transform.position = position;
-                        __instance.myPlayer.gameObject.layer = 8;
+                            transform.position = position;
+                            __instance.myPlayer.gameObject.layer = 8;
+                        }
                     }
                 }
             }
+            catch
+            {}
         }
         public static MonoBehaviour AddSubmergedComponent(this GameObject obj, string typeName)
         {

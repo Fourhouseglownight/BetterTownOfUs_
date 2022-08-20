@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using BetterTownOfUs.Roles;
+using BetterTownOfUs.Extensions;
 
 namespace BetterTownOfUs.CrewmateRoles.MedicMod
 {
@@ -23,19 +24,39 @@ namespace BetterTownOfUs.CrewmateRoles.MedicMod
 
             var role = Role.GetRole<Medic>(PlayerControl.LocalPlayer);
 
-
-            if (isDead)
+            if (isDead || role.UsedAbility)
             {
                 protectButton.gameObject.SetActive(false);
-             //   protectButton.isActive = false;
+                return;
             }
             else
             {
                 protectButton.gameObject.SetActive(!MeetingHud.Instance);
-                //protectButton.isActive = !MeetingHud.Instance;
                 protectButton.SetCoolDown(0f, 1f);
-                if (role.UsedAbility) return;
                 Utils.SetTarget(ref role.ClosestPlayer, protectButton);
+            }
+
+            var renderer = protectButton.graphic;
+            if (role.ClosestPlayer != null)
+            {
+                renderer.color = Palette.EnabledColor;
+                renderer.material.SetFloat("_Desat", 0f);
+            }
+            else
+            {
+                renderer.color = Palette.DisabledClear;
+                renderer.material.SetFloat("_Desat", 1f);
+            }
+
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (role.ClosestPlayer != null && player == role.ClosestPlayer && __instance.enabled)
+                {
+                    player.myRend().material.SetFloat("_Outline", 1f);
+                    player.myRend().material.SetColor("_OutlineColor", Palette.CrewmateBlue);
+                    continue;
+                }
+                player.myRend().material.SetFloat("_Outline", 0f);
             }
         }
     }

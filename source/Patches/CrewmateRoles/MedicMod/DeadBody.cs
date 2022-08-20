@@ -44,7 +44,7 @@ namespace BetterTownOfUs.CrewmateRoles.MedicMod
                 {1, "darker"},// blue
                 {2, "darker"},// green
                 {3, "lighter"},// pink
-                {4, "lighter"},// orange
+                {4, "darker"},// orange
                 {5, "lighter"},// yellow
                 {6, "darker"},// black
                 {7, "lighter"},// white
@@ -67,7 +67,7 @@ namespace BetterTownOfUs.CrewmateRoles.MedicMod
                 {24, "lighter"},// lilac
                 {25, "darker"},// olive
                 {26, "lighter"},// azure
-                {27, "lighter"},// rainbow
+                {27, "lighter"},// panda
             };
             var typeOfColor = colors[br.Killer.GetDefaultOutfit().ColorId];
             return

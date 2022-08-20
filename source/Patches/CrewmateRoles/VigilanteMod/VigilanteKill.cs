@@ -1,10 +1,8 @@
 ﻿using System.Linq;
 using Hazel;
-using Reactor;
 using BetterTownOfUs.Roles;
 using BetterTownOfUs.Roles.Modifiers;
 using UnityEngine;
-using UnityEngine.UI;
 using BetterTownOfUs.CrewmateRoles.MedicMod;
 using BetterTownOfUs.Modifiers.AssassinMod;
 using BetterTownOfUs.ImpostorRoles.BlackmailerMod;

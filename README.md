@@ -2,7 +2,7 @@
 
 [![Release Version](https://img.shields.io/github/v/release/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Release Date](https://img.shields.io/github/release-date/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
-[![Total Downloads](https://img.shields.io/github/downloads/VincentVision/BetterTownOfUs/total?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)   
+[![Total Downloads](https://img.shields.io/github/downloads/VincentVision/BetterTownOfUs/total?style=plastic)](https://github.com/VincentVision/BetterTownofUs/releases)
 [![Download@Latest](https://img.shields.io/github/downloads/vincentvision/bettertownofus/latest/total?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/releases/latest)
 [![Open Issues](https://img.shields.io/github/issues-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownofUs/issues)
 [![Closed Issues](https://img.shields.io/github/issues-closed-raw/VincentVision/BetterTownOfUs?style=plastic)](https://github.com/VincentVision/BetterTownOfUs/issues?q=is%3Aissue+is%3Aclosed)  
@@ -28,16 +28,13 @@ Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfami
       <ul> <li>Option "New Tasks Positions"/"New Tasks Positions" option. </li> </ul>
     </details>
   </li> </ul>
-  <!-- <ul> <li>Options "Impostors Don't Know Their Team" et "Impostors Can Win Solo"/"Impostors Don't Know Their Team" and "Impostors Can Win Solo" options. </li> </ul>
+  <!-- <ul> <li>Options "Impostors Don't Know Their Team" et "Impostors Can Win Solo"/"Impostors Don't Know Their Team" and "Impostors Can Win Solo" options. </li> </ul> -->
   <ul> <li>Rôle Imposteur "Lycan"/"Lycan" Imposotor Role. </li> </ul>
-  <ul> <li>Rôle Neutre "Parasite"/"Parasite" Neutral Role. </li> </ul> -->
+  <!-- <ul> <li>Rôle Neutre "Parasite"/"Parasite" Neutral Role. </li> </ul> -->
   <ul> <li>Rôle Neutre "Cannibal"/"Cannibal" Neutral Role. </li> </ul>
-  <!-- <ul> <li>Rôle Neutre "Mentalist"/"Mentalist" Neutral Role. </li> </ul>
-  <ul> <li>L'Assassin devient un modifieur Imposteur/Assassin become a Impostor Modifier. </li> </ul>
-  <ul> <li>Option "Can't kill players in vent"/"Can't kill players in vent" option. </li> </ul>
-  <ul> <li>Option "Loving Impostor can't kill his Lover"/"Loving Impostor can't kill his Lover" option. </li> </ul>
-  <ul> <li>Option "Can't report voted Lover"/"Can't report voted Lover" option. </li> </ul>  -->
-  <ul> <li>Option "Jester Can Switch Beetween Vent"/"Jester Can Switch Beetween Vent" option. </li> </ul>
+  <!-- <ul> <li>Option "Can't kill players in vent"/"Can't kill players in vent" option. </li> </ul>  -->
+  <ul> <li>Les Lovers ne peuvent pas se tuer/Lovers can't kill each other. </li> </ul>
+  <ul> <li>Option "Jester Can Move In Vent"/"Jester Can Move In Vent" option. </li> </ul>
   <ul> <li>Arsonist passe de Neutral Killing à Neutral Evil/Arsonist is now Neutral Evil from Neutral Killing. </li> </ul>
   <ul> <li>Option "Killing Neutral Can Guess"/"Killing Neutral Can Guess" option. </li> </ul>
   <!-- <ul> <li>Option "Shifter Suicide on Sheriff Kills"/"Shifter Suicide on Sheriff Kills" option. </li> </ul> -->
@@ -66,13 +63,9 @@ Imagined by the **[Town of Us Discord French-speaking](https://dsc.gg/visionfami
   <ul> <li>Ajout de l'affichage du bouclier du medic pendant les meetings/Add shield display in meetings. </li> </ul>
   <ul> <li>Option "Jester & Executioner Can Spawn In Same Game" permet d'avoir qu'un des 2 sans choisir/"Jester & Executioner Can Spawn In Same Game" option to have only one of two without choose. </li> </ul>
   <ul> <li>Option "Medic Report Can't Have Name If Flashed By Grenadier" le Medic ne pourra pas avoir le nom du tueur (il aura ligther ou darker à la place) s'il report pendant qu'il est flashé par le grenadier/"Medic Report Can't Have Name If Flashed By Grenadier" Medic have only darker or lighter color when he report while he flashed by Grenadier. </li> </ul>
-  <ul> <li>Le Cannibal et le Janitor ne peuvent pas apparaître dans la même partie/Cannibal and Janitor can't spawn in same game. </li> </ul>
+  <ul> <li>Le Janitor, le Lycan et le Cannibal et  ne peuvent pas apparaître dans la même partie/Janitor, Lycan and Cannibal can't spawn in same game. </li> </ul>
   <ul> <li>Remplace la couleur arc-en-ciel par la couleur Panda/New Panda color replace the Rainbow color. </li> </ul>
-  <ul> <li>Nouveau chapeau Panda/New Panda hat. </li> </ul>
-  <ul> <li>Nouveau chapeau Gok'Us/New Gok'Us hat. </li> </ul>
-  <ul> <li>Nouveau chapeau Gok'Us SSJ/New Gok'Us SSJ hat. </li> </ul>
-  <ul> <li>Nouveau chapeau Pikach'Us/New Pikach'Us hat. </li> </ul>
-  <ul> <li>Nouveau chapeau Mario/New Mario hat. </li> </ul>
+  <ul> <li>Nouveaux chapeaux persos/News customs hats. </li> </ul>
 </details>  
 
 ## Sommaire/Summary  

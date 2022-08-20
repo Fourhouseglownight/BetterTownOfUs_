@@ -8,9 +8,9 @@ namespace BetterTownOfUs.NeutralRoles.GuardianAngelMod
 {
     public enum ProtectOptions
     {
+        GA,
         SelfAndGA,
         Self,
-        GA,
         Everyone
     }
 

@@ -351,6 +351,9 @@ namespace BetterTownOfUs
                 //if (callId >= 43) //System.Console.WriteLine("Received " + callId);
                 byte readByte, readByte1, readByte2;
                 sbyte readSByte, readSByte2;
+                BetterTownOfUs.Logger.LogMessage("RPC");
+                BetterTownOfUs.Logger.LogMessage(callId);
+                BetterTownOfUs.Logger.LogMessage((CustomRPC) callId);
                 switch ((CustomRPC) callId)
                 {
                     case CustomRPC.SetMayor:
@@ -659,7 +662,9 @@ namespace BetterTownOfUs
                         break;
                     case CustomRPC.VigilanteKill:
                         var toDie2 = Utils.PlayerById(reader.ReadByte());
+                        BetterTownOfUs.Logger.LogMessage("VigilanteKill");
                         VigilanteKill.MurderPlayer(toDie2);
+                        BetterTownOfUs.Logger.LogMessage("VigilanteKill 2");
                         break;
                     case CustomRPC.SetMimic:
                         var glitchPlayer = Utils.PlayerById(reader.ReadByte());

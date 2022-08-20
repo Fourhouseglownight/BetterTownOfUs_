@@ -38,7 +38,7 @@ namespace BetterTownOfUs.Roles
 
         public static VisualAppearance WolfAppear = new VisualAppearance()
         {
-            SizeFactor = new Vector3(0.9f, 0.9f, 0.9f)
+            SizeFactor = new Vector3(0.9f, 0.9f, 1f)
         };
 
         public static GameData.PlayerOutfit WolfOutfit = new GameData.PlayerOutfit()

@@ -16,11 +16,8 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             if (__instance.isCoolingDown) return false;
             if (!__instance.isActiveAndEnabled) return false;
-            var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
-            var specials = system.specials.ToArray();
-            var dummyActive = system.dummy.IsActive;
-            var sabActive = specials.Any(s => s.IsActive);
-            if (sabActive) return false;
+            var systems = ShipStatus.Instance.Systems;
+            if (HudManagerUpdate.CheckCommsSab(systems) & !systems[SystemTypes.Sabotage].Cast<SabotageSystemType>().dummy.IsActive) return false;
             var role = Role.GetRole<Spy>(PlayerControl.LocalPlayer);
             if (role.SpyTimer() != 0) return false;
             role.TimeRemaining = CustomGameOptions.SpyDuration;

@@ -47,7 +47,7 @@ namespace BetterTownOfUs.CrewmateRoles.SpyMod
             role.SpyButton.graphic.material.SetFloat("_Desat", 0f);
         }
 
-        private static bool CheckCommsSab(Dictionary<SystemTypes, ISystemType> systems)
+        public static bool CheckCommsSab(Dictionary<SystemTypes, ISystemType> systems)
         {
             switch (PlayerControl.GameOptions.MapId)
             {

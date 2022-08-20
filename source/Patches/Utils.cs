@@ -286,10 +286,10 @@ namespace BetterTownOfUs
 
         public static void MurderPlayer(PlayerControl killer, PlayerControl target)
         {
-            if (killer.IsLover() && target.IsLover() && !killer.Is(RoleEnum.Arsonist)) return;
             var data = target.Data;
             if (data != null && !data.IsDead)
             {
+                if (killer.IsLover() && target.IsLover() && target != killer && !killer.Is(RoleEnum.Arsonist)) return;
                 if (killer == PlayerControl.LocalPlayer)
                     SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
 

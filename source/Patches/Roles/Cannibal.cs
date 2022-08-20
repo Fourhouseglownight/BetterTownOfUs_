@@ -14,7 +14,7 @@ namespace BetterTownOfUs.Roles
 
         public Cannibal(PlayerControl player) : base(player)
         {
-            EatNeeded = CustomGameOptions.EatNeeded == 0 ? PlayerControl.AllPlayerControls._size / 3 : CustomGameOptions.EatNeeded;
+            EatNeeded = CustomGameOptions.EatNeeded == 0 ? PlayerControl.AllPlayerControls._size / 4 : CustomGameOptions.EatNeeded;
             string body = EatNeeded == 1 ? "Body" : "Bodies";
             Name = "Cannibal";
             ImpostorText = () => "Eat bodies to win";
