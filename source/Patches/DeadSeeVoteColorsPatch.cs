@@ -1,5 +1,6 @@
 using HarmonyLib;
 using UnityEngine;
+using BetterTownOfUs.Roles.Modifiers;
 
 namespace BetterTownOfUs
 {
@@ -10,14 +11,18 @@ namespace BetterTownOfUs
             [HarmonyArgument(1)] int index, [HarmonyArgument(2)] Transform parent)
         {
             SpriteRenderer spriteRenderer = Object.Instantiate<SpriteRenderer>(__instance.PlayerVotePrefab);
-            if (PlayerControl.GameOptions.AnonymousVotes && (!CustomGameOptions.DeadSeeRoles || !PlayerControl.LocalPlayer.Data.IsDead))
+            if (PlayerControl.GameOptions.AnonymousVotes && (!CustomGameOptions.DeadSeeRoles || !PlayerControl.LocalPlayer.Data.IsDead) && !PlayerControl.LocalPlayer.Is(ModifierEnum.VoteCounter))
             {
-                //PlayerControl.SetPlayerMaterialColors(Palette.DisabledGrey, spriteRenderer);
                 PlayerMaterial.SetColors(Palette.DisabledGrey, spriteRenderer);
+            }
+            else if (PlayerControl.LocalPlayer.Is(ModifierEnum.VoteCounter))
+            {
+                var modifier = Modifier.GetModifier<VoteCounter>(PlayerControl.LocalPlayer);
+                if (modifier.Hidden || voterPlayer.PlayerId != modifier.TargetId) PlayerMaterial.SetColors(Palette.DisabledGrey, spriteRenderer);
+                else PlayerMaterial.SetColors(voterPlayer.DefaultOutfit.ColorId, spriteRenderer);
             }
             else
             {
-                //PlayerControl.SetPlayerMaterialColors(voterPlayer.DefaultOutfit.ColorId, spriteRenderer);
                 PlayerMaterial.SetColors(voterPlayer.DefaultOutfit.ColorId, spriteRenderer);
             }
             spriteRenderer.transform.SetParent(parent);

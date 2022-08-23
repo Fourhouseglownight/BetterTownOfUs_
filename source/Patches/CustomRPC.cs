@@ -55,6 +55,7 @@ namespace BetterTownOfUs
         SetBait,
         SetSleuth,
         SetBlind,
+        SetVoteCounter,
         SetAssassin,
 
         SetPhantom,
@@ -119,8 +120,8 @@ namespace BetterTownOfUs
         Ignite,
         AltruistRevive,
         BarryButton,
-        Drag,
-        Drop = 220,
+        Drag = 220,
+        Drop,
         AssassinKill,
         AssassinFail,
         VigilanteKill,

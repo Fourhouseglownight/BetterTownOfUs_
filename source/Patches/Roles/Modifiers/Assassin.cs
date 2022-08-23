@@ -69,7 +69,7 @@ namespace BetterTownOfUs.Roles.Modifiers
             {
                 if (CustomGameOptions.GlitchOn > 0) ColorMapping.Add("The Glitch", Colors.Glitch);
                 if (CustomGameOptions.PlaguebearerOn > 0) ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
-                if (CustomGameOptions.WerewolfOn > 0) ColorMapping.Add("Werewolf", Colors.Werewolf);
+                if (RpcHandling.NumImpostors > 1 && CustomGameOptions.WerewolfOn > 0) ColorMapping.Add("Werewolf", Colors.Werewolf);
                 ColorMapping.Add("Juggernaut", Colors.Juggernaut);
             }
             if (CustomGameOptions.NeutralGuess && player.Is(Faction.Neutral))
@@ -78,10 +78,10 @@ namespace BetterTownOfUs.Roles.Modifiers
                 if (CustomGameOptions.SwooperOn > 0) ColorMapping.Add("Swooper", Colors.Impostor);
                 if (CustomGameOptions.MorphlingOn > 0) ColorMapping.Add("Morphling", Colors.Impostor);
                 if (CustomGameOptions.PoisonerOn > 0) ColorMapping.Add("Poisoner", Colors.Impostor);
-                if (CustomGameOptions.UnderdogOn > 0) ColorMapping.Add("Underdog", Colors.Impostor);
+                if (RpcHandling.NumImpostors > 1 && CustomGameOptions.UnderdogOn > 0) ColorMapping.Add("Underdog", Colors.Impostor);
                 if (CustomGameOptions.LycanOn > 0) ColorMapping.Add("Lycan", Colors.Impostor);
                 if (CustomGameOptions.TraitorOn > 0) ColorMapping.Add("Traitor", Colors.Impostor);
-                if (CustomGameOptions.JanitorOn > 0) ColorMapping.Add("Janitor", Colors.Impostor);
+                if (RpcHandling.NumImpostors > 1 && CustomGameOptions.JanitorOn > 0) ColorMapping.Add("Janitor", Colors.Impostor);
                 if (CustomGameOptions.MinerOn > 0) ColorMapping.Add("Miner", Colors.Impostor);
                 if (CustomGameOptions.UndertakerOn > 0) ColorMapping.Add("Undertaker", Colors.Impostor);
                 if (CustomGameOptions.BlackmailerOn > 0) ColorMapping.Add("Blackmailer", Colors.Impostor);
@@ -94,7 +94,10 @@ namespace BetterTownOfUs.Roles.Modifiers
             if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.BaitOn > 0) ColorMapping.Add("Bait", Colors.Bait);
             if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.DiseasedOn > 0) ColorMapping.Add("Diseased", Colors.Diseased);
             if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.TorchOn > 0) ColorMapping.Add("Torch", Colors.Torch);
+            if (PlayerControl.GameOptions.AnonymousVotes && CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.VoteCounterOn > 0) ColorMapping.Add("Vote Counter", Colors.VoteCounter);
             if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.SleuthOn > 0) ColorMapping.Add("Sleuth", Colors.Sleuth);
+            if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.TiebreakerOn > 0) ColorMapping.Add("Tiebreaker", Colors.Sleuth);
+            if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.BlindOn > 0) ColorMapping.Add("Blind", Colors.Sleuth);
             if (CustomGameOptions.AssassinGuessLovers && CustomGameOptions.LoversOn > 0) ColorMapping.Add("Lover", Colors.Lovers);
 
             // Sorts the list alphabetically. 

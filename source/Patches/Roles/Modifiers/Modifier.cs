@@ -12,15 +12,15 @@ namespace BetterTownOfUs.Roles.Modifiers
     public abstract class Modifier
     {
         public static readonly Dictionary<byte, Modifier> ModifierDictionary = new Dictionary<byte, Modifier>();
+        public static IEnumerable<Modifier> AllModifiers => ModifierDictionary.Values.ToList();
         public Func<string> TaskText;
+        protected internal bool Hidden { get; set; } = false;
 
         protected Modifier(PlayerControl player)
         {
             Player = player;
             ModifierDictionary.Add(player.PlayerId, this);
         }
-
-        public static IEnumerable<Modifier> AllModifiers => ModifierDictionary.Values.ToList();
         protected internal string Name { get; set; }
         protected internal string SymbolName { get; set; }
 
@@ -108,6 +108,11 @@ namespace BetterTownOfUs.Roles.Modifiers
             var player = PlayerControl.AllPlayerControls.ToArray()
                 .FirstOrDefault(x => x.PlayerId == area.TargetPlayerId);
             return player == null ? null : GetModifier(player);
+        }
+
+        public static IEnumerable<Modifier> GetModifiers(ModifierEnum modifierType)
+        {
+            return AllModifiers.Where(x => x.ModifierType == modifierType);
         }
     }
 

@@ -42,7 +42,7 @@ namespace BetterTownOfUs.Roles
 
         internal override bool EABBNOODFGL(ShipStatus __instance)
         {
-            if (Player.Data.IsDead || Player.Data.Disconnected) return true;
+            if (Player.Data.Disconnected) return true;
 
             if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) == 0)
             {

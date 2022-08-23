@@ -36,6 +36,7 @@ namespace BetterTownOfUs
     public static class RpcHandling
     {
         public static bool CheckImpostors;
+        public static int NumImpostors;
         private static readonly List<(Type, CustomRPC, int)> CrewmateRoles = new List<(Type, CustomRPC, int)>();
         private static readonly List<(Type, CustomRPC, int)> NeutralNonKillingRoles = new List<(Type, CustomRPC, int)>();
         private static readonly List<(Type, CustomRPC, int)> NeutralKillingRoles = new List<(Type, CustomRPC, int)>();
@@ -351,9 +352,6 @@ namespace BetterTownOfUs
                 //if (callId >= 43) //System.Console.WriteLine("Received " + callId);
                 byte readByte, readByte1, readByte2;
                 sbyte readSByte, readSByte2;
-                BetterTownOfUs.Logger.LogMessage("RPC");
-                BetterTownOfUs.Logger.LogMessage(callId);
-                BetterTownOfUs.Logger.LogMessage((CustomRPC) callId);
                 switch ((CustomRPC) callId)
                 {
                     case CustomRPC.SetMayor:
@@ -418,6 +416,10 @@ namespace BetterTownOfUs
                     case CustomRPC.SetBait:
                         readByte = reader.ReadByte();
                         new Bait(Utils.PlayerById(readByte));
+                        break;
+                    case CustomRPC.SetVoteCounter:
+                        readByte = reader.ReadByte();
+                        new VoteCounter(Utils.PlayerById(readByte));
                         break;
                     case CustomRPC.SetFlash:
                         readByte = reader.ReadByte();
@@ -1164,7 +1166,7 @@ namespace BetterTownOfUs
             public static void Postfix()
             {
                 var infected = GameData.Instance.AllPlayers.ToArray().Where(o => o.IsImpostor());
-                var num = infected.Count();
+                NumImpostors = infected.Count();
 
                 Utils.ShowDeadBodies = false;
                 Role.NobodyWins = false;
@@ -1281,14 +1283,14 @@ namespace BetterTownOfUs
                 if (CustomGameOptions.PlaguebearerOn > 0)
                     NeutralKillingRoles.Add((typeof(Plaguebearer), CustomRPC.SetPlaguebearer, CustomGameOptions.PlaguebearerOn));
 
-                if (num > 1 && CustomGameOptions.WerewolfOn > 0)
+                if (NumImpostors > 1 && CustomGameOptions.WerewolfOn > 0)
                     NeutralKillingRoles.Add((typeof(Werewolf), CustomRPC.SetWerewolf, CustomGameOptions.WerewolfOn));
                 #endregion
                 #region Impostor Roles
                 if (CustomGameOptions.UndertakerOn > 0)
                     ImpostorRoles.Add((typeof(Undertaker), CustomRPC.SetUndertaker, CustomGameOptions.UndertakerOn));
 
-                if (num > 1 && CustomGameOptions.UnderdogOn > 0)
+                if (NumImpostors > 1 && CustomGameOptions.UnderdogOn > 0)
                     ImpostorRoles.Add((typeof(Underdog), CustomRPC.SetUnderdog, CustomGameOptions.UnderdogOn));
 
                 if (CustomGameOptions.LycanOn > 0)
@@ -1306,7 +1308,7 @@ namespace BetterTownOfUs
                 if (CustomGameOptions.SwooperOn > 0)
                     ImpostorRoles.Add((typeof(Swooper), CustomRPC.SetSwooper, CustomGameOptions.SwooperOn));
 
-                if (num > 1 && CustomGameOptions.JanitorOn > 0)
+                if (NumImpostors > 1 && CustomGameOptions.JanitorOn > 0)
                     cleaningRoles.Add((typeof(Janitor), CustomRPC.SetJanitor, CustomGameOptions.JanitorOn));
 
                 if (CustomGameOptions.GrenadierOn > 0)
@@ -1324,6 +1326,9 @@ namespace BetterTownOfUs
 
                 if (Check(CustomGameOptions.BaitOn))
                     CrewmateModifiers.Add((typeof(Bait), CustomRPC.SetBait, CustomGameOptions.BaitOn));
+
+                if (PlayerControl.GameOptions.AnonymousVotes && Check(CustomGameOptions.VoteCounterOn))
+                    CrewmateModifiers.Add((typeof(VoteCounter), CustomRPC.SetVoteCounter, CustomGameOptions.VoteCounterOn));
                 #endregion
                 #region Global Modifiers
                 if (Check(CustomGameOptions.TiebreakerOn))

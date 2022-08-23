@@ -37,7 +37,7 @@ namespace BetterTownOfUs.CrewmateRoles.SwapperMod
         {
             public static bool Prefix(MeetingHud __instance)
             {
-                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Swapper)) return true;
+                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Swapper) || CustomGameOptions.SwapAfterVoting) return true;
                 var swapper = Role.GetRole<Swapper>(PlayerControl.LocalPlayer);
                 foreach (var button in swapper.Buttons.Where(button => button != null))
                 {

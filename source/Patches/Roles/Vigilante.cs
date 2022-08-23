@@ -31,13 +31,13 @@ namespace BetterTownOfUs.Roles
 
             // Adds all the roles that have a non-zero chance of being in the game.
             ColorMapping.Add("Impostor", Colors.Impostor);
-            if (CustomGameOptions.JanitorOn > 0) ColorMapping.Add("Janitor", Colors.Impostor);
+            if (RpcHandling.NumImpostors > 1 && CustomGameOptions.JanitorOn > 0) ColorMapping.Add("Janitor", Colors.Impostor);
             if (CustomGameOptions.MorphlingOn > 0) ColorMapping.Add("Morphling", Colors.Impostor);
             //if (CustomGameOptions.CamouflagerOn > 0) ColorMapping.Add("Camouflager", Colors.Impostor);
             if (CustomGameOptions.MinerOn > 0) ColorMapping.Add("Miner", Colors.Impostor);
             if (CustomGameOptions.SwooperOn > 0) ColorMapping.Add("Swooper", Colors.Impostor);
             if (CustomGameOptions.UndertakerOn > 0) ColorMapping.Add("Undertaker", Colors.Impostor);
-            if (CustomGameOptions.UnderdogOn > 0) ColorMapping.Add("Underdog", Colors.Impostor);
+            if (RpcHandling.NumImpostors > 1 && CustomGameOptions.UnderdogOn > 0) ColorMapping.Add("Underdog", Colors.Impostor);
             if (CustomGameOptions.LycanOn > 0) ColorMapping.Add("Lycan", Colors.Impostor);
             if (CustomGameOptions.GrenadierOn > 0) ColorMapping.Add("Grenadier", Colors.Impostor);
             if (CustomGameOptions.PoisonerOn > 0) ColorMapping.Add("Poisoner", Colors.Impostor);
@@ -61,9 +61,12 @@ namespace BetterTownOfUs.Roles
             {
                 if (CustomGameOptions.GlitchOn > 0) ColorMapping.Add("The Glitch", Colors.Glitch);
                 if (CustomGameOptions.PlaguebearerOn > 0) ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
-                if (CustomGameOptions.WerewolfOn > 0) ColorMapping.Add("Werewolf", Colors.Werewolf);
+                if (RpcHandling.NumImpostors > 1 && CustomGameOptions.WerewolfOn > 0) ColorMapping.Add("Werewolf", Colors.Werewolf);
                 ColorMapping.Add("Juggernaut", Colors.Juggernaut);
             }
+            if (CustomGameOptions.VigilanteGuessModifiers && CustomGameOptions.SleuthOn > 0) ColorMapping.Add("Sleuth", Colors.Sleuth);
+            if (CustomGameOptions.VigilanteGuessModifiers && CustomGameOptions.TiebreakerOn > 0) ColorMapping.Add("Tiebreaker", Colors.Sleuth);
+            if (CustomGameOptions.VigilanteGuessModifiers && CustomGameOptions.BlindOn > 0) ColorMapping.Add("Blind", Colors.Sleuth);
             if (CustomGameOptions.VigilanteGuessLovers && CustomGameOptions.LoversOn > 0) ColorMapping.Add("Lover", Colors.Lovers);
 
             // Sorts the list alphabetically. 

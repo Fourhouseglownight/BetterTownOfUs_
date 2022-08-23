@@ -66,7 +66,8 @@ namespace BetterTownOfUs
         ButtonBarry,
         Bait,
         Sleuth,
-        Blind
+        Blind,
+        VoteCounter
     }
 
     public enum AbilityEnum

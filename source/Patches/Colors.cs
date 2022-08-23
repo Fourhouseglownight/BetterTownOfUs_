@@ -50,6 +50,7 @@ namespace BetterTownOfUs.Patches
         public readonly static Color Blind = new Color(0.6f, 0.6f, 0.6f, 1f);
         public readonly static Color Diseased = Color.grey;
         public readonly static Color Torch = new Color(1f, 1f, 0.6f, 1f);
+        public readonly static Color VoteCounter = new Color(0.55f, 1.05f, 2.54f, 1f);
         public readonly static Color ButtonBarry = new Color(0.9f, 0f, 1f, 1f);
         public readonly static Color Flash = new Color(1f, 0.5f, 0.5f, 1f);
         public readonly static Color Giant = new Color(1f, 0.7f, 0.3f, 1f);

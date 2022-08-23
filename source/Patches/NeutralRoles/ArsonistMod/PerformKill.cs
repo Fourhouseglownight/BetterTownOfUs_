@@ -22,44 +22,16 @@ namespace BetterTownOfUs.NeutralRoles.ArsonistMod
 
             if (__instance == role.IgniteButton && role.DousedAlive > 0)
             {
-                if (role.DousedAlive < PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) && role.DousedAlive < CustomGameOptions.MaxDoused) return false;
+                BetterTownOfUs.Logger.LogMessage(role.DousedAlive);
+                BetterTownOfUs.Logger.LogMessage(PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected));
+                BetterTownOfUs.Logger.LogMessage(CustomGameOptions.MaxDoused);
+                if (role.DousedAlive < PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) - 1 && role.DousedAlive < CustomGameOptions.MaxDoused) return false;
                 if (role.ClosestPlayerIgnite == null) return false;
                 var distBetweenPlayers2 = Utils.GetDistBetweenPlayers(PlayerControl.LocalPlayer, role.ClosestPlayerIgnite);
                 var flag3 = distBetweenPlayers2 <
                             GameOptionsData.KillDistances[PlayerControl.GameOptions.KillDistance];
                 if (!flag3) return false;
                 if (!role.DousedPlayers.Contains(role.ClosestPlayerIgnite.PlayerId)) return false;
-
-                if (role.ClosestPlayerIgnite.IsInfected() || role.Player.IsInfected())
-                {
-                    foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(role.ClosestPlayerIgnite, role.Player);
-                }
-                if (role.ClosestPlayerIgnite.IsOnAlert() || role.ClosestPlayerIgnite.Is(RoleEnum.Pestilence))
-                {
-                    if (role.Player.IsShielded())
-                    {
-                        var writer3 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                        writer3.Write(PlayerControl.LocalPlayer.GetMedic().Player.PlayerId);
-                        writer3.Write(PlayerControl.LocalPlayer.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer3);
-
-                        System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
-                        if (CustomGameOptions.ShieldBreaks)
-                            role.LastDoused = DateTime.UtcNow;
-                        StopKill.BreakShield(PlayerControl.LocalPlayer.GetMedic().Player.PlayerId, PlayerControl.LocalPlayer.PlayerId, CustomGameOptions.ShieldBreaks);
-                        return false;
-                    }
-                    else if (!role.Player.IsProtected())
-                    {
-                        Utils.RpcMurderPlayer(role.ClosestPlayerIgnite, PlayerControl.LocalPlayer);
-                        return false;
-                    }
-                    role.LastDoused = DateTime.UtcNow;
-                    return false;
-                }
-
-                role.LastDoused = DateTime.UtcNow;
 
                 var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
                     (byte) CustomRPC.Ignite, SendOption.Reliable, -1);

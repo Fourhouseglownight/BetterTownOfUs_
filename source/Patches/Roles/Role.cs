@@ -9,7 +9,6 @@ using BetterTownOfUs.Roles.Modifiers;
 using UnhollowerBaseLib;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 using BetterTownOfUs.Extensions;
 using BetterTownOfUs.ImpostorRoles.TraitorMod;
 
@@ -32,8 +31,6 @@ namespace BetterTownOfUs.Roles
         {
             Player = player;
             RoleDictionary.Add(player.PlayerId, this);
-            //TotalTasks = player.Data.Tasks.Count;
-            //TasksLeft = TotalTasks;
         }
 
         public static IEnumerable<Role> AllRoles => RoleDictionary.Values.ToList();
@@ -373,7 +370,7 @@ namespace BetterTownOfUs.Roles
                 {
                     //System.Console.WriteLine("REACHED HERE - CREW");
                     var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
-                    if (modifier != null)
+                    if (modifier != null && !modifier.Hidden)
                         ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
                     //System.Console.WriteLine("MODIFIER TEXT PLEASE WORK");
                     //                        Scale = ModifierText.scale;
@@ -391,7 +388,7 @@ namespace BetterTownOfUs.Roles
                 {
                     //System.Console.WriteLine("REACHED HERE - IMP");
                     var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
-                    if (modifier != null)
+                    if (modifier != null && !modifier.Hidden)
                         ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
                     //System.Console.WriteLine("MODIFIER TEXT PLEASE WORK");
                     //                        Scale = ModifierText.scale;
@@ -422,15 +419,8 @@ namespace BetterTownOfUs.Roles
                         __instance.__4__this.RoleText.text = role.Name;
                         __instance.__4__this.RoleText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
-                        //    __instance.__4__this.ImpostorText.gameObject.SetActive(true);
                         __instance.__4__this.BackgroundBar.material.color = role.Color;
-                        //                        TestScale = Mathf.Max(__instance.__this.Title.scale, TestScale);
-                        //                        __instance.__this.Title.scale = TestScale / role.Scale;
                     }
-                    /*else if (!__instance.isImpostor)
-                    {
-                        __instance.__this.ImpostorText.text = "Haha imagine being a boring old crewmate";
-                    }*/
 
                     if (ModifierText != null)
                     {
@@ -524,7 +514,6 @@ namespace BetterTownOfUs.Roles
                         }
                         ModifierText.color = modifier.Color;
 
-                        //
                         ModifierText.transform.position =
                             __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
                         ModifierText.gameObject.SetActive(true);
@@ -543,7 +532,7 @@ namespace BetterTownOfUs.Roles
                 var role = GetRole(player);
                 var modifier = Modifier.GetModifier(player);
 
-                if (modifier != null)
+                if (modifier != null && !modifier.Hidden)
                 {
                     var modTask = new GameObject(modifier.Name + "Task").AddComponent<ImportantTextTask>();
                     modTask.transform.SetParent(player.transform, false);

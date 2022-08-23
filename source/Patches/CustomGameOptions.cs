@@ -72,6 +72,7 @@ namespace BetterTownOfUs
         public static int WerewolfOn => (int)Generate.WerewolfOn.Get();
         public static int DetectiveOn => (int)Generate.DetectiveOn.Get();
         public static int TorchOn => (int)Generate.TorchOn.Get();
+        public static int VoteCounterOn => (int)Generate.VoteCounterOn.Get();
         public static int DiseasedOn => (int)Generate.DiseasedOn.Get();
         public static int FlashOn => (int)Generate.FlashOn.Get();
         public static int TiebreakerOn => (int)Generate.TiebreakerOn.Get();
@@ -96,6 +97,7 @@ namespace BetterTownOfUs
         public static float SheriffKillCd => Generate.SheriffKillCd.Get();
         public static int MayorVoteBank => (int)Generate.MayorVoteBank.Get();
         public static bool MayorAnonymous => Generate.MayorAnonymous.Get();
+        public static bool SwapAfterVoting => Generate.SwapAfterVoting.Get();
         public static bool SwapperButton => Generate.SwapperButton.Get();
         public static float FootprintSize => Generate.FootprintSize.Get();
         public static float FootprintInterval => Generate.FootprintInterval.Get();
@@ -213,6 +215,7 @@ namespace BetterTownOfUs
         public static bool VigilanteGuessNeutralBenign => Generate.VigilanteGuessNeutralBenign.Get();
         public static bool VigilanteGuessNeutralEvil => Generate.VigilanteGuessNeutralEvil.Get();
         public static bool VigilanteGuessNeutralKilling => Generate.VigilanteGuessNeutralKilling.Get();
+        public static bool VigilanteGuessModifiers => Generate.VigilanteGuessNeutralKilling.Get();
         public static bool VigilanteGuessLovers => Generate.VigilanteGuessLovers.Get();
         public static int VigilanteKills => (int)Generate.VigilanteKills.Get();
         public static bool VigilanteMultiKill => Generate.VigilanteMultiKill.Get();

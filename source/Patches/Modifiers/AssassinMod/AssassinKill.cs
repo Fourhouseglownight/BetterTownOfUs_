@@ -130,6 +130,12 @@ namespace BetterTownOfUs.Modifiers.AssassinMod
                     var retributionist = Role.GetRole<Vigilante>(PlayerControl.LocalPlayer);
                     ShowHideButtonsVigi.HideButtonsVigi(retributionist);
                 }
+
+                if (player.Is(AbilityEnum.Assassin))
+                {
+                    var assassin = Ability.GetAbility<Assassin>(PlayerControl.LocalPlayer);
+                    ShowHideButtons.HideButtons(assassin);
+                }
             }
             player.Die(DeathReason.Kill);
             if (checkLover && player.IsLover() && CustomGameOptions.BothLoversDie)

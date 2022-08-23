@@ -86,6 +86,7 @@ namespace BetterTownOfUs.CrewmateRoles.SeerMod
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
             if (PlayerControl.LocalPlayer == null) return;
             if (PlayerControl.LocalPlayer.Data == null) return;
+            if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Seer)) return;
             var seer = Role.GetRole<Seer>(PlayerControl.LocalPlayer);
             if (MeetingHud.Instance != null) UpdateMeeting(MeetingHud.Instance, seer);

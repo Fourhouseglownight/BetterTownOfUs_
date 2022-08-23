@@ -106,6 +106,8 @@ namespace BetterTownOfUs.Patches {
                     playerRole += " (<color=#" + Patches.Colors.Lovers.ToHtmlStringRGBA() + ">Lover</color>)";
                 } else if (playerControl.Is(ModifierEnum.Sleuth)) {
                     playerRole += " (<color=#" + Patches.Colors.Sleuth.ToHtmlStringRGBA() + ">Sleuth</color>)";
+                } else if (playerControl.Is(ModifierEnum.VoteCounter)) {
+                    playerRole += " (<color=#" + Patches.Colors.VoteCounter.ToHtmlStringRGBA() + ">Vote Counter</color>)";
                 }  
                 AdditionalTempData.playerRoles.Add(new AdditionalTempData.PlayerRoleInfo() { PlayerName = playerControl.Data.PlayerName, Role = playerRole });
             }

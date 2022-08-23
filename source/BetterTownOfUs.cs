@@ -25,7 +25,7 @@ namespace BetterTownOfUs
         internal static BepInEx.Logging.ManualLogSource Logger;
         public const string Id = "fr.vincentvision.bettertownofus";
         public static string GetVersion() => typeof(BetterTownOfUs).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-        public const string ReleaseVersion = "2.1.15";
+        public const string ReleaseVersion = "2.1.16";
         public static System.Version Version = System.Version.Parse(GetVersion().Remove(GetVersion().LastIndexOf(".")));
         public static string Beta = GetVersion().Substring(GetVersion().LastIndexOf(".") + 1);
         public static string DisplayVersion = Beta == "0"
@@ -77,6 +77,8 @@ namespace BetterTownOfUs
         public static Sprite RampageSprite;
         public static Sprite TrapSprite;
         public static Sprite ExamineSprite;
+        public static Sprite VoteCount;
+        public static Sprite VoteCountDisabled;
 
         public static Sprite SettingsButtonSprite;
         public static Sprite ToUBanner;
@@ -152,6 +154,8 @@ namespace BetterTownOfUs
             RampageSprite = CreateSprite("BetterTownOfUs.Resources.Rampage.png");
             TrapSprite = CreateSprite("BetterTownOfUs.Resources.Trap.png");
             ExamineSprite = CreateSprite("BetterTownOfUs.Resources.Examine.png");
+            VoteCount = CreateSprite("BetterTownOfUs.Resources.VoteCount.png");
+            VoteCountDisabled = CreateSprite("BetterTownOfUs.Resources.VoteCountDisabled.png");
 
             SettingsButtonSprite = CreateSprite("BetterTownOfUs.Resources.SettingsButton.png");
             ToUBanner = CreateSprite("BetterTownOfUs.Resources.BetterTownOfUsBanner.png");
