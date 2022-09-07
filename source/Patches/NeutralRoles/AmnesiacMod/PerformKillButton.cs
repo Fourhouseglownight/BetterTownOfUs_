@@ -418,7 +418,7 @@ namespace BetterTownOfUs.NeutralRoles.AmnesiacMod
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
             }
 
-            if (amnesiac.Is(Faction.Impostors))
+            if (amnesiac.Is(Faction.Impostors) && (!amnesiac.Is(RoleEnum.Traitor) || CustomGameOptions.SnitchSeesTraitor))
             {
                 foreach (var snitch in Role.GetRoles(RoleEnum.Snitch))
                 {
@@ -456,6 +456,11 @@ namespace BetterTownOfUs.NeutralRoles.AmnesiacMod
             else if (other.Is(RoleEnum.Jester))
             {
                 var role2 = Role.GetRole<Jester>(other);
+                role2.RegenTask();
+            }
+            else if (other.Is(RoleEnum.Survivor))
+            {
+                var role2 = Role.GetRole<Survivor>(other);
                 role2.RegenTask();
             }
             else if (other.Is(RoleEnum.Cannibal))

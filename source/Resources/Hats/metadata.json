@@ -1441,6 +1441,21 @@
       "artist": "Little Doo Doo"
     },
     {
+      "id": "standard0041",
+      "name": "Frog hat",
+      "artist": "Ressnie"
+    },
+    {
+      "id": "standard0042",
+      "name": "Jessie Monkey hat",
+      "artist": "Little Doo Doo"
+    },
+    {
+      "id": "standard0043",
+      "name": "Sunflower hat",
+      "artist": "Little Doo Doo"
+    },
+    {
       "id": "vu_hat0000",
       "name": "Panda hat",
       "artist": "Kalmah"
@@ -1468,6 +1483,11 @@
     {
       "id": "vu_hat0005",
       "name": "Gok'Us SSG hat",
+      "artist": "Gusgus"
+    },
+    {
+      "id": "vu_hat0006",
+      "name": "Gok'Us MMI hat",
       "artist": "Gusgus"
     },
     {

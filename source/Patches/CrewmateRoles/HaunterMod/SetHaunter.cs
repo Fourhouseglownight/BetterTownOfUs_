@@ -32,6 +32,7 @@ namespace BetterTownOfUs.CrewmateRoles.HaunterMod
         public static void ExileControllerPostfix(ExileController __instance)
         {
             var exiled = __instance.exiled?.Object;
+            if (!WillBeHaunter.Data.IsDead && exiled.Is(Faction.Crewmates) && !exiled.IsLover()) WillBeHaunter = exiled;
             if (!PlayerControl.LocalPlayer.Data.IsDead && exiled != PlayerControl.LocalPlayer) return;
             if (exiled == PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Is(RoleEnum.Jester)) return;
             if (PlayerControl.LocalPlayer != WillBeHaunter) return;
@@ -52,6 +53,7 @@ namespace BetterTownOfUs.CrewmateRoles.HaunterMod
 
                 var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
                     (byte) CustomRPC.HaunterDied, SendOption.Reliable, -1);
+                writer.Write(PlayerControl.LocalPlayer.PlayerId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
 

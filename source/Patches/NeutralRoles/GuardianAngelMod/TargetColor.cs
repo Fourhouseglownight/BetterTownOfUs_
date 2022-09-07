@@ -45,15 +45,9 @@ namespace BetterTownOfUs.NeutralRoles.GuardianAngelMod
                 (byte) CustomRPC.GAToSurv, SendOption.Reliable, -1);
             writer.Write(PlayerControl.LocalPlayer.PlayerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-
+            Object.Destroy(role.UsesText);
+            DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
             GAToSurv(PlayerControl.LocalPlayer);
-
-            if (PlayerControl.LocalPlayer.Is(RoleEnum.GuardianAngel))
-            {
-                var gaRole = Role.GetRole<GuardianAngel>(PlayerControl.LocalPlayer);
-                Object.Destroy(gaRole.UsesText);
-                DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
-            }
         }
 
         public static void GAToSurv(PlayerControl player)

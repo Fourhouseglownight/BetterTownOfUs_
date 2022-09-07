@@ -67,9 +67,9 @@ namespace BetterTownOfUs.Roles.Modifiers
             }
             if (CustomGameOptions.AssassinGuessNeutralKilling)
             {
-                if (CustomGameOptions.GlitchOn > 0) ColorMapping.Add("The Glitch", Colors.Glitch);
-                if (CustomGameOptions.PlaguebearerOn > 0) ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
-                if (RpcHandling.NumImpostors > 1 && CustomGameOptions.WerewolfOn > 0) ColorMapping.Add("Werewolf", Colors.Werewolf);
+                if (CustomGameOptions.GlitchOn > 0 && !player.Is(RoleEnum.Glitch)) ColorMapping.Add("The Glitch", Colors.Glitch);
+                if (CustomGameOptions.PlaguebearerOn > 0 && !player.Is(RoleEnum.Plaguebearer)) ColorMapping.Add("Plaguebearer", Colors.Plaguebearer);
+                if (RpcHandling.NumImpostors > 1 && CustomGameOptions.WerewolfOn > 0 && !player.Is(RoleEnum.Werewolf)) ColorMapping.Add("Werewolf", Colors.Werewolf);
                 ColorMapping.Add("Juggernaut", Colors.Juggernaut);
             }
             if (CustomGameOptions.NeutralGuess && player.Is(Faction.Neutral))
@@ -95,10 +95,10 @@ namespace BetterTownOfUs.Roles.Modifiers
             if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.DiseasedOn > 0) ColorMapping.Add("Diseased", Colors.Diseased);
             if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.TorchOn > 0) ColorMapping.Add("Torch", Colors.Torch);
             if (PlayerControl.GameOptions.AnonymousVotes && CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.VoteCounterOn > 0) ColorMapping.Add("Vote Counter", Colors.VoteCounter);
-            if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.SleuthOn > 0) ColorMapping.Add("Sleuth", Colors.Sleuth);
-            if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.TiebreakerOn > 0) ColorMapping.Add("Tiebreaker", Colors.Sleuth);
-            if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.BlindOn > 0) ColorMapping.Add("Blind", Colors.Sleuth);
-            if (CustomGameOptions.AssassinGuessLovers && CustomGameOptions.LoversOn > 0) ColorMapping.Add("Lover", Colors.Lovers);
+            if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.SleuthOn > 0 && !player.Is(ModifierEnum.Sleuth)) ColorMapping.Add("Sleuth", Colors.Sleuth);
+            if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.TiebreakerOn > 0 && !player.Is(ModifierEnum.Tiebreaker)) ColorMapping.Add("Tiebreaker", Colors.Sleuth);
+            if (CustomGameOptions.AssassinGuessModifiers && CustomGameOptions.BlindOn > 0 && !player.Is(ModifierEnum.Blind)) ColorMapping.Add("Blind", Colors.Sleuth);
+            if (CustomGameOptions.AssassinGuessLovers && CustomGameOptions.LoversOn > 0 && !player.Is(ModifierEnum.Lover)) ColorMapping.Add("Lover", Colors.Lovers);
 
             // Sorts the list alphabetically. 
             SortedColorMapping = ColorMapping.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);

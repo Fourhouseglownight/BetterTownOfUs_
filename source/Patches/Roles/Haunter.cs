@@ -7,6 +7,7 @@ namespace BetterTownOfUs.Roles
     public class Haunter : Role
     {
         public bool Caught;
+        public bool Revealed;
         public bool CompletedTasks;
         public bool Faded;
 
@@ -59,7 +60,7 @@ namespace BetterTownOfUs.Roles
             }
             Player.myRend().color = color;
             Player.nameText().color = Color.clear;
-
+            Player.cosmetics.colorBlindText.color = Color.clear;
         }
     }
 }

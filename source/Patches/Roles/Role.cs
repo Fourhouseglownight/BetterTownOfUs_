@@ -143,7 +143,7 @@ namespace BetterTownOfUs.Roles
         }
         internal virtual bool GuardianAngelCriteria()
         {
-            return PlayerControl.LocalPlayer.Is(RoleEnum.GuardianAngel) && CustomGameOptions.GAKnowsTargetRole && Player == Role.GetRole<GuardianAngel>(PlayerControl.LocalPlayer).target;
+            return PlayerControl.LocalPlayer.Is(RoleEnum.GuardianAngel) && CustomGameOptions.GAKnowsTargetRole && Player == GetRole<GuardianAngel>(PlayerControl.LocalPlayer).target;
         }
 
         protected virtual void IntroPrefix(IntroCutscene._ShowTeam_d__21 __instance)
@@ -231,14 +231,12 @@ namespace BetterTownOfUs.Roles
             if (Player == null) return "";
 
             String PlayerName = Player.GetDefaultOutfit().PlayerName;
-            if (CustomGameOptions.GATargetKnows) {
-                foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
+            foreach (var role in GetRoles(RoleEnum.GuardianAngel))
+            {
+                var ga = (GuardianAngel)role;
+                if (Player == ga.target && Player == PlayerControl.LocalPlayer && CustomGameOptions.GATargetKnows)
                 {
-                    var ga = (GuardianAngel)role;
-                    if (Player == ga.target)
-                    {
-                        PlayerName += "<color=#B2FFFFFF> ★</color>";
-                    }
+                    PlayerName += "<color=#B2FFFFFF> ★</color>";
                 }
             }
 
@@ -522,10 +520,10 @@ namespace BetterTownOfUs.Roles
             }
         }
 
-        [HarmonyPatch(typeof(PlayerControl._CoSetTasks_d__104), nameof(PlayerControl._CoSetTasks_d__104.MoveNext))]
+        [HarmonyPatch(typeof(PlayerControl._CoSetTasks_d__107), nameof(PlayerControl._CoSetTasks_d__107.MoveNext))]
         public static class PlayerControl_SetTasks
         {
-            public static void Postfix(PlayerControl._CoSetTasks_d__104 __instance)
+            public static void Postfix(PlayerControl._CoSetTasks_d__107 __instance)
             {
                 if (__instance == null) return;
                 var player = __instance.__4__this;

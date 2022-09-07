@@ -7,9 +7,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Collections.Generic;
 using Twitch;
-using Reactor;
 
 namespace BetterTownOfUs {
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
@@ -176,9 +177,9 @@ namespace BetterTownOfUs {
                     return false;
                 }
                 string json = await response.Content.ReadAsStringAsync();
-                JObject data = JObject.Parse(json);
-                
-                string tagname = data["tag_name"]?.ToString();
+                var data = JsonSerializer.Deserialize<GitHubApiObject>(json);
+
+                string tagname = data.tag_name;
                 if (tagname == null) {
                     return false; // Something went wrong
                 }
@@ -202,21 +203,24 @@ namespace BetterTownOfUs {
                         }
                     } 
                 }
-                JToken assets = data["assets"];
-                if (!assets.HasValues)
+                var assets = data.assets;
+                if (assets == null)
                     return false;
 
-                for (JToken current = assets.First; current != null; current = current.Next) {
-                    string browser_download_url = current["browser_download_url"]?.ToString();
-                    if (browser_download_url != null && current["content_type"] != null) {
-                        if (browser_download_url.EndsWith(".dll")) {
-                            if (updateType == "BTOU") {
-                                updateBTOUURI = browser_download_url;
-                            } else if (updateType == "Submerged") {
-                                updateSubmergedURI = browser_download_url;
-                            }
-                            return true;
+                foreach (var asset in assets)
+                {
+                    if (asset.browser_download_url == null) continue;
+                    if (asset.browser_download_url.EndsWith(".dll"))
+                    {
+                        if (updateType == "TOU")
+                        {
+                            updateBTOUURI = asset.browser_download_url;
                         }
+                        else if (updateType == "Submerged")
+                        {
+                            updateSubmergedURI = asset.browser_download_url;
+                        }
+                        return true;
                     }
                 }
             } catch (System.Exception ex) {
@@ -279,6 +283,19 @@ namespace BetterTownOfUs {
             if (InfoPopup.TextAreaTMP != null) {
                 InfoPopup.TextAreaTMP.text = message;
             }
+        }
+        class GitHubApiObject
+        {
+            [JsonPropertyName("tag_name")]
+            public string tag_name { get; set; }
+            [JsonPropertyName("assets")]
+            public GitHubApiAsset[] assets { get; set; }
+        }
+
+        class GitHubApiAsset
+        {
+            [JsonPropertyName("browser_download_url")]
+            public string browser_download_url { get; set; }
         }
     }
 }

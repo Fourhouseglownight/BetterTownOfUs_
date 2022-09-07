@@ -151,6 +151,7 @@ namespace BetterTownOfUs
         public static bool SnitchSeesNeutrals => Generate.SnitchSeesNeutrals.Get();
         public static int SnitchTasksRemaining => (int)Generate.SnitchTasksRemaining.Get();
         public static bool SnitchSeesImpInMeeting => Generate.SnitchSeesImpInMeeting.Get();
+        public static bool SnitchSeesTraitor => Generate.SnitchSeesTraitor.Get();
         public static float SpyCd => Generate.SpyCd.Get();
         public static float SpyDuration => Generate.SpyDuration.Get();
         public static bool SpyVitals => Generate.SpyVitals.Get();

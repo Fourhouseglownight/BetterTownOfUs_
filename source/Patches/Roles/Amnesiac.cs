@@ -12,7 +12,7 @@ namespace BetterTownOfUs.Roles
         {
             Name = "Amnesiac";
             ImpostorText = () => "Remember a role of a deceased player";
-            TaskText = () => "Remember who you were.\nFake Tasks:";
+            TaskText = () => "Find a dead body to remember a role";
             Color = Patches.Colors.Amnesiac;
             RoleType = RoleEnum.Amnesiac;
             AddToRoleHistory(RoleType);

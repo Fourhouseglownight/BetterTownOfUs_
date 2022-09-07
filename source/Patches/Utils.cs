@@ -65,6 +65,7 @@ namespace BetterTownOfUs
                     });
                     PlayerMaterial.SetColors(Color.grey, player.myRend());
                     player.nameText().color = Color.clear;
+                    player.cosmetics.colorBlindText.color = Color.clear;
                 }
             }
         }
@@ -72,11 +73,6 @@ namespace BetterTownOfUs
         public static void UnCamouflage()
         {
             foreach (var player in PlayerControl.AllPlayerControls) Unmorph(player);
-        }
-
-        public static bool IsCrewmate(this PlayerControl player)
-        {
-            return GetRole(player) == RoleEnum.Crewmate;
         }
 
         public static void AddUnique<T>(this Il2CppSystem.Collections.Generic.List<T> self, T item)
@@ -373,8 +369,6 @@ namespace BetterTownOfUs
                 };
 
                 Murder.KilledPlayers.Add(deadBody);
-
-                if (!killer.AmOwner) return;
 
                 if (target.Is(ModifierEnum.Diseased) && killer.Is(RoleEnum.Werewolf))
                 {

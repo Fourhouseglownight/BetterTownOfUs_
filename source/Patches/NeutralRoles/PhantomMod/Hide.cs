@@ -14,6 +14,7 @@ namespace BetterTownOfUs.NeutralRoles.PhantomMod
             foreach (var role in Role.GetRoles(RoleEnum.Phantom))
             {
                 var phantom = (Phantom) role;
+                if (role.Player.Data.Disconnected) return;
                 var caught = phantom.Caught;
                 if (!caught)
                 {

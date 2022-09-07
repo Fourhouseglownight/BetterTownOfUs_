@@ -25,6 +25,7 @@ namespace BetterTownOfUs.NeutralRoles.PhantomMod
         public static void ExileControllerPostfix(ExileController __instance)
         {
             var exiled = __instance.exiled?.Object;
+            if (!WillBePhantom.Data.IsDead && exiled.Is(Faction.Neutral) && !exiled.IsLover()) WillBePhantom = exiled;
             if (!PlayerControl.LocalPlayer.Data.IsDead && exiled != PlayerControl.LocalPlayer) return;
             if (exiled == PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Is(RoleEnum.Jester)) return;
             if (PlayerControl.LocalPlayer != WillBePhantom) return;
@@ -45,6 +46,7 @@ namespace BetterTownOfUs.NeutralRoles.PhantomMod
 
                 var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
                     (byte) CustomRPC.PhantomDied, SendOption.Reliable, -1);
+                writer.Write(PlayerControl.LocalPlayer.PlayerId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
 

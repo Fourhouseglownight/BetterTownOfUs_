@@ -71,6 +71,7 @@ namespace BetterTownOfUs.Roles
                 });
                 Player.myRend().color = color;
                 Player.nameText().color = Color.clear;
+                Player.cosmetics.colorBlindText.color = Color.clear;
             }
 
         }

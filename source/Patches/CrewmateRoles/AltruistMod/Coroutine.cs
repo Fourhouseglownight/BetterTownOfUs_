@@ -57,8 +57,11 @@ namespace BetterTownOfUs.CrewmateRoles.AltruistMod
 
             var player = Utils.PlayerById(parentId);
 
-            // if (player == null || AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started)
-            //     yield break;
+            foreach (var poisoner in Role.GetRoles(RoleEnum.Poisoner))
+            {
+                var poisonerRole = (Poisoner)poisoner;
+                if (poisonerRole.PoisonedPlayer == player) poisonerRole.PoisonedPlayer = poisonerRole.Player;
+            }
 
             player.Revive();
             Murder.KilledPlayers.Remove(

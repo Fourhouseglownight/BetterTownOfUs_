@@ -10,7 +10,7 @@ namespace BetterTownOfUs.Roles
         public Mayor(PlayerControl player) : base(player)
         {
             Name = "Mayor";
-            ImpostorText = () => "Save your votes to double vote";
+            ImpostorText = () => "Save your votes to Mayor dump someone";
             TaskText = () => "Save your votes to vote multiple times";
             Color = Patches.Colors.Mayor;
             RoleType = RoleEnum.Mayor;

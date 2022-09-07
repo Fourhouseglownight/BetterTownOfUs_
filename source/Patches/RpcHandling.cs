@@ -1077,7 +1077,7 @@ namespace BetterTownOfUs
                         SetPhantom.WillBePhantom = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
                         break;
                     case CustomRPC.PhantomDied:
-                        var phantom = SetPhantom.WillBePhantom;
+                        var phantom = Utils.PlayerById(reader.ReadByte());
                         Role.RoleDictionary.Remove(phantom.PlayerId);
                         var phantomRole = new Phantom(phantom);
                         phantomRole.RegenTask();
@@ -1102,7 +1102,7 @@ namespace BetterTownOfUs
                         SetHaunter.WillBeHaunter = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
                         break;
                     case CustomRPC.HaunterDied:
-                        var haunter = SetHaunter.WillBeHaunter;
+                        var haunter = Utils.PlayerById(reader.ReadByte());
                         Role.RoleDictionary.Remove(haunter.PlayerId);
                         var haunterRole = new Haunter(haunter);
                         haunterRole.RegenTask();

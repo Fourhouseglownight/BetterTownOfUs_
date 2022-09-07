@@ -8,7 +8,7 @@ namespace BetterTownOfUs.Roles
         {
             Name = "Janitor";
             ImpostorText = () => "Clean up bodies";
-            TaskText = () => "Clean bodies to prevent Crewmates from discovering them.";
+            TaskText = () => "Clean bodies to prevent Crewmates from discovering them";
             Color = Patches.Colors.Impostor;
             RoleType = RoleEnum.Janitor;
             AddToRoleHistory(RoleType);

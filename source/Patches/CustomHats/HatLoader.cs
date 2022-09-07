@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using Newtonsoft.Json;
+using System.Text.Json;
 using Reactor;
 using Reactor.Extensions;
 using UnityEngine;
@@ -57,7 +57,11 @@ namespace BetterTownOfUs.Patches.CustomHats
         private static HatMetadataJson LoadJson()
         {
             var stream = Assembly.GetManifestResourceStream($"{HAT_RESOURCE_NAMESPACE}.{HAT_METADATA_JSON}");
-            return JsonConvert.DeserializeObject<HatMetadataJson>(Encoding.UTF8.GetString(stream.ReadFully()));
+            return JsonSerializer.Deserialize<HatMetadataJson>(Encoding.UTF8.GetString(stream.ReadFully()), new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                ReadCommentHandling = JsonCommentHandling.Skip
+            });
         }
 
         private static List<HatData> DiscoverHatBehaviours(HatMetadataJson metadata)

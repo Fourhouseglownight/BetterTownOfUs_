@@ -36,16 +36,16 @@ namespace BetterTownOfUs.CrewmateRoles.TrapperMod
                     if (players.ContainsKey(player.PlayerId)) players.Remove(player.PlayerId);
                 }
 
-                var entry = player.PlayerId;
-                if (players.ContainsKey(entry))
+                var entry = player;
+                if (players.ContainsKey(entry.PlayerId))
                 {
-                    players[entry] += Time.deltaTime;
-                    if (players[entry] > CustomGameOptions.MinAmountOfTimeInTrap)
+                    players[entry.PlayerId] += Time.deltaTime;
+                    if (players[entry.PlayerId] > CustomGameOptions.MinAmountOfTimeInTrap)
                     {
                         foreach (Trapper t in Role.GetRoles(RoleEnum.Trapper))
                         {
-                            RoleEnum playerrole = Role.GetRole(Utils.PlayerById(entry)).RoleType;
-                            if (!t.trappedPlayers.Contains(playerrole)) t.trappedPlayers.Add(playerrole);
+                            RoleEnum playerrole = Role.GetRole(Utils.PlayerById(entry.PlayerId)).RoleType;
+                            if (!t.trappedPlayers.Contains(playerrole) && entry != t.Player) t.trappedPlayers.Add(playerrole);
                         }
                     }
                 }

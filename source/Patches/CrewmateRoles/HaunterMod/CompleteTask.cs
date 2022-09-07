@@ -1,6 +1,5 @@
 using System.Linq;
 using HarmonyLib;
-using Hazel;
 using BetterTownOfUs.Roles;
 using Reactor;
 using UnityEngine;
@@ -29,6 +28,7 @@ namespace BetterTownOfUs.CrewmateRoles.HaunterMod
                 }
                 else if (PlayerControl.LocalPlayer.Data.IsImpostor() || (PlayerControl.LocalPlayer.Is(Faction.Neutral) && CustomGameOptions.HaunterRevealsNeutrals))
                 {
+                    role.Revealed = true;
                     Coroutines.Start(Utils.FlashCoroutine(role.Color));
                     var gameObj = new GameObject();
                     var arrow = gameObj.AddComponent<ArrowBehaviour>();

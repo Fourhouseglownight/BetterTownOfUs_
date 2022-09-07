@@ -1,8 +1,5 @@
 using System;
-using System.Linq;
 using HarmonyLib;
-using Hazel;
-using Reactor;
 using BetterTownOfUs.Roles.Modifiers;
 using UnityEngine;
 using UnityEngine.UI;

@@ -217,6 +217,7 @@ namespace BetterTownOfUs.CustomOption
         public static CustomToggleOption SnitchSeesNeutrals;
         public static CustomNumberOption SnitchTasksRemaining;
         public static CustomToggleOption SnitchSeesImpInMeeting;
+        public static CustomToggleOption SnitchSeesTraitor;
 
         public static CustomHeaderOption Spy;
         public static CustomNumberOption SpyCd;
@@ -663,6 +664,7 @@ namespace BetterTownOfUs.CustomOption
             SnitchSeesNeutrals = new CustomToggleOption(num++, "Snitch Sees Neutral Roles", false);
             SnitchTasksRemaining =
                  new CustomNumberOption(num++, "Tasks Remaining When Revealed", 1, 0, 10, 1);
+            SnitchSeesTraitor = new CustomToggleOption(num++, "Snitch Sees Traitor", true);
             SnitchSeesImpInMeeting = new CustomToggleOption(num++, "Snitch Sees Impostors In Meetings", true);
 
             Spy = new CustomHeaderOption(num++, "<color=#CCA3CCFF>Spy</color>");
